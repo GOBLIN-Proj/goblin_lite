@@ -9,14 +9,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Debug
-      env:
-        PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
-        TEST_TOKEN: ${{ secrets.Test_TOKEN}}
-      run: |
-        echo PAT_TOKEN
-        echo TEST_TOKEN
-
     - name: Set up Python 3.10.6
       uses: actions/setup-python@v2
       with:
