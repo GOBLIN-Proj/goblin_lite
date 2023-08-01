@@ -312,6 +312,8 @@ class ScenarioRunner:
             scenario_animal_data, baseline_animal_data, scenario_dataframe
         )
 
+        print("Scenario Generation Complete ... \n")
+
     def generate_livestock_ouputs(
         self, scenario_animal_data, baseline_animal_data, scenario_inputs_df
     ):
