@@ -13,7 +13,7 @@ jobs:
       env:
         PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
       run: |
-        echo "Debugging PAT_TOKEN=${PAT_TOKEN}"
+        echo PAT_TOKEN
 
     - name: Set up Python 3.10.6
       uses: actions/setup-python@v2
