@@ -1,4 +1,4 @@
-# 💻 Goblin lite, for the generation of static scenarios using the GOBLIN modelling framework
+# 🧌🏋️ Goblin lite, for the generation of static scenarios using the GOBLIN modelling framework
 
 Based on the [GOBLIN](https://gmd.copernicus.org/articles/15/2239/2022/) (**G**eneral **O**verview for a **B**ackcasting approach of **L**ivestock **IN**tensification) Scenario module
 
