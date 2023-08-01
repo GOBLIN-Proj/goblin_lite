@@ -22,8 +22,10 @@ jobs:
     - name: Install dependencies
       env:
         PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
-        
+
       run: |
+        git config user.name github-actions
+        git config user.email github-actions@github.com
         python -m pip install --upgrade pip
         python -m pip install poetry
         python -m pip install . 
