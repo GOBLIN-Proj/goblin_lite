@@ -36,4 +36,4 @@ jobs:
     - name: Run tests
       run: |
         cd ./src/tests/
-        python -m unittest goblin_test.py 
+        python -m unittest goblin_test.py
