@@ -22,13 +22,19 @@ jobs:
     - name: Install dependencies
       env:
         PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
-
       run: |
-        git config user.name github-actions
-        git config user.email github-actions@github.com
         python -m pip install --upgrade pip
         python -m pip install poetry
-        python -m pip install . 
+
+        # Authenticate with GitHub using the PAT token
+        git config --global credential.helper store
+        echo "https://github.com/${GITHUB_REPOSITORY}.git ${PAT_TOKEN}" >> ~/.git-credentials
+
+        # Set up a GitHub token to avoid rate-limiting issues (optional but recommended)
+        poetry config pypi-token.pypi ${{ secrets.GITHUB_TOKEN }}
+
+        # Install dependencies using Poetry
+        poetry install
 
     - name: Print current directory
       run: |
@@ -39,4 +45,3 @@ jobs:
       run: |
         cd ./src/tests/
         python -m unittest goblin_test.py
-
