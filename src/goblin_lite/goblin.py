@@ -913,10 +913,12 @@ class ScenarioRunner:
 
         ef_country = self.ef_country
         baseline_year = self.calibration_year
+        target_year = self.target_year
 
         grassland_class = GrasslandOutput(
             ef_country,
             baseline_year,
+            target_year,
             scenario_dataframe,
             scenario_animal_data,
             baseline_animal_data,
@@ -975,10 +977,12 @@ class ScenarioRunner:
 
         ef_country = self.ef_country
         baseline_year = self.calibration_year
+        target_year = self.target_year
 
         grassland_class = GrasslandOutput(
             ef_country,
             baseline_year,
+            target_year,
             scenario_dataframe,
             scenario_animal_data,
             baseline_animal_data,
@@ -1040,10 +1044,12 @@ class ScenarioRunner:
         """
         ef_country = self.ef_country
         baseline_year = self.calibration_year
+        target_year = self.target_year
 
         grassland_class = GrasslandOutput(
             ef_country,
             baseline_year,
+            target_year,
             scenario_dataframe,
             scenario_animal_data,
             baseline_animal_data,
