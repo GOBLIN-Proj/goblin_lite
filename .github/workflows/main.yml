@@ -6,10 +6,8 @@ on:
 
 jobs:
   ci:
-    # Set up operating system
     runs-on: ubuntu-latest
 
-    # Define job steps
     steps:
     - name: Set up Python 3.10.6
       uses: actions/setup-python@v2
@@ -19,22 +17,16 @@ jobs:
     - name: Check-out repository
       uses: actions/checkout@v2
 
+    - name: Set up Git authentication
+      run: git config --global url."https://${{ secrets.PAT_TOKEN }}@github.com/".insteadOf "https://github.com/"
+
     - name: Install dependencies
       env:
         PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
       run: |
         python -m pip install --upgrade pip
         python -m pip install poetry
-
-        # Authenticate with GitHub using the PAT token
-        git config --global credential.helper store
-        echo "https://github.com/${GITHUB_REPOSITORY}.git ${PAT_TOKEN}" >> ~/.git-credentials
-
-        # Set up a GitHub token to avoid rate-limiting issues (optional but recommended)
-        poetry config pypi-token.pypi ${{ secrets.GITHUB_TOKEN }}
-
-        # Install dependencies using Poetry
-        poetry install
+        python -m pip install .
 
     - name: Print current directory
       run: |
@@ -44,4 +36,4 @@ jobs:
     - name: Run tests
       run: |
         cd ./src/tests/
-        python -m unittest goblin_test.py 
+        python -m unittest goblin_test.py
