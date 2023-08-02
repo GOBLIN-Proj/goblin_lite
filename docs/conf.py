@@ -31,6 +31,6 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-autoapi_dirs = ["../src"]  # location to parse for API reference
+autoapi_dirs = ["../src/goblin_lite"]  # location to parse for API reference
 html_theme = "sphinx_rtd_theme"
 html_static_path = ['_static']

@@ -26,6 +26,7 @@ matplotlib = "*"
 sphinx-rtd-theme = "*"
 sphinx-autoapi = "*"
 myst-nb = "*"
+jupyter = "*"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
