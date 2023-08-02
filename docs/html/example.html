@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Example Usage &mdash; GOBLIN lite 0.1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" type="text/css" />
+      <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="goblin_lite.impact_categories" href="autoapi/goblin_lite/impact_categories/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            GOBLIN lite
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="autoapi/index.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Example Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#imports">Imports</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-scenario-runner">The Scenario Runner</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#define-classes-and-run-scenarios">Define classes and Run Scenarios</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#the-data-fetcher">The Data Fetcher</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#datagrapher">DataGrapher</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">GOBLIN lite</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Example Usage</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/example.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="example-usage">
+<h1>Example Usage<a class="headerlink" href="#example-usage" title="Permalink to this heading"></a></h1>
+<p>Here is a demonstartion of the potential usage of <code class="docutils literal notranslate"><span class="pre">GOBLIN</span> <span class="pre">lite</span></code>.</p>
+<section id="imports">
+<h2>Imports<a class="headerlink" href="#imports" title="Permalink to this heading"></a></h2>
+<p>Firstly, we start of by importing the relevant classes from the toolkit.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span>
+
+<span class="kn">from</span> <span class="nn">goblin_lite.goblin</span> <span class="kn">import</span> <span class="n">ScenarioRunner</span>
+<span class="kn">from</span> <span class="nn">goblin_lite.data_grapher</span> <span class="kn">import</span> <span class="n">DataGrapher</span>
+<span class="kn">from</span> <span class="nn">goblin_lite.data_fetcher</span> <span class="kn">import</span> <span class="n">DataFetcher</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="c1"># Filter out the RuntimeWarning related to unsupported linux distribution</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;unsupported linux distribution:&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">RuntimeWarning</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">ScenarioRunner</span></code> class is basically used to set to run the scenarios based on the configuration files for goblin and the CBM CFS3.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">DataFetcher</span></code> class is used to retrieve the various results as dataframes from the scenario run. Each of the methods in the <code class="docutils literal notranslate"><span class="pre">DataFetcher</span></code> class relates to specific table.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">DataGrapher</span></code> class is still being developed, but contains some basic plotting to assist the user in visualising the results tables.</p>
+</section>
+<section id="the-scenario-runner">
+<h2>The Scenario Runner<a class="headerlink" href="#the-scenario-runner" title="Permalink to this heading"></a></h2>
+<p>In the first example below, we will set the path to the configurations, define the emissions factor country and the base and target year. Finally, we will create a directory for our outputs</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#configuration </span>
+
+<span class="n">goblin_config</span> <span class="o">=</span> <span class="s2">&quot;../src/tests/data/config.json&quot;</span> <span class="c1">#location of test goblin configuration </span>
+
+<span class="n">cbm_config</span> <span class="o">=</span> <span class="s2">&quot;../src/tests/data/cbm_factory.yaml&quot;</span> <span class="c1">#location of test cbm configuration</span>
+
+<span class="n">ef_country</span> <span class="o">=</span> <span class="s2">&quot;ireland&quot;</span> <span class="c1">#emissions factor country</span>
+
+<span class="c1">#years for the baseline, and the target year </span>
+<span class="n">baseline_year</span> <span class="o">=</span> <span class="mi">2020</span>
+<span class="n">target_year</span> <span class="o">=</span> <span class="mi">2050</span>
+
+<span class="c1">#Make directory to store exported file</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="s2">&quot;jupyter_example&quot;</span><span class="p">)</span>
+
+<span class="n">data_path</span> <span class="o">=</span> <span class="s2">&quot;./jupyter_example/&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="define-classes-and-run-scenarios">
+<h3>Define classes and Run Scenarios<a class="headerlink" href="#define-classes-and-run-scenarios" title="Permalink to this heading"></a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#class instances</span>
+<span class="n">runner_class</span> <span class="o">=</span> <span class="n">ScenarioRunner</span><span class="p">(</span><span class="n">ef_country</span><span class="p">,</span> <span class="n">baseline_year</span><span class="p">,</span><span class="n">target_year</span><span class="p">,</span> <span class="n">goblin_config</span><span class="p">,</span> <span class="n">cbm_config</span><span class="p">)</span>
+<span class="n">graph_class</span> <span class="o">=</span> <span class="n">DataGrapher</span><span class="p">()</span>
+<span class="n">fetcher_class</span> <span class="o">=</span> <span class="n">DataFetcher</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Run Scenarios </span>
+<span class="n">runner_class</span><span class="o">.</span><span class="n">run_scenarios</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Existing tables have been deleted.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for spread dict dairy
+... calibration year not present, 2015 default year used for spread dict beef
+... calibration year not present, 2015 default year used for spread dict dairy
+... calibration year not present, 2015 default year used for spread dict beef
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for spread dict dairy
+... calibration year not present, 2015 default year used for spread dict beef
+... calibration year not present, 2015 default year used for spread dict dairy
+... calibration year not present, 2015 default year used for spread dict beef
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for Scenario farm data generation
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>... calibration year not present, 2015 default year used for total Baseline farm data
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for spread dict dairy
+... calibration year not present, 2015 default year used for spread dict beef
+... calibration year not present, 2015 default year used for spread dict dairy
+... calibration year not present, 2015 default year used for spread dict beef
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for spread dict dairy
+... calibration year not present, 2015 default year used for spread dict beef
+... calibration year not present, 2015 default year used for spread dict dairy
+... calibration year not present, 2015 default year used for spread dict beef
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for spread dict dairy
+... calibration year not present, 2015 default year used for spread dict beef
+... calibration year not present, 2015 default year used for spread dict dairy
+... calibration year not present, 2015 default year used for spread dict beef
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for spread dict dairy
+... calibration year not present, 2015 default year used for spread dict beef
+... calibration year not present, 2015 default year used for spread dict dairy
+... calibration year not present, 2015 default year used for spread dict beef
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for NFS system proportions: Dairy
+... calibration year not present, 2015 default year used for NFS system proportions: Beef
+... calibration year not present, 2015 default year used for NFS system proportions: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Dairy
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Beef
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+... calibration year not present, 2015 default year used for total Dry Matter: Sheep
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.0
+542999.8141906696
+542999.8141906696
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Scenario Generation Complete ... 
+</pre></div>
+</div>
+</div>
+</div>
+<p>If the calibration year is not present for a specific dataset, the default year of 2015 is used.</p>
+</section>
+</section>
+<section id="the-data-fetcher">
+<h2>The Data Fetcher<a class="headerlink" href="#the-data-fetcher" title="Permalink to this heading"></a></h2>
+<p>The Scenario Run is now complete, and we can use the <code class="docutils literal notranslate"><span class="pre">DataFectcher</span></code> class to retrieve our data.</p>
+<p><strong>Note:</strong> Once a scenario run is complete, when the user again runs scenarios, table output from the previous run is completely deleted.</p>
+<p>Here we will retrieve data for:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- Livestock outputs 
+- Aggregated emissions
+- Animal emissions by category 
+- Land use emissions by category 
+- Crop emissions by category 
+- Forest carbon flux 
+</pre></div>
+</div>
+<p>These are not the only potential returns, as there are several additional methods returning results out.
+Please consult the documentation for further details.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Livestock outputs </span>
+
+<span class="n">animal_output_df</span> <span class="o">=</span> <span class="n">fetcher_class</span><span class="o">.</span><span class="n">get_livestock_output_summary</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">animal_output_df</span><span class="p">)</span>
+
+<span class="c1"># baseline is index -1 </span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>       Scenarios  total_milk_kg  total_beef_kg
+index                                         
+-1.0        -1.0   8.251443e+09   6.528033e+08
+ 0.0         0.0   6.895653e+09   6.269347e+08
+ 1.0         1.0   6.895653e+09   6.269347e+08
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Aggregated emissions</span>
+
+<span class="n">aggregated_emmissions_df</span> <span class="o">=</span> <span class="n">fetcher_class</span><span class="o">.</span><span class="n">get_climate_change_emission_totals</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">aggregated_emmissions_df</span><span class="p">)</span>
+
+<span class="c1"># baseline is index -1 </span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              CH4        N2O           CO2          CO2e
+index                                                   
+-1     536.084138  24.819686  10092.888756  31680.461352
+ 0     502.324394  20.579959  10082.576938  29601.349051
+ 1     502.324394  20.579959  10082.576938  29601.349051
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Animal emissions by category</span>
+
+<span class="n">animal_emissions_df</span> <span class="o">=</span> <span class="n">fetcher_class</span><span class="o">.</span><span class="n">get_climate_change_animal_emissions_by_category</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">animal_emissions_df</span><span class="p">)</span>
+
+<span class="c1"># baseline is index -1 </span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>       enteric_ch4  manure_management_N2O  manure_management_CH4  \
+index                                                              
+-1      473.049267               2.818218              47.351487   
+ 0      444.435411               2.566116              42.200710   
+ 1      444.435411               2.566116              42.200710   
+
+       manure_applied_N  N_direct_PRP  N_indirect_PRP  N_direct_fertiliser  \
+index                                                                        
+-1             1.077708      4.889341        0.805774             7.244295   
+ 0             0.980654      4.471997        0.736788             4.263050   
+ 1             0.980654      4.471997        0.736788             4.263050   
+
+       N_indirect_fertiliser  soils_CO2  soil_organic_N_direct  \
+index                                                            
+-1                  0.998267  28.305200               5.967050   
+ 0                  0.587450  16.656761               5.452651   
+ 1                  0.587450  16.656761               5.452651   
+
+       soil_organic_N_indirect  soil_inorganic_N_direct  \
+index                                                     
+-1                    0.805774                 7.244295   
+ 0                    0.736788                 4.263050   
+ 1                    0.736788                 4.263050   
+
+       soil_inorganic_N_indirect  soil_N_direct  soil_N_indirect  soils_N2O  
+index                                                                        
+-1                      0.998267      13.211345         1.804040  15.015385  
+ 0                      0.587450       9.715701         1.324238  11.039939  
+ 1                      0.587450       9.715701         1.324238  11.039939  
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Land use emissions by category </span>
+
+<span class="n">land_emissions_df</span> <span class="o">=</span> <span class="n">fetcher_class</span><span class="o">.</span><span class="n">get_landuse_emissions_totals</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">land_emissions_df</span><span class="p">)</span>
+
+<span class="c1"># baseline is index -1 </span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>           land_use  year           CO2           CH4           N2O  \
+scenario                                                              
+-1         cropland  2020      0.000000  1.542857e-07  4.000000e-09   
+-1        grassland  2020   6117.745007  8.917986e+00  2.126023e+00   
+-1           forest  2020   3980.333699  3.315404e+00  6.892956e-01   
+-1          wetland  2020   2233.286075  3.449994e+00  5.858179e-02   
+-1            total  2020  10058.417268  1.568338e+01  2.873901e+00   
+ 0         cropland  2050      0.000000  1.542857e-07  4.000000e-09   
+ 0        grassland  2050   6117.350444  8.917689e+00  2.113557e+00   
+ 0           forest  2050   -592.672720  3.320590e+00  6.895825e-01   
+ 0          wetland  2050   2047.184751  3.449994e+00  5.858179e-02   
+ 0            total  2050  10059.753889  1.568827e+01  2.861721e+00   
+ 1         cropland  2050      0.000000  1.542857e-07  4.000000e-09   
+ 1        grassland  2050   6117.350444  8.917689e+00  2.113557e+00   
+ 1           forest  2050   -592.672720  3.320590e+00  6.895825e-01   
+ 1          wetland  2050   2047.184751  3.449994e+00  5.858179e-02   
+ 1            total  2050  10059.753889  1.568827e+01  2.861721e+00   
+
+                  CO2e  
+scenario                
+-1            0.000005  
+-1         6930.844807  
+-1         4255.828352  
+-1         2345.410071  
+-1        11259.135723  
+ 0            0.000005  
+ 0         6927.138278  
+ 0         -316.956843  
+ 0         2159.308748  
+ 0        11257.381603  
+ 1            0.000005  
+ 1         6927.138278  
+ 1         -316.956843  
+ 1         2159.308748  
+ 1        11257.381603  
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Crop emissions by category </span>
+
+<span class="n">crop_emissions_df</span><span class="o">=</span> <span class="n">fetcher_class</span><span class="o">.</span><span class="n">get_climate_change_crop_emissions_by_category</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">crop_emissions_df</span><span class="p">)</span>
+
+<span class="c1"># baseline is index -1 </span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>       crop_residue_direct  N_direct_fertiliser  N_indirect_fertiliser  \
+index                                                                    
+-1                3.529468             0.491902               0.090813   
+ 0                3.529468             0.491902               0.090813   
+ 1                3.529468             0.491902               0.090813   
+
+       soils_CO2  soils_N2O  
+index                        
+-1      6.166289   4.112183  
+ 0      6.166289   4.112183  
+ 1      6.166289   4.112183  
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Forest carbon flux </span>
+
+<span class="n">forest_flux_df</span> <span class="o">=</span> <span class="n">fetcher_class</span><span class="o">.</span><span class="n">get_forest_flux</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">forest_flux_df</span><span class="p">)</span>
+
+<span class="c1"># baseline is index -1 </span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>       Year       Biomass            DOM  Total Ecosystem            HWP  \
+index                                                                      
+0      2008 -1.295620e+06  748176.209504    -5.474439e+05  198990.354181   
+1      2009 -1.273156e+06  693542.337214    -5.796141e+05  166235.952388   
+2      2010 -1.263766e+06  619887.050711    -6.438793e+05  170562.148490   
+3      2011 -1.293139e+06  554212.779401    -7.389262e+05  174806.680165   
+4      2012 -1.332425e+06  494282.964735    -8.381423e+05  177483.967611   
+...     ...           ...            ...              ...            ...   
+214    2076 -2.533094e+06 -449367.693963    -2.982462e+06       0.000000   
+215    2077 -2.528505e+06 -481697.711067    -3.010202e+06       0.000000   
+216    2078 -2.413377e+06 -509443.335110    -2.922820e+06       0.000000   
+217    2079 -2.370209e+06 -532776.321815    -2.902985e+06       0.000000   
+218    2080 -2.330316e+06 -553575.087277    -2.883891e+06       0.000000   
+
+       Scenario  
+index            
+0            -1  
+1            -1  
+2            -1  
+3            -1  
+4            -1  
+...         ...  
+214           1  
+215           1  
+216           1  
+217           1  
+218           1  
+
+[219 rows x 6 columns]
+</pre></div>
+</div>
+</div>
+</div>
+<p>These are simple examples, additional information on inputs and outputs can be retrieved. Furhter impact categories related to eutrophication and air quality are also available.</p>
+</section>
+<section id="datagrapher">
+<h2>DataGrapher<a class="headerlink" href="#datagrapher" title="Permalink to this heading"></a></h2>
+<p>The data grapher allows the user to plot some of the data from the generated tables</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#save image</span>
+<span class="n">graph_class</span><span class="o">.</span><span class="n">plot_animal_lca_emissions_by_category</span><span class="p">(</span><span class="n">data_path</span><span class="p">)</span>
+
+<span class="c1">#retrieve an display</span>
+<span class="n">image_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span><span class="s2">&quot;Livestock_LCA.png&quot;</span><span class="p">)</span>
+
+<span class="c1"># display the image</span>
+<span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">image_path</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/852a39bf67ad79940a41828018004552f23175df7bb8f1e5eb2731180f0045fa.png" src="_images/852a39bf67ad79940a41828018004552f23175df7bb8f1e5eb2731180f0045fa.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Land use emissions</span>
+
+<span class="n">graph_class</span><span class="o">.</span><span class="n">plot_land_use_emissions</span><span class="p">(</span><span class="n">data_path</span><span class="p">)</span>
+
+<span class="c1">#retrieve an display</span>
+<span class="n">image_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span><span class="s2">&quot;climate_change_land_use.png&quot;</span><span class="p">)</span>
+
+<span class="c1"># display the image</span>
+<span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">image_path</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/57488212b447a7a983c39b4825ff77cf4c5a0938dfae08f106b32bceaa37968c.png" src="_images/57488212b447a7a983c39b4825ff77cf4c5a0938dfae08f106b32bceaa37968c.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Remove Generated files </span>
+
+<span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">data_path</span><span class="p">):</span>
+    <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Deleted file: </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error deleting file: </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">. Reason: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+<span class="c1">#Remove direcotry </span>
+<span class="n">os</span><span class="o">.</span><span class="n">rmdir</span><span class="p">(</span><span class="n">data_path</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Deleted file: ./jupyter_example/Livestock_LCA.png
+Deleted file: ./jupyter_example/climate_change_land_use.png
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="autoapi/goblin_lite/impact_categories/index.html" class="btn btn-neutral float-left" title="goblin_lite.impact_categories" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Colm Duffy.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

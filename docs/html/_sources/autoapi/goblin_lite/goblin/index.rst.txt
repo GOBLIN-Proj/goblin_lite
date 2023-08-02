@@ -1,0 +1,939 @@
+:py:mod:`goblin_lite.goblin`
+============================
+
+.. py:module:: goblin_lite.goblin
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   goblin_lite.goblin.ScenarioRunner
+
+
+
+
+.. py:class:: ScenarioRunner(ef_country, calibration_year, target_year, config_path, cbm_config_path, AR_VALUE='AR5')
+
+
+   A class used to run scenarios based on the input configuration files. There are two configuration files required:
+   (1) Scenario configuration files, containing the specified scenario parameters, (2) The CBM CFS3 configuration file, containing the nationally specific
+   forest configuration settings.
+
+   In total, the scenario runner generates data for each scenario and the selected baseline contained in 26 tables. These data tables can be referenced using the DataFetcher
+   class, and visualized using the DataGrapher class.
+
+   Tables are returned as pandas dataframes.
+
+   .. attribute:: AR_VALUE
+
+      The Assessment Report value. Default is "AR5".
+
+      :type: str
+
+   .. attribute:: ef_country
+
+      The country for which the scenario is being run.
+
+      :type: str
+
+   .. attribute:: calibration_year
+
+      The year for calibration data.
+
+      :type: int
+
+   .. attribute:: target_year
+
+      The target year for which the scenario is generated.
+
+      :type: int
+
+   .. attribute:: config_path
+
+      The path to the scenario configuration file.
+
+      :type: str
+
+   .. attribute:: cbm_config_path
+
+      The path to the CBM CFS3 configuration file.
+
+      :type: str
+
+   .. attribute:: scenario_class
+
+      An instance of the ScenarioGeneration class.
+
+      :type: ScenarioGeneration
+
+   .. attribute:: data_manager_class
+
+      An instance of the DataManager class.
+
+      :type: DataManager
+
+   .. method:: run_scenarios():
+
+      Runs the scenario generation process based on the provided inputs.
+
+
+   .. method:: generate_livestock_outputs(scenario_animal_data, baseline_animal_data, scenario_inputs_df):
+
+      Generates livestock outputs based on the scenario animal data, baseline animal data, and scenario inputs dataframe.
+
+
+   .. method:: generate_air_quality_totals(scenario_dataframe):
+
+      Generates air quality totals based on the scenario dataframe.
+
+
+   .. method:: generate_eutrophication_totals(scenario_dataframe):
+
+      Generates eutrophication totals based on the scenario dataframe.
+
+
+   .. method:: generate_climate_change_totals(calibration_year, target_year, scenario_dataframe):
+
+      Generates climate change totals based on the calibration year, target year, and scenario dataframe.
+
+
+   .. method:: get_air_quality_emission_dataframes():
+
+      Retrieves air quality emission dataframes.
+
+
+   .. method:: get_eutrophication_emission_dataframes():
+
+      Retrieves eutrophication emission dataframes.
+
+
+   .. method:: get_climate_emission_dataframes():
+
+      Retrieves climate emission dataframes.
+
+
+   .. method:: generate_transition_matrix(scenario_dataframe, grassland_area, spared_area):
+
+      Generates the transition matrix based on the scenario dataframe, grassland area, and spared area.
+
+
+   .. method:: generate_landuse_data(scenario_dataframe, grassland_area, spared_area):
+
+      Generates land use data based on the scenario dataframe, grassland area, and spared area.
+
+
+   .. method:: generate_crop_data(scenario_dataframe):
+
+      Generates crop data based on the scenario dataframe.
+
+
+   .. method:: generate_crop_farm_data(scenario_dataframe, crop_dataframe, default_urea, default_urea_abated):
+
+      Generates crop farm data based on the scenario dataframe, crop dataframe, default urea, and default urea abated.
+
+
+   .. method:: generate_baseline_farm_inputs(scenario_dataframe, scenario_animal_data, baseline_animal_data):
+
+      Generates baseline farm inputs based on the scenario dataframe, scenario animal data, and baseline animal data.
+
+
+   .. method:: generate_scenario_farm_inputs(scenario_dataframe, scenario_animal_data, baseline_animal_data):
+
+      Generates scenario farm inputs based on the scenario dataframe, scenario animal data, and baseline animal data.
+
+
+   .. method:: generate_grassland_areas(scenario_dataframe, scenario_animal_data, baseline_animal_data):
+
+      Generates grassland areas based on the scenario dataframe, scenario animal data, and baseline animal data.
+
+
+   .. method:: generate_crop_footprint(crop_dataframe, scenario_dataframe, default_urea, default_urea_abated):
+
+      Generates crop footprint based on the crop dataframe, scenario dataframe, default urea, and default urea abated.
+
+
+   .. method:: generate_aggregated_crop_footprint(crop_dataframe, scenario_dataframe, default_urea, default_urea_abated):
+
+      Generates aggregated crop footprint based on the crop dataframe, scenario dataframe, default urea, and default urea abated.
+
+
+   .. method:: generate_landuse_footprint(landuse_data, transition_matrix, forest_data):
+
+      Generates land use footprint based on the land use data, transition matrix, and forest data.
+
+
+   .. method:: generate_livestock_footprint(baseline_animal_data, scenario_animal_data, farm_inputs_baseline, farm_inputs_scenario):
+
+      Generates livestock footprint based on the baseline animal data, scenario animal data, farm inputs for the baseline, and farm inputs for the scenario.
+
+
+   .. method:: generate_aggregated_livestock_footprint(baseline_animal_data, scenario_animal_data, farm_inputs_baseline, farm_inputs_scenario):
+
+      Generates aggregated livestock footprint based on the baseline animal data, scenario animal data, farm inputs for the baseline, and farm inputs for the scenario.
+
+
+   .. method:: generate_afforestation_data(transition_matrix, scenario_dataframe):
+
+      Generates afforestation data based on the transition matrix and scenario dataframe.
+
+
+   .. method:: generate_forest_carbon(afforestation_dataframe, scenario_dataframe):
+
+      Generates forest carbon data based on the afforestation dataframe and scenario dataframe.
+
+
+   .. py:method:: run_scenarios()
+
+      Runs the scenario generation process based on the provided inputs.
+
+      This method orchestrates the entire scenario generation process. It prepares and generates data for each scenario
+      and the selected baseline contained in 26 tables. The generated data tables are saved as pandas dataframes and can
+      be accessed later for analysis and visualization.
+
+      :param None:
+
+      :rtype: None
+
+      .. rubric:: Notes
+
+      The method performs the following steps:
+
+      1. Create or clear the database using the DataManager instance (:attr:`data_manager_class`).
+
+      2. Generate the scenario data by calling the :meth:`generate_scenario_dataframe` method of the ScenarioGeneration class
+      (:attr:`scenario_class`) with the provided configuration path (:attr:`config_path`).
+
+      3. Create instances of the AnimalData class (:attr:`animal_class`) for generating animal-related data based on the
+      specified parameters: :attr:`ef_country`, :attr:`baseline_year`, :attr:`target_year`, and the scenario_dataframe.
+
+      4. Create the baseline animal data by calling the :meth:`create_baseline_animal_dataframe` method of the AnimalData class.
+
+      5. Create the scenario animal data by calling the :meth:`create_animal_dataframe` method of the AnimalData class.
+
+      6. Generate farm inputs for the scenario by calling the :meth:`generate_scenario_farm_inputs` method, and for the baseline
+      by calling the :meth:`generate_baseline_farm_inputs` method, using the scenario and baseline animal data, as well as the
+      specified urea proportions and urea abated proportions.
+
+      7. Generate data for Grassland areas (:attr:`spared_area` and :attr:`total_grassland_area`) using the scenario and baseline
+      animal data.
+
+      8. Generate crop data for the scenario using the scenario dataframe.
+
+      9. Generate crop farm data for the scenario using the scenario dataframe, crop data, default urea, and default urea
+      abated proportions.
+
+      10. Generate the transition matrix for land use changes based on the scenario dataframe, total grassland area, and
+          spared area.
+
+      11. Generate land use data based on the scenario dataframe, total grassland area, and spared area.
+
+      12. Generate afforestation data based on the transition matrix and the scenario dataframe.
+
+      13. Generate forest carbon data (:attr:`forest_data`) based on the afforestation data and the scenario dataframe using the
+          CBM CFS3 runner.
+
+      14. Perform Life Cycle Assessment (LCA) calculations by generating crop footprints, aggregated crop footprints,
+          land use footprints, livestock footprints, aggregated livestock footprints, climate change totals,
+          eutrophication totals, and air quality totals using the respective methods.
+
+      15. Generate livestock outputs based on the scenario animal data, baseline animal data, and scenario dataframe.
+
+      The generated data is intended for further analysis and visualization within the class context.
+
+      The attributes and methods referenced in this documentation are class attributes and methods and should be
+      available within the class instance when this method is called.
+
+
+   .. py:method:: generate_livestock_ouputs(scenario_animal_data, baseline_animal_data, scenario_inputs_df)
+
+      Generates livestock outputs for the given scenario.
+
+      This method calculates and generates livestock-related outputs for the specified scenarios based on the provided data.
+      The livestock outputs include protein and milk production data for the given scenario and baseline animal data.
+      A summary DataFrame is created by combining the milk production data and the beef (carcass) weight
+      from the protein production data.
+
+      :param scenario_animal_data: A DataFrame containing animal-related data specific to the scenario being analyzed.
+      :type scenario_animal_data: pandas.DataFrame
+      :param baseline_animal_data: A DataFrame containing baseline animal-related data for comparison.
+      :type baseline_animal_data: pandas.DataFrame
+      :param scenario_inputs_df: A DataFrame containing scenario-specific input data required for livestock output calculations.
+      :type scenario_inputs_df: pandas.DataFrame
+
+      :rtype: None
+
+      .. rubric:: Notes
+
+      This method uses the provided scenario_animal_data, baseline_animal_data, and scenario_inputs_df to calculate the
+      protein and milk production for the given scenario using the Exports class.
+
+      The milk production DataFrame is combined with a copy of the protein production DataFrame to create a summary
+      DataFrame, protein_and_milk_summary, which includes an additional column "total_beef_kg" representing the carcass
+      weight (in kilograms) of beef.
+
+      The generated protein_and_milk_summary DataFrame is saved as "protein_and_milk_summary" using the
+      DataManager instance (:attr:`data_manager_class`).
+
+      The attributes and methods referenced in this documentation are class attributes and methods and should be
+      available within the class instance when this method is called.
+
+
+   .. py:method:: generate_air_quality_totals(scenario_dataframe)
+
+      Generates total air quality emissions for the given scenario.
+
+      This method calculates and generates the total air quality emissions for the specified scenarios based on the provided
+      calculated air_quality emissions for crop and livestock. It uses the AirQualityTotal class to perform the calculations.
+
+      :param scenario_dataframe: A DataFrame containing the scenario-specific data required for air quality emissions calculations.
+      :type scenario_dataframe: pandas.DataFrame
+
+      :rtype: None
+
+      .. rubric:: Notes
+
+      The method utilizes the scenario_dataframe and the calculated air_quality emission for crop and livestock to determine the scenario-specific data for air quality emissions in total.
+      calculations.
+
+      It calls the get_air_quality_emission_dataframes method to obtain dataframes containing air quality emissions for
+      different categories (e.g., crop, animal) using the DataFetcher class. These dataframes are used in the calculations
+      performed by the AirQualityTotal class.
+
+      The air_quality_class instance of AirQualityTotal is responsible for calculating the total air quality emissions
+      for the given scenario. The result is stored in the air_quality DataFrame.
+
+      The generated air_quality DataFrame is then saved as "air_quality_totals" using the DataManager instance
+      (:attr:`data_manager_class`).
+
+      The attributes and methods referenced in this documentation are class attributes and methods and should be
+      available within the class instance when this method is called.
+
+
+   .. py:method:: generate_eutrophication_totals(scenario_dataframe)
+
+      Generates total eutrophication emissions for the given scenario.
+
+      This method calculates and generates the total eutrophication emissions for the specified scenarios based on the
+      provided scenario_dataframe. It uses the EutrophicationTotal class to perform the calculations.
+
+      :param scenario_dataframe: A DataFrame containing the scenario-specific data required for eutrophication emissions calculations.
+      :type scenario_dataframe: pandas.DataFrame
+
+      :rtype: None
+
+      .. rubric:: Notes
+
+      The method utilizes the scenario_dataframe to determine the scenario-specific data for eutrophication emissions
+      calculations.
+
+      It calls the get_eutrophication_emission_dataframes method to obtain dataframes containing eutrophication emissions
+      for different categories (e.g., crop, animal) using the DataFetcher class. These dataframes are used in the
+      calculations performed by the EutrophicationTotal class.
+
+      The eutrophication_class instance of EutrophicationTotal is responsible for calculating the total eutrophication
+      emissions for the given scenario. The result is stored in the eutrophication DataFrame.
+
+      The generated eutrophication DataFrame is then saved as "eutrophication_totals" using the DataManager instance
+      (:attr:`data_manager_class`).
+
+      The attributes and methods referenced in this documentation are class attributes and methods and should be
+      available within the class instance when this method is called.
+
+
+   .. py:method:: generate_climate_change_totals(calibration_year, target_year, scenario_dataframe)
+
+      Generates total climate change emissions for the given scenario.
+
+      This method calculates and generates the total climate change emissions for the specified scenarios based on the
+      provided calibration_year, target_year, and scenario_dataframe. It uses the ClimateChangeTotal class to perform the
+      calculations.
+
+      :param calibration_year: The year representing the calibration period for the emissions calculations.
+      :type calibration_year: int
+      :param target_year: The year representing the target period for the emissions calculations.
+      :type target_year: int
+      :param scenario_dataframe: A DataFrame containing the scenario-specific data required for climate change emissions calculations.
+      :type scenario_dataframe: pandas.DataFrame
+
+      :rtype: None
+
+      .. rubric:: Notes
+
+      The method utilizes the calibration_year, target_year, and scenario_dataframe to determine the scenario-specific
+      data for climate change emissions calculations.
+
+      It calls the get_climate_emission_dataframes method to obtain dataframes containing climate change emissions for
+      different categories (e.g., crop, animal, land) using the DataFetcher class. These dataframes are used in the
+      calculations performed by the ClimateChangeTotal class.
+
+      The climate_class instance of ClimateChangeTotal is responsible for calculating the total climate change emissions
+      for the given scenario, taking into account the specified calibration_year, target_year, and scenario_dataframe.
+      The result is stored in the climate_change DataFrame.
+
+      The generated climate_change DataFrame is then saved as "climate_change_totals" using the DataManager instance
+      (:attr:`data_manager_class`).
+
+      The attributes and methods referenced in this documentation are class attributes and methods and should be
+      available within the class instance when this method is called.
+
+
+   .. py:method:: get_air_quality_emission_dataframes()
+
+      Retrieves dataframes containing air quality emissions by category.
+
+      This method fetches dataframes containing air quality emissions for different categories, such as "crop" and
+      "animal," using the DataFetcher class.
+
+      :param None:
+
+      :returns: A dictionary containing dataframes of air quality emissions for different categories.
+      :rtype: dict
+
+      .. rubric:: Notes
+
+      The method utilizes the DataFetcher class to obtain the dataframes containing air quality emissions data by
+      category. It calls the `get_air_quality_crop_emissions_by_category` and
+      `get_air_quality_animal_emissions_by_category` methods from the DataFetcher class to fetch emissions data for crops
+      and animals, respectively.
+
+      The method then constructs a dictionary, `total_emissions_dict`, with keys representing different categories ("crop"
+      and "animal") and their corresponding dataframes as values.
+
+      The attributes and methods referenced in this documentation are class attributes and methods and should be
+      available within the class instance when this method is called.
+
+
+   .. py:method:: get_eutrophication_emission_dataframes()
+
+      Retrieves dataframes containing eutrophication emissions by category.
+
+      This method fetches dataframes containing eutrophication emissions for different categories, such as "crop" and
+      "animal," using the DataFetcher class.
+
+      :param None:
+
+      :returns: A dictionary containing dataframes of eutrophication emissions for different categories.
+      :rtype: dict
+
+      .. rubric:: Notes
+
+      The method utilizes the DataFetcher class to obtain the dataframes containing eutrophication emissions data by
+      category. It calls the `get_eutrophication_crop_emissions_by_category` and
+      `get_eutrophication_animal_emissions_by_category` methods from the DataFetcher class to fetch emissions data for
+      crops and animals, respectively.
+
+      The method then constructs a dictionary, `total_emissions_dict`, with keys representing different categories ("crop"
+      and "animal") and their corresponding dataframes as values.
+
+      The attributes and methods referenced in this documentation are class attributes and methods and should be
+      available within the class instance when this method is called.
+
+
+   .. py:method:: get_climate_emission_dataframes()
+
+      Retrieves dataframes containing climate change emissions by category.
+
+      This method fetches dataframes containing climate change emissions for different categories, such as "crop," "animal,"
+      and "land," using the DataFetcher class.
+
+      :param None:
+
+      :returns: A dictionary containing dataframes of climate change emissions for different categories.
+      :rtype: dict
+
+      .. rubric:: Notes
+
+      The method utilizes the DataFetcher class to obtain the dataframes containing climate change emissions data by
+      category. It calls the `get_climate_change_crop_emissions_aggregated`, `get_climate_change_animal_emissions_aggregated`,
+      and `get_landuse_emissions_totals` methods from the DataFetcher class to fetch emissions data for crops, animals,
+      and land, respectively.
+
+      The method then constructs a dictionary, `total_emissions_dict`, with keys representing different categories
+      ("crop", "animal", and "land") and their corresponding dataframes as values.
+
+      The attributes and methods referenced in this documentation are class attributes and methods and should be
+      available within the class instance when this method is called.
+
+
+   .. py:method:: generate_transition_matrix(scenario_dataframe, grassland_area, spared_area)
+
+      Generates a transition matrix based on scenario parameters and land use data.
+
+      This method calculates a transition matrix using scenario parameters and land use data, and saves the resulting
+      transition matrix as a datatable using the DataManager class.
+
+      :param scenario_dataframe: A pandas DataFrame containing scenario parameters.
+      :type scenario_dataframe: pandas.DataFrame
+      :param grassland_area: The total area of grassland.
+      :type grassland_area: float
+      :param spared_area: The area of grassland spared from conversion to other land uses.
+      :type spared_area: float
+
+      :returns: The generated transition matrix as a NumPy array.
+      :rtype: numpy.ndarray
+
+      .. rubric:: Notes
+
+      The method utilizes the TransitionMatrix class to calculate the transition matrix based on the given scenario
+      parameters, baseline year, target year, grassland area, and spared area. The transition matrix represents the
+      transition areas of land use changes from one category to another.
+
+      The resulting transition matrix is saved as a datatable using the `save_goblin_results_output_datatable` method
+      from the DataManager class with the name "transition_matrix".
+
+      The attributes and methods referenced in this documentation are class attributes and methods and should be
+      available within the class instance when this method is called.
+
+
+   .. py:method:: generate_landuse_data(scenario_dataframe, grassland_area, spared_area)
+
+      Generates land use data based on scenario parameters and land area information.
+
+      This method calculates the current and future land use data using scenario parameters, baseline year, target year, total grassland
+      area, and spared grassland area. It saves the resulting land use data as a datatable using the DataManager class.
+
+      :param scenario_dataframe: A pandas DataFrame containing scenario parameters.
+      :type scenario_dataframe: pandas.DataFrame
+      :param grassland_area: The total area of grassland.
+      :type grassland_area: float
+      :param spared_area: The area of grassland spared from conversion to other land uses.
+      :type spared_area: float
+
+      :returns: A pandas DataFrame containing the generated land use data.
+      :rtype: pandas.DataFrame
+
+      .. rubric:: Notes
+
+      The method utilizes the LandCover class to calculate the current and future land use data based on the given scenario parameters,
+      baseline year, target year, total grassland area, and spared grassland area. The future land use data represents the projected
+      land use areas for different land use categories.
+
+      The resulting land use data is saved as a datatable using the `save_goblin_results_output_datatable` method from the
+      DataManager class with the name "landuse_data".
+
+      The attributes and methods referenced in this documentation are class attributes and methods and should be
+      available within the class instance when this method is called.
+
+
+   .. py:method:: generate_crop_data(scenario_dataframe)
+
+      Generates crop data based on scenario parameters and national CSO crop production data.
+
+      This method calculates crop data at the national level and given scenario parameters for urea, baseline year, and target year.
+      It uses scenario-specific crop production data provided by the NationalCropData class. The resulting crop data is saved
+      as a datatable using the DataManager class.
+
+      :param scenario_dataframe: A pandas DataFrame containing scenario parameters.
+      :type scenario_dataframe: pandas.DataFrame
+
+      :returns: A pandas DataFrame containing the generated crop data.
+      :rtype: pandas.DataFrame
+
+      .. rubric:: Notes
+
+      The method utilizes the NationalCropData class to generate crop production for from national level data for Ireland for each scenario
+      based on the given baseline year, target year, and scenario. It iterates through unique scenario values in the
+      scenario_dataframe and generates crop data accordingly. The generated crop data is stored in the crop_df variable
+      for each scenario, and the final crop data for the last scenario is returned as the output.
+
+      The resulting crop data is saved as a datatable using the `save_goblin_results_output_datatable` method from the
+      DataManager class with the name "crop_input_data".
+
+      The attributes and methods referenced in this documentation are class attributes and methods and should be
+      available within the class instance when this method is called.
+
+
+   .. py:method:: generate_crop_farm_data(scenario_dataframe, crop_dataframe, default_urea, default_urea_abated)
+
+      Generates crop farm data representing fertilizer inputs for each scenario.
+
+      This method calculates crop farm data representing fertilizer inputs (in kg) for each scenario. It utilizes the provided
+      crop production data and scenario parameters to determine the total amount of fertilizers (urea, urea abated, total N,
+      P, and K fertilizers) required at the national level. The generated crop farm data is saved as a datatable
+      using the DataManager class.
+
+      :param scenario_dataframe: A pandas DataFrame containing scenario parameters.
+      :type scenario_dataframe: pandas.DataFrame
+      :param crop_dataframe: A pandas DataFrame containing crop production data for different scenarios.
+      :type crop_dataframe: pandas.DataFrame
+      :param default_urea: The default proportion of urea applied in crop farming.
+      :type default_urea: float
+      :param default_urea_abated: The default proportion of urea abated in crop farming.
+      :type default_urea_abated: float
+
+      :returns: A pandas DataFrame containing the generated crop farm data representing fertilizer inputs (in kg) for each scenario.
+      :rtype: pandas.DataFrame
+
+      .. rubric:: Notes
+
+      The method first selects specific columns, namely 'Scenarios', 'Urea proportion', and 'Urea abated proportion', from
+      the scenario_dataframe and drops any duplicate rows. This results in a subset_df that contains unique scenario
+      parameters related to urea proportion and abatement.
+
+      Using the provided crop_dataframe and the subset_df, the method then utilizes the NationalCropData class to calculate
+      the fertilizer inputs (in kg) at the national level for each crop. The total amount of fertilizers, including urea,
+      urea abated, total N, P, and K fertilizers, is calculated based on the given urea proportion and abatement parameters.
+
+      The generated crop farm data, representing fertilizer inputs (in kg) for each scenario, is saved as a datatable using
+      the `save_goblin_results_output_datatable` method from the DataManager class with the name "crop_farm_data".
+
+      The attributes and methods referenced in this documentation are class attributes and methods and should be
+      available within the class instance when this method is called.
+
+
+   .. py:method:: generate_baseline_farm_inputs(scenario_dataframe, scenario_animal_data, baseline_animal_data)
+
+      Generates baseline farm inputs for grassland.
+
+      This method estimates the baseline farm inputs (fertilizer) application to grassland, at the national
+      level for each scenario. The fertilizer application rates specified in the scenario_dataframe are used to determine
+      the total amount of fertilizer (in kg) required for grassland. The generated baseline farm inputs data is saved as a
+      datatable using the DataManager class.
+
+      :param scenario_dataframe: A pandas DataFrame containing scenario parameters.
+      :type scenario_dataframe: pandas.DataFrame
+      :param scenario_animal_data: A pandas DataFrame containing animal data for different scenarios.
+      :type scenario_animal_data: pandas.DataFrame
+      :param baseline_animal_data: A pandas DataFrame containing baseline animal data.
+      :type baseline_animal_data: pandas.DataFrame
+
+      :returns: A pandas DataFrame containing the generated baseline farm inputs for grassland, specifically the fertilizer
+                application (in kg) at the national level for the baseline.
+      :rtype: pandas.DataFrame
+
+      .. rubric:: Notes
+
+      The method utilizes the provided scenario_dataframe, scenario_animal_data, and baseline_animal_data to estimate the
+      baseline farm inputs for grassland. The scenario_dataframe contains the specified fertilizer application rates, which
+      are used to calculate the total amount of fertilizer (in kg) required at the national level for each scenario.
+
+      The baseline farm inputs, representing the fertilizer application (in kg) for grassland, are determined based on the
+      national level data. The generated baseline farm
+      inputs data is saved as a datatable using the `save_goblin_results_output_datatable` method from the DataManager
+      class with the name "grassland_farm_inputs_baseline".
+
+      The attributes and methods referenced in this documentation are class attributes and methods and should be
+      available within the class instance when this method is called.
+
+
+   .. py:method:: generate_scenario_farm_inputs(scenario_dataframe, scenario_animal_data, baseline_animal_data)
+
+      Generates scenario-specific farm inputs for grassland.
+
+      This method estimates the scenario-specific farm inputs (fertilizer) application to grassland, at the
+      national level for each scenario. The fertilizer application rates specified in the scenario_dataframe are used to
+      determine the total amount of fertilizer (in kg) required for grassland in each scenario. The generated scenario-specific
+      farm inputs data is saved as a datatable using the DataManager class.
+
+      :param scenario_dataframe: A pandas DataFrame containing scenario parameters.
+      :type scenario_dataframe: pandas.DataFrame
+      :param scenario_animal_data: A pandas DataFrame containing animal data for different scenarios.
+      :type scenario_animal_data: pandas.DataFrame
+      :param baseline_animal_data: A pandas DataFrame containing baseline animal data.
+      :type baseline_animal_data: pandas.DataFrame
+
+      :returns: A pandas DataFrame containing the generated scenario-specific farm inputs for grassland, specifically the fertilizer
+                application (in kg) at the national level for each scenario.
+      :rtype: pandas.DataFrame
+
+      .. rubric:: Notes
+
+      The method utilizes the provided scenario_dataframe, scenario_animal_data, and baseline_animal_data to estimate the
+      scenario-specific farm inputs for grassland. The scenario_dataframe contains the specified fertilizer application rates,
+      which are used to calculate the total amount of fertilizer (in kg) required at the national level for each scenario.
+
+      The scenario-specific farm inputs, representing the fertilizer application (in kg) for grassland in each scenario, are
+      determined based on the specified fertilizer application rates in the scenario_dataframe and other relevant data. The
+      generated scenario-specific farm inputs data is saved as a datatable using the `save_goblin_results_output_datatable`
+      method from the DataManager class with the name "livestock_farm_inputs_scenario".
+
+      The attributes and methods referenced in this documentation are class attributes and methods and should be available
+      within the class instance when this method is called.
+
+
+   .. py:method:: generate_grassland_areas(scenario_dataframe, scenario_animal_data, baseline_animal_data)
+
+      Calculate the total spared and total grassland areas for each scenario.
+
+      This method calculates and returns the total spared and total grassland areas for each scenario based on the provided
+      scenario_dataframe, scenario_animal_data, and baseline_animal_data. The GrasslandOutput class is utilized to perform
+      the necessary calculations for each scenario.
+
+      The total spared area represents the area of grassland that will be converted to other land uses (e.g., wetland,
+      forests) in the target year compared to the baseline year. The total grassland area represents
+      the remaining grassland area.
+
+      :param scenario_dataframe: A pandas DataFrame containing scenario parameters.
+      :type scenario_dataframe: pandas.DataFrame
+      :param scenario_animal_data: A pandas DataFrame containing animal data for different scenarios.
+      :type scenario_animal_data: pandas.DataFrame
+      :param baseline_animal_data: A pandas DataFrame containing baseline animal data.
+      :type baseline_animal_data: pandas.DataFrame
+
+      :returns: A tuple containing two pandas DataFrame: (total_spared_area, total_grassland_area).
+      :rtype: tuple
+
+      .. rubric:: Notes
+
+      The method uses the provided scenario_dataframe, scenario_animal_data, and baseline_animal_data to calculate the total
+      spared and total grassland areas for each scenario. The GrasslandOutput class is utilized to perform the necessary
+      calculations based on the specified parameters.
+
+      The calculated total spared and total grassland areas for each scenario are returned as a tuple containing two pandas
+      DataFrame representing the total spared and total grassland areas, respectively.
+
+      Additionally, the method saves the calculated total spared area and total grassland area as datatables using the
+      `save_goblin_results_output_datatable` method from the DataManager class. The spared area datatable is saved with the name
+      "total_spared_area", and the grassland area datatable with the name "total_grassland_area".
+
+      The attributes and methods referenced in this documentation are class attributes and methods and should be available
+      within the class instance when this method is called.
+
+
+   .. py:method:: generate_crop_footprint(crop_dataframe, scenario_dataframe, default_urea, default_urea_abated)
+
+      Generate crop footprints for climate change, eutrophication, and air quality for each scenario.
+
+      This method calculates and generates crop footprints for climate change, eutrophication, and air quality for each
+      scenario based on the provided crop_dataframe and scenario_dataframe. The footprints are computed using default urea
+      and urea abated values for the baseline, while urea values are derived from the scenario_dataframe for each scenario.
+      The AR Value (AR4, AR5) is derived from the class attributes, which defaults to "AR5".
+
+      :param crop_dataframe: A pandas DataFrame containing crop production data.
+      :type crop_dataframe: pandas.DataFrame
+      :param scenario_dataframe: A pandas DataFrame containing scenario parameters.
+      :type scenario_dataframe: pandas.DataFrame
+      :param default_urea: The default proportion of urea used in crop production.
+      :type default_urea: float
+      :param default_urea_abated: The default proportion of urea abated in crop production.
+      :type default_urea_abated: float
+
+      .. rubric:: Notes
+
+      The method utilizes three different classes: ClimateChangeCrop, EutrophicationCrop, and AirQualityCrop to calculate
+      and generate the crop footprints for climate change, eutrophication, and air quality, respectively. Each class is
+      instantiated with the appropriate parameters (ef_country, default_urea, default_urea_abated, and AR_VALUE) to perform
+      the necessary calculations.
+
+      The calculated crop footprints for each scenario are saved as datatables using the `save_goblin_results_output_datatable`
+      method from the DataManager class. The footprints for climate change are saved with the name "climate_change_crops_disaggregated",
+      the footprints for eutrophication are saved with the name "eutrophication_crops_disaggregated", and the footprints for air quality
+      are saved with the name "air_quality_crops_disaggregated".
+
+      The attributes and methods referenced in this documentation are class attributes and methods and should be available
+      within the class instance when this method is called.
+
+
+   .. py:method:: generate_aggregated_crop_footprint(crop_dataframe, scenario_dataframe, default_urea, default_urea_abated)
+
+      Generate aggregated crop footprints for climate change.
+
+      This method calculates and generates aggregated crop footprints for climate change based on the provided crop_dataframe
+      and scenario_dataframe. The footprints for the baseline are computed using default urea and urea abated values, as well as the AR value (AR4, AR5)
+      specified in the class instance.
+
+      :param crop_dataframe: A pandas DataFrame containing crop production data.
+      :type crop_dataframe: pandas.DataFrame
+      :param scenario_dataframe: A pandas DataFrame containing scenario parameters.
+      :type scenario_dataframe: pandas.DataFrame
+      :param default_urea: The default proportion of urea used in crop production.
+      :type default_urea: float
+      :param default_urea_abated: The default proportion of urea abated in crop production.
+      :type default_urea_abated: float
+
+      .. rubric:: Notes
+
+      The method utilizes the ClimateChangeCrop class to calculate and generate the crop footprints for climate change. The
+      class is instantiated with the appropriate parameters (ef_country, default_urea, default_urea_abated, and AR_VALUE) to
+      perform the necessary calculations.
+
+      Two types of aggregated footprints are generated: climate_change_categories_as_co2e and climate_change_crops_aggregated.
+      The climate_change_categories_as_co2e represents the footprints for each category of climate change gas (converted to CO2e),
+      and climate_change_crops_aggregated represents the overall aggregated footprint for all climate change gases.
+
+      The calculated aggregated crop footprints for climate change are saved as datatables using the `save_goblin_results_output_datatable`
+      method from the DataManager class. The footprints for individual categories of climate change gases are saved with the name
+      "climate_change_crops_categories_as_co2e", and the overall aggregated footprint is saved with the name "climate_change_crops_aggregated".
+
+      The attributes and methods referenced in this documentation are class attributes and methods and should be available within
+      the class instance when this method is called.
+
+
+   .. py:method:: generate_landuse_footprint(landuse_data, transition_matrix, forest_data)
+
+      Generate land-use footprints for climate change.
+
+      This method calculates and generates land-use (forest, grassland, wetland, cropland) footprints for climate change based on the provided landuse_data,
+      transition_matrix, and forest_data. The footprints are computed using the AR value (AR4, AR5) specified in the class instance.
+
+      :param landuse_data: A pandas DataFrame containing land-use data.
+      :type landuse_data: pandas.DataFrame
+      :param transition_matrix: A pandas DataFrame containing the transition matrix for land-use changes.
+      :type transition_matrix: pandas.DataFrame
+      :param forest_data: A pandas Series containing forest carbon data.
+      :type forest_data: pandas.Series
+
+      .. rubric:: Notes
+
+      The method utilizes the ClimateChangeLandUse class to calculate and generate the land-use footprints for climate change.
+      The class is instantiated with the appropriate parameters (calibration_year, target_year, transition_matrix, landuse_data,
+      forest_data, ef_country, and AR_VALUE) to perform the necessary calculations.
+
+      The calculated land-use footprints for climate change are saved as a datatable using the `save_goblin_results_output_datatable`
+      method from the DataManager class. The datatable is saved with the name "climate_change_landuse".
+
+      The attributes and methods referenced in this documentation are class attributes and methods and should be available within
+      the class instance when this method is called.
+
+
+   .. py:method:: generate_livestock_footprint(baseline_animal_data, scenario_animal_data, farm_inputs_baseline, farm_inputs_scenario)
+
+      Calculate the environmental footprints associated with livestock production for both the baseline and scenario datasets.
+
+      This method estimates the climate change, eutrophication, and air quality impacts of livestock production. It utilizes data from both the baseline and scenario animal datasets, along with farm (fertilizer) inputs.
+
+      :param baseline_animal_data: A DataFrame containing baseline animal data.
+      :type baseline_animal_data: DataFrame
+      :param scenario_animal_data: A DataFrame containing scenario-specific animal data.
+      :type scenario_animal_data: DataFrame
+      :param farm_inputs_baseline: A DataFrame containing farm inputs (fertilizers) for the baseline scenario.
+      :type farm_inputs_baseline: DataFrame
+      :param farm_inputs_scenario: A DataFrame containing farm inputs (fertilizers) for the specific scenario.
+      :type farm_inputs_scenario: DataFrame
+
+      :returns: The method does not return any value. The results are saved to output data tables for further analysis.
+      :rtype: None
+
+      .. rubric:: Notes
+
+      - This method relies on the `AR_VALUE` (AR4, AR5) and `ef_country` attributes to calculate the environmental impacts, which should be set appropriately before calling this method.
+
+      - The method utilizes the following classes for calculating impacts:
+          - `ClimateChangeLivestock`: For climate change-related impacts.
+          - `EutrophicationLivestock`: For eutrophication-related impacts.
+          - `AirQualityLivestock`: For air quality-related impacts.
+
+      - The calculated environmental footprints are not returned directly but are saved to the output data tables using the `save_goblin_results_output_datatable` method.
+
+      .. seealso::
+
+         :obj:`ClimateChangeLivestock`
+             Class for calculating climate change impacts of livestock production.
+
+         :obj:`EutrophicationLivestock`
+             Class for calculating eutrophication impacts of livestock production.
+
+         :obj:`AirQualityLivestock`
+             Class for calculating air quality impacts of livestock production.
+
+         :obj:`save_goblin_results_output_datatable`
+             Method to save data to output data tables.
+
+
+   .. py:method:: generate_aggregated_livestock_footprint(baseline_animal_data, scenario_animal_data, farm_inputs_baseline, farm_inputs_scenario)
+
+      Calculate the aggregated environmental footprints associated with livestock production for both the baseline and scenario datasets.
+
+      This method estimates the aggregated climate change impacts of livestock production at the national level. It utilizes data from both the baseline and scenario animal datasets, along with farm (fertilizer) inputs.
+
+      :param baseline_animal_data: A DataFrame containing baseline animal data.
+      :type baseline_animal_data: DataFrame
+      :param scenario_animal_data: A DataFrame containing scenario-specific animal data.
+      :type scenario_animal_data: DataFrame
+      :param farm_inputs_baseline: A DataFrame containing farm inputs (fertilizers) for the baseline scenario.
+      :type farm_inputs_baseline: DataFrame
+      :param farm_inputs_scenario: A DataFrame containing farm inputs (fertilizers) for the specific scenario.
+      :type farm_inputs_scenario: DataFrame
+
+      :returns: The method does not return any value. The aggregated results are saved to output data tables for further analysis.
+      :rtype: None
+
+      .. rubric:: Notes
+
+      - This method relies on the `AR_VALUE` and `ef_country` attributes to calculate the environmental impacts, which should be set appropriately before calling this method.
+
+      - The method utilizes the `ClimateChangeLivestock` class for calculating the climate change impacts of livestock production.
+
+      - The aggregated climate change impacts are not returned directly but are saved to the output data tables using the `save_goblin_results_output_datatable` method.
+
+      .. seealso::
+
+         :obj:`ClimateChangeLivestock`
+             Class for calculating climate change impacts of livestock production.
+
+         :obj:`save_goblin_results_output_datatable`
+             Method to save data to output data tables.
+
+
+   .. py:method:: generate_afforestation_data(transition_matrix, scenario_dataframe)
+
+      Generate afforestation data based on the given transition matrix and scenario data.
+
+      This method calculates and generates afforestation data using the provided transition matrix and scenario data. Afforestation refers to the process of converting non-forest land into forested areas.
+
+      :param transition_matrix: A DataFrame representing the transition matrix, which describes the changes in land use from one category to another.
+      :type transition_matrix: DataFrame
+      :param scenario_dataframe: A DataFrame containing scenario-specific data.
+      :type scenario_dataframe: DataFrame
+
+      :returns: A DataFrame containing the generated afforestation data.
+      :rtype: DataFrame
+
+      .. rubric:: Notes
+
+      - The method utilizes the `Afforestation` class to generate afforestation data.
+
+      - The generated afforestation data is saved to the output data table using the `save_goblin_results_output_datatable` method.
+
+      - The `baseline_year` and `target_year` attributes are used in the process, and they should be set appropriately before calling this method.
+
+      .. seealso::
+
+         :obj:`Afforestation`
+             Class for generating afforestation data.
+
+         :obj:`save_goblin_results_output_datatable`
+             Method to save data to output data tables.
+
+
+   .. py:method:: generate_forest_carbon(afforest_year, afforestation_dataframe, scenario_dataframe)
+
+      Generate forest carbon data based on afforestation and scenario data.
+
+      This method calculates and generates forest carbon data by running the Carbon Budget Model (CBM CFS3) using the provided afforestation data and scenario data.
+
+      :param afforest_year: The target year for afforestation, representing the year when non-forest land is converted to forested areas.
+      :type afforest_year: int
+      :param afforestation_dataframe: A DataFrame containing the afforestation data, which represents the conversion of non-forest land to forested areas.
+      :type afforestation_dataframe: DataFrame
+      :param scenario_dataframe: A DataFrame containing scenario-specific data.
+      :type scenario_dataframe: DataFrame
+
+      :returns: A dictionary containing the generated forest carbon data, as pandas.DataFrame, including aggregated and annual flux results.
+      :rtype: dict
+
+      .. rubric:: Notes
+
+      - The method utilizes the `Runner` class to run the CBM model and generate forest carbon data.
+
+      - The CBM model requires the `cbm_configuration` attribute, which should be set appropriately before calling this method.
+
+      - The generated forest carbon data, both aggregated and annual flux results, is saved to the output data tables using the `save_goblin_results_output_datatable` method.
+
+      - The `calibration_year` and `target_year` attributes are used in the process, and they should be set appropriately before calling this method.
+
+      .. seealso::
+
+         :obj:`Runner`
+             Class for running the Carbon Budget Model (CBM CFS3).
+
+         :obj:`save_goblin_results_output_datatable`
+             Method to save data to output data tables.
+
+
+

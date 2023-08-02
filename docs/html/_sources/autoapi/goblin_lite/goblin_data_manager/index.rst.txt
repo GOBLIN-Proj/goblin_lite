@@ -1,0 +1,23 @@
+:py:mod:`goblin_lite.goblin_data_manager`
+=========================================
+
+.. py:module:: goblin_lite.goblin_data_manager
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   goblin_lite.goblin_data_manager.GoblinDataManager
+
+
+
+
+.. py:class:: GoblinDataManager(AR_VALUE='AR5')
+
+
+
