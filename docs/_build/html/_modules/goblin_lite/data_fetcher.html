@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>goblin_lite.data_fetcher &mdash; GOBLIN lite 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            GOBLIN lite
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">GOBLIN lite</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">goblin_lite.data_fetcher</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for goblin_lite.data_fetcher</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">goblin_lite.database_manager</span> <span class="kn">import</span> <span class="n">DataManager</span>
+
+
+<div class="viewcode-block" id="DataFetcher"><a class="viewcode-back" href="../../autoapi/goblin_lite/data_fetcher/index.html#goblin_lite.data_fetcher.DataFetcher">[docs]</a><span class="k">class</span> <span class="nc">DataFetcher</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A class responsible for fetching various types of data from output data tables.</span>
+
+<span class="sd">        This class allows easy access to the data saved in the output data tables managed by the DataManager.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Methods</span>
+<span class="sd">        -------</span>
+<span class="sd">        get_baseline_livestock_data()</span>
+<span class="sd">            Returns the summary of livestock data for the baseline scenario</span>
+
+<span class="sd">        get_scenario_livestock_data()</span>
+<span class="sd">            Returns the summary of livestock data for the scenarios</span>
+
+<span class="sd">        get_livestock_output_summary()</span>
+<span class="sd">            Returns the summary of livestock outputs from the &quot;protein_and_milk_summary&quot; output data table.</span>
+
+<span class="sd">        get_grassland_scenario_farm_inputs()</span>
+<span class="sd">            Returns scenario-specific farm inputs data from the &quot;grassland_farm_inputs_scenario&quot; output data table.</span>
+
+<span class="sd">        get_grassland_baseline_farm_inputs()</span>
+<span class="sd">            Returns baseline farm inputs data from the &quot;grassland_farm_inputs_baseline&quot; output data table.</span>
+
+<span class="sd">        get_total_grassland_area()</span>
+<span class="sd">            Returns the total grassland area data from the &quot;total_grassland_area&quot; output data table.</span>
+
+<span class="sd">        get_total_spared_area()</span>
+<span class="sd">            Returns the total spared area data from the &quot;total_spared_area&quot; output data table.</span>
+
+<span class="sd">        get_climate_change_animal_emissions_by_category()</span>
+<span class="sd">            Returns climate change emissions data for livestock categories from the &quot;climate_change_livestock_disaggregated&quot; output data table.</span>
+
+<span class="sd">        get_climate_change_crop_emissions_by_category()</span>
+<span class="sd">            Returns climate change emissions data for crop categories from the &quot;climate_change_crops_disaggregated&quot; output data table.</span>
+
+<span class="sd">        get_climate_change_crop_emissions_aggregated()</span>
+<span class="sd">            Returns aggregated climate change emissions data for crops from the &quot;climate_change_crops_aggregated&quot; output data table.</span>
+
+<span class="sd">        get_climate_change_animal_emissions_aggregated()</span>
+<span class="sd">            Returns aggregated climate change emissions data for livestock from the &quot;climate_change_livestock_aggregated&quot; output data table.</span>
+
+<span class="sd">        get_animal_emissions_by_category_co2e()</span>
+<span class="sd">            Returns climate change emissions data for livestock categories converted to CO2e from the &quot;climate_change_livestock_categories_as_co2e&quot; output data table.</span>
+
+<span class="sd">        get_crop_emissions_by_category_co2e()</span>
+<span class="sd">            Returns climate change emissions data for crop categories converted to CO2e from the &quot;climate_change_crops_categories_as_co2e&quot; output data table.</span>
+
+<span class="sd">        get_climate_change_emission_totals()</span>
+<span class="sd">            Returns the total climate change emissions data from the &quot;climate_change_totals&quot; output data table.</span>
+
+<span class="sd">        get_eutrophication_emission_totals()</span>
+<span class="sd">            Returns the total eutrophication emissions data from the &quot;eutrophication_totals&quot; output data table.</span>
+
+<span class="sd">        get_air_quality_emission_totals()</span>
+<span class="sd">            Returns the total air quality emissions data from the &quot;air_quality_totals&quot; output data table.</span>
+
+<span class="sd">        get_eutrophication_animal_emissions_by_category()</span>
+<span class="sd">            Returns eutrophication emissions data for livestock categories from the &quot;eutrophication_livestock_disaggregated&quot; output data table.</span>
+
+<span class="sd">        get_eutrophication_crop_emissions_by_category()</span>
+<span class="sd">            Returns eutrophication emissions data for crop categories from the &quot;eutrophication_crops_disaggregated&quot; output data table.</span>
+
+<span class="sd">        get_air_quality_animal_emissions_by_category()</span>
+<span class="sd">            Returns air quality emissions data for livestock categories from the &quot;air_quality_livestock_disaggregated&quot; output data table.</span>
+
+<span class="sd">        get_air_quality_crop_emissions_by_category()</span>
+<span class="sd">            Returns air quality emissions data for crop categories from the &quot;air_quality_crops_disaggregated&quot; output data table.</span>
+
+<span class="sd">        get_landuse_emissions_totals()</span>
+<span class="sd">            Returns the total land use change emissions data from the &quot;climate_change_landuse&quot; output data table.</span>
+
+<span class="sd">        get_forest_flux()</span>
+<span class="sd">            Returns the annual forest carbon flux data from the &quot;forest_carbon_flux&quot; output data table.</span>
+
+<span class="sd">        get_forest_aggregate()</span>
+<span class="sd">            Returns the aggregated forest carbon data from the &quot;forest_carbon_aggregate&quot; output data table.</span>
+
+<span class="sd">        get_total_afforested()</span>
+<span class="sd">            Returns the total afforested data from the &quot;cbm_afforestation_data&quot; output data table.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span> <span class="o">=</span> <span class="n">DataManager</span><span class="p">()</span>
+
+<div class="viewcode-block" id="DataFetcher.get_baseline_livestock_data"><a class="viewcode-back" href="../../autoapi/goblin_lite/data_fetcher/index.html#goblin_lite.data_fetcher.DataFetcher.get_baseline_livestock_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_baseline_livestock_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fetches and returns the baseline livestock data.</span>
+
+<span class="sd">        This method is used to retrieve the baseline livestock data, which contains information about animal-related variables in the baseline scenario.</span>
+<span class="sd">        The baseline scenario typically represents the reference state or the initial condition without any specific intervention or changes.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DataFrame</span>
+<span class="sd">            A pandas DataFrame containing the baseline livestock data. The DataFrame includes various animal-related variables, such as the number</span>
+<span class="sd">            of animals, animal species, their age, weight, and other relevant attributes. The data is indexed by &#39;index&#39;.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; data_manager = DataManager()</span>
+<span class="sd">        &gt;&gt;&gt; baseline_data = data_manager.get_baseline_livestock_data()</span>
+
+<span class="sd">        Note</span>
+<span class="sd">        ----</span>
+<span class="sd">        - The method relies on the `data_manager_class` to fetch the &#39;baseline_animal_data&#39; from the &#39;goblin_results_output_datatable&#39;.</span>
+<span class="sd">        - The DataFrame returned by this method can be used for further analysis, comparison with other scenarios, or as a reference for</span>
+<span class="sd">        understanding the livestock conditions in the baseline scenario.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">livestock</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_goblin_results_output_datatable</span><span class="p">(</span>
+            <span class="s2">&quot;baseline_animal_data&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s2">&quot;index&quot;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">livestock</span></div>
+
+<div class="viewcode-block" id="DataFetcher.get_scenario_livestock_data"><a class="viewcode-back" href="../../autoapi/goblin_lite/data_fetcher/index.html#goblin_lite.data_fetcher.DataFetcher.get_scenario_livestock_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_scenario_livestock_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fetches and returns the livestock data for the specific scenario.</span>
+
+<span class="sd">        This method is used to retrieve the livestock data for scenarios. The scenarios represents a specific configuration or set of conditions that differ from the baseline. It allows users to analyze and compare livestock-related variables under different scenarios.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DataFrame</span>
+<span class="sd">            A pandas DataFrame containing the livestock data for the scenarios. The DataFrame includes various animal-related variables,</span>
+<span class="sd">            such as the number of animals, animal species, their age, weight, and other relevant attributes. The data is indexed by &#39;index&#39;.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; data_manager = DataManager()</span>
+<span class="sd">        &gt;&gt;&gt; scenario_data = data_manager.get_scenario_livestock_data()</span>
+
+<span class="sd">        Note</span>
+<span class="sd">        ----</span>
+<span class="sd">        - The method relies on the `data_manager_class` to fetch the &#39;scenario_animal_data&#39; from the &#39;goblin_results_output_datatable&#39;.</span>
+<span class="sd">        - The DataFrame returned by this method can be used for analysis, comparison with other scenarios, or to understand the livestock</span>
+<span class="sd">        conditions in the selected scenario.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">livestock</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_goblin_results_output_datatable</span><span class="p">(</span>
+            <span class="s2">&quot;scenario_animal_data&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s2">&quot;index&quot;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">livestock</span></div>
+
+<div class="viewcode-block" id="DataFetcher.get_livestock_output_summary"><a class="viewcode-back" href="../../autoapi/goblin_lite/data_fetcher/index.html#goblin_lite.data_fetcher.DataFetcher.get_livestock_output_summary">[docs]</a>    <span class="k">def</span> <span class="nf">get_livestock_output_summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fetches the summary of livestock outputs from the &quot;protein_and_milk_summary&quot; output data table.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pandas.DataFrame</span>
+<span class="sd">            A DataFrame containing the summary of livestock outputs</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">            The &quot;protein_and_milk_summary&quot; output data table stores the summary of livestock outputs, including information related</span>
+<span class="sd">            to protein production, milk production in kg.</span>
+
+<span class="sd">            Reported in kg.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">protein_and_milk_summary</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_goblin_results_output_datatable</span><span class="p">(</span>
+                <span class="s2">&quot;protein_and_milk_summary&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s2">&quot;index&quot;</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">protein_and_milk_summary</span></div>
+
+<div class="viewcode-block" id="DataFetcher.get_grassland_scenario_farm_inputs"><a class="viewcode-back" href="../../autoapi/goblin_lite/data_fetcher/index.html#goblin_lite.data_fetcher.DataFetcher.get_grassland_scenario_farm_inputs">[docs]</a>    <span class="k">def</span> <span class="nf">get_grassland_scenario_farm_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve a DataFrame containing information about fertilizer application to grassland for each scenario.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DataFrame</span>
+<span class="sd">            A pandas DataFrame containing information about fertilizer application to grassland for each scenario. The index of the DataFrame is set to &quot;index&quot; for easier access to the data.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">            The DataFrame provides valuable insights into the fertilizer application practices in various scenarios and their impact on grassland management and agricultural practices. Researchers and analysts working on environmental research and policy related to livestock farming and land use changes can utilize this data for their analyses.</span>
+
+<span class="sd">            Reported in kg.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">scenario_farm_inputs</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_goblin_results_output_datatable</span><span class="p">(</span>
+                <span class="s2">&quot;grassland_farm_inputs_scenario&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s2">&quot;index&quot;</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">scenario_farm_inputs</span></div>
+
+<div class="viewcode-block" id="DataFetcher.get_grassland_baseline_farm_inputs"><a class="viewcode-back" href="../../autoapi/goblin_lite/data_fetcher/index.html#goblin_lite.data_fetcher.DataFetcher.get_grassland_baseline_farm_inputs">[docs]</a>    <span class="k">def</span> <span class="nf">get_grassland_baseline_farm_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve a DataFrame containing information about fertilizer application to grassland in the baseline scenario.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DataFrame</span>
+<span class="sd">            A pandas DataFrame containing information about fertilizer application to grassland in the baseline scenario. The index of the DataFrame is set to &quot;index&quot; for easier access to the data.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">            The DataFrame provides valuable insights into the fertilizer application practices for grassland in the baseline scenario. This data can be used to understand the initial conditions and establish a baseline for comparing fertilizer use in different scenarios or assessing the effectiveness of land management strategies.</span>
+
+<span class="sd">            Reported in kg.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">baseline_farm_inputs</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_goblin_results_output_datatable</span><span class="p">(</span>
+                <span class="s2">&quot;grassland_farm_inputs_baseline&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s2">&quot;index&quot;</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">baseline_farm_inputs</span></div>
+
+<div class="viewcode-block" id="DataFetcher.get_total_grassland_area"><a class="viewcode-back" href="../../autoapi/goblin_lite/data_fetcher/index.html#goblin_lite.data_fetcher.DataFetcher.get_total_grassland_area">[docs]</a>    <span class="k">def</span> <span class="nf">get_total_grassland_area</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve the total grassland area for baseline and scenarios.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DataFrame</span>
+<span class="sd">            A pandas DataFrame containing information about the total grassland area in a specific scenario. The index of the DataFrame is set to &quot;index&quot; for easier access to the data.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">            The DataFrame provides the total grassland area baseline and scenarios, which is valuable for understanding the land use distribution and assessing the impact of different scenarios on grassland conservation and management.</span>
+
+<span class="sd">            Reported in ha.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">total_grassland_area</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_goblin_results_output_datatable</span><span class="p">(</span>
+                <span class="s2">&quot;total_grassland_area&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s2">&quot;index&quot;</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">total_grassland_area</span></div>
+
+<div class="viewcode-block" id="DataFetcher.get_total_spared_area"><a class="viewcode-back" href="../../autoapi/goblin_lite/data_fetcher/index.html#goblin_lite.data_fetcher.DataFetcher.get_total_spared_area">[docs]</a>    <span class="k">def</span> <span class="nf">get_total_spared_area</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve the total spared area in all scenarios.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DataFrame</span>
+<span class="sd">            A pandas DataFrame containing information about the total spared area in all scenarios. The index of the DataFrame is set to &quot;index&quot; for easier access to the data.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">            The DataFrame provides the difference between the baseline grassland area and the scenario grassland area for each scenario. This information is crucial for understanding the changes in land use, particularly how much grassland has been spared or converted to other land uses across different scenarios.</span>
+
+<span class="sd">            Reported in ha.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">total_spared_area</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_goblin_results_output_datatable</span><span class="p">(</span>
+            <span class="s2">&quot;total_spared_area&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s2">&quot;index&quot;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">total_spared_area</span></div>
+
+<div class="viewcode-block" id="DataFetcher.get_climate_change_animal_emissions_by_category"><a class="viewcode-back" href="../../autoapi/goblin_lite/data_fetcher/index.html#goblin_lite.data_fetcher.DataFetcher.get_climate_change_animal_emissions_by_category">[docs]</a>    <span class="k">def</span> <span class="nf">get_climate_change_animal_emissions_by_category</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve the total climate change emissions from animal production by category and gas for each scenario and baseline.</span>
+
+<span class="sd">        This method fetches data related to climate change emissions from animal production and provides a comprehensive breakdown of emissions by different categories and gases for each scenario and the baseline. The emissions are associated with the following categories:</span>
+
+<span class="sd">        Emission Categories:</span>
+<span class="sd">            - Enteric Fermentation (CH4)</span>
+<span class="sd">            - Manure Management (N2O and CH4)</span>
+<span class="sd">            - Pasture (Direct and Indirect N2O)</span>
+<span class="sd">            - Soils (Fertilizer Application, CO2, Direct and Indirect N2O)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DataFrame</span>
+<span class="sd">            A pandas DataFrame containing information about the total climate change emissions from animal production for each scenario and baseline, disaggregated by emission category and gas. The index of the DataFrame is set to &quot;index&quot; for easier access to the data.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">            The DataFrame includes emissions from different categories related to animal production, providing a detailed perspective on the contribution of each emission source to the overall climate change impact for different scenarios and the baseline. This information is valuable for environmental research and policy-making, as it helps identify key areas for emissions reduction and mitigation strategies under different scenarios. Researchers and policymakers can use this data to assess the effectiveness of various interventions in reducing greenhouse gas emissions and improving the sustainability of animal production systems.</span>
+
+<span class="sd">            Reported in kilotons.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">total_animal_gases</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_goblin_results_output_datatable</span><span class="p">(</span>
+                <span class="s2">&quot;climate_change_livestock_disaggregated&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s2">&quot;index&quot;</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">total_animal_gases</span></div>
+
+<div class="viewcode-block" id="DataFetcher.get_climate_change_crop_emissions_by_category"><a class="viewcode-back" href="../../autoapi/goblin_lite/data_fetcher/index.html#goblin_lite.data_fetcher.DataFetcher.get_climate_change_crop_emissions_by_category">[docs]</a>    <span class="k">def</span> <span class="nf">get_climate_change_crop_emissions_by_category</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve the total climate change emissions from crop production by category and gas for each scenario and baseline.</span>
+
+<span class="sd">        This method fetches data related to climate change emissions from crop production and provides a comprehensive breakdown of emissions by different categories and gases for each scenario and the baseline. The emissions are associated with the following categories:</span>
+
+<span class="sd">        Emission Categories:</span>
+<span class="sd">            - Crop Residues (N2O)</span>
+<span class="sd">            - Fertilizer (Direct and Indirect N2O)</span>
+<span class="sd">            - Soils (CO2, N2O)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DataFrame</span>
+<span class="sd">            A pandas DataFrame containing information about the total climate change emissions from crop production for each scenario and baseline, disaggregated by emission category and gas. The index of the DataFrame is set to &quot;index&quot; for easier access to the data.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">            The DataFrame includes emissions from different categories related to crop production, providing a detailed perspective on the contribution of each emission source to the overall climate change impact for different scenarios and the baseline. This information is valuable for environmental research and policy-making, as it helps identify key areas for emissions reduction and mitigation strategies under different scenarios. Researchers and policymakers can use this data to assess the effectiveness of various interventions in reducing greenhouse gas emissions and improving the sustainability of crop production systems.</span>
+
+<span class="sd">            Reported in kilotons.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">total_crops_gases</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_goblin_results_output_datatable</span><span class="p">(</span>
+            <span class="s2">&quot;climate_change_crops_disaggregated&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s2">&quot;index&quot;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">total_crops_gases</span></div>
+
+<div class="viewcode-block" id="DataFetcher.get_climate_change_crop_emissions_aggregated"><a class="viewcode-back" href="../../autoapi/goblin_lite/data_fetcher/index.html#goblin_lite.data_fetcher.DataFetcher.get_climate_change_crop_emissions_aggregated">[docs]</a>    <span class="k">def</span> <span class="nf">get_climate_change_crop_emissions_aggregated</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get total aggregated greenhouse gas emissions for crop production.</span>
+
+<span class="sd">        This method retrieves the total aggregated emissions for different greenhouse gases related to crop production.</span>
+<span class="sd">        The emissions are calculated in terms of CH4 (methane), N2O (nitrous oxide), CO2 (carbon dioxide), and CO2E (carbon dioxide equivalent).</span>
+
+<span class="sd">        Categories:</span>
+<span class="sd">            - CH4 (Methane) emissions</span>
+<span class="sd">            - N2O (Nitrous Oxide) emissions</span>
+<span class="sd">            - CO2 (Carbon Dioxide) emissions</span>
+<span class="sd">            - CO2E (Carbon Dioxide Equivalent) emissions</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame:</span>
+<span class="sd">                A dataframe containing the total aggregated greenhouse gas emissions for crop production.</span>
+<span class="sd">                The dataframe includes the emissions values for each of the mentioned categories.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            The emission values are aggregated at a higher level, representing the cumulative emissions from various sources</span>
+<span class="sd">            associated with crop production. They are not broken down into more specific subcategories as in the method</span>
+<span class="sd">            `get_climate_change_crop_emissions_by_category`.</span>
+
+<span class="sd">            Reported in kilotons.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">total_crops_gases</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_goblin_results_output_datatable</span><span class="p">(</span>
+            <span class="s2">&quot;climate_change_crops_aggregated&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s2">&quot;index&quot;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">total_crops_gases</span></div>
+
+<div class="viewcode-block" id="DataFetcher.get_climate_change_animal_emissions_aggregated"><a class="viewcode-back" href="../../autoapi/goblin_lite/data_fetcher/index.html#goblin_lite.data_fetcher.DataFetcher.get_climate_change_animal_emissions_aggregated">[docs]</a>    <span class="k">def</span> <span class="nf">get_climate_change_animal_emissions_aggregated</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get total aggregated greenhouse gas emissions for livestock production.</span>
+
+<span class="sd">        This method retrieves the total aggregated emissions for different greenhouse gases related to livestock production.</span>
+<span class="sd">        The emissions are calculated in terms of CH4 (methane), N2O (nitrous oxide), CO2 (carbon dioxide), and CO2E (carbon dioxide equivalent).</span>
+
+<span class="sd">        Categories:</span>
+<span class="sd">            - CH4 (Methane) emissions</span>
+<span class="sd">            - N2O (Nitrous Oxide) emissions</span>
+<span class="sd">            - CO2 (Carbon Dioxide) emissions</span>
+<span class="sd">            - CO2E (Carbon Dioxide Equivalent) emissions</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame:</span>
+<span class="sd">                A dataframe containing the total aggregated greenhouse gas emissions for livestock production.</span>
+<span class="sd">                The dataframe includes the emissions values for each of the mentioned categories.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            The emission values are aggregated at a higher level, representing the cumulative emissions from various sources</span>
+<span class="sd">            associated with livestock production. They are not broken down into more specific subcategories as in the method</span>
+<span class="sd">            `get_climate_change_animal_emissions_by_category`.</span>
+
+<span class="sd">            Reported in kilotons.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">total_animal_gases</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_goblin_results_output_datatable</span><span class="p">(</span>
+                <span class="s2">&quot;climate_change_livestock_aggregated&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s2">&quot;index&quot;</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">total_animal_gases</span></div>
+
+<div class="viewcode-block" id="DataFetcher.get_animal_emissions_by_category_co2e"><a class="viewcode-back" href="../../autoapi/goblin_lite/data_fetcher/index.html#goblin_lite.data_fetcher.DataFetcher.get_animal_emissions_by_category_co2e">[docs]</a>    <span class="k">def</span> <span class="nf">get_animal_emissions_by_category_co2e</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get greenhouse gas emissions for livestock production by specific categories in CO2E (Carbon Dioxide Equivalent).</span>
+
+<span class="sd">        This method retrieves the greenhouse gas emissions associated with livestock production, broken down into specific</span>
+<span class="sd">        categories, and reported as CO2E values. The emissions categories considered include enteric fermentation, manure management,</span>
+<span class="sd">        and direct/indirect N2O emissions from soils.</span>
+
+<span class="sd">        Categories:</span>
+<span class="sd">            - Enteric Fermentation (CH4): Methane emissions from digestive processes in livestock.</span>
+<span class="sd">            - Manure Management (N2O and CH4): Nitrous Oxide and Methane emissions from the management of livestock manure.</span>
+<span class="sd">            - Soils (Fertilizer Application, CO2, Direct and Indirect N2O):</span>
+<span class="sd">                - Nitrous Oxide emissions from fertilizer application in soils.</span>
+<span class="sd">                - Carbon Dioxide emissions from fertilzer application.</span>
+<span class="sd">                - Nitrous Oxide emissions from direct and indirect sources related to soils, including emissions from manure application</span>
+<span class="sd">                and animal deposits.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame:</span>
+<span class="sd">                A dataframe containing greenhouse gas emissions for livestock production by specific categories, expressed as CO2E values.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            The emissions values in this dataframe are not aggregated, and they provide a detailed breakdown of emissions for</span>
+<span class="sd">            different subcategories associated with livestock production.</span>
+
+<span class="sd">            Reported in kilotons.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">total_animal_co2e</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_goblin_results_output_datatable</span><span class="p">(</span>
+            <span class="s2">&quot;climate_change_livestock_categories_as_co2e&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s2">&quot;index&quot;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">total_animal_co2e</span></div>
+
+<div class="viewcode-block" id="DataFetcher.get_crop_emissions_by_category_co2e"><a class="viewcode-back" href="../../autoapi/goblin_lite/data_fetcher/index.html#goblin_lite.data_fetcher.DataFetcher.get_crop_emissions_by_category_co2e">[docs]</a>    <span class="k">def</span> <span class="nf">get_crop_emissions_by_category_co2e</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get greenhouse gas emissions for crop production by specific categories in CO2E (Carbon Dioxide Equivalent).</span>
+
+<span class="sd">        This method retrieves the greenhouse gas emissions associated with crop production, broken down into specific categories,</span>
+<span class="sd">        and reported as CO2E values. The emissions categories considered include:</span>
+<span class="sd">            - N2O (Nitrous Oxide): Emissions of nitrous oxide from crop-related activities.</span>
+<span class="sd">            - CO2 (Carbon Dioxide): Carbon dioxide emissions from various crop processes.</span>
+<span class="sd">            - Soils (CO2, N2O): Total Emissions from soil-related activities in crop production, including both carbon dioxide and nitrous oxide.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame:</span>
+<span class="sd">                A dataframe containing greenhouse gas emissions for crop production by specific categories, expressed as CO2E values.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            The emissions values in this dataframe are not aggregated in the &quot;soils&quot; column.</span>
+
+<span class="sd">            Reported in kilotons.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">total_crop_co2e</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_goblin_results_output_datatable</span><span class="p">(</span>
+            <span class="s2">&quot;climate_change_crops_categories_as_co2e&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s2">&quot;index&quot;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">total_crop_co2e</span></div>
+
+<div class="viewcode-block" id="DataFetcher.get_climate_change_emission_totals"><a class="viewcode-back" href="../../autoapi/goblin_lite/data_fetcher/index.html#goblin_lite.data_fetcher.DataFetcher.get_climate_change_emission_totals">[docs]</a>    <span class="k">def</span> <span class="nf">get_climate_change_emission_totals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the total greenhouse gas emissions for climate change from combined land use, crop, and livestock activities.</span>
+
+<span class="sd">        This method retrieves the total greenhouse gas emissions for climate change resulting from combined land use, crop,</span>
+<span class="sd">        and livestock activities. The emissions are reported for specific gases, including:</span>
+<span class="sd">            - CH4 (Methane): Total methane emissions associated with climate change.</span>
+<span class="sd">            - N2O (Nitrous Oxide): Total nitrous oxide emissions associated with climate change.</span>
+<span class="sd">            - CO2 (Carbon Dioxide): Total carbon dioxide emissions associated with climate change.</span>
+<span class="sd">            - CO2E (Carbon Dioxide Equivalent): Combined emissions of each gas converted to CO2E using the AR value specified</span>
+<span class="sd">                                            in the configuration file.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame:</span>
+<span class="sd">                A dataframe containing the total greenhouse gas emissions for climate change, including CH4, N2O, CO2, and CO2E.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            The emissions are aggregated and provide an overview of the overall climate change impact resulting from various</span>
+<span class="sd">            land use, crop, and livestock activities.</span>
+
+<span class="sd">            Reported in kilotons.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">total_climate_change</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_goblin_results_output_datatable</span><span class="p">(</span>
+                <span class="s2">&quot;climate_change_totals&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s2">&quot;index&quot;</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">total_climate_change</span></div>
+
+<div class="viewcode-block" id="DataFetcher.get_eutrophication_emission_totals"><a class="viewcode-back" href="../../autoapi/goblin_lite/data_fetcher/index.html#goblin_lite.data_fetcher.DataFetcher.get_eutrophication_emission_totals">[docs]</a>    <span class="k">def</span> <span class="nf">get_eutrophication_emission_totals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the total eutrophication emissions.</span>
+
+<span class="sd">        This method retrieves the total eutrophication emissions associated with manure management, soils, and overall total.</span>
+<span class="sd">        The emissions are reported in units of kilotons of PO4e (Phosphorus equivalent).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame:</span>
+<span class="sd">                A dataframe containing the total eutrophication emissions for manure management, soils, and the overall total.</span>
+<span class="sd">                The emissions are reported in kilotons of PO4e and provide an overview of the eutrophication impact resulting</span>
+<span class="sd">                from various agricultural activities.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            Eutrophication is a process where excess nutrients, such as phosphorus, are introduced into water bodies, leading</span>
+<span class="sd">            to an overgrowth of algae and aquatic plant life. This can have detrimental effects on water quality and ecosystems.</span>
+
+<span class="sd">            Reported in kilotons.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">total_eutrophication</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_goblin_results_output_datatable</span><span class="p">(</span>
+                <span class="s2">&quot;eutrophication_totals&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s2">&quot;index&quot;</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">total_eutrophication</span></div>
+
+<div class="viewcode-block" id="DataFetcher.get_air_quality_emission_totals"><a class="viewcode-back" href="../../autoapi/goblin_lite/data_fetcher/index.html#goblin_lite.data_fetcher.DataFetcher.get_air_quality_emission_totals">[docs]</a>    <span class="k">def</span> <span class="nf">get_air_quality_emission_totals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the total air quality emissions.</span>
+
+<span class="sd">        This method retrieves the total air quality emissions associated with NH3 (Ammonia) from various agricultural activities.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame:</span>
+<span class="sd">                A dataframe containing the total air quality emissions for NH3 (Ammonia).</span>
+<span class="sd">                The emissions are reported in kilotons of NH3 and provide an overview of the air quality impact resulting</span>
+<span class="sd">                from agricultural practices.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            NH3 (Ammonia) is a significant air pollutant, and its emissions from agricultural activities can contribute to</span>
+<span class="sd">            air quality degradation and have implications for human health and the environment.</span>
+
+<span class="sd">            Reported in kilotons.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">total_air_quality</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_goblin_results_output_datatable</span><span class="p">(</span>
+            <span class="s2">&quot;air_quality_totals&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s2">&quot;index&quot;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">total_air_quality</span></div>
+
+<div class="viewcode-block" id="DataFetcher.get_eutrophication_animal_emissions_by_category"><a class="viewcode-back" href="../../autoapi/goblin_lite/data_fetcher/index.html#goblin_lite.data_fetcher.DataFetcher.get_eutrophication_animal_emissions_by_category">[docs]</a>    <span class="k">def</span> <span class="nf">get_eutrophication_animal_emissions_by_category</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the eutrophication emissions from animal-related sources.</span>
+
+<span class="sd">        This method retrieves the eutrophication emissions associated with manure management and soils from livestock-related activities.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame:</span>
+<span class="sd">                A dataframe containing the eutrophication emissions from animal-related sources, categorized into manure management</span>
+<span class="sd">                and soils. The emissions are reported in kilotons of PO4e (Phosphate equivalent) and provide an overview of the</span>
+<span class="sd">                eutrophication impact resulting from livestock-related practices.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            Eutrophication is a process in which excessive nutrients, such as phosphorus (PO4e), are introduced into aquatic ecosystems,</span>
+<span class="sd">            leading to the proliferation of algae and other aquatic plants. Livestock-related activities, such as manure management</span>
+<span class="sd">            and fertilizer application to soils, can contribute to eutrophication in nearby water bodies.</span>
+
+<span class="sd">            Reported in kilotons.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">total_animal_gases</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_goblin_results_output_datatable</span><span class="p">(</span>
+                <span class="s2">&quot;eutrophication_livestock_disaggregated&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s2">&quot;index&quot;</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">total_animal_gases</span></div>
+
+<div class="viewcode-block" id="DataFetcher.get_eutrophication_crop_emissions_by_category"><a class="viewcode-back" href="../../autoapi/goblin_lite/data_fetcher/index.html#goblin_lite.data_fetcher.DataFetcher.get_eutrophication_crop_emissions_by_category">[docs]</a>    <span class="k">def</span> <span class="nf">get_eutrophication_crop_emissions_by_category</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the eutrophication emissions from crop-related sources.</span>
+
+<span class="sd">        This method retrieves the eutrophication emissions associated with soils from crop-related activities.</span>
+
+<span class="sd">        This is totaled in a single soils category.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame:</span>
+<span class="sd">                A dataframe containing the eutrophication emissions from crop-related sources, categorized as soils. The emissions</span>
+<span class="sd">                are reported in kilotons of PO4e (Phosphate equivalent) and provide an overview of the eutrophication impact resulting</span>
+<span class="sd">                from crop-related practices.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            Eutrophication is a process in which excessive nutrients, such as phosphorus (PO4e), are introduced into aquatic ecosystems,</span>
+<span class="sd">            leading to the proliferation of algae and other aquatic plants. Crop-related activities, particularly the application of</span>
+<span class="sd">            fertilizers to soils, can contribute to eutrophication in nearby water bodies.</span>
+
+<span class="sd">            Reported in kilotons.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">total_crop_gases</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_goblin_results_output_datatable</span><span class="p">(</span>
+            <span class="s2">&quot;eutrophication_crops_disaggregated&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s2">&quot;index&quot;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">total_crop_gases</span></div>
+
+<div class="viewcode-block" id="DataFetcher.get_air_quality_animal_emissions_by_category"><a class="viewcode-back" href="../../autoapi/goblin_lite/data_fetcher/index.html#goblin_lite.data_fetcher.DataFetcher.get_air_quality_animal_emissions_by_category">[docs]</a>    <span class="k">def</span> <span class="nf">get_air_quality_animal_emissions_by_category</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the air quality emissions from animal-related sources.</span>
+
+<span class="sd">        This method retrieves the air quality emissions associated with manure management and soils from animal-related activities.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame:</span>
+<span class="sd">                A dataframe containing the air quality emissions from animal-related sources, categorized as manure management and soils.</span>
+<span class="sd">                The emissions are reported in kilotons of NH3 (Ammonia) and provide an overview of the atmospheric impact resulting</span>
+<span class="sd">                from animal-related practices.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            Air quality emissions, such as NH3 (Ammonia), can result from animal-related activities, particularly manure management</span>
+<span class="sd">            practices and ammonia volatilization from soils. These emissions can have implications for air pollution and environmental</span>
+<span class="sd">            quality.</span>
+
+<span class="sd">            Reported in kilotons.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">total_animal_gases</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_goblin_results_output_datatable</span><span class="p">(</span>
+                <span class="s2">&quot;air_quality_livestock_disaggregated&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s2">&quot;index&quot;</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">total_animal_gases</span></div>
+
+<div class="viewcode-block" id="DataFetcher.get_air_quality_crop_emissions_by_category"><a class="viewcode-back" href="../../autoapi/goblin_lite/data_fetcher/index.html#goblin_lite.data_fetcher.DataFetcher.get_air_quality_crop_emissions_by_category">[docs]</a>    <span class="k">def</span> <span class="nf">get_air_quality_crop_emissions_by_category</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the air quality emissions from crop-related sources.</span>
+
+<span class="sd">        This method retrieves the air quality emissions associated with fertilizer application and soils from crop-related activities.</span>
+
+<span class="sd">        This is totaled in a single soils category.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame:</span>
+<span class="sd">                A dataframe containing the air quality emissions from crop-related sources, categorized as fertilizer application and soils.</span>
+<span class="sd">                The emissions are reported in kilotons of NH3 (Ammonia) and provide an overview of the atmospheric impact resulting from</span>
+<span class="sd">                crop-related practices.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            Air quality emissions, such as NH3 (Ammonia), can result from crop-related activities, particularly from fertilizer application</span>
+<span class="sd">            and ammonia volatilization from soils. These emissions can have implications for air pollution and environmental quality.</span>
+
+<span class="sd">            Reported in kilotons.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">total_crops_gases</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_goblin_results_output_datatable</span><span class="p">(</span>
+            <span class="s2">&quot;air_quality_crops_disaggregated&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s2">&quot;index&quot;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">total_crops_gases</span></div>
+
+<div class="viewcode-block" id="DataFetcher.get_landuse_emissions_totals"><a class="viewcode-back" href="../../autoapi/goblin_lite/data_fetcher/index.html#goblin_lite.data_fetcher.DataFetcher.get_landuse_emissions_totals">[docs]</a>    <span class="k">def</span> <span class="nf">get_landuse_emissions_totals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the land use emissions totals by gas.</span>
+
+<span class="sd">        This method retrieves a dataframe that summarizes the total emissions for each land use category, categorized by different gas types</span>
+<span class="sd">        such as CO2, CH4, and N2O, as well as a combined total in CO2E (CO2 equivalent).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame:</span>
+<span class="sd">                A dataframe containing the total emissions for each land use category, categorized by different gas types including CO2, CH4,</span>
+<span class="sd">                and N2O, as well as a combined total in CO2E (CO2 equivalent). The emissions are reported in kilotons of CO2, CH4, and N2O</span>
+<span class="sd">                for each land use category, providing an overview of the greenhouse gas contributions from land use activities.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            Land use activities can contribute to greenhouse gas emissions through various processes, including soil management, crop residue</span>
+<span class="sd">            decomposition, and land-use change. The emissions are reported in CO2, CH4, and N2O, and the combined CO2E allows for a unified</span>
+<span class="sd">            measure of the overall greenhouse gas impact.</span>
+
+<span class="sd">            Reported in kilotons.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">total_animal_gases</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_goblin_results_output_datatable</span><span class="p">(</span>
+                <span class="s2">&quot;climate_change_landuse&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s2">&quot;scenario&quot;</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">total_animal_gases</span></div>
+
+<div class="viewcode-block" id="DataFetcher.get_forest_flux"><a class="viewcode-back" href="../../autoapi/goblin_lite/data_fetcher/index.html#goblin_lite.data_fetcher.DataFetcher.get_forest_flux">[docs]</a>    <span class="k">def</span> <span class="nf">get_forest_flux</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the forest carbon annual flux.</span>
+
+<span class="sd">        This method retrieves a dataframe that provides the forest carbon annual flux, reported in metric tons of carbon (tC). The flux is</span>
+<span class="sd">        categorized into different components, including biomass, dead organic matter (DOM), and total ecosystem, which represents the combined</span>
+<span class="sd">        biomass and DOM flux. Additionally, the carbon from harvested wood products are also reported.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame:</span>
+<span class="sd">                A dataframe containing the forest carbon annual flux, categorized into different components such as biomass, dead organic</span>
+<span class="sd">                matter (DOM), and total ecosystem (combined biomass and DOM). The emissions from harvested wood products are also included in</span>
+<span class="sd">                the report. The flux is reported in metric tons of carbon (tC), providing valuable insights into the carbon dynamics of forest</span>
+<span class="sd">                ecosystems and their contributions to the carbon cycle.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            Forest ecosystems play a crucial role in sequestering and releasing carbon through various processes. The annual carbon flux provides</span>
+<span class="sd">            information on the net carbon exchange between the forest and the atmosphere, helping to understand the carbon balance and potential</span>
+<span class="sd">            impacts on climate change.</span>
+
+<span class="sd">            Reported in tons.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">forest_flux</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_goblin_results_output_datatable</span><span class="p">(</span>
+            <span class="s2">&quot;forest_carbon_flux&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s2">&quot;index&quot;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">forest_flux</span></div>
+
+<div class="viewcode-block" id="DataFetcher.get_forest_aggregate"><a class="viewcode-back" href="../../autoapi/goblin_lite/data_fetcher/index.html#goblin_lite.data_fetcher.DataFetcher.get_forest_aggregate">[docs]</a>    <span class="k">def</span> <span class="nf">get_forest_aggregate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the aggregated forest carbon emissions.</span>
+
+<span class="sd">        This method retrieves a dataframe that provides the aggregated forest carbon emissions, including biomass, dead organic matter (DOM),</span>
+<span class="sd">        and total ecosystem carbon. The reported values are in metric tons of carbon (tC). The dataframe contains information on the overall</span>
+<span class="sd">        carbon storage and release within the forest ecosystem, including both living biomass and dead organic matter components.</span>
+<span class="sd">        Additionally, the carbon from harvested wood products are also reported.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame:</span>
+<span class="sd">                A dataframe containing the aggregated forest carbon emissions, including biomass, dead organic matter (DOM), and total ecosystem</span>
+<span class="sd">                carbon. The values are reported in metric tons of carbon (tC), providing valuable insights into the carbon storage and dynamics</span>
+<span class="sd">                of the forest ecosystem.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            Forest ecosystems play a crucial role in carbon sequestration, serving as a significant carbon sink. The aggregated forest carbon</span>
+<span class="sd">            emissions data help quantify the overall carbon balance of the forest, considering both carbon uptake through photosynthesis and</span>
+<span class="sd">            carbon release through decomposition and disturbances. Understanding the carbon dynamics in forests is essential for assessing their</span>
+<span class="sd">            contribution to climate change mitigation efforts and evaluating the impacts of various management practices on carbon sequestration.</span>
+
+<span class="sd">            Reproted in tons.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">forest_aggregate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_goblin_results_output_datatable</span><span class="p">(</span>
+            <span class="s2">&quot;forest_carbon_aggregate&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s2">&quot;index&quot;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">forest_aggregate</span></div>
+
+<div class="viewcode-block" id="DataFetcher.get_total_afforested"><a class="viewcode-back" href="../../autoapi/goblin_lite/data_fetcher/index.html#goblin_lite.data_fetcher.DataFetcher.get_total_afforested">[docs]</a>    <span class="k">def</span> <span class="nf">get_total_afforested</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the total afforested area for each scenario.</span>
+
+<span class="sd">        This method retrieves a dataframe that provides the total area afforested in each scenario. The values are reported in hectares (ha),</span>
+<span class="sd">        representing the extent of land that has been converted to forest through afforestation. The afforested areas are essential indicators</span>
+<span class="sd">        of reforestation efforts and land-use changes to promote carbon sequestration and biodiversity conservation.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame:</span>
+<span class="sd">                A dataframe containing the total afforested area for each scenario. The values are reported in hectares (ha) and offer insights</span>
+<span class="sd">                into the scale and impact of afforestation efforts within different land-use scenarios.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            Afforestation involves converting non-forested land into forested areas. This land-use change plays a vital role in carbon sequestration,</span>
+<span class="sd">            helping to offset carbon emissions and mitigate climate change. Additionally, afforested areas can contribute to enhancing biodiversity,</span>
+<span class="sd">            ecosystem services, and sustainable land management practices.</span>
+
+<span class="sd">            Reported in ha.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">afforestation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_goblin_results_output_datatable</span><span class="p">(</span>
+            <span class="s2">&quot;cbm_afforestation_data&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s2">&quot;index&quot;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">afforestation</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Colm Duffy.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

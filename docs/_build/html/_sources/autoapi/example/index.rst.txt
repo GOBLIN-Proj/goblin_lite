@@ -1,0 +1,22 @@
+:py:mod:`example`
+=================
+
+.. py:module:: example
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   example.main
+
+
+
+.. py:function:: main()
+
+
