@@ -40,10 +40,10 @@ If you are proposing a feature:
 
 ## Get Started!
 
-Ready to contribute? Here's how to set up `grassland_production` for local development.
+Ready to contribute? Here's how to set up `goblin_lite` for local development.
 
-1. Download a copy of `grassland_production` locally.
-2. Install `grassland_production` using `poetry`:
+1. Download a copy of `goblin_lite` locally.
+2. Install `goblin_lite` using `poetry`:
 
     ```console
     $ poetry install
