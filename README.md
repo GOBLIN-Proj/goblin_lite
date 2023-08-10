@@ -1,5 +1,9 @@
 # 🧌🏋️ Goblin lite, for the generation of static scenarios using the GOBLIN modelling framework
 
+[![license](https://img.shields.io/badge/License-GPL%203.0-red)](https://github.com/colmduff/goblin_lite/blob/0.1.0/LICENSE)
+[![python](https://img.shields.io/badge/python-3.9-blue?logo=python&logoColor=white)](https://github.com/colmduff/goblin_lite)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
 Based on the [GOBLIN](https://gmd.copernicus.org/articles/15/2239/2022/) (**G**eneral **O**verview for a **B**ackcasting approach of **L**ivestock **IN**tensification) Scenario module
 
 The package makes use of several other custom packages that are designed around the original GOBLIN model and the Geo GOBLIN model. It is called "GOBLIN lite" more so for the fact that it does not rely on heavy code base found in previous GOBLIN models. Instead, the GOBLIN lite package coordinates stand alone packages related to herd generation, grassland production, land use, forest carbon sequestration, scenario generation and scenario assessment. 
