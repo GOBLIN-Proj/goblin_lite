@@ -21,6 +21,7 @@ landcover_assignment  = {git = "https://github.com/colmduff/landcover_assignment
 landcover_lca  = {git = "https://github.com/colmduff/landcover_lca.git", branch = "main"}
 cbm_runner = {git = "https://github.com/colmduff/cbm_runner.git", branch = "main"}
 scenario_assessment = {git = "https://github.com/colmduff/scenario_assessment.git", branch = "main"}
+libcbm = { git = "https://github.com/colmduff/libcbm_py.git", branch = "main" }
 seaborn = "*"
 matplotlib = "*"
 sphinx-rtd-theme = "*"
