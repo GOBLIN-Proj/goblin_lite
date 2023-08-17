@@ -43,7 +43,7 @@ def main():
     graph_class.rank_chart(target, gas, data_path)
 
     # remove graph dir
-    shutil.rmtree(data_path)
+    #shutil.rmtree(data_path)
 
 
 if __name__ == "__main__":
