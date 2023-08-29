@@ -106,7 +106,7 @@
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="goblin_lite.goblin.ScenarioRunner">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_lite.goblin.</span></span><span class="sig-name descname"><span class="pre">ScenarioRunner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ef_country</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cbm_config_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AR_VALUE</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'AR5'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_lite.goblin.</span></span><span class="sig-name descname"><span class="pre">ScenarioRunner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ef_country</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cbm_config_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AR_VALUE</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'AR5'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/goblin_lite/goblin.html#ScenarioRunner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner" title="Permalink to this definition"></a></dt>
 <dd><p>A class used to run scenarios based on the input configuration files. There are two configuration files required:
 (1) Scenario configuration files, containing the specified scenario parameters, (2) The CBM CFS3 configuration file, containing the nationally specific
 forest configuration settings.</p>
@@ -335,7 +335,7 @@ class, and visualized using the DataGrapher class.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_lite.goblin.ScenarioRunner.run_scenarios">
-<span class="sig-name descname"><span class="pre">run_scenarios</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.run_scenarios" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">run_scenarios</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/goblin_lite/goblin.html#ScenarioRunner.run_scenarios"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.run_scenarios" title="Permalink to this definition"></a></dt>
 <dd><p>Runs the scenario generation process based on the provided inputs.</p>
 <p>This method orchestrates the entire scenario generation process. It prepares and generates data for each scenario
 and the selected baseline contained in 26 tables. The generated data tables are saved as pandas dataframes and can
@@ -390,7 +390,7 @@ available within the class instance when this method is called.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_lite.goblin.ScenarioRunner.generate_livestock_ouputs">
-<span class="sig-name descname"><span class="pre">generate_livestock_ouputs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario_animal_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baseline_animal_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_inputs_df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.generate_livestock_ouputs" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">generate_livestock_ouputs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario_animal_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baseline_animal_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_inputs_df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/goblin_lite/goblin.html#ScenarioRunner.generate_livestock_ouputs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.generate_livestock_ouputs" title="Permalink to this definition"></a></dt>
 <dd><p>Generates livestock outputs for the given scenario.</p>
 <p>This method calculates and generates livestock-related outputs for the specified scenarios based on the provided data.
 The livestock outputs include protein and milk production data for the given scenario and baseline animal data.
@@ -422,7 +422,7 @@ available within the class instance when this method is called.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_lite.goblin.ScenarioRunner.generate_air_quality_totals">
-<span class="sig-name descname"><span class="pre">generate_air_quality_totals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.generate_air_quality_totals" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">generate_air_quality_totals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/goblin_lite/goblin.html#ScenarioRunner.generate_air_quality_totals"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.generate_air_quality_totals" title="Permalink to this definition"></a></dt>
 <dd><p>Generates total air quality emissions for the given scenario.</p>
 <p>This method calculates and generates the total air quality emissions for the specified scenarios based on the provided
 calculated air_quality emissions for crop and livestock. It uses the AirQualityTotal class to perform the calculations.</p>
@@ -450,7 +450,7 @@ available within the class instance when this method is called.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_lite.goblin.ScenarioRunner.generate_eutrophication_totals">
-<span class="sig-name descname"><span class="pre">generate_eutrophication_totals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.generate_eutrophication_totals" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">generate_eutrophication_totals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/goblin_lite/goblin.html#ScenarioRunner.generate_eutrophication_totals"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.generate_eutrophication_totals" title="Permalink to this definition"></a></dt>
 <dd><p>Generates total eutrophication emissions for the given scenario.</p>
 <p>This method calculates and generates the total eutrophication emissions for the specified scenarios based on the
 provided scenario_dataframe. It uses the EutrophicationTotal class to perform the calculations.</p>
@@ -478,7 +478,7 @@ available within the class instance when this method is called.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_lite.goblin.ScenarioRunner.generate_climate_change_totals">
-<span class="sig-name descname"><span class="pre">generate_climate_change_totals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">calibration_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.generate_climate_change_totals" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">generate_climate_change_totals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">calibration_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/goblin_lite/goblin.html#ScenarioRunner.generate_climate_change_totals"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.generate_climate_change_totals" title="Permalink to this definition"></a></dt>
 <dd><p>Generates total climate change emissions for the given scenario.</p>
 <p>This method calculates and generates the total climate change emissions for the specified scenarios based on the
 provided calibration_year, target_year, and scenario_dataframe. It uses the ClimateChangeTotal class to perform the
@@ -512,7 +512,7 @@ available within the class instance when this method is called.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_lite.goblin.ScenarioRunner.get_air_quality_emission_dataframes">
-<span class="sig-name descname"><span class="pre">get_air_quality_emission_dataframes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.get_air_quality_emission_dataframes" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_air_quality_emission_dataframes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/goblin_lite/goblin.html#ScenarioRunner.get_air_quality_emission_dataframes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.get_air_quality_emission_dataframes" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves dataframes containing air quality emissions by category.</p>
 <p>This method fetches dataframes containing air quality emissions for different categories, such as “crop” and
 “animal,” using the DataFetcher class.</p>
@@ -540,7 +540,7 @@ available within the class instance when this method is called.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_lite.goblin.ScenarioRunner.get_eutrophication_emission_dataframes">
-<span class="sig-name descname"><span class="pre">get_eutrophication_emission_dataframes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.get_eutrophication_emission_dataframes" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_eutrophication_emission_dataframes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/goblin_lite/goblin.html#ScenarioRunner.get_eutrophication_emission_dataframes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.get_eutrophication_emission_dataframes" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves dataframes containing eutrophication emissions by category.</p>
 <p>This method fetches dataframes containing eutrophication emissions for different categories, such as “crop” and
 “animal,” using the DataFetcher class.</p>
@@ -568,7 +568,7 @@ available within the class instance when this method is called.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_lite.goblin.ScenarioRunner.get_climate_emission_dataframes">
-<span class="sig-name descname"><span class="pre">get_climate_emission_dataframes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.get_climate_emission_dataframes" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_climate_emission_dataframes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/goblin_lite/goblin.html#ScenarioRunner.get_climate_emission_dataframes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.get_climate_emission_dataframes" title="Permalink to this definition"></a></dt>
 <dd><p>Retrieves dataframes containing climate change emissions by category.</p>
 <p>This method fetches dataframes containing climate change emissions for different categories, such as “crop,” “animal,”
 and “land,” using the DataFetcher class.</p>
@@ -596,7 +596,7 @@ available within the class instance when this method is called.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_lite.goblin.ScenarioRunner.generate_transition_matrix">
-<span class="sig-name descname"><span class="pre">generate_transition_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grassland_area</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spared_area</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.generate_transition_matrix" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">generate_transition_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grassland_area</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spared_area</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/goblin_lite/goblin.html#ScenarioRunner.generate_transition_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.generate_transition_matrix" title="Permalink to this definition"></a></dt>
 <dd><p>Generates a transition matrix based on scenario parameters and land use data.</p>
 <p>This method calculates a transition matrix using scenario parameters and land use data, and saves the resulting
 transition matrix as a datatable using the DataManager class.</p>
@@ -627,7 +627,7 @@ available within the class instance when this method is called.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_lite.goblin.ScenarioRunner.generate_landuse_data">
-<span class="sig-name descname"><span class="pre">generate_landuse_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grassland_area</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spared_area</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.generate_landuse_data" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">generate_landuse_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grassland_area</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spared_area</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/goblin_lite/goblin.html#ScenarioRunner.generate_landuse_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.generate_landuse_data" title="Permalink to this definition"></a></dt>
 <dd><p>Generates land use data based on scenario parameters and land area information.</p>
 <p>This method calculates the current and future land use data using scenario parameters, baseline year, target year, total grassland
 area, and spared grassland area. It saves the resulting land use data as a datatable using the DataManager class.</p>
@@ -658,7 +658,7 @@ available within the class instance when this method is called.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_lite.goblin.ScenarioRunner.generate_crop_data">
-<span class="sig-name descname"><span class="pre">generate_crop_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.generate_crop_data" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">generate_crop_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/goblin_lite/goblin.html#ScenarioRunner.generate_crop_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.generate_crop_data" title="Permalink to this definition"></a></dt>
 <dd><p>Generates crop data based on scenario parameters and national CSO crop production data.</p>
 <p>This method calculates crop data at the national level and given scenario parameters for urea, baseline year, and target year.
 It uses scenario-specific crop production data provided by the NationalCropData class. The resulting crop data is saved
@@ -687,7 +687,7 @@ available within the class instance when this method is called.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_lite.goblin.ScenarioRunner.generate_crop_farm_data">
-<span class="sig-name descname"><span class="pre">generate_crop_farm_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crop_dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_urea</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_urea_abated</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.generate_crop_farm_data" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">generate_crop_farm_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crop_dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_urea</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_urea_abated</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/goblin_lite/goblin.html#ScenarioRunner.generate_crop_farm_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.generate_crop_farm_data" title="Permalink to this definition"></a></dt>
 <dd><p>Generates crop farm data representing fertilizer inputs for each scenario.</p>
 <p>This method calculates crop farm data representing fertilizer inputs (in kg) for each scenario. It utilizes the provided
 crop production data and scenario parameters to determine the total amount of fertilizers (urea, urea abated, total N,
@@ -724,7 +724,7 @@ available within the class instance when this method is called.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_lite.goblin.ScenarioRunner.generate_baseline_farm_inputs">
-<span class="sig-name descname"><span class="pre">generate_baseline_farm_inputs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_animal_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baseline_animal_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.generate_baseline_farm_inputs" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">generate_baseline_farm_inputs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_animal_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baseline_animal_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/goblin_lite/goblin.html#ScenarioRunner.generate_baseline_farm_inputs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.generate_baseline_farm_inputs" title="Permalink to this definition"></a></dt>
 <dd><p>Generates baseline farm inputs for grassland.</p>
 <p>This method estimates the baseline farm inputs (fertilizer) application to grassland, at the national
 level for each scenario. The fertilizer application rates specified in the scenario_dataframe are used to determine
@@ -760,7 +760,7 @@ available within the class instance when this method is called.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_lite.goblin.ScenarioRunner.generate_scenario_farm_inputs">
-<span class="sig-name descname"><span class="pre">generate_scenario_farm_inputs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_animal_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baseline_animal_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.generate_scenario_farm_inputs" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">generate_scenario_farm_inputs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_animal_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baseline_animal_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/goblin_lite/goblin.html#ScenarioRunner.generate_scenario_farm_inputs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.generate_scenario_farm_inputs" title="Permalink to this definition"></a></dt>
 <dd><p>Generates scenario-specific farm inputs for grassland.</p>
 <p>This method estimates the scenario-specific farm inputs (fertilizer) application to grassland, at the
 national level for each scenario. The fertilizer application rates specified in the scenario_dataframe are used to
@@ -796,7 +796,7 @@ within the class instance when this method is called.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_lite.goblin.ScenarioRunner.generate_grassland_areas">
-<span class="sig-name descname"><span class="pre">generate_grassland_areas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_animal_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baseline_animal_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.generate_grassland_areas" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">generate_grassland_areas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_animal_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baseline_animal_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/goblin_lite/goblin.html#ScenarioRunner.generate_grassland_areas"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.generate_grassland_areas" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate the total spared and total grassland areas for each scenario.</p>
 <p>This method calculates and returns the total spared and total grassland areas for each scenario based on the provided
 scenario_dataframe, scenario_animal_data, and baseline_animal_data. The GrasslandOutput class is utilized to perform
@@ -834,7 +834,7 @@ within the class instance when this method is called.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_lite.goblin.ScenarioRunner.generate_crop_footprint">
-<span class="sig-name descname"><span class="pre">generate_crop_footprint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crop_dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_urea</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_urea_abated</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.generate_crop_footprint" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">generate_crop_footprint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crop_dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_urea</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_urea_abated</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/goblin_lite/goblin.html#ScenarioRunner.generate_crop_footprint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.generate_crop_footprint" title="Permalink to this definition"></a></dt>
 <dd><p>Generate crop footprints for climate change, eutrophication, and air quality for each scenario.</p>
 <p>This method calculates and generates crop footprints for climate change, eutrophication, and air quality for each
 scenario based on the provided crop_dataframe and scenario_dataframe. The footprints are computed using default urea
@@ -865,7 +865,7 @@ within the class instance when this method is called.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_lite.goblin.ScenarioRunner.generate_aggregated_crop_footprint">
-<span class="sig-name descname"><span class="pre">generate_aggregated_crop_footprint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crop_dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_urea</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_urea_abated</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.generate_aggregated_crop_footprint" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">generate_aggregated_crop_footprint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crop_dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_urea</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_urea_abated</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/goblin_lite/goblin.html#ScenarioRunner.generate_aggregated_crop_footprint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.generate_aggregated_crop_footprint" title="Permalink to this definition"></a></dt>
 <dd><p>Generate aggregated crop footprints for climate change.</p>
 <p>This method calculates and generates aggregated crop footprints for climate change based on the provided crop_dataframe
 and scenario_dataframe. The footprints for the baseline are computed using default urea and urea abated values, as well as the AR value (AR4, AR5)
@@ -896,7 +896,7 @@ the class instance when this method is called.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_lite.goblin.ScenarioRunner.generate_landuse_footprint">
-<span class="sig-name descname"><span class="pre">generate_landuse_footprint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">landuse_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transition_matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forest_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.generate_landuse_footprint" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">generate_landuse_footprint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">landuse_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transition_matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forest_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/goblin_lite/goblin.html#ScenarioRunner.generate_landuse_footprint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.generate_landuse_footprint" title="Permalink to this definition"></a></dt>
 <dd><p>Generate land-use footprints for climate change.</p>
 <p>This method calculates and generates land-use (forest, grassland, wetland, cropland) footprints for climate change based on the provided landuse_data,
 transition_matrix, and forest_data. The footprints are computed using the AR value (AR4, AR5) specified in the class instance.</p>
@@ -921,7 +921,7 @@ the class instance when this method is called.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_lite.goblin.ScenarioRunner.generate_livestock_footprint">
-<span class="sig-name descname"><span class="pre">generate_livestock_footprint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">baseline_animal_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_animal_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">farm_inputs_baseline</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">farm_inputs_scenario</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.generate_livestock_footprint" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">generate_livestock_footprint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">baseline_animal_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_animal_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">farm_inputs_baseline</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">farm_inputs_scenario</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/goblin_lite/goblin.html#ScenarioRunner.generate_livestock_footprint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.generate_livestock_footprint" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate the environmental footprints associated with livestock production for both the baseline and scenario datasets.</p>
 <p>This method estimates the climate change, eutrophication, and air quality impacts of livestock production. It utilizes data from both the baseline and scenario animal datasets, along with farm (fertilizer) inputs.</p>
 <dl class="field-list simple">
@@ -971,7 +971,7 @@ the class instance when this method is called.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_lite.goblin.ScenarioRunner.generate_aggregated_livestock_footprint">
-<span class="sig-name descname"><span class="pre">generate_aggregated_livestock_footprint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">baseline_animal_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_animal_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">farm_inputs_baseline</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">farm_inputs_scenario</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.generate_aggregated_livestock_footprint" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">generate_aggregated_livestock_footprint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">baseline_animal_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_animal_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">farm_inputs_baseline</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">farm_inputs_scenario</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/goblin_lite/goblin.html#ScenarioRunner.generate_aggregated_livestock_footprint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.generate_aggregated_livestock_footprint" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate the aggregated environmental footprints associated with livestock production for both the baseline and scenario datasets.</p>
 <p>This method estimates the aggregated climate change impacts of livestock production at the national level. It utilizes data from both the baseline and scenario animal datasets, along with farm (fertilizer) inputs.</p>
 <dl class="field-list simple">
@@ -1009,7 +1009,7 @@ the class instance when this method is called.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_lite.goblin.ScenarioRunner.generate_afforestation_data">
-<span class="sig-name descname"><span class="pre">generate_afforestation_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transition_matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.generate_afforestation_data" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">generate_afforestation_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transition_matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/goblin_lite/goblin.html#ScenarioRunner.generate_afforestation_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.generate_afforestation_data" title="Permalink to this definition"></a></dt>
 <dd><p>Generate afforestation data based on the given transition matrix and scenario data.</p>
 <p>This method calculates and generates afforestation data using the provided transition matrix and scenario data. Afforestation refers to the process of converting non-forest land into forested areas.</p>
 <dl class="field-list simple">
@@ -1045,7 +1045,7 @@ the class instance when this method is called.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_lite.goblin.ScenarioRunner.generate_forest_carbon">
-<span class="sig-name descname"><span class="pre">generate_forest_carbon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">afforest_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">afforestation_dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.generate_forest_carbon" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">generate_forest_carbon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">afforest_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">afforestation_dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/goblin_lite/goblin.html#ScenarioRunner.generate_forest_carbon"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.generate_forest_carbon" title="Permalink to this definition"></a></dt>
 <dd><p>Generate forest carbon data based on afforestation and scenario data.</p>
 <p>This method calculates and generates forest carbon data by running the Carbon Budget Model (CBM CFS3) using the provided afforestation data and scenario data.</p>
 <dl class="field-list simple">
