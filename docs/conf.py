@@ -6,10 +6,10 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'GOBLIN lite'
-copyright = '2023, Colm Duffy'
-author = 'Colm Duffy'
-release = '0.1.0'
+project = "GOBLIN lite"
+copyright = "2023, Colm Duffy"
+author = "Colm Duffy"
+release = "0.1.0"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -19,12 +19,12 @@ extensions = [
     "autoapi.extension",
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
-    'sphinx.ext.autodoc',
-    'sphinx.ext.coverage'
+    "sphinx.ext.autodoc",
+    "sphinx.ext.coverage",
 ]
 
-templates_path = ['_templates']
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+templates_path = ["_templates"]
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -32,4 +32,4 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 autoapi_dirs = ["../src/goblin_lite"]  # location to parse for API reference
 html_theme = "sphinx_rtd_theme"
-html_static_path = ['_static']
+html_static_path = ["_static"]
