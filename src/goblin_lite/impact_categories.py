@@ -103,13 +103,22 @@ class ClimateChangeLandUse:
             ),
             "CO2",
         ] = (
-            landuse_lca.total_co2_emission(
-                land_use_data[base],
-                land_use_data[base],
-                transition_matrix[base],
-                ef_country,
+            (
+                landuse_lca.total_co2_emission(
+                    land_use_data[base],
+                    land_use_data[base],
+                    transition_matrix[base],
+                    ef_country,
+                )
+                + landuse_lca.horticulture_co2_peat_export(
+                    ef_country, baseline, baseline
+                )
             )
             * kg_to_kt
+        ) + (
+            forest_data.loc[past_forest_mask, "Total Ecosystem"].item()
+            * t_to_kt
+            * self.goblin_data_manager_class.AR_values["CO2e"]
         )
 
         emission_df.loc[
@@ -382,13 +391,22 @@ class ClimateChangeLandUse:
                 ),
                 "CO2",
             ] = (
-                landuse_lca.total_co2_emission(
-                    land_use_data[sc],
-                    land_use_data[base],
-                    transition_matrix[sc],
-                    ef_country,
+                (
+                    landuse_lca.total_co2_emission(
+                        land_use_data[sc],
+                        land_use_data[base],
+                        transition_matrix[sc],
+                        ef_country,
+                    )
+                    + landuse_lca.horticulture_co2_peat_export(
+                        ef_country, target_year, baseline
+                    )
                 )
                 * kg_to_kt
+            ) + (
+                forest_data.loc[future_forest_mask, "Total Ecosystem"].item()
+                * t_to_kt
+                * self.goblin_data_manager_class.AR_values["CO2e"]
             )
 
             emission_df.loc[
