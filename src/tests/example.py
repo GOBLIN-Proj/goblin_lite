@@ -13,9 +13,13 @@ def main():
     baseline_year = 2020
     target_year = 2050
 
-    # output dir
-    os.mkdir("./graph_data")
     data_path = "./graph_data"
+    # remove graph dir
+    shutil.rmtree(data_path)
+
+    # output dir
+    os.mkdir(data_path)
+
 
     # class instances
     runner_class = ScenarioRunner(
@@ -41,9 +45,6 @@ def main():
 
     # plot ranks
     graph_class.rank_chart(target, gas, data_path)
-
-    # remove graph dir
-    # shutil.rmtree(data_path)
 
 
 if __name__ == "__main__":

@@ -287,19 +287,16 @@ class ClimateChangeLandUse:
                 baseline,
             ),
             "CO2",
-        ] = (
-            landuse_lca.total_co2_emission_forest(
-                land_use_data[base],
-                land_use_data[base],
+        ] = (landuse_lca.total_co2_emission_forest(
+              land_use_data[base],
+               land_use_data[base],
                 transition_matrix[base],
                 ef_country,
             )
-            * kg_to_kt
-        ) + (
-            forest_data.loc[past_forest_mask, "Total Ecosystem"].item()
+            * kg_to_kt)+ (forest_data.loc[past_forest_mask, "Total Ecosystem"].item()
             * t_to_kt
             * self.goblin_data_manager_class.AR_values["CO2e"]
-        )
+            )
 
         emission_df.loc[
             (baseline_index, "forest", baseline),
