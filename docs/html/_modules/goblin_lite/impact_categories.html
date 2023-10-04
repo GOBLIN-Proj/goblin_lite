@@ -177,13 +177,22 @@
             <span class="p">),</span>
             <span class="s2">&quot;CO2&quot;</span><span class="p">,</span>
         <span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">landuse_lca</span><span class="o">.</span><span class="n">total_co2_emission</span><span class="p">(</span>
-                <span class="n">land_use_data</span><span class="p">[</span><span class="n">base</span><span class="p">],</span>
-                <span class="n">land_use_data</span><span class="p">[</span><span class="n">base</span><span class="p">],</span>
-                <span class="n">transition_matrix</span><span class="p">[</span><span class="n">base</span><span class="p">],</span>
-                <span class="n">ef_country</span><span class="p">,</span>
+            <span class="p">(</span>
+                <span class="n">landuse_lca</span><span class="o">.</span><span class="n">total_co2_emission</span><span class="p">(</span>
+                    <span class="n">land_use_data</span><span class="p">[</span><span class="n">base</span><span class="p">],</span>
+                    <span class="n">land_use_data</span><span class="p">[</span><span class="n">base</span><span class="p">],</span>
+                    <span class="n">transition_matrix</span><span class="p">[</span><span class="n">base</span><span class="p">],</span>
+                    <span class="n">ef_country</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="o">+</span> <span class="n">landuse_lca</span><span class="o">.</span><span class="n">horticulture_co2_peat_export</span><span class="p">(</span>
+                    <span class="n">ef_country</span><span class="p">,</span> <span class="n">baseline</span><span class="p">,</span> <span class="n">baseline</span>
+                <span class="p">)</span>
             <span class="p">)</span>
             <span class="o">*</span> <span class="n">kg_to_kt</span>
+        <span class="p">)</span> <span class="o">+</span> <span class="p">(</span>
+            <span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">past_forest_mask</span><span class="p">,</span> <span class="s2">&quot;Total Ecosystem&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+            <span class="o">*</span> <span class="n">t_to_kt</span>
+            <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="o">.</span><span class="n">AR_values</span><span class="p">[</span><span class="s2">&quot;CO2e&quot;</span><span class="p">]</span>
         <span class="p">)</span>
 
         <span class="n">emission_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
@@ -352,19 +361,16 @@
                 <span class="n">baseline</span><span class="p">,</span>
             <span class="p">),</span>
             <span class="s2">&quot;CO2&quot;</span><span class="p">,</span>
-        <span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">landuse_lca</span><span class="o">.</span><span class="n">total_co2_emission_forest</span><span class="p">(</span>
-                <span class="n">land_use_data</span><span class="p">[</span><span class="n">base</span><span class="p">],</span>
-                <span class="n">land_use_data</span><span class="p">[</span><span class="n">base</span><span class="p">],</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">landuse_lca</span><span class="o">.</span><span class="n">total_co2_emission_forest</span><span class="p">(</span>
+              <span class="n">land_use_data</span><span class="p">[</span><span class="n">base</span><span class="p">],</span>
+               <span class="n">land_use_data</span><span class="p">[</span><span class="n">base</span><span class="p">],</span>
                 <span class="n">transition_matrix</span><span class="p">[</span><span class="n">base</span><span class="p">],</span>
                 <span class="n">ef_country</span><span class="p">,</span>
             <span class="p">)</span>
-            <span class="o">*</span> <span class="n">kg_to_kt</span>
-        <span class="p">)</span> <span class="o">+</span> <span class="p">(</span>
-            <span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">past_forest_mask</span><span class="p">,</span> <span class="s2">&quot;Total Ecosystem&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+            <span class="o">*</span> <span class="n">kg_to_kt</span><span class="p">)</span><span class="o">+</span> <span class="p">(</span><span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">past_forest_mask</span><span class="p">,</span> <span class="s2">&quot;Total Ecosystem&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
             <span class="o">*</span> <span class="n">t_to_kt</span>
             <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="o">.</span><span class="n">AR_values</span><span class="p">[</span><span class="s2">&quot;CO2e&quot;</span><span class="p">]</span>
-        <span class="p">)</span>
+            <span class="p">)</span>
 
         <span class="n">emission_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
             <span class="p">(</span><span class="n">baseline_index</span><span class="p">,</span> <span class="s2">&quot;forest&quot;</span><span class="p">,</span> <span class="n">baseline</span><span class="p">),</span>
@@ -456,13 +462,22 @@
                 <span class="p">),</span>
                 <span class="s2">&quot;CO2&quot;</span><span class="p">,</span>
             <span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="n">landuse_lca</span><span class="o">.</span><span class="n">total_co2_emission</span><span class="p">(</span>
-                    <span class="n">land_use_data</span><span class="p">[</span><span class="n">sc</span><span class="p">],</span>
-                    <span class="n">land_use_data</span><span class="p">[</span><span class="n">base</span><span class="p">],</span>
-                    <span class="n">transition_matrix</span><span class="p">[</span><span class="n">sc</span><span class="p">],</span>
-                    <span class="n">ef_country</span><span class="p">,</span>
+                <span class="p">(</span>
+                    <span class="n">landuse_lca</span><span class="o">.</span><span class="n">total_co2_emission</span><span class="p">(</span>
+                        <span class="n">land_use_data</span><span class="p">[</span><span class="n">sc</span><span class="p">],</span>
+                        <span class="n">land_use_data</span><span class="p">[</span><span class="n">base</span><span class="p">],</span>
+                        <span class="n">transition_matrix</span><span class="p">[</span><span class="n">sc</span><span class="p">],</span>
+                        <span class="n">ef_country</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="o">+</span> <span class="n">landuse_lca</span><span class="o">.</span><span class="n">horticulture_co2_peat_export</span><span class="p">(</span>
+                        <span class="n">ef_country</span><span class="p">,</span> <span class="n">target_year</span><span class="p">,</span> <span class="n">baseline</span>
+                    <span class="p">)</span>
                 <span class="p">)</span>
                 <span class="o">*</span> <span class="n">kg_to_kt</span>
+            <span class="p">)</span> <span class="o">+</span> <span class="p">(</span>
+                <span class="n">forest_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">future_forest_mask</span><span class="p">,</span> <span class="s2">&quot;Total Ecosystem&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+                <span class="o">*</span> <span class="n">t_to_kt</span>
+                <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="o">.</span><span class="n">AR_values</span><span class="p">[</span><span class="s2">&quot;CO2e&quot;</span><span class="p">]</span>
             <span class="p">)</span>
 
             <span class="n">emission_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
