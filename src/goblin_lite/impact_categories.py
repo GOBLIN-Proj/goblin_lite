@@ -630,15 +630,29 @@ class ClimateChangeLandUse:
 
 
 class ClimateChangeLivestock:
-    def __init__(self, ef_country, AR_VALUE="AR5"):
+    def __init__(self, ef_country,calibration_year, target_year, transition_data, landuse_data, AR_VALUE="AR5"):
         self.common_class = CommonParams()
         self.cattle_climate_change_class = CattleClimateChangeTotals(ef_country)
         self.sheep_climate_change_class = SheepClimateChangeTotals(ef_country)
         self.goblin_data_manager_class = GoblinDataManager(AR_VALUE=AR_VALUE)
+        self.ef_country = ef_country
+        self.baseline = calibration_year
+
+        self.transition_matrix = landuse_models.load_transition_matrix(
+            transition_data, ef_country, calibration_year, target_year
+        )
+
+        self.land_use_data = landuse_models.load_land_use_data(
+            landuse_data, calibration_year
+        )
 
     def climate_change_livestock_past(self, baseline_animals, baseline_farms):
+        base = -self.baseline
         baseline_index = self.common_class.baseline_index
         kg_to_kt = self.common_class.kg_to_kt
+        ef_country = self.ef_country
+        land_use_data = self.land_use_data
+        transition_matrix = self.transition_matrix
 
         emissions_dict = self.cattle_climate_change_class.create_emissions_dictionary(
             [baseline_index]
@@ -706,6 +720,7 @@ class ClimateChangeLivestock:
             )
             * kg_to_kt
         )
+
         emissions_dict["soils_CO2"][baseline_index] += (
             self.cattle_climate_change_class.CO2_soils_GWP(
                 baseline_farms[past_farm_loc].total_urea,
@@ -747,6 +762,15 @@ class ClimateChangeLivestock:
         )
 
         # Totals
+        emissions_dict["soil_histosol_N_direct"][baseline_index] = (
+                landuse_lca.drainage_n2O_organic_soils_in_grassland(
+                    land_use_data[base],
+                    land_use_data[base],
+                    transition_matrix[base],
+                    ef_country,
+                )
+                * kg_to_kt
+            )
         emissions_dict["soil_organic_N_direct"][baseline_index] = (
             emissions_dict["manure_applied_N"][baseline_index]
             + emissions_dict["N_direct_PRP"][baseline_index]
@@ -770,6 +794,7 @@ class ClimateChangeLivestock:
         emissions_dict["soil_N_indirect"][baseline_index] = (
             emissions_dict["soil_inorganic_N_indirect"][baseline_index]
             + emissions_dict["soil_organic_N_indirect"][baseline_index]
+            + emissions_dict["soil_histosol_N_direct"][baseline_index]
         )
 
         emissions_dict["soils_N2O"][baseline_index] = (
@@ -780,7 +805,12 @@ class ClimateChangeLivestock:
         return emissions_dict
 
     def climate_change_livestock_future(self, scenario_animals, scenario_farms):
+        base = -self.baseline
         scenario_animals_dataframe = scenario_animals
+        ef_country = self.ef_country
+        land_use_data = self.land_use_data
+        transition_matrix = self.transition_matrix
+
 
         index = [int(i) for i in scenario_animals_dataframe.Scenarios.unique()]
 
@@ -895,6 +925,15 @@ class ClimateChangeLivestock:
             )
 
             # Add the totals
+            emissions_dict["soil_histosol_N_direct"][sc] = (
+                landuse_lca.drainage_n2O_organic_soils_in_grassland(
+                    land_use_data[sc],
+                    land_use_data[base],
+                    transition_matrix[sc],
+                    ef_country,
+                )
+                * kg_to_kt
+            )
             emissions_dict["soil_organic_N_direct"][sc] = (
                 emissions_dict["manure_applied_N"][sc]
                 + emissions_dict["N_direct_PRP"][sc]
@@ -913,6 +952,7 @@ class ClimateChangeLivestock:
             emissions_dict["soil_N_direct"][sc] = (
                 emissions_dict["soil_organic_N_direct"][sc]
                 + emissions_dict["soil_inorganic_N_direct"][sc]
+                + emissions_dict["soil_histosol_N_direct"][sc]
             )
 
             emissions_dict["soil_N_indirect"][sc] = (
@@ -928,10 +968,10 @@ class ClimateChangeLivestock:
         return emissions_dict
 
     def climate_change_livestock_dissagregated(
-        self, basline_animals, scenario_animals, baseline_farms, scenario_farms
+        self, baseline_animals, scenario_animals, baseline_farms, scenario_farms
     ):
         past_data = pd.DataFrame.from_dict(
-            self.climate_change_livestock_past(basline_animals, baseline_farms)
+            self.climate_change_livestock_past(baseline_animals, baseline_farms)
         )
 
         future_data = pd.DataFrame.from_dict(
@@ -941,10 +981,10 @@ class ClimateChangeLivestock:
         return pd.concat([past_data, future_data])
 
     def climate_change_livestock_aggregated(
-        self, basline_animals, scenario_animals, baseline_farms, scenario_farms
+        self, baseline_animals, scenario_animals, baseline_farms, scenario_farms
     ):
         dissagregated_animal_emissions = self.climate_change_livestock_dissagregated(
-            basline_animals, scenario_animals, baseline_farms, scenario_farms
+            baseline_animals, scenario_animals, baseline_farms, scenario_farms
         )
 
         emissions_groups = (
@@ -976,10 +1016,10 @@ class ClimateChangeLivestock:
         return total_animal_emissions
 
     def climate_change_livestock_categories_as_co2e(
-        self, basline_animals, scenario_animals, baseline_farms, scenario_farms
+        self, baseline_animals, scenario_animals, baseline_farms, scenario_farms
     ):
         dissagregated_animal_emissions = self.climate_change_livestock_dissagregated(
-            basline_animals, scenario_animals, baseline_farms, scenario_farms
+            baseline_animals, scenario_animals, baseline_farms, scenario_farms
         )
 
         emissions_groups = (
@@ -1079,6 +1119,7 @@ class EutrophicationLivestock:
 
     def eutrophication_livestock_future(self, scenario_animals, scenario_farms):
         scenario_animals_dataframe = scenario_animals
+
         index = [int(i) for i in scenario_animals_dataframe.Scenarios.unique()]
 
         scenario_animals = load_livestock_data(scenario_animals)
@@ -1150,14 +1191,31 @@ class EutrophicationLivestock:
 
 
 class AirQualityLivestock:
-    def __init__(self, ef_country):
+    def __init__(self, ef_country, calibration_year, target_year, transition_data, landuse_data,):
         self.common_class = CommonParams()
         self.cattle_air_quality_class = CattleAirQualityTotals(ef_country)
         self.sheep_air_quality_class = SheepAirQualityTotals(ef_country)
 
+        self.ef_country = ef_country
+        self.baseline = calibration_year
+
+        self.transition_matrix = landuse_models.load_transition_matrix(
+            transition_data, ef_country, calibration_year, target_year
+        )
+
+        self.land_use_data = landuse_models.load_land_use_data(
+            landuse_data, calibration_year
+        )
+
+
     def air_quality_livestock_past(self, baseline_animals, baseline_farms):
         baseline_index = self.common_class.baseline_index
         kg_to_kt = self.common_class.kg_to_kt
+
+        base = -self.baseline
+        ef_country = self.ef_country
+        land_use_data = self.land_use_data
+        transition_matrix = self.transition_matrix
 
         ammonia_dict = self.cattle_air_quality_class.create_emissions_dictionary(
             [baseline_index]
@@ -1198,17 +1256,31 @@ class AirQualityLivestock:
             )
             * kg_to_kt
         )
-        ammonia_dict["soils"][baseline_index] += (
+        ammonia_dict["soils"][baseline_index] += ((
             self.sheep_air_quality_class.total_grazing_soils_NH3_AQ(
                 baseline_animals[past_animals_loc]["animals"],
             )
+            + landuse_lca.drainage_n2O_organic_soils_in_grassland(
+                    land_use_data[base],
+                    land_use_data[base],
+                    transition_matrix[base],
+                    ef_country,
+                )
+            )
             * kg_to_kt
         )
+
 
         return ammonia_dict
 
     def air_quality_livestock_future(self, scenario_animals, scenario_farms):
         scenario_animals_dataframe = scenario_animals
+
+        base = -self.baseline
+        ef_country = self.ef_country
+        land_use_data = self.land_use_data
+        transition_matrix = self.transition_matrix
+
         index = [int(i) for i in scenario_animals_dataframe.Scenarios.unique()]
 
         scenario_animals = load_livestock_data(scenario_animals)
@@ -1249,12 +1321,19 @@ class AirQualityLivestock:
                     )
                     * kg_to_kt
                 )
-            ammonia_dict["soils"][sc] += (
+            ammonia_dict["soils"][sc] += ((
                 self.cattle_air_quality_class.total_fertiliser_soils_NH3_AQ(
                     scenario_farms[sc].total_urea,
                     scenario_farms[sc].total_urea_abated,
                     scenario_farms[sc].total_n_fert,
                 )
+                + landuse_lca.drainage_n2O_organic_soils_in_grassland(
+                    land_use_data[sc],
+                    land_use_data[base],
+                    transition_matrix[sc],
+                    ef_country,
+                )
+            )
                 * kg_to_kt
             )
 

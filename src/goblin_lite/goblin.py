@@ -294,12 +294,16 @@ class ScenarioRunner:
             scenario_animal_data,
             farm_inputs_baseline,
             farm_inputs_scenario,
+            landuse_data, 
+            transition_matrix
         )
         self.generate_aggregated_livestock_footprint(
             baseline_animal_data,
             scenario_animal_data,
             farm_inputs_baseline,
             farm_inputs_scenario,
+            landuse_data, 
+            transition_matrix
         )
         self.generate_climate_change_totals(
             calibration_year, target_year, scenario_dataframe
@@ -1270,6 +1274,8 @@ class ScenarioRunner:
         scenario_animal_data,
         farm_inputs_baseline,
         farm_inputs_scenario,
+        landuse_data, 
+        transition_matrix
     ):
         """
         Calculate the environmental footprints associated with livestock production for both the baseline and scenario datasets.
@@ -1312,8 +1318,12 @@ class ScenarioRunner:
         """
         AR_VALUE = self.AR_VALUE
         ef_country = self.ef_country
+        calibration_year = self.calibration_year
+        target_year = self.target_year
 
-        climate_change_livestock_class = ClimateChangeLivestock(ef_country, AR_VALUE)
+
+        climate_change_livestock_class = ClimateChangeLivestock(ef_country,calibration_year, target_year, transition_matrix, landuse_data, AR_VALUE)
+
 
         climate_change = (
             climate_change_livestock_class.climate_change_livestock_dissagregated(
@@ -1335,7 +1345,7 @@ class ScenarioRunner:
             )
         )
 
-        air_quality_livestock_class = AirQualityLivestock(ef_country)
+        air_quality_livestock_class = AirQualityLivestock(ef_country,calibration_year, target_year, transition_matrix, landuse_data,)
 
         air_quality = air_quality_livestock_class.air_quality_livestock_dissagregated(
             baseline_animal_data,
@@ -1362,6 +1372,8 @@ class ScenarioRunner:
         scenario_animal_data,
         farm_inputs_baseline,
         farm_inputs_scenario,
+        landuse_data, 
+        transition_matrix
     ):
         """
         Calculate the aggregated environmental footprints associated with livestock production for both the baseline and scenario datasets.
@@ -1399,8 +1411,11 @@ class ScenarioRunner:
         """
         AR_VALUE = self.AR_VALUE
         ef_country = self.ef_country
+        calibration_year = self.calibration_year
+        target_year = self.target_year
 
-        climate_change_livestock_class = ClimateChangeLivestock(ef_country, AR_VALUE)
+
+        climate_change_livestock_class = ClimateChangeLivestock(ef_country,calibration_year, target_year, transition_matrix, landuse_data, AR_VALUE)
 
         climate_change_aggregated = (
             climate_change_livestock_class.climate_change_livestock_aggregated(
