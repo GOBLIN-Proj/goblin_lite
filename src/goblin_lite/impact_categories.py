@@ -630,10 +630,11 @@ class ClimateChangeLandUse:
 
 
 class ClimateChangeLivestock:
-    def __init__(self, ef_country,calibration_year, target_year, transition_data, landuse_data, AR_VALUE="AR5"):
+    def __init__(self, ef_country,calibration_year, target_year, transition_data, landuse_data, crop_data, AR_VALUE="AR5"):
         self.common_class = CommonParams()
         self.cattle_climate_change_class = CattleClimateChangeTotals(ef_country)
         self.sheep_climate_change_class = SheepClimateChangeTotals(ef_country)
+        self.crop_climate_change_class = CropClimateChangeTotals(ef_country)
         self.goblin_data_manager_class = GoblinDataManager(AR_VALUE=AR_VALUE)
         self.ef_country = ef_country
         self.baseline = calibration_year
@@ -646,6 +647,8 @@ class ClimateChangeLivestock:
             landuse_data, calibration_year
         )
 
+        self.crop_data =  load_crop_farm_data(crop_data)
+
     def climate_change_livestock_past(self, baseline_animals, baseline_farms):
         base = -self.baseline
         baseline_index = self.common_class.baseline_index
@@ -653,6 +656,9 @@ class ClimateChangeLivestock:
         ef_country = self.ef_country
         land_use_data = self.land_use_data
         transition_matrix = self.transition_matrix
+        crop_data = self.crop_data
+        crop_base = list(crop_data.keys())[0]
+
 
         emissions_dict = self.cattle_climate_change_class.create_emissions_dictionary(
             [baseline_index]
@@ -705,26 +711,26 @@ class ClimateChangeLivestock:
 
         emissions_dict["N_direct_fertiliser"][baseline_index] = (
             self.cattle_climate_change_class.N2O_direct_fertiliser(
-                baseline_farms[past_farm_loc].total_urea,
-                baseline_farms[past_farm_loc].total_urea_abated,
-                baseline_farms[past_farm_loc].total_n_fert,
+                baseline_farms[past_farm_loc].urea_n_fert,
+                baseline_farms[past_farm_loc].urea_abated_n_fert,
+                baseline_farms[past_farm_loc].an_n_fert,
             )
             * kg_to_kt
         )
 
         emissions_dict["N_indirect_fertiliser"][baseline_index] += (
             self.cattle_climate_change_class.N2O_fertiliser_indirect(
-                baseline_farms[past_farm_loc].total_urea,
-                baseline_farms[past_farm_loc].total_urea_abated,
-                baseline_farms[past_farm_loc].total_n_fert,
+                baseline_farms[past_farm_loc].urea_n_fert,
+                baseline_farms[past_farm_loc].urea_abated_n_fert,
+                baseline_farms[past_farm_loc].an_n_fert,
             )
             * kg_to_kt
         )
 
         emissions_dict["soils_CO2"][baseline_index] += (
             self.cattle_climate_change_class.CO2_soils_GWP(
-                baseline_farms[past_farm_loc].total_urea,
-                baseline_farms[past_farm_loc].total_urea_abated,
+                baseline_farms[past_farm_loc].total_urea_kg,
+                baseline_farms[past_farm_loc].total_lime_kg,
             )
             * kg_to_kt
         )
@@ -771,6 +777,13 @@ class ClimateChangeLivestock:
                 )
                 * kg_to_kt
             )
+        
+        emissions_dict["crop_residue_direct"][baseline_index] += (
+            self.crop_climate_change_class.total_residue_per_crop_direct(
+                crop_data[crop_base],
+            )
+        ) * kg_to_kt
+
         emissions_dict["soil_organic_N_direct"][baseline_index] = (
             emissions_dict["manure_applied_N"][baseline_index]
             + emissions_dict["N_direct_PRP"][baseline_index]
@@ -789,12 +802,13 @@ class ClimateChangeLivestock:
         emissions_dict["soil_N_direct"][baseline_index] = (
             emissions_dict["soil_organic_N_direct"][baseline_index]
             + emissions_dict["soil_inorganic_N_direct"][baseline_index]
+            + emissions_dict["soil_histosol_N_direct"][baseline_index]
+            +emissions_dict["crop_residue_direct"][baseline_index]
         )
 
         emissions_dict["soil_N_indirect"][baseline_index] = (
             emissions_dict["soil_inorganic_N_indirect"][baseline_index]
             + emissions_dict["soil_organic_N_indirect"][baseline_index]
-            + emissions_dict["soil_histosol_N_direct"][baseline_index]
         )
 
         emissions_dict["soils_N2O"][baseline_index] = (
@@ -810,6 +824,7 @@ class ClimateChangeLivestock:
         ef_country = self.ef_country
         land_use_data = self.land_use_data
         transition_matrix = self.transition_matrix
+        crop_data = self.crop_data
 
 
         index = [int(i) for i in scenario_animals_dataframe.Scenarios.unique()]
@@ -901,31 +916,31 @@ class ClimateChangeLivestock:
 
             emissions_dict["N_direct_fertiliser"][sc] = (
                 self.cattle_climate_change_class.N2O_direct_fertiliser(
-                    scenario_farms[sc].total_urea,
-                    scenario_farms[sc].total_urea_abated,
-                    scenario_farms[sc].total_n_fert,
+                    scenario_farms[sc].urea_n_fert,
+                    scenario_farms[sc].urea_abated_n_fert,
+                    scenario_farms[sc].an_n_fert,
                 )
                 * kg_to_kt
             )
 
             emissions_dict["N_indirect_fertiliser"][sc] += (
                 self.cattle_climate_change_class.N2O_fertiliser_indirect(
-                    scenario_farms[sc].total_urea,
-                    scenario_farms[sc].total_urea_abated,
-                    scenario_farms[sc].total_n_fert,
+                    scenario_farms[sc].urea_n_fert,
+                    scenario_farms[sc].urea_abated_n_fert,
+                    scenario_farms[sc].an_n_fert,
                 )
                 * kg_to_kt
             )
             emissions_dict["soils_CO2"][sc] += (
                 self.cattle_climate_change_class.CO2_soils_GWP(
-                    scenario_farms[sc].total_urea,
-                    scenario_farms[sc].total_urea_abated,
+                    scenario_farms[sc].total_urea_kg,
+                    scenario_farms[sc].total_lime_kg,
                 )
                 * kg_to_kt
             )
 
             # Add the totals
-            emissions_dict["soil_histosol_N_direct"][sc] = (
+            emissions_dict["soil_histosol_N_direct"][sc] += (
                 landuse_lca.drainage_n2O_organic_soils_in_grassland(
                     land_use_data[sc],
                     land_use_data[base],
@@ -934,6 +949,13 @@ class ClimateChangeLivestock:
                 )
                 * kg_to_kt
             )
+
+            emissions_dict["crop_residue_direct"][sc] += (
+            self.crop_climate_change_class.total_residue_per_crop_direct(
+                crop_data[sc],
+            )
+            ) * kg_to_kt
+            
             emissions_dict["soil_organic_N_direct"][sc] = (
                 emissions_dict["manure_applied_N"][sc]
                 + emissions_dict["N_direct_PRP"][sc]
@@ -953,6 +975,7 @@ class ClimateChangeLivestock:
                 emissions_dict["soil_organic_N_direct"][sc]
                 + emissions_dict["soil_inorganic_N_direct"][sc]
                 + emissions_dict["soil_histosol_N_direct"][sc]
+                + emissions_dict["crop_residue_direct"][sc] 
             )
 
             emissions_dict["soil_N_indirect"][sc] = (
@@ -1087,9 +1110,9 @@ class EutrophicationLivestock:
         )
         eutrophication_dict["soils"][baseline_index] += (
             self.cattle_eutrophication_class.total_fertilser_soils_EP(
-                baseline_farms[past_farm_loc].total_urea,
-                baseline_farms[past_farm_loc].total_urea_abated,
-                baseline_farms[past_farm_loc].total_n_fert,
+                baseline_farms[past_farm_loc].urea_n_fert,
+                baseline_farms[past_farm_loc].urea_abated_n_fert,
+                baseline_farms[past_farm_loc].an_n_fert,
                 baseline_farms[past_farm_loc].total_p_fert,
             )
             * kg_to_kt
@@ -1166,9 +1189,9 @@ class EutrophicationLivestock:
 
             eutrophication_dict["soils"][sc] += (
                 self.cattle_eutrophication_class.total_fertilser_soils_EP(
-                    scenario_farms[sc].total_urea,
-                    scenario_farms[sc].total_urea_abated,
-                    scenario_farms[sc].total_n_fert,
+                    scenario_farms[sc].urea_n_fert,
+                    scenario_farms[sc].urea_abated_n_fert,
+                    scenario_farms[sc].an_n_fert,
                     scenario_farms[sc].total_p_fert,
                 )
                 * kg_to_kt
@@ -1191,31 +1214,15 @@ class EutrophicationLivestock:
 
 
 class AirQualityLivestock:
-    def __init__(self, ef_country, calibration_year, target_year, transition_data, landuse_data,):
+    def __init__(self, ef_country):
         self.common_class = CommonParams()
         self.cattle_air_quality_class = CattleAirQualityTotals(ef_country)
         self.sheep_air_quality_class = SheepAirQualityTotals(ef_country)
-
-        self.ef_country = ef_country
-        self.baseline = calibration_year
-
-        self.transition_matrix = landuse_models.load_transition_matrix(
-            transition_data, ef_country, calibration_year, target_year
-        )
-
-        self.land_use_data = landuse_models.load_land_use_data(
-            landuse_data, calibration_year
-        )
 
 
     def air_quality_livestock_past(self, baseline_animals, baseline_farms):
         baseline_index = self.common_class.baseline_index
         kg_to_kt = self.common_class.kg_to_kt
-
-        base = -self.baseline
-        ef_country = self.ef_country
-        land_use_data = self.land_use_data
-        transition_matrix = self.transition_matrix
 
         ammonia_dict = self.cattle_air_quality_class.create_emissions_dictionary(
             [baseline_index]
@@ -1242,9 +1249,9 @@ class AirQualityLivestock:
 
         ammonia_dict["soils"][baseline_index] += (
             self.cattle_air_quality_class.total_fertiliser_soils_NH3_AQ(
-                baseline_farms[past_farm_loc].total_urea,
-                baseline_farms[past_farm_loc].total_urea_abated,
-                baseline_farms[past_farm_loc].total_n_fert,
+                baseline_farms[past_farm_loc].urea_n_fert,
+                baseline_farms[past_farm_loc].urea_abated_n_fert,
+                baseline_farms[past_farm_loc].an_n_fert,
             )
             * kg_to_kt
         )
@@ -1256,30 +1263,16 @@ class AirQualityLivestock:
             )
             * kg_to_kt
         )
-        ammonia_dict["soils"][baseline_index] += ((
+        ammonia_dict["soils"][baseline_index] += (
             self.sheep_air_quality_class.total_grazing_soils_NH3_AQ(
                 baseline_animals[past_animals_loc]["animals"],
-            )
-            + landuse_lca.drainage_n2O_organic_soils_in_grassland(
-                    land_use_data[base],
-                    land_use_data[base],
-                    transition_matrix[base],
-                    ef_country,
-                )
-            )
-            * kg_to_kt
+            )* kg_to_kt
         )
-
 
         return ammonia_dict
 
     def air_quality_livestock_future(self, scenario_animals, scenario_farms):
         scenario_animals_dataframe = scenario_animals
-
-        base = -self.baseline
-        ef_country = self.ef_country
-        land_use_data = self.land_use_data
-        transition_matrix = self.transition_matrix
 
         index = [int(i) for i in scenario_animals_dataframe.Scenarios.unique()]
 
@@ -1321,21 +1314,15 @@ class AirQualityLivestock:
                     )
                     * kg_to_kt
                 )
-            ammonia_dict["soils"][sc] += ((
+
+            ammonia_dict["soils"][sc] += (
                 self.cattle_air_quality_class.total_fertiliser_soils_NH3_AQ(
-                    scenario_farms[sc].total_urea,
-                    scenario_farms[sc].total_urea_abated,
-                    scenario_farms[sc].total_n_fert,
-                )
-                + landuse_lca.drainage_n2O_organic_soils_in_grassland(
-                    land_use_data[sc],
-                    land_use_data[base],
-                    transition_matrix[sc],
-                    ef_country,
-                )
+                    scenario_farms[sc].urea_n_fert,
+                    scenario_farms[sc].urea_abated_n_fert,
+                    scenario_farms[sc].an_n_fert,
+                ) * kg_to_kt
             )
-                * kg_to_kt
-            )
+            
 
         return ammonia_dict
 
@@ -1368,7 +1355,6 @@ class ClimateChangeCrop:
 
     def climate_change_crop_past(self, crop_dataframe):
         baseline_index = self.common_class.baseline_index
-        # base = self.baseline
         kg_to_kt = self.common_class.kg_to_kt
 
         crop_emissions_dict = (
@@ -1733,14 +1719,11 @@ class ClimateChangeTotal:
         baseline_index = self.common_class.baseline_index
 
         animal_data = dataframe_dict["animal"]
-        crop_data = dataframe_dict["crop"]
         land_use_data = dataframe_dict["land"]
 
         total_climate_change_emissions_dataframe = animal_data.copy(deep=True)
 
         land_use_dataframe = land_use_data.copy(deep=True)
-
-        crop_dataframe = crop_data.copy(deep=True)
 
         scenario_list = [baseline_index]
         scenario_list.extend(list(scenario_dataframe["Scenarios"].unique()))
@@ -1762,9 +1745,6 @@ class ClimateChangeTotal:
 
                 total_climate_change_emissions_dataframe.loc[
                     sc, gas
-                ] += crop_dataframe.loc[sc, gas].item()
-                total_climate_change_emissions_dataframe.loc[
-                    sc, gas
                 ] += land_use_dataframe.loc[land_mask, gas].item()
 
         return total_climate_change_emissions_dataframe
@@ -1774,28 +1754,13 @@ class EutrophicationTotal:
     def __init__(self):
         self.common_class = CommonParams()
 
-    def total_eutrophication_emissions(self, scenario_dataframe, dataframe_dict):
-        baseline_index = self.common_class.baseline_index
+    def total_eutrophication_emissions(self, dataframe_dict):
 
         livestock_data = dataframe_dict["animal"]
-        crop_data = dataframe_dict["crop"]
 
         total_livestock_and_crop_eutrophication_emissions = livestock_data.copy(
             deep=True
         )
-
-        crop_eutrophication_emissions = crop_data.copy(deep=True)
-
-        scenario_list = [baseline_index]
-        scenario_list.extend(list(scenario_dataframe["Scenarios"].unique()))
-
-        for sc in scenario_list:
-            for category in total_livestock_and_crop_eutrophication_emissions.columns:
-                if category in crop_eutrophication_emissions.columns:
-                    # try:
-                    total_livestock_and_crop_eutrophication_emissions.loc[
-                        sc, category
-                    ] += crop_eutrophication_emissions.loc[sc, category]
 
         total_livestock_and_crop_eutrophication_emissions[
             "Total"
@@ -1808,24 +1773,11 @@ class AirQualityTotal:
     def __init__(self):
         self.common_class = CommonParams()
 
-    def total_air_quality_emissions(self, scenario_dataframe, dataframe_dict):
-        baseline_index = self.common_class.baseline_index
+    def total_air_quality_emissions(self, dataframe_dict):
 
         livestock_data = dataframe_dict["animal"]
-        crop_data = dataframe_dict["crop"]
 
         total_animal_and_crop_air_quality_emissions = livestock_data.copy(deep=True)
-        crop_air_quality_emissions = crop_data.copy(deep=True)
-
-        scenario_list = [baseline_index]
-        scenario_list.extend(list(scenario_dataframe["Scenarios"].unique()))
-
-        for sc in scenario_list:
-            for category in total_animal_and_crop_air_quality_emissions.columns:
-                if category in crop_air_quality_emissions.columns:
-                    total_animal_and_crop_air_quality_emissions.loc[
-                        sc, category
-                    ] += crop_air_quality_emissions.loc[sc, category]
 
         total_animal_and_crop_air_quality_emissions[
             "Total"

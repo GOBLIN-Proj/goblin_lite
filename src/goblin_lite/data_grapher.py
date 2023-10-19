@@ -640,19 +640,19 @@ class DataGrapher:
             "manure_management"
         ].values
         climate_change["enteric"] = climate_change_livestock["enteric"].values
-        climate_change["grassland_soils"] = climate_change_livestock["soils"].values
+        climate_change["grassland_soils"] = climate_change_livestock["soils"].values - climate_change_crop["soils"].values
         climate_change["crop_soils"] = climate_change_crop["soils"].values
 
         eutrophication["manure_management"] = eutrophication_livestock[
             "manure_management"
         ].values
-        eutrophication["grassland_soils"] = eutrophication_livestock["soils"].values
+        eutrophication["grassland_soils"] = eutrophication_livestock["soils"].values - eutrophication_crop["soils"].values
         eutrophication["crop_soils"] = eutrophication_crop["soils"].values
 
         air_quality["manure_management"] = air_quality_livestock.loc[
             :, "manure_management"
         ].values
-        air_quality["grassland_soils"] = air_quality_livestock["soils"].values
+        air_quality["grassland_soils"] = air_quality_livestock["soils"].values - air_quality_crop["soils"].values
         air_quality["crop_soils"] = air_quality_crop["soils"].values
 
         frames = [climate_change, eutrophication, air_quality]

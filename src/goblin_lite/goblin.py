@@ -220,6 +220,7 @@ class ScenarioRunner:
         # generate scenario_data
         scenario_dataframe = self.scenario_class.generate_scenario_dataframe(path)
 
+
         try:
             afforest_year = scenario_dataframe["Afforest year"].unique().item()
         except ValueError as e:
@@ -295,7 +296,8 @@ class ScenarioRunner:
             farm_inputs_baseline,
             farm_inputs_scenario,
             landuse_data, 
-            transition_matrix
+            transition_matrix,
+            crop_data
         )
         self.generate_aggregated_livestock_footprint(
             baseline_animal_data,
@@ -303,7 +305,8 @@ class ScenarioRunner:
             farm_inputs_baseline,
             farm_inputs_scenario,
             landuse_data, 
-            transition_matrix
+            transition_matrix,
+            crop_data
         )
         self.generate_climate_change_totals(
             calibration_year, target_year, scenario_dataframe
@@ -425,9 +428,7 @@ class ScenarioRunner:
 
         dataframes = self.get_air_quality_emission_dataframes()
 
-        air_quality = air_quality_class.total_air_quality_emissions(
-            scenario_dataframe, dataframes
-        )
+        air_quality = air_quality_class.total_air_quality_emissions(dataframes)
 
         self.data_manager_class.save_goblin_results_output_datatable(
             air_quality, "air_quality_totals"
@@ -472,9 +473,7 @@ class ScenarioRunner:
 
         dataframes = self.get_eutrophication_emission_dataframes()
 
-        eutrophication = eutrophication_class.total_eutrophication_emissions(
-            scenario_dataframe, dataframes
-        )
+        eutrophication = eutrophication_class.total_eutrophication_emissions(dataframes)
 
         self.data_manager_class.save_goblin_results_output_datatable(
             eutrophication, "eutrophication_totals"
@@ -1275,7 +1274,8 @@ class ScenarioRunner:
         farm_inputs_baseline,
         farm_inputs_scenario,
         landuse_data, 
-        transition_matrix
+        transition_matrix,
+        crop_data
     ):
         """
         Calculate the environmental footprints associated with livestock production for both the baseline and scenario datasets.
@@ -1322,7 +1322,7 @@ class ScenarioRunner:
         target_year = self.target_year
 
 
-        climate_change_livestock_class = ClimateChangeLivestock(ef_country,calibration_year, target_year, transition_matrix, landuse_data, AR_VALUE)
+        climate_change_livestock_class = ClimateChangeLivestock(ef_country,calibration_year, target_year, transition_matrix, landuse_data, crop_data, AR_VALUE)
 
 
         climate_change = (
@@ -1345,7 +1345,7 @@ class ScenarioRunner:
             )
         )
 
-        air_quality_livestock_class = AirQualityLivestock(ef_country,calibration_year, target_year, transition_matrix, landuse_data,)
+        air_quality_livestock_class = AirQualityLivestock(ef_country)
 
         air_quality = air_quality_livestock_class.air_quality_livestock_dissagregated(
             baseline_animal_data,
@@ -1373,7 +1373,8 @@ class ScenarioRunner:
         farm_inputs_baseline,
         farm_inputs_scenario,
         landuse_data, 
-        transition_matrix
+        transition_matrix,
+        crop_data
     ):
         """
         Calculate the aggregated environmental footprints associated with livestock production for both the baseline and scenario datasets.
@@ -1415,7 +1416,7 @@ class ScenarioRunner:
         target_year = self.target_year
 
 
-        climate_change_livestock_class = ClimateChangeLivestock(ef_country,calibration_year, target_year, transition_matrix, landuse_data, AR_VALUE)
+        climate_change_livestock_class = ClimateChangeLivestock(ef_country,calibration_year, target_year, transition_matrix, landuse_data, crop_data, AR_VALUE)
 
         climate_change_aggregated = (
             climate_change_livestock_class.climate_change_livestock_aggregated(
