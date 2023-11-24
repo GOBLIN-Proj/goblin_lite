@@ -24,10 +24,6 @@ scenario_assessment = {git = "https://github.com/colmduff/scenario_assessment.gi
 libcbm = { git = "https://github.com/colmduff/libcbm_py.git", branch = "main" }
 seaborn = "*"
 matplotlib = "*"
-sphinx-rtd-theme = "*"
-sphinx-autoapi = "*"
-myst-nb = "*"
-jupyter = "*"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

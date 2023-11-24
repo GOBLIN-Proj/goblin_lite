@@ -262,7 +262,7 @@ The model also requires a yaml file to set specific parameters for the CBM CFS3 
 ```yaml
 Classifiers:
 
-  baseline:
+  harvest:
     clearfell: 0.01
     thinning: 0.01
 

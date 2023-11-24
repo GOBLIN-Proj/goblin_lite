@@ -268,6 +268,7 @@ class ScenarioRunner:
             scenario_dataframe, total_grassland_area, spared_area
         )
 
+
         landuse_data = self.generate_landuse_data(
             scenario_dataframe, total_grassland_area, spared_area
         )
