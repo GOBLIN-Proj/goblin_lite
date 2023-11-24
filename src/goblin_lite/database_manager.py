@@ -18,25 +18,21 @@ class DataManager:
         engine = sqa.create_engine(engine_url)
 
         # Create the database if it doesn't exist
-        create_database(engine.url)
+        create_database(engine_url)
 
         return engine
 
     def create_or_clear_database(self):
-        # Get the inspector for the engine
-        inspector = sqa.inspect(self.engine)
-
-        # Get the list of existing tables
-        existing_tables = inspector.get_table_names()
+        # SQLAlchemy 2.0 - Using the declarative approach for dropping tables
+        metadata = sqa.MetaData(bind=self.engine)
+        metadata.reflect()
+        existing_tables = metadata.tables
 
         if existing_tables:
-            # Drop each existing table
             with self.engine.begin() as connection:
-                for table_name in existing_tables:
-                    connection.execute(f"DROP TABLE {table_name}")
+                metadata.drop_all(connection)  # Change: Drop all tables using metadata
             print("Existing tables have been deleted.")
         else:
-            # Create a temporary table and drop it to create the database
             print("No tables to clean.")
 
     def save_goblin_results_output_datatable(self, data, table, index=True):
