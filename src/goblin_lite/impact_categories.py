@@ -1,3 +1,21 @@
+"""
+=========================
+Impact Categories Module
+=========================
+
+The Impact Categories module is designed to calculate and analyze various environmental impacts in the context of land use change, livestock and crop production. 
+This includes emissions related to climate change, eutrophication, and air quality. The module integrates data from various sources like cattle 
+and sheep lifecycle assessments, crop production data, and land use changes, providing a comprehensive view of environmental impacts.
+
+Key Features
+------------
+Integration with Multiple Data Sources: Utilizes data from cattle, sheep, crop lifecycle assessments, and land use changes.
+Environmental Impact Analysis: Calculates emissions contributing to climate change, eutrophication, and
+air quality.
+
+Flexible Data Handling: Works with different types of data inputs, including livestock and crop production data, land use transition data, and more.
+"""
+
 from cattle_lca.models import load_livestock_data, load_farm_data
 from cattle_lca.lca import ClimateChangeTotals as CattleClimateChangeTotals
 from sheep_lca.lca import ClimateChangeTotals as SheepClimateChangeTotals
@@ -23,6 +41,24 @@ class CommonParams:
 
 
 class ClimateChangeLandUse:
+    """
+    A class for calculating the impact of land use changes on climate change across various land types.
+
+    Attributes:
+        calibration_year (int): The baseline year for calculations.
+        target_year (int): The target year for future projections.
+        transition_data (DataFrame): Data detailing land use transitions.
+        landuse_data (DataFrame): Specific data related to land use.
+        forest_data (DataFrame): Data related to forest areas.
+        ef_country (str): emission factor country.
+        AR_VALUE (str): The assessment report value (default 'AR5').
+
+    Methods:
+        climate_change_landuse_past(): Calculates past emissions for different land uses.
+        climate_change_landuse_future(): Projects future emissions based on land use scenarios.
+        climate_change_landuse(): Combines past and future data for a comprehensive view.
+
+    """
     def __init__(
         self,
         calibration_year,
@@ -50,6 +86,13 @@ class ClimateChangeLandUse:
         )
 
     def climate_change_landuse_past(self):
+        """
+        Calculate past emissions for different land use types, considering various greenhouse gases.
+
+        Returns:
+            DataFrame: A dataframe with emissions data for different land use types and gases.
+
+        """
         baseline_index = self.common_class.baseline_index
         base = -self.baseline
         baseline = self.baseline
@@ -333,6 +376,13 @@ class ClimateChangeLandUse:
         return emission_df
 
     def climate_change_landuse_future(self):
+        """
+        Project future emissions based on various land use scenarios.
+
+        Returns:
+            DataFrame: A dataframe with projected emissions data for different land use types and gases.
+
+        """
         base = -self.baseline
         baseline = self.baseline
         target_year = self.target_year
@@ -622,6 +672,13 @@ class ClimateChangeLandUse:
         return emission_df
 
     def climate_change_landuse(self):
+        """
+        Combine past and future emissions data to provide a comprehensive view of land use impact on climate change.
+
+        Returns:
+            DataFrame: A combined dataframe of past and future emissions data.
+
+        """
         past_data = self.climate_change_landuse_past()
 
         future_data = self.climate_change_landuse_future()
@@ -630,6 +687,32 @@ class ClimateChangeLandUse:
 
 
 class ClimateChangeLivestock:
+    """
+    A class for assessing the impact of livestock on climate change. It calculates emissions 
+    from cattle and sheep for both past and future scenarios, considering various greenhouse gases.
+
+    Attributes:
+        ef_country (str): emission factor country..
+        calibration_year (int): The year used as a baseline for calculations.
+        target_year (int): The target year for future scenario projections.
+        transition_data, landuse_data, crop_data (DataFrame): DataFrames containing relevant data for calculations.
+        AR_VALUE (str): The assessment report value, defaulting to 'AR5'.
+        cattle_climate_change_class, sheep_climate_change_class, crop_climate_change_class: Classes for calculating emissions for each category.
+        goblin_data_manager_class (GoblinDataManager): A class for managing various data and constants.
+
+    Methods:
+        climate_change_livestock_past(baseline_animals, baseline_farms):
+            Calculates past emissions based on baseline data for animals and farm inputs.
+        climate_change_livestock_future(scenario_animals, scenario_farms):
+            Projects future emissions based on scenario data for animals and farm inputs.
+        climate_change_livestock_dissagregated(baseline_animals, scenario_animals, baseline_farms, scenario_farms):
+            Provides detailed emissions data combining past and future scenarios.
+        climate_change_livestock_aggregated(baseline_animals, scenario_animals, baseline_farms, scenario_farms):
+            Provides aggregated emissions data for easy interpretation and analysis.
+        climate_change_livestock_categories_as_co2e(baseline_animals, scenario_animals, baseline_farms, scenario_farms):
+            Converts emissions data into CO2 equivalents for various categories.
+
+    """
     def __init__(self, ef_country,calibration_year, target_year, transition_data, landuse_data, crop_data, AR_VALUE="AR5"):
         self.common_class = CommonParams()
         self.cattle_climate_change_class = CattleClimateChangeTotals(ef_country)
@@ -650,6 +733,17 @@ class ClimateChangeLivestock:
         self.crop_data =  load_crop_farm_data(crop_data)
 
     def climate_change_livestock_past(self, baseline_animals, baseline_farms):
+        """
+        Calculate past livestock-related emissions for cattle and sheep, including various emission categories.
+
+        Parameters:
+            baseline_animals (DataFrame): Data containing baseline animal information.
+            baseline_farms (DataFrame): Data containing baseline farm information.
+
+        Returns:
+            dict: A dictionary of emissions data categorized by emission type.
+
+        """
         base = -self.baseline
         baseline_index = self.common_class.baseline_index
         kg_to_kt = self.common_class.kg_to_kt
@@ -819,6 +913,17 @@ class ClimateChangeLivestock:
         return emissions_dict
 
     def climate_change_livestock_future(self, scenario_animals, scenario_farms):
+        """
+        Calculate scenario livestock-related emissions for cattle and sheep, including various emission categories.
+
+        Parameters:
+            baseline_animals (DataFrame): Data containing baseline animal information.
+            baseline_farms (DataFrame): Data containing baseline farm information.
+
+        Returns:
+            dict: A dictionary of emissions data categorized by emission type.
+
+        """
         base = -self.baseline
         scenario_animals_dataframe = scenario_animals
         ef_country = self.ef_country
@@ -993,6 +1098,19 @@ class ClimateChangeLivestock:
     def climate_change_livestock_dissagregated(
         self, baseline_animals, scenario_animals, baseline_farms, scenario_farms
     ):
+        """
+        Combine past and future emissions data to provide a comprehensive view of livestock impact on climate change.
+        
+        Parameters:
+            baseline_animals (DataFrame): Data containing baseline animal information.
+            scenario_animals (DataFrame): Data containing scenario animal information.
+            baseline_farms (DataFrame): Data containing baseline farm input information.
+            scenario_farms (DataFrame): Data containing scenario farm input information.
+
+        Returns:
+            DataFrame: A combined dataframe of past and future emissions data.
+
+        """
         past_data = pd.DataFrame.from_dict(
             self.climate_change_livestock_past(baseline_animals, baseline_farms)
         )
@@ -1006,6 +1124,20 @@ class ClimateChangeLivestock:
     def climate_change_livestock_aggregated(
         self, baseline_animals, scenario_animals, baseline_farms, scenario_farms
     ):
+        """
+        Combine past and future emissions data to provide a comprehensive view of livestock impact on climate change
+        for various GHG categories.
+
+        Parameters:
+            baseline_animals (DataFrame): Data containing baseline animal information.
+            scenario_animals (DataFrame): Data containing scenario animal information.
+            baseline_farms (DataFrame): Data containing baseline farm input information.
+            scenario_farms (DataFrame): Data containing scenario farm input information.
+
+        Returns:
+            DataFrame: A combined dataframe of past and future emissions data.
+
+        """
         dissagregated_animal_emissions = self.climate_change_livestock_dissagregated(
             baseline_animals, scenario_animals, baseline_farms, scenario_farms
         )
@@ -1041,6 +1173,20 @@ class ClimateChangeLivestock:
     def climate_change_livestock_categories_as_co2e(
         self, baseline_animals, scenario_animals, baseline_farms, scenario_farms
     ):
+        """
+        Combine past and future emissions data to provide a comprehensive view of livestock impact on climate change
+        for various GHG categories, converted to CO2 equivalents.
+
+        Parameters:
+            baseline_animals (DataFrame): Data containing baseline animal information.
+            scenario_animals (DataFrame): Data containing scenario animal information.
+            baseline_farms (DataFrame): Data containing baseline farm input information.
+            scenario_farms (DataFrame): Data containing scenario farm input information.
+
+        Returns:
+            DataFrame: A combined dataframe of past and future emissions data.
+
+        """
         dissagregated_animal_emissions = self.climate_change_livestock_dissagregated(
             baseline_animals, scenario_animals, baseline_farms, scenario_farms
         )
@@ -1081,12 +1227,40 @@ class ClimateChangeLivestock:
 
 
 class EutrophicationLivestock:
+    """
+    A class for assessing the impact of livestock on eutrophication. It calculates emissions
+    from cattle and sheep for both past and future scenarios, considering various emission categories.
+    
+    Attributes:
+        ef_country (str): emission factor country..
+        cattle_eutrophication_class, sheep_eutrophication_class: Classes for calculating emissions for each category.
+        common_class (CommonParams): A class for managing various data and constants.
+        
+    Methods:
+        eutrophication_livestock_past(baseline_animals, baseline_farms):
+            Calculates past emissions based on baseline data for animals and farm inputs.
+        eutrophication_livestock_future(scenario_animals, scenario_farms):
+            Projects future emissions based on scenario data for animals and farm inputs.
+        eutrophication_livestock_dissagregated(baseline_animals, scenario_animals, baseline_farms, scenario_farms):
+            Provides detailed emissions data combining past and future scenarios.
+                
+    """
     def __init__(self, ef_country):
         self.common_class = CommonParams()
         self.cattle_eutrophication_class = CattleEutrophicationTotals(ef_country)
         self.sheep_eutrophication_class = SheepEutrophicationTotals(ef_country)
 
     def eutrophication_livestock_past(self, baseline_animals, baseline_farms):
+        """
+        Calculate past livestock-related emissions for cattle and sheep, including various emission categories.
+
+        Parameters:
+            baseline_animals (DataFrame): Data containing baseline animal information.
+            baseline_farms (DataFrame): Data containing baseline farm information.
+
+        Returns:
+            dict: A dictionary of emissions data categorized by emission type.
+        """
         baseline_index = self.common_class.baseline_index
         kg_to_kt = self.common_class.kg_to_kt
 
@@ -1141,6 +1315,17 @@ class EutrophicationLivestock:
         return eutrophication_dict
 
     def eutrophication_livestock_future(self, scenario_animals, scenario_farms):
+        """
+        Calculate scenario livestock-related emissions for cattle and sheep, including various emission categories.
+
+        Parameters:
+            baseline_animals (DataFrame): Data containing baseline animal information.
+            baseline_farms (DataFrame): Data containing baseline farm information.
+
+        Returns:
+            dict: A dictionary of emissions data categorized by emission type.
+
+        """
         scenario_animals_dataframe = scenario_animals
 
         index = [int(i) for i in scenario_animals_dataframe.Scenarios.unique()]
@@ -1202,6 +1387,19 @@ class EutrophicationLivestock:
     def eutrophication_livestock_dissagregated(
         self, baseline_animals, scenario_animals, baseline_farms, scenario_farms
     ):
+        """
+        Combine past and future emissions data to provide a comprehensive view of livestock impact on eutrophication.
+
+        Parameters:
+            baseline_animals (DataFrame): Data containing baseline animal information.
+            scenario_animals (DataFrame): Data containing scenario animal information.
+            baseline_farms (DataFrame): Data containing baseline farm input information.
+            scenario_farms (DataFrame): Data containing scenario farm input information.
+
+        Returns:
+            DataFrame: A combined dataframe of past and future emissions data.
+
+        """
         past_data = pd.DataFrame.from_dict(
             self.eutrophication_livestock_past(baseline_animals, baseline_farms)
         )
@@ -1214,6 +1412,24 @@ class EutrophicationLivestock:
 
 
 class AirQualityLivestock:
+    """
+    A class for assessing the impact of livestock on air quality. It calculates emissions
+    from cattle and sheep for both past and future scenarios, considering various emission categories.
+
+    Attributes:
+        ef_country (str): emission factor country.
+        cattle_air_quality_class, sheep_air_quality_class: Classes for calculating emissions for each category.
+        common_class (CommonParams): A class for managing various data and constants.
+
+    Methods:
+        air_quality_livestock_past(baseline_animals, baseline_farms):
+            Calculates past emissions based on baseline data for animals and farm inputs.
+        air_quality_livestock_future(scenario_animals, scenario_farms):
+            Projects future emissions based on scenario data for animals and farm inputs.
+        air_quality_livestock_dissagregated(baseline_animals, scenario_animals, baseline_farms, scenario_farms):
+            Provides detailed emissions data combining past and future scenarios.
+
+    """
     def __init__(self, ef_country):
         self.common_class = CommonParams()
         self.cattle_air_quality_class = CattleAirQualityTotals(ef_country)
@@ -1221,6 +1437,17 @@ class AirQualityLivestock:
 
 
     def air_quality_livestock_past(self, baseline_animals, baseline_farms):
+        """
+        Calculates past emissions based on baseline data for animals and farm inputs.
+
+        Parameters:
+            baseline_animals (DataFrame): Data containing baseline animal information.
+            baseline_farms (DataFrame): Data containing baseline farm information.
+
+        Returns:
+            dict: A dictionary of emissions data categorized by emission type.
+
+        """
         baseline_index = self.common_class.baseline_index
         kg_to_kt = self.common_class.kg_to_kt
 
@@ -1272,6 +1499,17 @@ class AirQualityLivestock:
         return ammonia_dict
 
     def air_quality_livestock_future(self, scenario_animals, scenario_farms):
+        """
+        Projects future emissions based on scenario data for animals and farm inputs.
+
+        Parameters:
+            scenario_animals (DataFrame): Data containing scenario animal information.
+            scenario_farms (DataFrame): Data containing scenario farm input information.    
+
+        Returns:
+            dict: A dictionary of emissions data categorized by emission type.
+
+        """
         scenario_animals_dataframe = scenario_animals
 
         index = [int(i) for i in scenario_animals_dataframe.Scenarios.unique()]
@@ -1329,6 +1567,19 @@ class AirQualityLivestock:
     def air_quality_livestock_dissagregated(
         self, baseline_animals, scenario_animals, baseline_farms, scenario_farms
     ):
+        """
+        Combine past and future emissions data to provide a comprehensive view of livestock impact on air quality.
+
+        Parameters:
+            baseline_animals (DataFrame): Data containing baseline animal information.
+            scenario_animals (DataFrame): Data containing scenario animal information.
+            baseline_farms (DataFrame): Data containing baseline farm input information.
+            scenario_farms (DataFrame): Data containing scenario farm input information.
+
+        Returns:
+            DataFrame: A combined dataframe of past and future emissions data.
+
+        """
         past_data = pd.DataFrame.from_dict(
             self.air_quality_livestock_past(baseline_animals, baseline_farms)
         )
@@ -1341,6 +1592,29 @@ class AirQualityLivestock:
 
 
 class ClimateChangeCrop:
+    """
+    A class for assessing the impact of crops on climate change. It calculates emissions
+    from crops for both past and future scenarios, considering various emission categories.
+
+    Attributes:
+        ef_country (str): emission factor country.
+        crop_climate_change_class: A class for calculating emissions for each category.
+        common_class (CommonParams): A class for managing various data and constants.
+        default_urea_proportion (float): The proportion of fertiliser inputs that is urea.
+        default_urea_abated_porpotion (float): The proportion of urea that is abated urea.
+
+    Methods:
+        climate_change_crop_past(crop_dataframe):
+            Calculates past emissions based on baseline data for animals and farm inputs.
+        climate_change_crop_future(crop_dataframe, scenario_dataframe):
+            Projects future emissions based on scenario data for animals and farm inputs.
+        climate_change_crops_dissagregated(crop_dataframe, scenario_dataframe):
+            Provides detailed emissions data combining past and future scenarios.
+        climate_change_crops_categories_as_co2e(crop_dataframe, scenario_dataframe):
+            Provides emissions data combining past and future scenarios, converted to CO2 equivalents.
+
+    """
+
     def __init__(
         self, ef_country, default_urea=None, default_urea_abated=None, AR_VALUE="AR5"
     ):
@@ -1354,6 +1628,16 @@ class ClimateChangeCrop:
         self.default_urea_abated_porpotion = default_urea_abated
 
     def climate_change_crop_past(self, crop_dataframe):
+        """
+        Calculates past emissions based on baseline data for animals and farm inputs.
+
+        Parameters:
+            crop_dataframe (DataFrame): Data containing baseline crop information.
+
+        Returns:
+            dict: A dictionary of emissions data categorized by emission type.
+
+        """
         baseline_index = self.common_class.baseline_index
         kg_to_kt = self.common_class.kg_to_kt
 
@@ -1411,6 +1695,17 @@ class ClimateChangeCrop:
         return crop_emissions_dict
 
     def climate_change_crop_future(self, crop_dataframe, scenario_dataframe):
+        """
+        Projects future emissions based on scenario data for animals and farm inputs.
+
+        Parameters:
+            crop_dataframe (DataFrame): Data containing baseline crop information.
+            scenario_dataframe (DataFrame): Data containing scenario information.
+
+        Returns:
+            dict: A dictionary of emissions data categorized by emission type.
+
+        """
         kg_to_kt = self.common_class.kg_to_kt
 
         data_frame = pd.DataFrame(crop_dataframe)
@@ -1473,6 +1768,17 @@ class ClimateChangeCrop:
         return crop_emissions_dict
 
     def climate_change_crops_dissagregated(self, crop_dataframe, scenario_dataframe):
+        """
+        Combine past and future emissions data to provide a comprehensive view of crop impact on climate change.
+
+        Parameters:
+            crop_dataframe (DataFrame): Data containing baseline crop information.
+            scenario_dataframe (DataFrame): Data containing scenario information.
+
+        Returns:
+            DataFrame: A combined dataframe of past and future emissions data.
+
+        """
         past_data = pd.DataFrame.from_dict(
             self.climate_change_crop_past(crop_dataframe)
         )
@@ -1486,6 +1792,17 @@ class ClimateChangeCrop:
     def climate_change_crops_categories_as_co2e(
         self, crop_dataframe, scenario_dataframe
     ):
+        """
+        Combine past and future emissions data to provide a comprehensive view of crop impact on climate change,
+        converted to CO2 equivalents.
+
+        Parameters:
+            crop_dataframe (DataFrame): Data containing baseline crop information.
+            scenario_dataframe (DataFrame): Data containing scenario information.
+
+        Returns:
+            DataFrame: A combined dataframe of past and future emissions data.
+        """
         dissagregated_crop_emissions = self.climate_change_crops_dissagregated(
             crop_dataframe, scenario_dataframe
         )
@@ -1520,7 +1837,20 @@ class ClimateChangeCrop:
 
         return total_crop_emissions
 
+
     def climate_change_crops_aggregated(self, crop_dataframe, scenario_dataframe):
+        """
+        Combine past and future emissions data to provide a comprehensive view of crop impact on climate change
+        for various GHG categories.
+
+        Parameters:
+            crop_dataframe (DataFrame): Data containing baseline crop information.
+            scenario_dataframe (DataFrame): Data containing scenario information.
+
+        Returns:
+            DataFrame: A combined dataframe of past and future emissions data.
+
+        """
         AR_values = self.goblin_data_manager_class.AR_values
 
         dissagregated_crop_emissions = self.climate_change_crops_dissagregated(
@@ -1548,6 +1878,26 @@ class ClimateChangeCrop:
 
 
 class EurtrophicationCrop:
+    """
+    A class for assessing the impact of crops on eutrophication. It calculates emissions
+    from crops for both past and future scenarios, considering various emission categories.
+
+    Attributes:
+        ef_country (str): emission factor country.
+        crop_eutrophication_class: A class for calculating emissions for each category.
+        common_class (CommonParams): A class for managing various data and constants.
+        default_urea_proportion (float): The proportion of fertiliser inputs that is urea.
+        default_urea_abated_porpotion (float): The proportion of urea that is abated urea.
+
+    Methods:
+        eutrophication_crop_past(crop_dataframe):
+            Calculates past emissions based on baseline data for animals and farm inputs.
+        eutrophication_crop_future(crop_dataframe, scenario_dataframe):
+            Projects future emissions based on scenario data for animals and farm inputs.
+        eutrophication_crops_dissagregated(crop_dataframe, scenario_dataframe):
+            Provides detailed emissions data combining past and future scenarios.
+
+    """
     def __init__(self, ef_country, default_urea=None, default_urea_abated=None):
         self.common_class = CommonParams()
         self.ef_country = ef_country
@@ -1557,7 +1907,18 @@ class EurtrophicationCrop:
         self.default_urea_proportion = default_urea
         self.default_urea_abated_porpotion = default_urea_abated
 
+
     def eutrophication_crops_past(self, crop_dataframe):
+        """
+        Calculates past emissions based on baseline data for animals and farm inputs.
+
+        Parameters:
+            crop_dataframe (DataFrame): Data containing baseline crop information.
+
+        Returns:
+            dict: A dictionary of emissions data categorized by emission type.
+    
+        """
         baseline_index = self.common_class.baseline_index
         # base = self.baseline
         kg_to_kt = self.common_class.kg_to_kt
@@ -1585,7 +1946,19 @@ class EurtrophicationCrop:
 
         return crop_eutrophication_dict
 
+
     def eutrophication_crops_future(self, crop_dataframe, scenario_dataframe):
+        """
+        Projects future emissions based on scenario data for animals and farm inputs.
+
+        Parameters:
+            crop_dataframe (DataFrame): Data containing baseline crop information.
+            scenario_dataframe (DataFrame): Data containing scenario information.
+
+        Returns:
+            dict: A dictionary of emissions data categorized by emission type.
+
+        """
         kg_to_kt = self.common_class.kg_to_kt
 
         data_frame = pd.DataFrame(crop_dataframe)
@@ -1618,6 +1991,17 @@ class EurtrophicationCrop:
         return crop_eutrophication_dict
 
     def eutrophication_crops_dissagregated(self, crop_dataframe, scenario_dataframe):
+        """
+        Combine past and future emissions data to provide a comprehensive view of crop impact on eutrophication.
+
+        Parameters:
+            crop_dataframe (DataFrame): Data containing baseline crop information.
+            scenario_dataframe (DataFrame): Data containing scenario information.
+
+        Returns:
+            DataFrame: A combined dataframe of past and future emissions data.
+
+        """
         past_data = pd.DataFrame.from_dict(
             self.eutrophication_crops_past(crop_dataframe)
         )
@@ -1630,6 +2014,26 @@ class EurtrophicationCrop:
 
 
 class AirQualityCrop:
+    """
+    A class for assessing the impact of crops on air quality. It calculates emissions
+    from crops for both past and future scenarios, considering various emission categories.
+
+    Attributes:
+        ef_country (str): emission factor country.
+        crop_air_quality_class: A class for calculating emissions for each category.
+        common_class (CommonParams): A class for managing various data and constants.
+        default_urea_proportion (float): The proportion of fertiliser inputs that is urea.
+        default_urea_abated_porpotion (float): The proportion of urea that is abated urea.
+
+    Methods:
+        air_quality_crop_past(crop_dataframe):
+            Calculates past emissions based on baseline data for animals and farm inputs.
+        air_quality_crop_future(crop_dataframe, scenario_dataframe):
+            Projects future emissions based on scenario data for animals and farm inputs.
+        air_quality_crops_dissagregated(crop_dataframe, scenario_dataframe):
+            Provides detailed emissions data combining past and future scenarios.
+
+    """
     def __init__(self, ef_country, default_urea=None, default_urea_abated=None):
         self.common_class = CommonParams()
         self.ef_country = ef_country
@@ -1640,6 +2044,16 @@ class AirQualityCrop:
         self.default_urea_abated_porpotion = default_urea_abated
 
     def air_quality_crops_past(self, crop_dataframe):
+        """
+        Calculates past emissions based on baseline data for animals and farm inputs.
+
+        Parameters:
+            crop_dataframe (DataFrame): Data containing baseline crop information.
+
+        Returns:
+            dict: A dictionary of emissions data categorized by emission type.
+
+        """
         baseline_index = self.common_class.baseline_index
         # base = self.baseline
         kg_to_kt = self.common_class.kg_to_kt
@@ -1668,6 +2082,17 @@ class AirQualityCrop:
         return crop_air_quality_dict
 
     def air_quality_crops_future(self, crop_dataframe, scenario_dataframe):
+        """
+        Projects future emissions based on scenario data for animals and farm inputs.
+
+        Parameters:
+            crop_dataframe (DataFrame): Data containing baseline crop information.
+            scenario_dataframe (DataFrame): Data containing scenario information.
+
+        Returns:
+            dict: A dictionary of emissions data categorized by emission type.
+
+        """
         kg_to_kt = self.common_class.kg_to_kt
 
         data_frame = pd.DataFrame(crop_dataframe)
@@ -1700,6 +2125,17 @@ class AirQualityCrop:
         return crop_air_quality_dict
 
     def air_quality_crops_dissagregated(self, crop_dataframe, scenario_dataframe):
+        """
+        Combine past and future emissions data to provide a comprehensive view of crop impact on air quality.
+
+        Parameters:
+            crop_dataframe (DataFrame): Data containing baseline crop information.
+            scenario_dataframe (DataFrame): Data containing scenario information.
+
+        Returns:
+            DataFrame: A combined dataframe of past and future emissions data.
+
+        """
         past_data = pd.DataFrame.from_dict(self.air_quality_crops_past(crop_dataframe))
 
         future_data = pd.DataFrame.from_dict(
@@ -1710,12 +2146,38 @@ class AirQualityCrop:
 
 
 class ClimateChangeTotal:
+    """
+    A class for assessing the total impact of land use change, livestock and crops on climate change. It calculates emissions
+    from land use change, livestock and crops for both past and future scenarios, considering various emission categories.
+    
+    Attributes:
+        common_class (CommonParams): A class for managing various data and constants.
+
+    Methods:
+        total_climate_change_emissions(calibration_year, target_year, scenario_dataframe, dataframe_dict):
+            Calculates total emissions for each scenario.
+
+    """
     def __init__(self):
         self.common_class = CommonParams()
 
     def total_climate_change_emissions(
         self, calibration_year, target_year, scenario_dataframe, dataframe_dict
     ):
+        """
+        Calculates climate change total emissions for each scenario.
+
+        Parameters:
+            calibration_year (int): The year for which calibration data is available.
+            target_year (int): The year for which scenario ends.
+            scenario_dataframe (DataFrame): Data containing scenario information.
+            dataframe_dict (dict): A dictionary of dataframes containing baseline and scenario information.
+
+        Returns:
+            DataFrame: A dataframe of total emissions for each scenario.
+
+        """
+
         baseline_index = self.common_class.baseline_index
 
         animal_data = dataframe_dict["animal"]
@@ -1751,10 +2213,33 @@ class ClimateChangeTotal:
 
 
 class EutrophicationTotal:
+    """
+    A class for assessing the total impact of livestock and crops on eutrophication. It calculates emissions
+    from livestock and crops for both past and future scenarios, considering various emission categories.
+
+    Attributes:
+        common_class (CommonParams): A class for managing various data and constants.
+
+    Methods:
+        total_eutrophication_emissions(dataframe_dict):
+            Calculates total emissions for each scenario.
+
+    """
     def __init__(self):
         self.common_class = CommonParams()
 
+
     def total_eutrophication_emissions(self, dataframe_dict):
+        """
+        Calculates eutrophication total emissions for each scenario.
+
+        Parameters:
+            dataframe_dict (dict): A dictionary of dataframes containing baseline and scenario information.
+
+        Returns:
+            DataFrame: A dataframe of total emissions for each scenario.
+
+        """
 
         livestock_data = dataframe_dict["animal"]
 
@@ -1770,10 +2255,33 @@ class EutrophicationTotal:
 
 
 class AirQualityTotal:
+    """
+    A class for assessing the total impact of livestock and crops on air quality. It calculates emissions
+    from livestock and crops for both past and future scenarios, considering various emission categories.
+
+    Attributes:
+        common_class (CommonParams): A class for managing various data and constants.
+
+    Methods:
+        total_air_quality_emissions(dataframe_dict):
+            Calculates total emissions for each scenario.
+
+    """
     def __init__(self):
         self.common_class = CommonParams()
 
+
     def total_air_quality_emissions(self, dataframe_dict):
+        """
+        Calculates air quality total emissions for each scenario.
+
+        Parameters:
+            dataframe_dict (dict): A dictionary of dataframes containing baseline and scenario information.
+
+        Returns:
+            DataFrame: A dataframe of total emissions for each scenario.
+            
+        """
 
         livestock_data = dataframe_dict["animal"]
 

@@ -6,7 +6,6 @@ import os
 
 def main():
     # configuration
-
     goblin_config = "./data/config.json"
     cbm_config = "./data/cbm_factory.yaml"
     ef_country = "ireland"
@@ -40,8 +39,8 @@ def main():
     graph_class.plot_crop_livestock_lca_emissions_by_category(data_path)
 
     # ranking variables
-    target = 0.02
-    gas = "CO2e"
+    target = 0.01
+    gas = "CO2E"
 
     # plot ranks
     graph_class.rank_chart(target, gas, data_path)
