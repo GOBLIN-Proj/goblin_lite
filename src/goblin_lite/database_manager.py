@@ -42,6 +42,8 @@ class DataManager:
             dtype={
                 "farm_id": sqa.types.Integer(),
                 "Year": sqa.types.Integer(),
+                "year": sqa.types.Integer(),
+                "Scenarios": sqa.types.Integer(),
                 "Scenario": sqa.types.Integer(),
                 "CO2": sqa.types.Float(),
                 "CH4": sqa.types.Float(),
@@ -51,6 +53,10 @@ class DataManager:
             if_exists="replace",
             index=index,
         )
+
+    def save_goblin_results_to_database(self, *args):
+        for table_name, table in args:
+            self.save_goblin_results_output_datatable(table, table_name)
 
     def get_goblin_results_output_datatable(self, table, index_col=None):
         dataframe = pd.read_sql("SELECT * FROM '%s'" % table, self.engine, index_col)

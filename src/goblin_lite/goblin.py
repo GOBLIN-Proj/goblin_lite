@@ -1,3 +1,60 @@
+"""
+===================
+Goblin lite module
+===================
+
+The Goblin Lite module is designed for running environmental impact scenarios, particularly focused on land use, 
+livestock, crop production, and their associated impacts on climate change, air quality, and eutrophication. It 
+utilizes various data sources and models to simulate scenarios and calculate the environmental footprints of different 
+agricultural practices and land use changes at the national level in the Irish context.
+
+Classes
+-------
+ScenarioRunner
+    A class responsible for orchestrating the entire scenario generation process, utilizing other classes and methods 
+    to generate, analyze, and store scenario data.
+
+Dependencies
+------------
+- ScenarioGeneration
+- AnimalData
+- Exports
+- GrasslandOutput
+- AirQualityTotal, EutrophicationTotal, ClimateChangeTotal
+- DataManager
+- DataFetcher
+- TransitionMatrix
+- LandCover
+- Afforestation
+- Runner
+- NationalCropData
+
+Usage
+-----
+The ScenarioRunner class is initialized with country-specific parameters, calibration year, target year, scenario 
+configuration file path, and CBM CFS3 configuration file path. It generates a series of data tables representing 
+various aspects of environmental impact under different agricultural and land use scenarios. These tables are stored 
+and can be accessed for further analysis and visualization.
+
+Key Methods
+-----------
+- run_scenarios(): Orchestrates the scenario generation process.
+- generate_livestock_outputs(): Calculates livestock production outputs for scenarios.
+- generate_air_quality_totals(), generate_eutrophication_totals(), generate_climate_change_totals(): Generate total 
+  emissions and impacts for air quality, eutrophication, and climate change.
+- generate_transition_matrix(): Creates a matrix representing land use transitions.
+- generate_landuse_data(): Produces land use data based on scenario inputs.
+- generate_crop_data(), generate_crop_farm_data(): Generate crop-related data and crop farm inputs.
+- generate_baseline_farm_inputs(), generate_scenario_farm_inputs(): Estimate grassland farm inputs for baseline and scenario 
+  cases.
+- generate_grassland_areas(): Calculates spared and total grassland areas, spared area by soil group, and stocking rate for scenarios.
+- generate_crop_footprint(), generate_aggregated_crop_footprint(): Calculate environmental footprints associated with crop production.
+- generate_landuse_footprint(): Computes the environmental footprint of land use.
+- generate_livestock_footprint(), generate_aggregated_livestock_footprint(): Estimate environmental impacts of livestock production.
+- generate_afforestation_data(): Generates data related to afforestation activities.
+- generate_forest_carbon(): Calculates forest carbon data based on afforestation and scenario data.
+
+"""
 from static_scenario_generator.scenarios import ScenarioGeneration
 from livestock_generation.livestock import AnimalData
 from livestock_generation.livestock_exports import Exports
@@ -22,6 +79,7 @@ from landcover_assignment.afforestation import Afforestation
 from cbm_runner.runner import Runner
 from crop_lca.national_crop_production import NationalCropData
 import copy as copy
+import numpy as np
 
 
 class ScenarioRunner:
@@ -29,7 +87,7 @@ class ScenarioRunner:
     (1) Scenario configuration files, containing the specified scenario parameters, (2) The CBM CFS3 configuration file, containing the nationally specific
     forest configuration settings.
 
-    In total, the scenario runner generates data for each scenario and the selected baseline contained in 26 tables. These data tables can be referenced using the DataFetcher
+    In total, the scenario runner generates data for each scenario and the selected baseline contained in 29 tables. These data tables can be referenced using the DataFetcher
     class, and visualized using the DataGrapher class.
 
     Tables are returned as pandas dataframes.
@@ -98,7 +156,7 @@ class ScenarioRunner:
         Generates scenario farm inputs based on the scenario dataframe, scenario animal data, and baseline animal data.
 
     generate_grassland_areas(scenario_dataframe, scenario_animal_data, baseline_animal_data):
-        Generates grassland areas based on the scenario dataframe, scenario animal data, and baseline animal data.
+        Generates grassland areas and stocking rates based on the scenario dataframe, scenario animal data, and baseline animal data.
 
     generate_crop_footprint(crop_dataframe, scenario_dataframe, default_urea, default_urea_abated):
         Generates crop footprint based on the crop dataframe, scenario dataframe, default urea, and default urea abated.
@@ -142,11 +200,12 @@ class ScenarioRunner:
 
     def run_scenarios(self):
         """
-        Runs the scenario generation process based on the provided inputs.
+        Executes the scenario generation process using provided inputs and configurations.
 
-        This method orchestrates the entire scenario generation process. It prepares and generates data for each scenario
-        and the selected baseline contained in 26 tables. The generated data tables are saved as pandas dataframes and can
-        be accessed later for analysis and visualization.
+        This method manages the complete scenario generation process. It prepares and generates data for various scenarios
+        and the selected baseline across multiple domains (such as animal data, land use, crop data, carbon flux, etc.), 
+        encapsulated in 26 distinct data tables. These tables are saved as pandas dataframes and are intended for subsequent
+        analysis and visualization.
 
         Parameters
         ----------
@@ -158,53 +217,43 @@ class ScenarioRunner:
 
         Notes
         -----
-        The method performs the following steps:
+        The method executes the following steps:
 
-        1. Create or clear the database using the DataManager instance (:attr:`data_manager_class`).
+        1. Initialize or clear the database using the DataManager instance (:attr:`data_manager_class`).
 
-        2. Generate the scenario data by calling the :meth:`generate_scenario_dataframe` method of the ScenarioGeneration class
-        (:attr:`scenario_class`) with the provided configuration path (:attr:`config_path`).
+        2. Generate scenario input data by invoking the `generate_scenario_dataframe` method of the ScenarioGeneration class
+        (:attr:`scenario_class`), using the configuration path provided in :attr:`config_path`.
 
-        3. Create instances of the AnimalData class (:attr:`animal_class`) for generating animal-related data based on the
-        specified parameters: :attr:`ef_country`, :attr:`baseline_year`, :attr:`target_year`, and the scenario_dataframe.
+        3. Create instances of the AnimalData class (:attr:`animal_class`) to generate data for animals, using parameters
+        such as :attr:`ef_country`, :attr:`baseline_year`, :attr:`target_year`, and the generated scenario input data.
 
-        4. Create the baseline animal data by calling the :meth:`create_baseline_animal_dataframe` method of the AnimalData class.
+        4. Generate baseline and scenario-specific animal data using methods from the AnimalData class.
 
-        5. Create the scenario animal data by calling the :meth:`create_animal_dataframe` method of the AnimalData class.
+        5. Calculate farm inputs for both the baseline and scenario contexts using generated animal data.
 
-        6. Generate farm inputs for the scenario by calling the :meth:`generate_scenario_farm_inputs` method, and for the baseline
-        by calling the :meth:`generate_baseline_farm_inputs` method, using the scenario and baseline animal data, as well as the
-        specified urea proportions and urea abated proportions.
+        6. Compute Grassland area data and stocking rates based on the animal data and scenario inputs.
 
-        7. Generate data for Grassland areas (:attr:`spared_area` and :attr:`total_grassland_area`) using the scenario and baseline
-        animal data.
+        7. Generate crop-related data and crop farm data for the scenario using the scenario input data.
 
-        8. Generate crop data for the scenario using the scenario dataframe.
+        8. Create a transition matrix for land use changes and generate associated land use data.
 
-        9. Generate crop farm data for the scenario using the scenario dataframe, crop data, default urea, and default urea
-        abated proportions.
+        9. Produce afforestation data and corresponding forest carbon data, including flux and aggregate calculations,
+        using the Carbon Budget Model (CBM) CFS3 runner.
 
-        10. Generate the transition matrix for land use changes based on the scenario dataframe, total grassland area, and
-            spared area.
+        10. Execute Life Cycle Assessment (LCA) calculations for various environmental impact metrics, such as crop and
+            livestock footprints, climate change, eutrophication, and air quality impacts.
 
-        11. Generate land use data based on the scenario dataframe, total grassland area, and spared area.
+        11. Generate summary outputs for livestock, including protein and milk production analysis, based on the animal data.
 
-        12. Generate afforestation data based on the transition matrix and the scenario dataframe.
+        12. Save all generated data to the database using the `save_goblin_results_to_database` method of the DataManager class,
+            ensuring each dataset is labeled with its respective name for identification and retrieval.
 
-        13. Generate forest carbon data (:attr:`forest_data`) based on the afforestation data and the scenario dataframe using the
-            CBM CFS3 runner.
+        13. Print a completion message upon successfully running all scenarios.
 
-        14. Perform Life Cycle Assessment (LCA) calculations by generating crop footprints, aggregated crop footprints,
-            land use footprints, livestock footprints, aggregated livestock footprints, climate change totals,
-            eutrophication totals, and air quality totals using the respective methods.
-
-        15. Generate livestock outputs based on the scenario animal data, baseline animal data, and scenario dataframe.
-
-        The generated data is intended for further analysis and visualization within the class context.
-
-        The attributes and methods referenced in this documentation are class attributes and methods and should be
-        available within the class instance when this method is called.
+        The method extensively utilizes class attributes and methods, assuming their availability and proper initialization
+        within the class context when this method is invoked.
         """
+        
 
         self.data_manager_class.create_or_clear_database()
 
@@ -218,11 +267,10 @@ class ScenarioRunner:
         default_urea_abated = 0
 
         # generate scenario_data
-        scenario_dataframe = self.scenario_class.generate_scenario_dataframe(path)
-
+        scenario_input_dataframe = self.scenario_class.generate_scenario_dataframe(path)
 
         try:
-            afforest_year = scenario_dataframe["Afforest year"].unique().item()
+            afforest_year = scenario_input_dataframe["Afforest year"].unique().item()
         except ValueError as e:
             raise ValueError(
                 "Error may be a results of multiple Afforest, scenarios should have identical Afforest years ... ",
@@ -230,63 +278,83 @@ class ScenarioRunner:
             )
 
         animal_class = AnimalData(
-            ef_country, baseline_year, target_year, scenario_dataframe
+            ef_country, baseline_year, target_year, scenario_input_dataframe
         )
 
         baseline_animal_data = animal_class.create_baseline_animal_dataframe()
-        self.data_manager_class.save_goblin_results_output_datatable(
-            baseline_animal_data, "baseline_animal_data"
-        )
 
         # create dataframe for scenarios animals
         scenario_animal_data = animal_class.create_animal_dataframe()
-        self.data_manager_class.save_goblin_results_output_datatable(
-            scenario_animal_data, "scenario_animal_data"
-        )
 
         # farm inputs
-
-        farm_inputs_scenario = self.generate_scenario_farm_inputs(
-            scenario_dataframe, scenario_animal_data, baseline_animal_data
+        grassland_farm_inputs_scenario = self.generate_scenario_farm_inputs(
+            scenario_input_dataframe, scenario_animal_data, baseline_animal_data
         )
 
-        farm_inputs_baseline = self.generate_baseline_farm_inputs(
-            scenario_dataframe, scenario_animal_data, baseline_animal_data
+        grassland_farm_inputs_baseline = self.generate_baseline_farm_inputs(
+            scenario_input_dataframe, scenario_animal_data, baseline_animal_data
         )
 
         # Grassland
-        spared_area, total_grassland_area = self.generate_grassland_areas(
-            scenario_dataframe, scenario_animal_data, baseline_animal_data
+        total_spared_area, total_grassland_area, total_spared_area_by_soil_group, per_hectare_stocking_rate= self.generate_grassland_areas(
+            scenario_input_dataframe, scenario_animal_data, baseline_animal_data
         )
 
-        crop_data = self.generate_crop_data(scenario_dataframe)
+        crop_input_data = self.generate_crop_data(scenario_input_dataframe)
         crop_farm_data = self.generate_crop_farm_data(
-            scenario_dataframe, crop_data, default_urea, default_urea_abated
+            scenario_input_dataframe, crop_input_data, default_urea, default_urea_abated
         )
 
         transition_matrix = self.generate_transition_matrix(
-            scenario_dataframe, total_grassland_area, spared_area
+            scenario_input_dataframe, total_grassland_area, total_spared_area
         )
 
 
         landuse_data = self.generate_landuse_data(
-            scenario_dataframe, total_grassland_area, spared_area
+            scenario_input_dataframe, total_grassland_area, total_spared_area
         )
 
-        afforestation_data = self.generate_afforestation_data(
-            transition_matrix, scenario_dataframe
+        cbm_afforestation_data = self.generate_afforestation_data(
+            transition_matrix, scenario_input_dataframe
         )
 
         forest_data = self.generate_forest_carbon(
-            afforest_year, afforestation_data, scenario_dataframe
+            afforest_year, cbm_afforestation_data, scenario_input_dataframe
         )
+
+        forest_carbon_flux = forest_data["forest_flux"]
+        forest_carbon_aggregate = forest_data["forest_aggregate"]
+
+        # livestock ouputs
+        protein_and_milk_summary = self.generate_livestock_ouputs(
+            scenario_animal_data, baseline_animal_data, scenario_input_dataframe
+        )
+
+        #SAVE DATA
+        self.data_manager_class.save_goblin_results_to_database(("scenario_input_dataframe",scenario_input_dataframe),
+                                                                ("baseline_animal_data",baseline_animal_data),
+                                                                ("scenario_animal_data",scenario_animal_data),
+                                                                ("grassland_farm_inputs_scenario",grassland_farm_inputs_scenario),
+                                                                ("grassland_farm_inputs_baseline",grassland_farm_inputs_baseline),
+                                                                ("total_spared_area",total_spared_area),
+                                                                ("total_grassland_area",total_grassland_area),
+                                                                ("total_spared_area_by_soil_group",total_spared_area_by_soil_group),
+                                                                ("per_hectare_stocking_rate",per_hectare_stocking_rate),
+                                                                ("crop_input_data",crop_input_data),
+                                                                ("crop_farm_data",crop_farm_data),
+                                                                ("transition_matrix",transition_matrix),
+                                                                ("landuse_data",landuse_data),
+                                                                ("cbm_afforestation_data",cbm_afforestation_data),
+                                                                ("forest_carbon_flux",forest_carbon_flux),
+                                                                ("forest_carbon_aggregate",forest_carbon_aggregate),
+                                                                ("protein_and_milk_summary",protein_and_milk_summary))
 
         # LCA
         self.generate_crop_footprint(
-            crop_data, scenario_dataframe, default_urea, default_urea_abated
+            crop_input_data, scenario_input_dataframe, default_urea, default_urea_abated
         )
         self.generate_aggregated_crop_footprint(
-            crop_data, scenario_dataframe, default_urea, default_urea_abated
+            crop_input_data, scenario_input_dataframe, default_urea, default_urea_abated
         )
         self.generate_landuse_footprint(
             landuse_data, transition_matrix, forest_data["forest_flux"]
@@ -294,44 +362,41 @@ class ScenarioRunner:
         self.generate_livestock_footprint(
             baseline_animal_data,
             scenario_animal_data,
-            farm_inputs_baseline,
-            farm_inputs_scenario,
+            grassland_farm_inputs_baseline,
+            grassland_farm_inputs_scenario,
             landuse_data, 
             transition_matrix,
-            crop_data
+            crop_input_data
         )
         self.generate_aggregated_livestock_footprint(
             baseline_animal_data,
             scenario_animal_data,
-            farm_inputs_baseline,
-            farm_inputs_scenario,
+            grassland_farm_inputs_baseline,
+            grassland_farm_inputs_scenario,
             landuse_data, 
             transition_matrix,
-            crop_data
+            crop_input_data
         )
-        self.generate_climate_change_totals(
-            calibration_year, target_year, scenario_dataframe
-        )
-        self.generate_eutrophication_totals(scenario_dataframe)
-        self.generate_air_quality_totals(scenario_dataframe)
 
-        # livestock ouputs
-        self.generate_livestock_ouputs(
-            scenario_animal_data, baseline_animal_data, scenario_dataframe
+        self.generate_climate_change_totals(
+            calibration_year, target_year, scenario_input_dataframe
         )
+
+        self.generate_eutrophication_totals()
+
+        self.generate_air_quality_totals()
 
         print("Scenario Generation Complete ... \n")
+
 
     def generate_livestock_ouputs(
         self, scenario_animal_data, baseline_animal_data, scenario_inputs_df
     ):
         """
-        Generates livestock outputs for the given scenario.
+        Generates and returns a summary DataFrame of livestock outputs for the given scenario.
 
-        This method calculates and generates livestock-related outputs for the specified scenarios based on the provided data.
-        The livestock outputs include protein and milk production data for the given scenario and baseline animal data.
-        A summary DataFrame is created by combining the milk production data and the beef (carcass) weight
-        from the protein production data.
+        This method leverages the Exports class to calculate protein and milk production based on scenario-specific and baseline 
+        animal data. It produces a summary DataFrame combining milk production data and beef (carcass) weight from protein production data.
 
         Parameters
         ----------
@@ -346,21 +411,26 @@ class ScenarioRunner:
 
         Returns
         -------
-        None
+        pandas.DataFrame
+            A summary DataFrame, named protein_and_milk_summary, combining milk production data and beef carcass weight, 
+            indexed by 'Scenarios'.
 
         Notes
         -----
-        This method uses the provided scenario_animal_data, baseline_animal_data, and scenario_inputs_df to calculate the
-        protein and milk production for the given scenario using the Exports class.
+        The method performs the following steps:
+        1. Initializes an instance of the Exports class with country-specific parameters, calibration year, target year, 
+        and scenario inputs.
+        2. Computes protein production data using `compute_system_protien_exports` of the Exports class, which includes 
+        carcass weight information.
+        3. Computes milk production data using `compute_system_milk_exports` of the Exports class.
+        4. Creates the protein_and_milk_summary DataFrame by copying milk production data and appending the beef carcass 
+        weight from the protein production data.
+        5. Sets 'Scenarios' as the index of the protein_and_milk_summary DataFrame.
 
-        The milk production DataFrame is combined with a copy of the protein production DataFrame to create a summary
-        DataFrame, protein_and_milk_summary, which includes an additional column "total_beef_kg" representing the carcass
-        weight (in kilograms) of beef.
+        The generated protein_and_milk_summary DataFrame provides a comprehensive overview of the livestock outputs, 
+        including milk production and beef carcass weight, for both scenario-specific and baseline data comparisons.
 
-        The generated protein_and_milk_summary DataFrame is saved as "protein_and_milk_summary" using the
-        DataManager instance (:attr:`data_manager_class`).
-
-        The attributes and methods referenced in this documentation are class attributes and methods and should be
+        The attributes and methods referenced in this documentation are class attributes and methods and should be 
         available within the class instance when this method is called.
         """
 
@@ -385,12 +455,13 @@ class ScenarioRunner:
         protein_and_milk_summary["total_beef_kg"] = protein_production_df[
             "carcass_weight_kg"
         ]
+        # Set 'Scenarios' as the index
+        protein_and_milk_summary = protein_and_milk_summary.set_index('Scenarios')
 
-        self.data_manager_class.save_goblin_results_output_datatable(
-            protein_and_milk_summary, "protein_and_milk_summary"
-        )
+        return protein_and_milk_summary
+    
 
-    def generate_air_quality_totals(self, scenario_dataframe):
+    def generate_air_quality_totals(self):
         """
         Generates total air quality emissions for the given scenario.
 
@@ -435,7 +506,7 @@ class ScenarioRunner:
             air_quality, "air_quality_totals"
         )
 
-    def generate_eutrophication_totals(self, scenario_dataframe):
+    def generate_eutrophication_totals(self):
         """
         Generates total eutrophication emissions for the given scenario.
 
@@ -529,13 +600,11 @@ class ScenarioRunner:
 
         dataframes = self.get_climate_emission_dataframes()
 
-        climate_change = climate_class.total_climate_change_emissions(
+        climate_change_totals = climate_class.total_climate_change_emissions(
             calibration_year, target_year, scenario_dataframe, dataframes
         )
 
-        self.data_manager_class.save_goblin_results_output_datatable(
-            climate_change, "climate_change_totals"
-        )
+        self.data_manager_class.save_goblin_results_to_database(("climate_change_totals", climate_change_totals))
 
     def get_air_quality_emission_dataframes(self):
         """
@@ -667,35 +736,39 @@ class ScenarioRunner:
         self, scenario_dataframe, grassland_area, spared_area
     ):
         """
-        Generates a transition matrix based on scenario parameters and land use data.
+        Generates and returns a land use transition matrix for the specified scenario.
 
-        This method calculates a transition matrix using scenario parameters and land use data, and saves the resulting
-        transition matrix as a datatable using the DataManager class.
+        This method computes a transition matrix, representing land use changes between categories, based on the scenario 
+        parameters and land use data provided. It leverages the TransitionMatrix class for calculations, considering the 
+        baseline year, target year, total grassland area, and spared area from conversion.
 
         Parameters
         ----------
         scenario_dataframe : pandas.DataFrame
             A pandas DataFrame containing scenario parameters.
-        grassland_area : float
-            The total area of grassland.
-        spared_area : float
-            The area of grassland spared from conversion to other land uses.
+        grassland_area : pandas.DataFrame
+            A pandas DataFrame the total area of grassland.
+        spared_area : pandas.DataFrame
+            A pandas DataFrame the area of grassland spared (destocked).
 
         Returns
         -------
         numpy.ndarray
-            The generated transition matrix as a NumPy array.
+            The generated transition matrix as a NumPy array, illustrating the land use changes.
 
         Notes
         -----
-        The method utilizes the TransitionMatrix class to calculate the transition matrix based on the given scenario
-        parameters, baseline year, target year, grassland area, and spared area. The transition matrix represents the
-        transition areas of land use changes from one category to another.
+        The method follows these steps:
+        1. Initializes an instance of the TransitionMatrix class using the calibration year as the baseline year, target year, 
+        scenario parameters, grassland area, and spared area.
+        2. Calls the `create_transition_matrix` method of the TransitionMatrix instance to calculate the transition matrix.
+        3. Returns the computed transition matrix, which is a NumPy array depicting the area transitions between different 
+        land use categories.
 
-        The resulting transition matrix is saved as a datatable using the `save_goblin_results_output_datatable` method
-        from the DataManager class with the name "transition_matrix".
+        The transition matrix quantifies the changes in land use areas, providing insights into how different land use categories 
+        are expected to shift under the scenario.
 
-        The attributes and methods referenced in this documentation are class attributes and methods and should be
+        The attributes and methods referenced in this documentation are class attributes and methods and should be 
         available within the class instance when this method is called.
         """
         baseline_year = self.calibration_year
@@ -707,44 +780,41 @@ class ScenarioRunner:
 
         transition_matrix = transition.create_transition_matrix()
 
-        self.data_manager_class.save_goblin_results_output_datatable(
-            transition_matrix, "transition_matrix"
-        )
-
         return transition_matrix
 
     def generate_landuse_data(self, scenario_dataframe, grassland_area, spared_area):
         """
         Generates land use data based on scenario parameters and land area information.
 
-        This method calculates the current and future land use data using scenario parameters, baseline year, target year, total grassland
-        area, and spared grassland area. It saves the resulting land use data as a datatable using the DataManager class.
+        This method calculates the current and projected future land use data using scenario parameters, baseline year, target year,
+        total grassland area, and spared grassland area.
 
         Parameters
         ----------
         scenario_dataframe : pandas.DataFrame
             A pandas DataFrame containing scenario parameters.
-        grassland_area : float
-            The total area of grassland.
-        spared_area : float
-            The area of grassland spared from conversion to other land uses.
+        grassland_area : pandas.DataFrame
+            A DataFrame representing the total area of grassland.
+        spared_area : pandas.DataFrame
+            A DataFrame representing the area of grassland spared (destocked).
 
         Returns
         -------
         pandas.DataFrame
-            A pandas DataFrame containing the generated land use data.
+            A pandas DataFrame containing the generated land use data, which includes current and projected future land use areas for different
+            land use categories.
 
         Notes
         -----
         The method utilizes the LandCover class to calculate the current and future land use data based on the given scenario parameters,
-        baseline year, target year, total grassland area, and spared grassland area. The future land use data represents the projected
-        land use areas for different land use categories.
+        baseline year, target year, grassland area, and spared grassland area. The future land use data represents the projected land use areas
+        for different land use categories, taking into account the spared grassland areas.
 
-        The resulting land use data is saved as a datatable using the `save_goblin_results_output_datatable` method from the
-        DataManager class with the name "landuse_data".
+        The resulting land use data is saved as a datatable using the `save_goblin_results_output_datatable` method from the DataManager class
+        with the name "landuse_data".
 
-        The attributes and methods referenced in this documentation are class attributes and methods and should be
-        available within the class instance when this method is called.
+        The attributes and methods referenced in this documentation are class attributes and methods and should be available within the class
+        instance when this method is called.
         """
         baseline_year = self.calibration_year
         target_year = self.target_year
@@ -754,10 +824,6 @@ class ScenarioRunner:
         )
 
         landuse_data = land.combined_future_land_use_area()
-
-        self.data_manager_class.save_goblin_results_output_datatable(
-            landuse_data, "landuse_data"
-        )
 
         return landuse_data
 
@@ -786,9 +852,6 @@ class ScenarioRunner:
         scenario_dataframe and generates crop data accordingly. The generated crop data is stored in the crop_df variable
         for each scenario, and the final crop data for the last scenario is returned as the output.
 
-        The resulting crop data is saved as a datatable using the `save_goblin_results_output_datatable` method from the
-        DataManager class with the name "crop_input_data".
-
         The attributes and methods referenced in this documentation are class attributes and methods and should be
         available within the class instance when this method is called.
         """
@@ -807,10 +870,6 @@ class ScenarioRunner:
                     baseline_year, target_year, sc
                 )
 
-        self.data_manager_class.save_goblin_results_output_datatable(
-            crop_df, "crop_input_data"
-        )
-
         return crop_df
 
     def generate_crop_farm_data(
@@ -821,8 +880,7 @@ class ScenarioRunner:
 
         This method calculates crop farm data representing fertilizer inputs (in kg) for each scenario. It utilizes the provided
         crop production data and scenario parameters to determine the total amount of fertilizers (urea, urea abated, total N,
-        P, and K fertilizers) required at the national level. The generated crop farm data is saved as a datatable
-        using the DataManager class.
+        P, and K fertilizers) required at the national level.
 
         Parameters
         ----------
@@ -864,13 +922,13 @@ class ScenarioRunner:
             ["Scenarios", "Urea proportion", "Urea abated proportion"]
         ].drop_duplicates()
 
+        # Set 'Scenarios' as the index of the DataFrame
+        subset_df = subset_df.set_index('Scenarios')
+
         crop_farm_data = NationalCropData.gen_farm_data(
             crop_dataframe, subset_df, default_urea, default_urea_abated
         )
 
-        self.data_manager_class.save_goblin_results_output_datatable(
-            crop_farm_data, "crop_farm_data"
-        )
 
         return crop_farm_data
 
@@ -882,8 +940,7 @@ class ScenarioRunner:
 
         This method estimates the baseline farm inputs (fertilizer) application to grassland, at the national
         level for each scenario. The fertilizer application rates specified in the scenario_dataframe are used to determine
-        the total amount of fertilizer (in kg) required for grassland. The generated baseline farm inputs data is saved as a
-        datatable using the DataManager class.
+        the total amount of fertilizer (in kg) required for grassland.
 
         Parameters
         ----------
@@ -932,10 +989,6 @@ class ScenarioRunner:
 
         farm_inputs_baseline = grassland_class.baseline_farm_inputs_data()
 
-        self.data_manager_class.save_goblin_results_output_datatable(
-            farm_inputs_baseline, "grassland_farm_inputs_baseline"
-        )
-
         return farm_inputs_baseline
 
     def generate_scenario_farm_inputs(
@@ -946,8 +999,7 @@ class ScenarioRunner:
 
         This method estimates the scenario-specific farm inputs (fertilizer) application to grassland, at the
         national level for each scenario. The fertilizer application rates specified in the scenario_dataframe are used to
-        determine the total amount of fertilizer (in kg) required for grassland in each scenario. The generated scenario-specific
-        farm inputs data is saved as a datatable using the DataManager class.
+        determine the total amount of fertilizer (in kg) required for grassland in each scenario.
 
         Parameters
         ----------
@@ -996,10 +1048,6 @@ class ScenarioRunner:
 
         farm_inputs_scenario = grassland_class.farm_inputs_data()
 
-        self.data_manager_class.save_goblin_results_output_datatable(
-            farm_inputs_scenario, "grassland_farm_inputs_scenario"
-        )
-
         return farm_inputs_scenario
 
     def generate_grassland_areas(
@@ -1008,13 +1056,14 @@ class ScenarioRunner:
         """
         Calculate the total spared and total grassland areas for each scenario.
 
-        This method calculates and returns the total spared and total grassland areas for each scenario based on the provided
+        This method calculates and returns the total spared, total grassland areas, spared area by soil group and stocking rate for each scenario based on the provided
         scenario_dataframe, scenario_animal_data, and baseline_animal_data. The GrasslandOutput class is utilized to perform
         the necessary calculations for each scenario.
 
-        The total spared area represents the area of grassland that will be converted to other land uses (e.g., wetland,
+        The total spared area represents the area of grassland that will be converted (destocked) to other land uses (e.g., wetland,
         forests) in the target year compared to the baseline year. The total grassland area represents
-        the remaining grassland area.
+        the remaining grassland area. Spared area by soil group represents the spared area by soil group (e.g., class 1, 2 and 3). 
+        The stocking rate represents the stocking rate per hectare of grassland.
 
         Parameters
         ----------
@@ -1030,7 +1079,7 @@ class ScenarioRunner:
         Returns
         -------
         tuple
-            A tuple containing two pandas DataFrame: (total_spared_area, total_grassland_area).
+            A tuple containing four pandas DataFrame: (total_spared_area, total_grassland_area, total_spared_area_by_soil_group, per_hectare_stocking_rate).
 
         Notes
         -----
@@ -1064,14 +1113,11 @@ class ScenarioRunner:
         spared_area = grassland_class.total_spared_area()
         total_grassland = grassland_class.total_grassland_area()
 
-        self.data_manager_class.save_goblin_results_output_datatable(
-            spared_area, "total_spared_area"
-        )
-        self.data_manager_class.save_goblin_results_output_datatable(
-            total_grassland, "total_grassland_area"
-        )
+        total_spared_area_by_soil_group = grassland_class.total_spared_area_breakdown()
+        per_hectare_stocking_rate = grassland_class.grassland_stocking_rate()
 
-        return spared_area, total_grassland
+        return spared_area, total_grassland, total_spared_area_by_soil_group, per_hectare_stocking_rate
+
 
     def generate_crop_footprint(
         self, crop_dataframe, scenario_dataframe, default_urea, default_urea_abated
@@ -1121,7 +1167,7 @@ class ScenarioRunner:
             ef_country, default_urea, default_urea_abated, AR_VALUE
         )
 
-        climate_change = climate_change_crop_class.climate_change_crops_dissagregated(
+        climate_change_crops_disaggregated = climate_change_crop_class.climate_change_crops_dissagregated(
             crop_dataframe, scenario_dataframe
         )
 
@@ -1129,7 +1175,7 @@ class ScenarioRunner:
             ef_country, default_urea, default_urea_abated
         )
 
-        eutrophication = eutrophication_crop_class.eutrophication_crops_dissagregated(
+        eutrophication_crops_disaggregated = eutrophication_crop_class.eutrophication_crops_dissagregated(
             crop_dataframe, scenario_dataframe
         )
 
@@ -1137,19 +1183,14 @@ class ScenarioRunner:
             ef_country, default_urea, default_urea_abated
         )
 
-        air_quality = air_quality_crop_class.air_quality_crops_dissagregated(
+        air_quality_crops_disaggregated = air_quality_crop_class.air_quality_crops_dissagregated(
             crop_dataframe, scenario_dataframe
         )
 
-        self.data_manager_class.save_goblin_results_output_datatable(
-            climate_change, "climate_change_crops_disaggregated"
-        )
-        self.data_manager_class.save_goblin_results_output_datatable(
-            eutrophication, "eutrophication_crops_disaggregated"
-        )
-        self.data_manager_class.save_goblin_results_output_datatable(
-            air_quality, "air_quality_crops_disaggregated"
-        )
+        self.data_manager_class.save_goblin_results_to_database(("climate_change_crops_disaggregated", climate_change_crops_disaggregated),
+                                                                ("eutrophication_crops_disaggregated", eutrophication_crops_disaggregated),
+                                                                ("air_quality_crops_disaggregated", air_quality_crops_disaggregated))
+
 
     def generate_aggregated_crop_footprint(
         self, crop_dataframe, scenario_dataframe, default_urea, default_urea_abated
@@ -1210,12 +1251,9 @@ class ScenarioRunner:
             )
         )
 
-        self.data_manager_class.save_goblin_results_output_datatable(
-            climate_change_categories_as_co2e, "climate_change_crops_categories_as_co2e"
-        )
-        self.data_manager_class.save_goblin_results_output_datatable(
-            climate_change_crops_aggregated, "climate_change_crops_aggregated"
-        )
+        self.data_manager_class.save_goblin_results_to_database(("climate_change_crops_categories_as_co2e", climate_change_categories_as_co2e),
+                                                                ("climate_change_crops_aggregated", climate_change_crops_aggregated))
+
 
     def generate_landuse_footprint(self, landuse_data, transition_matrix, forest_data):
         """
@@ -1262,11 +1300,10 @@ class ScenarioRunner:
             AR_VALUE,
         )
 
-        climate_change = climate_change_landuse_class.climate_change_landuse()
+        climate_change_landuse = climate_change_landuse_class.climate_change_landuse()
 
-        self.data_manager_class.save_goblin_results_output_datatable(
-            climate_change, "climate_change_landuse"
-        )
+        self.data_manager_class.save_goblin_results_to_database(("climate_change_landuse", climate_change_landuse))
+
 
     def generate_livestock_footprint(
         self,
@@ -1326,7 +1363,7 @@ class ScenarioRunner:
         climate_change_livestock_class = ClimateChangeLivestock(ef_country,calibration_year, target_year, transition_matrix, landuse_data, crop_data, AR_VALUE)
 
 
-        climate_change = (
+        climate_change_livestock_disaggregated = (
             climate_change_livestock_class.climate_change_livestock_dissagregated(
                 baseline_animal_data,
                 scenario_animal_data,
@@ -1337,7 +1374,7 @@ class ScenarioRunner:
 
         eutrophication_livestock_class = EutrophicationLivestock(ef_country)
 
-        eutrophication = (
+        eutrophication_livestock_disaggregated = (
             eutrophication_livestock_class.eutrophication_livestock_dissagregated(
                 baseline_animal_data,
                 scenario_animal_data,
@@ -1348,24 +1385,16 @@ class ScenarioRunner:
 
         air_quality_livestock_class = AirQualityLivestock(ef_country)
 
-        air_quality = air_quality_livestock_class.air_quality_livestock_dissagregated(
+        air_quality_livestock_disaggregated = air_quality_livestock_class.air_quality_livestock_dissagregated(
             baseline_animal_data,
             scenario_animal_data,
             farm_inputs_baseline,
             farm_inputs_scenario,
         )
 
-        self.data_manager_class.save_goblin_results_output_datatable(
-            climate_change, "climate_change_livestock_disaggregated"
-        )
-
-        self.data_manager_class.save_goblin_results_output_datatable(
-            eutrophication, "eutrophication_livestock_disaggregated"
-        )
-
-        self.data_manager_class.save_goblin_results_output_datatable(
-            air_quality, "air_quality_livestock_disaggregated"
-        )
+        self.data_manager_class.save_goblin_results_to_database(("climate_change_livestock_disaggregated", climate_change_livestock_disaggregated),
+                                                                ("eutrophication_livestock_disaggregated", eutrophication_livestock_disaggregated),
+                                                                ("air_quality_livestock_disaggregated", air_quality_livestock_disaggregated))
 
     def generate_aggregated_livestock_footprint(
         self,
@@ -1419,7 +1448,7 @@ class ScenarioRunner:
 
         climate_change_livestock_class = ClimateChangeLivestock(ef_country,calibration_year, target_year, transition_matrix, landuse_data, crop_data, AR_VALUE)
 
-        climate_change_aggregated = (
+        climate_change_livestock_aggregated = (
             climate_change_livestock_class.climate_change_livestock_aggregated(
                 baseline_animal_data,
                 scenario_animal_data,
@@ -1427,7 +1456,7 @@ class ScenarioRunner:
                 farm_inputs_scenario,
             )
         )
-        climate_change_categories_as_co2e = (
+        climate_change_livestock_categories_as_co2e = (
             climate_change_livestock_class.climate_change_livestock_categories_as_co2e(
                 baseline_animal_data,
                 scenario_animal_data,
@@ -1436,13 +1465,9 @@ class ScenarioRunner:
             )
         )
 
-        self.data_manager_class.save_goblin_results_output_datatable(
-            climate_change_aggregated, "climate_change_livestock_aggregated"
-        )
-        self.data_manager_class.save_goblin_results_output_datatable(
-            climate_change_categories_as_co2e,
-            "climate_change_livestock_categories_as_co2e",
-        )
+        self.data_manager_class.save_goblin_results_to_database(("climate_change_livestock_aggregated", climate_change_livestock_aggregated),
+                                                                ("climate_change_livestock_categories_as_co2e", climate_change_livestock_categories_as_co2e))
+        
 
     def generate_afforestation_data(self, transition_matrix, scenario_dataframe):
         """
@@ -1487,11 +1512,8 @@ class ScenarioRunner:
             transition_matrix
         )
 
-        self.data_manager_class.save_goblin_results_output_datatable(
-            afforestation_data, "cbm_afforestation_data"
-        )
-
         return afforestation_data
+
 
     def generate_forest_carbon(
         self, afforest_year, afforestation_dataframe, scenario_dataframe
@@ -1521,7 +1543,7 @@ class ScenarioRunner:
 
         - The CBM model requires the `cbm_configuration` attribute, which should be set appropriately before calling this method.
 
-        - The generated forest carbon data, both aggregated and annual flux results, is saved to the output data tables using the `save_goblin_results_output_datatable` method.
+        - The generated forest carbon data, both aggregated and annual flux results.
 
         - The `calibration_year` and `target_year` attributes are used in the process, and they should be set appropriately before calling this method.
 
@@ -1552,12 +1574,19 @@ class ScenarioRunner:
         # generation of annual flux results
         forest_flux = cbm_runner.run_flux_scenarios()
 
-        self.data_manager_class.save_goblin_results_output_datatable(
-            forest_aggregate, "forest_carbon_aggregate"
-        )
-        self.data_manager_class.save_goblin_results_output_datatable(
-            forest_flux, "forest_carbon_flux"
-        )
+        # Define columns to exclude from inversion
+        exclude_columns = ['Year', 'Scenario']
+
+        # Invert values in forest_flux, excluding specific columns
+        for col in forest_flux.columns:
+            if col not in exclude_columns:
+                forest_flux[col] = forest_flux[col] * -1
+
+        # Invert values in forest_aggregate, excluding specific columns
+        for col in forest_aggregate.columns:
+            if col not in exclude_columns:
+                forest_aggregate[col] = forest_aggregate[col] * -1
+
 
         forest_data = {"forest_flux": forest_flux, "forest_aggregate": forest_aggregate}
 

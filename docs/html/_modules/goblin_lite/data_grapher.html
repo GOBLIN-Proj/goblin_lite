@@ -1,23 +1,24 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>goblin_lite.data_grapher &mdash; GOBLIN lite 0.1.0 documentation</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=eafc0fe6" />
+
+  
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=01f34227"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -72,7 +73,59 @@
            <div itemprop="articleBody">
              
   <h1>Source code for goblin_lite.data_grapher</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">goblin_lite.data_fetcher</span> <span class="kn">import</span> <span class="n">DataFetcher</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">====================</span>
+<span class="sd">Data Grapher Module</span>
+<span class="sd">====================</span>
+
+<span class="sd">The Data Grapher module is an experimental tool designed to visualize various environmental data sets. It primarily serves as a visualization aid, assisting users in interpreting complex environmental data through graphical representations. </span>
+<span class="sd">The module leverages data obtained from the DataFetcher class and provides functionalities to create diverse plots for different scenarios.</span>
+
+<span class="sd">This module is still under development and may not function as intended in all situations. </span>
+<span class="sd">Users are encouraged to use this module as a basis for further customization and to adapt it to their specific data visualization needs.</span>
+
+<span class="sd">Class Overview</span>
+<span class="sd">--------------</span>
+<span class="sd">The DataGrapher class offers methods to plot data related to crop and livestock life cycle assessment (LCA) emissions, land use emissions, forest carbon flux, and more. </span>
+<span class="sd">Each method is tailored to visualize specific types of data, providing insights into environmental impacts across various scenarios.</span>
+
+<span class="sd">The class is designed to be flexible and user-friendly, allowing for easy integration with existing data analysis workflows. </span>
+<span class="sd">It is particularly useful for environmental researchers, policy makers, and analysts who require visual representations of data to support their work.</span>
+
+<span class="sd">Attributes</span>
+<span class="sd">----------</span>
+<span class="sd">- None: The class does not require initialization with specific attributes.</span>
+
+<span class="sd">Methods</span>
+<span class="sd">-------</span>
+<span class="sd">- plot_crop_livestock_lca_emissions_by_category(path): Visualizes combined crop and livestock LCA emissions by category for different scenarios.</span>
+<span class="sd">- plot_crop_lca_emissions_by_category(path): Displays crop LCA emissions by category for various scenarios.</span>
+<span class="sd">- plot_animal_lca_emissions_by_category(path): Shows livestock LCA emissions by category across different scenarios.</span>
+<span class="sd">- plot_land_use_emissions(path): Creates plots for land-use emissions by gas for each scenario.</span>
+<span class="sd">- plot_forest_flux(path, detail=False): Visualizes forest carbon annual flux for different scenarios.</span>
+<span class="sd">- plot_forest_aggregate(path, detail=False): Depicts aggregated forest carbon data over time.</span>
+<span class="sd">- plot_forest_flux_subplot(path): Generates subplots of forest carbon annual flux for each scenario.</span>
+<span class="sd">- get_combined_crop_and_livestock_pathway_frames(): Retrieves combined dataframes for crop and livestock pathway emissions.</span>
+<span class="sd">- rank_chart(target, gas, path): Creates a scatter plot showing the ranking and percentage change in GHG, ammonia, eutrophication, and protein output from the baseline.</span>
+
+<span class="sd">Usage</span>
+<span class="sd">-----</span>
+<span class="sd">To use the DataGrapher class, simply create an instance of the class and call the desired plotting method with the appropriate parameters. </span>
+<span class="sd">The methods will generate plots based on the provided data and save them to the specified file path.</span>
+
+<span class="sd">Example:</span>
+<span class="sd">    &gt;&gt;&gt; data_grapher = DataGrapher()</span>
+<span class="sd">    &gt;&gt;&gt; data_grapher.plot_crop_livestock_lca_emissions_by_category(&quot;output/path&quot;)</span>
+
+<span class="sd">Note</span>
+<span class="sd">----</span>
+<span class="sd">- This module is experimental and may not cover all possible scenarios or data types. Users may need to modify or extend the module&#39;s capabilities to suit their specific requirements.</span>
+<span class="sd">- The module relies on data provided by the DataFetcher class. Ensure that the data is correctly formatted and available before using the plotting methods.</span>
+<span class="sd">- The plots generated by this module are intended for data visualization and should be interpreted cautiously, especially in the context of complex environmental data.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">goblin_lite.data_fetcher</span> <span class="kn">import</span> <span class="n">DataFetcher</span>
 <span class="kn">from</span> <span class="nn">scenario_assessment.filter</span> <span class="kn">import</span> <span class="n">FilterResults</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -81,7 +134,9 @@
 <span class="kn">import</span> <span class="nn">math</span>
 
 
-<div class="viewcode-block" id="DataGrapher"><a class="viewcode-back" href="../../autoapi/goblin_lite/data_grapher/index.html#goblin_lite.data_grapher.DataGrapher">[docs]</a><span class="k">class</span> <span class="nc">DataGrapher</span><span class="p">:</span>
+<div class="viewcode-block" id="DataGrapher">
+<a class="viewcode-back" href="../../autoapi/goblin_lite/data_grapher/index.html#goblin_lite.data_grapher.DataGrapher">[docs]</a>
+<span class="k">class</span> <span class="nc">DataGrapher</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A class used to organize methods for data visualization. The current collection is relatively limited, however, utilization of the</span>
 <span class="sd">    DataFetcher class will allow users to output dataframes and easily construct their plots.</span>
@@ -126,7 +181,9 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_fetcher_class</span> <span class="o">=</span> <span class="n">DataFetcher</span><span class="p">()</span>
 
-<div class="viewcode-block" id="DataGrapher.plot_crop_livestock_lca_emissions_by_category"><a class="viewcode-back" href="../../autoapi/goblin_lite/data_grapher/index.html#goblin_lite.data_grapher.DataGrapher.plot_crop_livestock_lca_emissions_by_category">[docs]</a>    <span class="k">def</span> <span class="nf">plot_crop_livestock_lca_emissions_by_category</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+<div class="viewcode-block" id="DataGrapher.plot_crop_livestock_lca_emissions_by_category">
+<a class="viewcode-back" href="../../autoapi/goblin_lite/data_grapher/index.html#goblin_lite.data_grapher.DataGrapher.plot_crop_livestock_lca_emissions_by_category">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot_crop_livestock_lca_emissions_by_category</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot combined crop and livestock life cycle assessment (LCA) emissions by category for different scenarios.</span>
 
 <span class="sd">        This method generates a bar plot to visualize the emissions from combined crop and livestock activities for different scenarios. The emissions are</span>
@@ -209,7 +266,10 @@
 
         <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="DataGrapher.plot_crop_lca_emissions_by_category"><a class="viewcode-back" href="../../autoapi/goblin_lite/data_grapher/index.html#goblin_lite.data_grapher.DataGrapher.plot_crop_lca_emissions_by_category">[docs]</a>    <span class="k">def</span> <span class="nf">plot_crop_lca_emissions_by_category</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DataGrapher.plot_crop_lca_emissions_by_category">
+<a class="viewcode-back" href="../../autoapi/goblin_lite/data_grapher/index.html#goblin_lite.data_grapher.DataGrapher.plot_crop_lca_emissions_by_category">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot_crop_lca_emissions_by_category</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot crop life cycle assessment (LCA) emissions by category for different scenarios.</span>
 
 <span class="sd">        This method generates a bar plot to visualize the emissions from crop activities for different scenarios. The emissions are</span>
@@ -291,7 +351,10 @@
 
         <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="DataGrapher.plot_animal_lca_emissions_by_category"><a class="viewcode-back" href="../../autoapi/goblin_lite/data_grapher/index.html#goblin_lite.data_grapher.DataGrapher.plot_animal_lca_emissions_by_category">[docs]</a>    <span class="k">def</span> <span class="nf">plot_animal_lca_emissions_by_category</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DataGrapher.plot_animal_lca_emissions_by_category">
+<a class="viewcode-back" href="../../autoapi/goblin_lite/data_grapher/index.html#goblin_lite.data_grapher.DataGrapher.plot_animal_lca_emissions_by_category">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot_animal_lca_emissions_by_category</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot animal life cycle assessment (LCA) emissions by category for different scenarios.</span>
 
 <span class="sd">        This method generates a bar plot to visualize the emissions from animal-related activities for different scenarios. The emissions are</span>
@@ -381,7 +444,10 @@
 
         <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="DataGrapher.plot_land_use_emissions"><a class="viewcode-back" href="../../autoapi/goblin_lite/data_grapher/index.html#goblin_lite.data_grapher.DataGrapher.plot_land_use_emissions">[docs]</a>    <span class="k">def</span> <span class="nf">plot_land_use_emissions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DataGrapher.plot_land_use_emissions">
+<a class="viewcode-back" href="../../autoapi/goblin_lite/data_grapher/index.html#goblin_lite.data_grapher.DataGrapher.plot_land_use_emissions">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot_land_use_emissions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot land use emissions for different gases and scenarios.</span>
 
 <span class="sd">        This method generates a set of stacked bar plots to visualize the land use emissions for different gases and scenarios.</span>
@@ -469,7 +535,11 @@
         <span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="DataGrapher.plot_forest_flux"><a class="viewcode-back" href="../../autoapi/goblin_lite/data_grapher/index.html#goblin_lite.data_grapher.DataGrapher.plot_forest_flux">[docs]</a>    <span class="k">def</span> <span class="nf">plot_forest_flux</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+
+<div class="viewcode-block" id="DataGrapher.plot_forest_flux">
+<a class="viewcode-back" href="../../autoapi/goblin_lite/data_grapher/index.html#goblin_lite.data_grapher.DataGrapher.plot_forest_flux">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot_forest_flux</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot forest carbon flux over time.</span>
 
 <span class="sd">        This method generates a line plot to visualize the forest carbon flux over time. The forest carbon flux represents</span>
@@ -518,7 +588,10 @@
 
         <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="DataGrapher.plot_forest_aggregate"><a class="viewcode-back" href="../../autoapi/goblin_lite/data_grapher/index.html#goblin_lite.data_grapher.DataGrapher.plot_forest_aggregate">[docs]</a>    <span class="k">def</span> <span class="nf">plot_forest_aggregate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DataGrapher.plot_forest_aggregate">
+<a class="viewcode-back" href="../../autoapi/goblin_lite/data_grapher/index.html#goblin_lite.data_grapher.DataGrapher.plot_forest_aggregate">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot_forest_aggregate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot aggregated forest carbon data over time.</span>
 
 <span class="sd">        This method generates a line plot to visualize the aggregated forest carbon data over time.</span>
@@ -561,7 +634,10 @@
 
         <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="DataGrapher.plot_forest_flux_subplot"><a class="viewcode-back" href="../../autoapi/goblin_lite/data_grapher/index.html#goblin_lite.data_grapher.DataGrapher.plot_forest_flux_subplot">[docs]</a>    <span class="k">def</span> <span class="nf">plot_forest_flux_subplot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DataGrapher.plot_forest_flux_subplot">
+<a class="viewcode-back" href="../../autoapi/goblin_lite/data_grapher/index.html#goblin_lite.data_grapher.DataGrapher.plot_forest_flux_subplot">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot_forest_flux_subplot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot forest carbon flux data for multiple scenarios using subplots.</span>
 
 <span class="sd">        This method generates a set of line plots arranged in subplots to visualize the forest carbon flux data</span>
@@ -656,7 +732,10 @@
 
             <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="DataGrapher.get_combined_crop_and_livestock_pathway_frames"><a class="viewcode-back" href="../../autoapi/goblin_lite/data_grapher/index.html#goblin_lite.data_grapher.DataGrapher.get_combined_crop_and_livestock_pathway_frames">[docs]</a>    <span class="k">def</span> <span class="nf">get_combined_crop_and_livestock_pathway_frames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DataGrapher.get_combined_crop_and_livestock_pathway_frames">
+<a class="viewcode-back" href="../../autoapi/goblin_lite/data_grapher/index.html#goblin_lite.data_grapher.DataGrapher.get_combined_crop_and_livestock_pathway_frames">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_combined_crop_and_livestock_pathway_frames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve and combine the data related to combined crop and livestock pathway frames.</span>
 
 <span class="sd">        This method fetches data from different sources for livestock and crop emissions related to various environmental factors.</span>
@@ -714,26 +793,29 @@
             <span class="s2">&quot;manure_management&quot;</span>
         <span class="p">]</span><span class="o">.</span><span class="n">values</span>
         <span class="n">climate_change</span><span class="p">[</span><span class="s2">&quot;enteric&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">climate_change_livestock</span><span class="p">[</span><span class="s2">&quot;enteric&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-        <span class="n">climate_change</span><span class="p">[</span><span class="s2">&quot;grassland_soils&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">climate_change_livestock</span><span class="p">[</span><span class="s2">&quot;soils&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">climate_change</span><span class="p">[</span><span class="s2">&quot;grassland_soils&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">climate_change_livestock</span><span class="p">[</span><span class="s2">&quot;soils&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">-</span> <span class="n">climate_change_crop</span><span class="p">[</span><span class="s2">&quot;soils&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
         <span class="n">climate_change</span><span class="p">[</span><span class="s2">&quot;crop_soils&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">climate_change_crop</span><span class="p">[</span><span class="s2">&quot;soils&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
 
         <span class="n">eutrophication</span><span class="p">[</span><span class="s2">&quot;manure_management&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">eutrophication_livestock</span><span class="p">[</span>
             <span class="s2">&quot;manure_management&quot;</span>
         <span class="p">]</span><span class="o">.</span><span class="n">values</span>
-        <span class="n">eutrophication</span><span class="p">[</span><span class="s2">&quot;grassland_soils&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">eutrophication_livestock</span><span class="p">[</span><span class="s2">&quot;soils&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">eutrophication</span><span class="p">[</span><span class="s2">&quot;grassland_soils&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">eutrophication_livestock</span><span class="p">[</span><span class="s2">&quot;soils&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">-</span> <span class="n">eutrophication_crop</span><span class="p">[</span><span class="s2">&quot;soils&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
         <span class="n">eutrophication</span><span class="p">[</span><span class="s2">&quot;crop_soils&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">eutrophication_crop</span><span class="p">[</span><span class="s2">&quot;soils&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
 
         <span class="n">air_quality</span><span class="p">[</span><span class="s2">&quot;manure_management&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">air_quality_livestock</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
             <span class="p">:,</span> <span class="s2">&quot;manure_management&quot;</span>
         <span class="p">]</span><span class="o">.</span><span class="n">values</span>
-        <span class="n">air_quality</span><span class="p">[</span><span class="s2">&quot;grassland_soils&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">air_quality_livestock</span><span class="p">[</span><span class="s2">&quot;soils&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">air_quality</span><span class="p">[</span><span class="s2">&quot;grassland_soils&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">air_quality_livestock</span><span class="p">[</span><span class="s2">&quot;soils&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">-</span> <span class="n">air_quality_crop</span><span class="p">[</span><span class="s2">&quot;soils&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
         <span class="n">air_quality</span><span class="p">[</span><span class="s2">&quot;crop_soils&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">air_quality_crop</span><span class="p">[</span><span class="s2">&quot;soils&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
 
         <span class="n">frames</span> <span class="o">=</span> <span class="p">[</span><span class="n">climate_change</span><span class="p">,</span> <span class="n">eutrophication</span><span class="p">,</span> <span class="n">air_quality</span><span class="p">]</span>
 
         <span class="k">return</span> <span class="n">frames</span></div>
 
-<div class="viewcode-block" id="DataGrapher.rank_chart"><a class="viewcode-back" href="../../autoapi/goblin_lite/data_grapher/index.html#goblin_lite.data_grapher.DataGrapher.rank_chart">[docs]</a>    <span class="k">def</span> <span class="nf">rank_chart</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">gas</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DataGrapher.rank_chart">
+<a class="viewcode-back" href="../../autoapi/goblin_lite/data_grapher/index.html#goblin_lite.data_grapher.DataGrapher.rank_chart">[docs]</a>
+    <span class="k">def</span> <span class="nf">rank_chart</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">gas</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Produces a scatter plot that visualizes the data output from the Filter_results.search() method.</span>
 <span class="sd">        The data returned from Filter_results.search() is plotted along the x and y axes. The y-axis represents the percentage change in</span>
@@ -790,6 +872,8 @@
             <span class="s2">&quot;eutrophication&quot;</span><span class="p">:</span> <span class="n">eutrophication</span><span class="p">,</span>
             <span class="s2">&quot;protein_output&quot;</span><span class="p">:</span> <span class="n">products</span><span class="p">,</span>
         <span class="p">}</span>
+
+
 
         <span class="n">filter_class</span> <span class="o">=</span> <span class="n">FilterResults</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">gas</span><span class="p">,</span> <span class="n">emission_dict</span><span class="p">)</span>
 
@@ -881,7 +965,9 @@
 
         <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;scenario_rank_chart.png&quot;</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
 
-        <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div></div>
+        <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+</div>
+
 </pre></div>
 
            </div>

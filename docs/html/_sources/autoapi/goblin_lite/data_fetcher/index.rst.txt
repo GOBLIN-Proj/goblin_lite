@@ -3,6 +3,99 @@
 
 .. py:module:: goblin_lite.data_fetcher
 
+.. autoapi-nested-parse::
+
+   ====================
+   Data Fetcher Module
+   ====================
+
+   This module provides a class for fetching various types of data from output data tables managed by the DataManager.
+   It is designed to facilitate easy access and retrieval of data across different environmental impact scenarios.
+
+   Classes
+   -------
+   DataFetcher
+       A class responsible for retrieving data from the output tables, offering methods to access specific types of data
+       related to livestock, crops, land use, climate change, air quality, and eutrophication.
+
+   Dependencies
+   ------------
+   - DataManager
+
+   Usage
+   -----
+   Initialize the DataFetcher class and use its methods to retrieve data from various output tables. The retrieved data
+   can be used for analysis, comparison, and visualization of environmental impacts across different scenarios.
+
+   .. method:: - get_scenario_inputs(): Retrieves scenario input data.
+
+   .. method:: - get_stocking_rate_per_ha(): Fetches stocking rate per hectare data.
+
+   .. method:: - get_grassland_spared_area_by_soil_group(): Retrieves spared (destocked) grassland area data by soil group.
+
+   .. method:: - get_crop_farm_input_applied(): Fetches crop farm (fertiliser) input data.
+
+   .. method:: - get_crop_national_inputs(): Retrieves national crop input data.
+
+   .. method:: - get_transition_matrix(): Fetches the land use transition matrix.
+
+   .. method:: - get_baseline_livestock_data(): Retrieves baseline livestock data.
+
+   .. method:: - get_scenario_livestock_data(): Retrieves livestock data for specific scenarios.
+
+   .. method:: - get_livestock_output_summary(): Fetches a summary of livestock outputs.
+
+   .. method:: - get_grassland_scenario_farm_inputs(): Retrieves scenario-specific farm inputs for grassland.
+
+   .. method:: - get_grassland_baseline_farm_inputs(): Fetches baseline farm inputs for grassland.
+
+   .. method:: - get_total_grassland_area(): Retrieves total grassland area data.
+
+   .. method:: - get_total_spared_area(): Fetches total spared area data.
+
+   .. method:: - get_climate_change_animal_emissions_by_category(): Retrieves climate change emissions data for livestock by category.
+
+   .. method:: - get_climate_change_crop_emissions_by_category(): Retrieves climate change emissions data for crops by category.
+
+   .. method:: - get_climate_change_crop_emissions_aggregated(): Fetches aggregated climate change emissions data for crops.
+
+   .. method:: - get_climate_change_animal_emissions_aggregated(): Retrieves aggregated climate change emissions data for livestock.
+
+   .. method:: - get_animal_emissions_by_category_co2e(): Fetches livestock emissions data by category in CO2e.
+
+   .. method:: - get_crop_emissions_by_category_co2e(): Retrieves crop emissions data by category in CO2e.
+
+   .. method:: - get_climate_change_emission_totals(): Fetches total climate change emissions data.
+
+   .. method:: - get_eutrophication_emission_totals(): Retrieves total eutrophication emissions data.
+
+   .. method:: - get_air_quality_emission_totals(): Fetches total air quality emissions data.
+
+   .. method:: - get_eutrophication_animal_emissions_by_category(): Retrieves eutrophication emissions data for livestock by category.
+
+   .. method:: - get_eutrophication_crop_emissions_by_category(): Fetches eutrophication emissions data for crops by category.
+
+   .. method:: - get_air_quality_animal_emissions_by_category(): Retrieves air quality emissions data for livestock by category.
+
+   .. method:: - get_air_quality_crop_emissions_by_category(): Fetches air quality emissions data for crops by category.
+
+   .. method:: - get_landuse_emissions_totals(): Retrieves total land use change emissions data.
+
+   .. method:: - get_forest_flux(): Fetches annual forest carbon flux data.
+
+   .. method:: - get_forest_aggregate(): Retrieves aggregated forest carbon data.
+
+   .. method:: - get_total_afforested(): Retrieves data on total afforested area for each scenario.
+
+
+
+   Each method in the DataFetcher class is designed to retrieve a specific type of data from the output tables managed by the DataManager. The methods return pandas DataFrames containing relevant data, which can be further analyzed or visualized as required.
+
+   The DataFetcher class streamlines the process of data retrieval from complex environmental impact models, making it easier for users to access and utilize the data for research, policy-making, or educational purposes. It ensures that data across different scenarios and impact categories is readily accessible for comprehensive environmental analysis.
+
+   .. note:: The class and its methods assume that the DataManager has been properly initialized and that the relevant data tables are available and correctly formatted. The users of this class should have a basic understanding of the data structure and the environmental impact scenarios to effectively utilize the retrieved data.
+
+
 
 Module Contents
 ---------------
@@ -18,6 +111,96 @@ Classes
 
 
 .. py:class:: DataFetcher
+
+
+   .. py:method:: get_scenario_inputs()
+
+      Retrieve a DataFrame containing information about scenario inputs.
+
+      :param None:
+
+      :returns: A pandas DataFrame containing information about scenario inputs. The index of the DataFrame is set to "index" for easier access to the data.
+      :rtype: DataFrame
+
+      .. rubric:: Examples
+
+      >>> data_manager = DataManager()
+      >>> baseline_data = data_manager.get_scenario_inputs()
+
+
+   .. py:method:: get_stocking_rate_per_ha()
+
+      Retrieve a DataFrame containing information about stocking rate per hectare for each scenario.
+
+      :param None:
+
+      :returns: A pandas DataFrame containing information about stocking rate per hectare for each scenario. The index of the DataFrame is set to "index" for easier access to the data.
+      :rtype: DataFrame
+
+      .. rubric:: Examples
+
+      >>> data_manager = DataManager()
+      >>> baseline_data = data_manager.get_stocking_rate_per_ha()
+
+
+   .. py:method:: get_grassland_spared_area_by_soil_group()
+
+      Retrieve a DataFrame containing information about spared (destocked) grassland area by soil group for each scenario.
+
+      :param None:
+
+      :returns: A pandas DataFrame containing information about spared (destocked) grassland area by soil group for each scenario. The index of the DataFrame is set to "index" for easier access to the data.
+      :rtype: DataFrame
+
+      .. rubric:: Examples
+
+      >>> data_manager = DataManager()
+      >>> baseline_data = data_manager.get_grassland_spared_area_by_soil_group()
+
+
+   .. py:method:: get_crop_farm_input_applied()
+
+      Retrieve a DataFrame containing information about fertilizer application to crops for each scenario.
+
+      :param None:
+
+      :returns: A pandas DataFrame containing information about fertilizer application to crops for each scenario. The index of the DataFrame is set to "index" for easier access to the data.
+      :rtype: DataFrame
+
+      .. rubric:: Examples
+
+      >>> data_manager = DataManager()
+      >>> baseline_data = data_manager.get_crop_farm_input_applied()
+
+
+   .. py:method:: get_crop_national_inputs()
+
+      Retrieve a DataFrame containing information about national crop inputs for each scenario.
+
+      :param None:
+
+      :returns: A pandas DataFrame containing information about national crop inputs for each scenario. The index of the DataFrame is set to "index" for easier access to the data.
+      :rtype: DataFrame
+
+      .. rubric:: Examples
+
+      >>> data_manager = DataManager()
+      >>> baseline_data = data_manager.get_crop_national_inputs()
+
+
+   .. py:method:: get_transition_matrix()
+
+      Retrieve a DataFrame containing information about the land use transition matrix.
+
+      :param None:
+
+      :returns: A pandas DataFrame containing information about the land use transition matrix. The index of the DataFrame is set to "index" for easier access to the data.
+      :rtype: DataFrame
+
+      .. rubric:: Examples
+
+      >>> data_manager = DataManager()
+      >>> baseline_data = data_manager.get_transition_matrix()
 
 
    .. py:method:: get_baseline_livestock_data()

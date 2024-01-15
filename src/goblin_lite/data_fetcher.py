@@ -1,3 +1,67 @@
+"""
+====================
+Data Fetcher Module
+====================
+
+This module provides a class for fetching various types of data from output data tables managed by the DataManager.
+It is designed to facilitate easy access and retrieval of data across different environmental impact scenarios.
+
+Classes
+-------
+DataFetcher
+    A class responsible for retrieving data from the output tables, offering methods to access specific types of data
+    related to livestock, crops, land use, climate change, air quality, and eutrophication.
+
+Dependencies
+------------
+- DataManager
+
+Usage
+-----
+Initialize the DataFetcher class and use its methods to retrieve data from various output tables. The retrieved data
+can be used for analysis, comparison, and visualization of environmental impacts across different scenarios.
+
+Methods
+-------
+    - get_scenario_inputs(): Retrieves scenario input data.
+    - get_stocking_rate_per_ha(): Fetches stocking rate per hectare data.
+    - get_grassland_spared_area_by_soil_group(): Retrieves spared (destocked) grassland area data by soil group.
+    - get_crop_farm_input_applied(): Fetches crop farm (fertiliser) input data.
+    - get_crop_national_inputs(): Retrieves national crop input data.
+    - get_transition_matrix(): Fetches the land use transition matrix.
+    - get_baseline_livestock_data(): Retrieves baseline livestock data.
+    - get_scenario_livestock_data(): Retrieves livestock data for specific scenarios.
+    - get_livestock_output_summary(): Fetches a summary of livestock outputs.
+    - get_grassland_scenario_farm_inputs(): Retrieves scenario-specific farm inputs for grassland.
+    - get_grassland_baseline_farm_inputs(): Fetches baseline farm inputs for grassland.
+    - get_total_grassland_area(): Retrieves total grassland area data.
+    - get_total_spared_area(): Fetches total spared area data.
+    - get_climate_change_animal_emissions_by_category(): Retrieves climate change emissions data for livestock by category.
+    - get_climate_change_crop_emissions_by_category(): Retrieves climate change emissions data for crops by category.
+    - get_climate_change_crop_emissions_aggregated(): Fetches aggregated climate change emissions data for crops.
+    - get_climate_change_animal_emissions_aggregated(): Retrieves aggregated climate change emissions data for livestock.
+    - get_animal_emissions_by_category_co2e(): Fetches livestock emissions data by category in CO2e.
+    - get_crop_emissions_by_category_co2e(): Retrieves crop emissions data by category in CO2e.
+    - get_climate_change_emission_totals(): Fetches total climate change emissions data.
+    - get_eutrophication_emission_totals(): Retrieves total eutrophication emissions data.
+    - get_air_quality_emission_totals(): Fetches total air quality emissions data.
+    - get_eutrophication_animal_emissions_by_category(): Retrieves eutrophication emissions data for livestock by category.
+    - get_eutrophication_crop_emissions_by_category(): Fetches eutrophication emissions data for crops by category.
+    - get_air_quality_animal_emissions_by_category(): Retrieves air quality emissions data for livestock by category.
+    - get_air_quality_crop_emissions_by_category(): Fetches air quality emissions data for crops by category.
+    - get_landuse_emissions_totals(): Retrieves total land use change emissions data.
+    - get_forest_flux(): Fetches annual forest carbon flux data.
+    - get_forest_aggregate(): Retrieves aggregated forest carbon data.
+    - get_total_afforested(): Retrieves data on total afforested area for each scenario.
+
+Each method in the DataFetcher class is designed to retrieve a specific type of data from the output tables managed by the DataManager. The methods return pandas DataFrames containing relevant data, which can be further analyzed or visualized as required.
+
+The DataFetcher class streamlines the process of data retrieval from complex environmental impact models, making it easier for users to access and utilize the data for research, policy-making, or educational purposes. It ensures that data across different scenarios and impact categories is readily accessible for comprehensive environmental analysis.
+
+Note:
+    The class and its methods assume that the DataManager has been properly initialized and that the relevant data tables are available and correctly formatted. The users of this class should have a basic understanding of the data structure and the environmental impact scenarios to effectively utilize the retrieved data.
+"""
+
 from goblin_lite.database_manager import DataManager
 
 
@@ -14,11 +78,29 @@ class DataFetcher:
 
         Methods
         -------
+        get_scenario_inputs()
+            Returns scenario input data from the "scenario_input_dataframe" output data table.
+
+        get_stocking_rate_per_ha()
+            Returns stocking rate per hectare data from the "per_hectare_stocking_rate" output data table.
+
+        get_grassland_spared_area_by_soil_group()
+            Returns spared (destocked) grassland area data by soil group from the "total_spared_area_by_soil_group" output data table.
+
+        get_crop_farm_input_applied()
+            Returns crop farm (fertiliser) input data from the "crop_farm_data" output data table.
+
+        get_crop_national_inputs()
+            Returns national crop input data from the "crop_input_data" output data table.
+
+        get_transition_matrix()
+            Returns the land use transition matrix from the "transition_matrix" output data table.
+
         get_baseline_livestock_data()
-            Returns the summary of livestock data for the baseline scenario
+            Returns the summary of livestock data for the baseline scenario from the "baseline_animal_data" output data table.
 
         get_scenario_livestock_data()
-            Returns the summary of livestock data for the scenarios
+            Returns the summary of livestock data for the scenarios from the "scenario_animal_data" output data table.
 
         get_livestock_output_summary()
             Returns the summary of livestock outputs from the "protein_and_milk_summary" output data table.
@@ -33,7 +115,7 @@ class DataFetcher:
             Returns the total grassland area data from the "total_grassland_area" output data table.
 
         get_total_spared_area()
-            Returns the total spared area data from the "total_spared_area" output data table.
+            Returns the total spared (destocked) area data from the "total_spared_area" output data table.
 
         get_climate_change_animal_emissions_by_category()
             Returns climate change emissions data for livestock categories from the "climate_change_livestock_disaggregated" output data table.
@@ -88,6 +170,145 @@ class DataFetcher:
         """
         self.data_manager_class = DataManager()
 
+    def get_scenario_inputs(self):
+        """
+        Retrieve a DataFrame containing information about scenario inputs.
+
+        Parameters
+        ----------
+        None
+        
+        Returns
+        -------
+        DataFrame
+            A pandas DataFrame containing information about scenario inputs. The index of the DataFrame is set to "index" for easier access to the data.
+        
+        Examples
+        --------
+            >>> data_manager = DataManager()
+            >>> baseline_data = data_manager.get_scenario_inputs()
+        """
+        scenario_inputs = self.data_manager_class.get_goblin_results_output_datatable(
+            "scenario_input_dataframe", index_col="index"
+        )
+        return scenario_inputs
+    
+    def get_stocking_rate_per_ha(self):
+        """
+        Retrieve a DataFrame containing information about stocking rate per hectare for each scenario.
+        
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        DataFrame
+            A pandas DataFrame containing information about stocking rate per hectare for each scenario. The index of the DataFrame is set to "index" for easier access to the data.
+
+        Examples
+        --------
+            >>> data_manager = DataManager()
+            >>> baseline_data = data_manager.get_stocking_rate_per_ha()
+        """
+        stocking_rate = self.data_manager_class.get_goblin_results_output_datatable(
+            "per_hectare_stocking_rate", index_col="index"
+        )
+        return stocking_rate
+
+    def get_grassland_spared_area_by_soil_group(self):
+        """
+        Retrieve a DataFrame containing information about spared (destocked) grassland area by soil group for each scenario.
+        
+        Parameters
+        ----------
+        None
+        
+        Returns
+        -------
+        DataFrame
+            A pandas DataFrame containing information about spared (destocked) grassland area by soil group for each scenario. The index of the DataFrame is set to "index" for easier access to the data.
+            
+        Examples
+        --------
+            >>> data_manager = DataManager()
+            >>> baseline_data = data_manager.get_grassland_spared_area_by_soil_group()
+        """
+        spared_area = self.data_manager_class.get_goblin_results_output_datatable(
+            "total_spared_area_by_soil_group", index_col="index"
+        )
+        return spared_area
+    
+    def get_crop_farm_input_applied(self):
+        """
+        Retrieve a DataFrame containing information about fertilizer application to crops for each scenario.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        DataFrame
+            A pandas DataFrame containing information about fertilizer application to crops for each scenario. The index of the DataFrame is set to "index" for easier access to the data.
+
+        Examples
+        --------
+            >>> data_manager = DataManager()
+            >>> baseline_data = data_manager.get_crop_farm_input_applied()
+        """
+        crop_inputs = self.data_manager_class.get_goblin_results_output_datatable(
+            "crop_farm_data", index_col="index"
+        )
+        return crop_inputs
+    
+    def get_crop_national_inputs(self):
+        """
+        Retrieve a DataFrame containing information about national crop inputs for each scenario.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        DataFrame
+            A pandas DataFrame containing information about national crop inputs for each scenario. The index of the DataFrame is set to "index" for easier access to the data.
+
+        Examples
+        --------
+            >>> data_manager = DataManager()
+            >>> baseline_data = data_manager.get_crop_national_inputs()
+        """
+
+        crop_inputs = self.data_manager_class.get_goblin_results_output_datatable(
+            "crop_input_data", index_col="index"
+        )
+        return crop_inputs
+
+    def get_transition_matrix(self):
+        """
+        Retrieve a DataFrame containing information about the land use transition matrix.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        DataFrame
+            A pandas DataFrame containing information about the land use transition matrix. The index of the DataFrame is set to "index" for easier access to the data.
+
+        Examples
+        --------
+            >>> data_manager = DataManager()
+            >>> baseline_data = data_manager.get_transition_matrix()
+        """
+        transition_matrix = self.data_manager_class.get_goblin_results_output_datatable(
+            "transition_matrix", index_col="index"
+        )
+        return transition_matrix
+    
     def get_baseline_livestock_data(self):
         """Fetches and returns the baseline livestock data.
 
@@ -123,7 +344,8 @@ class DataFetcher:
         return livestock
 
     def get_scenario_livestock_data(self):
-        """Fetches and returns the livestock data for the specific scenario.
+        """
+        Fetches and returns the livestock data for the specific scenario.
 
         This method is used to retrieve the livestock data for scenarios. The scenarios represents a specific configuration or set of conditions that differ from the baseline. It allows users to analyze and compare livestock-related variables under different scenarios.
 
@@ -174,7 +396,7 @@ class DataFetcher:
 
         protein_and_milk_summary = (
             self.data_manager_class.get_goblin_results_output_datatable(
-                "protein_and_milk_summary", index_col="index"
+                "protein_and_milk_summary", index_col="Scenarios"
             )
         )
         return protein_and_milk_summary
@@ -197,6 +419,7 @@ class DataFetcher:
             The DataFrame provides valuable insights into the fertilizer application practices in various scenarios and their impact on grassland management and agricultural practices. Researchers and analysts working on environmental research and policy related to livestock farming and land use changes can utilize this data for their analyses.
 
             Reported in kg.
+
         """
 
         scenario_farm_inputs = (
@@ -224,6 +447,7 @@ class DataFetcher:
             The DataFrame provides valuable insights into the fertilizer application practices for grassland in the baseline scenario. This data can be used to understand the initial conditions and establish a baseline for comparing fertilizer use in different scenarios or assessing the effectiveness of land management strategies.
 
             Reported in kg.
+
         """
 
         baseline_farm_inputs = (
@@ -251,6 +475,7 @@ class DataFetcher:
             The DataFrame provides the total grassland area baseline and scenarios, which is valuable for understanding the land use distribution and assessing the impact of different scenarios on grassland conservation and management.
 
             Reported in ha.
+
         """
         total_grassland_area = (
             self.data_manager_class.get_goblin_results_output_datatable(
@@ -277,6 +502,7 @@ class DataFetcher:
             The DataFrame provides the difference between the baseline grassland area and the scenario grassland area for each scenario. This information is crucial for understanding the changes in land use, particularly how much grassland has been spared or converted to other land uses across different scenarios.
 
             Reported in ha.
+
         """
 
         total_spared_area = self.data_manager_class.get_goblin_results_output_datatable(
@@ -306,6 +532,7 @@ class DataFetcher:
             The DataFrame includes emissions from different categories related to animal production, providing a detailed perspective on the contribution of each emission source to the overall climate change impact for different scenarios and the baseline. This information is valuable for environmental research and policy-making, as it helps identify key areas for emissions reduction and mitigation strategies under different scenarios. Researchers and policymakers can use this data to assess the effectiveness of various interventions in reducing greenhouse gas emissions and improving the sustainability of animal production systems.
 
             Reported in kilotons.
+
         """
 
         total_animal_gases = (
@@ -336,6 +563,7 @@ class DataFetcher:
             The DataFrame includes emissions from different categories related to crop production, providing a detailed perspective on the contribution of each emission source to the overall climate change impact for different scenarios and the baseline. This information is valuable for environmental research and policy-making, as it helps identify key areas for emissions reduction and mitigation strategies under different scenarios. Researchers and policymakers can use this data to assess the effectiveness of various interventions in reducing greenhouse gas emissions and improving the sustainability of crop production systems.
 
             Reported in kilotons.
+
         """
         total_crops_gases = self.data_manager_class.get_goblin_results_output_datatable(
             "climate_change_crops_disaggregated", index_col="index"
@@ -343,7 +571,8 @@ class DataFetcher:
         return total_crops_gases
 
     def get_climate_change_crop_emissions_aggregated(self):
-        """Get total aggregated greenhouse gas emissions for crop production.
+        """
+        Get total aggregated greenhouse gas emissions for crop production.
 
         This method retrieves the total aggregated emissions for different greenhouse gases related to crop production.
         The emissions are calculated in terms of CH4 (methane), N2O (nitrous oxide), CO2 (carbon dioxide), and CO2E (carbon dioxide equivalent).
@@ -365,6 +594,7 @@ class DataFetcher:
             `get_climate_change_crop_emissions_by_category`.
 
             Reported in kilotons.
+
         """
 
         total_crops_gases = self.data_manager_class.get_goblin_results_output_datatable(
@@ -373,7 +603,8 @@ class DataFetcher:
         return total_crops_gases
 
     def get_climate_change_animal_emissions_aggregated(self):
-        """Get total aggregated greenhouse gas emissions for livestock production.
+        """
+        Get total aggregated greenhouse gas emissions for livestock production.
 
         This method retrieves the total aggregated emissions for different greenhouse gases related to livestock production.
         The emissions are calculated in terms of CH4 (methane), N2O (nitrous oxide), CO2 (carbon dioxide), and CO2E (carbon dioxide equivalent).
@@ -395,6 +626,7 @@ class DataFetcher:
             `get_climate_change_animal_emissions_by_category`.
 
             Reported in kilotons.
+
         """
 
         total_animal_gases = (
@@ -405,7 +637,8 @@ class DataFetcher:
         return total_animal_gases
 
     def get_animal_emissions_by_category_co2e(self):
-        """Get greenhouse gas emissions for livestock production by specific categories in CO2E (Carbon Dioxide Equivalent).
+        """
+        Get greenhouse gas emissions for livestock production by specific categories in CO2E (Carbon Dioxide Equivalent).
 
         This method retrieves the greenhouse gas emissions associated with livestock production, broken down into specific
         categories, and reported as CO2E values. The emissions categories considered include enteric fermentation, manure management,
@@ -429,6 +662,7 @@ class DataFetcher:
             different subcategories associated with livestock production.
 
             Reported in kilotons.
+
         """
 
         total_animal_co2e = self.data_manager_class.get_goblin_results_output_datatable(
@@ -437,7 +671,8 @@ class DataFetcher:
         return total_animal_co2e
 
     def get_crop_emissions_by_category_co2e(self):
-        """Get greenhouse gas emissions for crop production by specific categories in CO2E (Carbon Dioxide Equivalent).
+        """
+        Get greenhouse gas emissions for crop production by specific categories in CO2E (Carbon Dioxide Equivalent).
 
         This method retrieves the greenhouse gas emissions associated with crop production, broken down into specific categories,
         and reported as CO2E values. The emissions categories considered include:
@@ -453,6 +688,7 @@ class DataFetcher:
             The emissions values in this dataframe are not aggregated in the "soils" column.
 
             Reported in kilotons.
+
         """
 
         total_crop_co2e = self.data_manager_class.get_goblin_results_output_datatable(
@@ -480,6 +716,7 @@ class DataFetcher:
             land use, crop, and livestock activities.
 
             Reported in kilotons.
+
         """
 
         total_climate_change = (
@@ -490,7 +727,8 @@ class DataFetcher:
         return total_climate_change
 
     def get_eutrophication_emission_totals(self):
-        """Get the total eutrophication emissions.
+        """
+        Get the total eutrophication emissions.
 
         This method retrieves the total eutrophication emissions associated with manure management, soils, and overall total.
         The emissions are reported in units of kilotons of PO4e (Phosphorus equivalent).
@@ -506,6 +744,7 @@ class DataFetcher:
             to an overgrowth of algae and aquatic plant life. This can have detrimental effects on water quality and ecosystems.
 
             Reported in kilotons.
+
         """
 
         total_eutrophication = (
@@ -516,7 +755,8 @@ class DataFetcher:
         return total_eutrophication
 
     def get_air_quality_emission_totals(self):
-        """Get the total air quality emissions.
+        """
+        Get the total air quality emissions.
 
         This method retrieves the total air quality emissions associated with NH3 (Ammonia) from various agricultural activities.
 
@@ -531,6 +771,7 @@ class DataFetcher:
             air quality degradation and have implications for human health and the environment.
 
             Reported in kilotons.
+
         """
 
         total_air_quality = self.data_manager_class.get_goblin_results_output_datatable(
@@ -539,7 +780,8 @@ class DataFetcher:
         return total_air_quality
 
     def get_eutrophication_animal_emissions_by_category(self):
-        """Get the eutrophication emissions from animal-related sources.
+        """
+        Get the eutrophication emissions from animal-related sources.
 
         This method retrieves the eutrophication emissions associated with manure management and soils from livestock-related activities.
 
@@ -555,6 +797,7 @@ class DataFetcher:
             and fertilizer application to soils, can contribute to eutrophication in nearby water bodies.
 
             Reported in kilotons.
+
         """
 
         total_animal_gases = (
@@ -565,7 +808,8 @@ class DataFetcher:
         return total_animal_gases
 
     def get_eutrophication_crop_emissions_by_category(self):
-        """Get the eutrophication emissions from crop-related sources.
+        """
+        Get the eutrophication emissions from crop-related sources.
 
         This method retrieves the eutrophication emissions associated with soils from crop-related activities.
 
@@ -583,6 +827,7 @@ class DataFetcher:
             fertilizers to soils, can contribute to eutrophication in nearby water bodies.
 
             Reported in kilotons.
+
         """
 
         total_crop_gases = self.data_manager_class.get_goblin_results_output_datatable(
@@ -607,6 +852,7 @@ class DataFetcher:
             quality.
 
             Reported in kilotons.
+
         """
 
         total_animal_gases = (
@@ -643,7 +889,8 @@ class DataFetcher:
         return total_crops_gases
 
     def get_landuse_emissions_totals(self):
-        """Get the land use emissions totals by gas.
+        """
+        Get the land use emissions totals by gas.
 
         This method retrieves a dataframe that summarizes the total emissions for each land use category, categorized by different gas types
         such as CO2, CH4, and N2O, as well as a combined total in CO2E (CO2 equivalent).
@@ -660,6 +907,7 @@ class DataFetcher:
             measure of the overall greenhouse gas impact.
 
             Reported in kilotons.
+
         """
         total_animal_gases = (
             self.data_manager_class.get_goblin_results_output_datatable(
@@ -669,7 +917,8 @@ class DataFetcher:
         return total_animal_gases
 
     def get_forest_flux(self):
-        """Get the forest carbon annual flux.
+        """
+        Get the forest carbon annual flux.
 
         This method retrieves a dataframe that provides the forest carbon annual flux, reported in metric tons of carbon (tC). The flux is
         categorized into different components, including biomass, dead organic matter (DOM), and total ecosystem, which represents the combined
@@ -688,6 +937,7 @@ class DataFetcher:
             impacts on climate change.
 
             Reported in tons.
+
         """
 
         forest_flux = self.data_manager_class.get_goblin_results_output_datatable(
@@ -696,7 +946,8 @@ class DataFetcher:
         return forest_flux
 
     def get_forest_aggregate(self):
-        """Get the aggregated forest carbon emissions.
+        """
+        Get the aggregated forest carbon emissions.
 
         This method retrieves a dataframe that provides the aggregated forest carbon emissions, including biomass, dead organic matter (DOM),
         and total ecosystem carbon. The reported values are in metric tons of carbon (tC). The dataframe contains information on the overall
@@ -716,6 +967,7 @@ class DataFetcher:
             contribution to climate change mitigation efforts and evaluating the impacts of various management practices on carbon sequestration.
 
             Reproted in tons.
+
         """
 
         forest_aggregate = self.data_manager_class.get_goblin_results_output_datatable(
@@ -724,7 +976,8 @@ class DataFetcher:
         return forest_aggregate
 
     def get_total_afforested(self):
-        """Get the total afforested area for each scenario.
+        """
+        Get the total afforested area for each scenario.
 
         This method retrieves a dataframe that provides the total area afforested in each scenario. The values are reported in hectares (ha),
         representing the extent of land that has been converted to forest through afforestation. The afforested areas are essential indicators
@@ -741,6 +994,7 @@ class DataFetcher:
             ecosystem services, and sustainable land management practices.
 
             Reported in ha.
+
         """
 
         afforestation = self.data_manager_class.get_goblin_results_output_datatable(
