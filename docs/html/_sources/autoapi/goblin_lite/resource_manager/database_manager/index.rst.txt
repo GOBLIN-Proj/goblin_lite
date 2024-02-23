@@ -1,0 +1,133 @@
+:py:mod:`goblin_lite.resource_manager.database_manager`
+=======================================================
+
+.. py:module:: goblin_lite.resource_manager.database_manager
+
+.. autoapi-nested-parse::
+
+   Database Manager
+   ================
+
+   This module contains the DataManager class, which is responsible for managing the database
+   for the GOBLIN LCA framework. The DataManager class is responsible for creating, clearing, and
+   saving data to the database. It also retrieves data from the database.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   goblin_lite.resource_manager.database_manager.DataManager
+
+
+
+
+.. py:class:: DataManager
+
+
+   Manages the GOBLIN LCA database.
+
+   This class is responsible for managing the database for the GOBLIN LCA framework. It is responsible for creating,
+   clearing, and saving data to the database. It also retrieves data from the database.
+
+   .. attribute:: database_dir
+
+      The directory where the database is stored.
+
+      :type: str
+
+   .. attribute:: engine
+
+
+
+      :type: sqlalchemy.engine.base.Engine
+
+   .. method:: data_engine_creater()
+
+      Creates the database engine.
+
+
+   .. method:: create_or_clear_database()
+
+      Creates or clears the database.
+
+
+   .. method:: save_goblin_results_output_datatable(data, table, index=True)
+
+      Saves a DataFrame to the database.
+
+
+   .. method:: save_goblin_results_to_database(*args)
+
+      Saves data to the database.
+
+
+   .. method:: get_goblin_results_output_datatable(table, index_col=None)
+
+      Retrieves a DataFrame from the database.
+
+   .. py:method:: data_engine_creater()
+
+      Creates the database engine.
+
+      :returns: The database engine.
+      :rtype: sqlalchemy.engine.base.Engine
+
+
+   .. py:method:: create_or_clear_database()
+
+      Creates or clears the database.
+
+      This method creates or clears the database. If the database already exists, it is cleared.
+
+      :rtype: None
+
+
+   .. py:method:: save_goblin_results_output_datatable(data, table, index=True)
+
+      Saves a DataFrame to the database.
+
+      This method saves a DataFrame to the database.
+
+      :param data: The DataFrame to save.
+      :type data: pandas.DataFrame
+      :param table: The name of the table to save the DataFrame to.
+      :type table: str
+      :param index: Whether to save the index. Defaults to True.
+      :type index: bool, optional
+
+      :rtype: None
+
+
+   .. py:method:: save_goblin_results_to_database(*args)
+
+      Saves data to the database.
+
+      This method saves data to the database.
+
+      :param \*args: The data to save.
+
+      :rtype: None
+
+
+   .. py:method:: get_goblin_results_output_datatable(table, index_col=None)
+
+      Retrieves a DataFrame from the database.
+
+      This method retrieves a DataFrame from the database.
+
+      :param table: The name of the table to retrieve the DataFrame from.
+      :type table: str
+      :param index_col: The column to use as the index. Defaults to None.
+      :type index_col: str, optional
+
+      :returns: The DataFrame retrieved from the database.
+      :rtype: pandas.DataFrame
+
+
+

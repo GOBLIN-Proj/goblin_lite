@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>goblin_lite.LCA_processing.lca_total_generator &mdash; GOBLIN lite 0.3.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=eafc0fe6" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=e259d695"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            GOBLIN lite
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../autoapi/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../example.html">Example Usage</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">GOBLIN lite</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">goblin_lite.LCA_processing.lca_total_generator</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for goblin_lite.LCA_processing.lca_total_generator</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">LCA Total Generator</span>
+<span class="sd">===================</span>
+<span class="sd">This module contains the LCATotalGenerator class, which is responsible for generating total footprints for climate change, eutrophication, and air quality.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">goblin_lite.resource_manager.data_fetcher</span> <span class="kn">import</span> <span class="n">DataFetcher</span>
+<span class="kn">from</span> <span class="nn">goblin_lite.resource_manager.database_manager</span> <span class="kn">import</span> <span class="n">DataManager</span>
+<span class="kn">from</span> <span class="nn">goblin_lite.LCA_processing.impact_categories</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AirQualityTotal</span><span class="p">,</span>
+    <span class="n">EutrophicationTotal</span><span class="p">,</span>
+    <span class="n">ClimateChangeTotal</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="LCATotalGenerator">
+<a class="viewcode-back" href="../../../autoapi/goblin_lite/LCA_processing/lca_total_generator/index.html#goblin_lite.LCA_processing.lca_total_generator.LCATotalGenerator">[docs]</a>
+<span class="k">class</span> <span class="nc">LCATotalGenerator</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Manages the calculation of total environmental footprints (climate change, eutrophication, air quality). </span>
+<span class="sd">    Utilizes ClimateChangeTotal, EutrophicationTotal, and AirQualityTotal classes.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    db_reference_class : DataFetcher</span>
+<span class="sd">        An instance of the DataFetcher class for retrieving data.</span>
+<span class="sd">    data_manager_class : DataManager</span>
+<span class="sd">        An instance of the DataManager class for database interactions.</span>
+<span class="sd">    calibration_year : int</span>
+<span class="sd">        Base year for model calibration.</span>
+<span class="sd">    target_year : int </span>
+<span class="sd">        Year of analysis.</span>
+<span class="sd">    scenario_dataframe : pandas.DataFrame</span>
+<span class="sd">        Dataframe containing scenario-specific parameters.</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    generate_climate_change_totals()</span>
+<span class="sd">        Calculates total climate change emissions for scenarios.</span>
+<span class="sd">    generate_eutrophication_totals()</span>
+<span class="sd">        Calculates total eutrophication emissions for scenarios.</span>
+<span class="sd">    generate_air_quality_totals()</span>
+<span class="sd">        Calculates total air quality emissions for scenarios.</span>
+<span class="sd">    get_climate_emission_dataframes()</span>
+<span class="sd">        Fetches climate change emission dataframes by category.</span>
+<span class="sd">    get_air_quality_emission_dataframes()</span>
+<span class="sd">        Fetches air quality emission dataframes by category.</span>
+<span class="sd">    get_eutrophication_emission_dataframes()</span>
+<span class="sd">        Fetches eutrophication emission dataframes by category.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calibration_year</span><span class="p">,</span> <span class="n">target_year</span><span class="p">,</span> <span class="n">scenario_dataframe</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db_reference_class</span> <span class="o">=</span> <span class="n">DataFetcher</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span> <span class="o">=</span> <span class="n">DataManager</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span> <span class="o">=</span> <span class="n">calibration_year</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span> <span class="o">=</span> <span class="n">target_year</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scenario_dataframe</span> <span class="o">=</span> <span class="n">scenario_dataframe</span>
+
+
+<div class="viewcode-block" id="LCATotalGenerator.generate_climate_change_totals">
+<a class="viewcode-back" href="../../../autoapi/goblin_lite/LCA_processing/lca_total_generator/index.html#goblin_lite.LCA_processing.lca_total_generator.LCATotalGenerator.generate_climate_change_totals">[docs]</a>
+    <span class="k">def</span> <span class="nf">generate_climate_change_totals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates total climate change emissions for scenarios.</span>
+
+<span class="sd">        Details </span>
+<span class="sd">        -------</span>
+<span class="sd">        * Leverages the ClimateChangeTotal class.</span>
+<span class="sd">        * Fetches emission dataframes using `get_climate_change_emission_dataframes()`.</span>
+<span class="sd">        * Saves results to a database via the DataManager class.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>   
+        <span class="n">climate_class</span> <span class="o">=</span> <span class="n">ClimateChangeTotal</span><span class="p">()</span>
+
+        <span class="n">dataframes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_climate_emission_dataframes</span><span class="p">()</span>
+
+        <span class="n">climate_change_totals</span> <span class="o">=</span> <span class="n">climate_class</span><span class="o">.</span><span class="n">total_climate_change_emissions</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenario_dataframe</span><span class="p">,</span> <span class="n">dataframes</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">save_goblin_results_to_database</span><span class="p">((</span><span class="s2">&quot;climate_change_totals&quot;</span><span class="p">,</span> <span class="n">climate_change_totals</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="LCATotalGenerator.generate_eutrophication_totals">
+<a class="viewcode-back" href="../../../autoapi/goblin_lite/LCA_processing/lca_total_generator/index.html#goblin_lite.LCA_processing.lca_total_generator.LCATotalGenerator.generate_eutrophication_totals">[docs]</a>
+    <span class="k">def</span> <span class="nf">generate_eutrophication_totals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates total eutrophication emissions for scenarios.</span>
+
+<span class="sd">        Details </span>
+<span class="sd">        -------</span>
+<span class="sd">        * Leverages the EutrophicationTotal class.</span>
+<span class="sd">        * Fetches emission dataframes using `get_eutrophication_emission_dataframes()`.</span>
+<span class="sd">        * Saves results to a database via the DataManager class.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>   
+        <span class="n">eutrophication_class</span> <span class="o">=</span> <span class="n">EutrophicationTotal</span><span class="p">()</span>
+
+        <span class="n">dataframes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_eutrophication_emission_dataframes</span><span class="p">()</span>
+
+        <span class="n">eutrophication</span> <span class="o">=</span> <span class="n">eutrophication_class</span><span class="o">.</span><span class="n">total_eutrophication_emissions</span><span class="p">(</span><span class="n">dataframes</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">save_goblin_results_output_datatable</span><span class="p">(</span>
+            <span class="n">eutrophication</span><span class="p">,</span> <span class="s2">&quot;eutrophication_totals&quot;</span>
+        <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="LCATotalGenerator.generate_air_quality_totals">
+<a class="viewcode-back" href="../../../autoapi/goblin_lite/LCA_processing/lca_total_generator/index.html#goblin_lite.LCA_processing.lca_total_generator.LCATotalGenerator.generate_air_quality_totals">[docs]</a>
+    <span class="k">def</span> <span class="nf">generate_air_quality_totals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates total air quality emissions for scenarios.</span>
+
+<span class="sd">        Details </span>
+<span class="sd">        -------</span>
+<span class="sd">        * Leverages the AirQualityTotal class.</span>
+<span class="sd">        * Fetches emission dataframes using `get_air_quality_emission_dataframes()`.</span>
+<span class="sd">        * Saves results to a database via the DataManager class.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="n">air_quality_class</span> <span class="o">=</span> <span class="n">AirQualityTotal</span><span class="p">()</span>
+
+        <span class="n">dataframes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_air_quality_emission_dataframes</span><span class="p">()</span>
+
+        <span class="n">air_quality</span> <span class="o">=</span> <span class="n">air_quality_class</span><span class="o">.</span><span class="n">total_air_quality_emissions</span><span class="p">(</span><span class="n">dataframes</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">save_goblin_results_output_datatable</span><span class="p">(</span>
+            <span class="n">air_quality</span><span class="p">,</span> <span class="s2">&quot;air_quality_totals&quot;</span>
+        <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="LCATotalGenerator.get_climate_emission_dataframes">
+<a class="viewcode-back" href="../../../autoapi/goblin_lite/LCA_processing/lca_total_generator/index.html#goblin_lite.LCA_processing.lca_total_generator.LCATotalGenerator.get_climate_emission_dataframes">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_climate_emission_dataframes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves dataframes containing climate change emissions by category.</span>
+
+<span class="sd">        This method fetches dataframes containing climate change emissions for different categories, such as &quot;crop,&quot; &quot;animal,&quot;</span>
+<span class="sd">        and &quot;land,&quot; using the DataFetcher class.</span>
+
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            A dictionary containing dataframes of climate change emissions for different categories.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">crop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db_reference_class</span><span class="o">.</span><span class="n">get_climate_change_crop_emissions_aggregated</span><span class="p">()</span>
+        <span class="n">animal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db_reference_class</span><span class="o">.</span><span class="n">get_climate_change_animal_emissions_aggregated</span><span class="p">()</span>
+        <span class="n">land</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db_reference_class</span><span class="o">.</span><span class="n">get_landuse_emissions_totals</span><span class="p">()</span>
+
+        <span class="n">total_emissions_dict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;crop&quot;</span><span class="p">:</span> <span class="n">crop</span><span class="p">,</span>
+            <span class="s2">&quot;animal&quot;</span><span class="p">:</span> <span class="n">animal</span><span class="p">,</span>
+            <span class="s2">&quot;land&quot;</span><span class="p">:</span> <span class="n">land</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">total_emissions_dict</span></div>
+
+    
+
+<div class="viewcode-block" id="LCATotalGenerator.get_air_quality_emission_dataframes">
+<a class="viewcode-back" href="../../../autoapi/goblin_lite/LCA_processing/lca_total_generator/index.html#goblin_lite.LCA_processing.lca_total_generator.LCATotalGenerator.get_air_quality_emission_dataframes">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_air_quality_emission_dataframes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves dataframes containing air quality emissions by category.</span>
+
+<span class="sd">        This method fetches dataframes containing air quality emissions for different categories, such as &quot;crop&quot; and</span>
+<span class="sd">        &quot;animal,&quot; using the DataFetcher class.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            A dictionary containing dataframes of air quality emissions for different categories.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">crop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db_reference_class</span><span class="o">.</span><span class="n">get_air_quality_crop_emissions_by_category</span><span class="p">()</span>
+        <span class="n">animal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db_reference_class</span><span class="o">.</span><span class="n">get_air_quality_animal_emissions_by_category</span><span class="p">()</span>
+
+        <span class="n">total_emissions_dict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;crop&quot;</span><span class="p">:</span> <span class="n">crop</span><span class="p">,</span>
+            <span class="s2">&quot;animal&quot;</span><span class="p">:</span> <span class="n">animal</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">total_emissions_dict</span></div>
+
+    
+<div class="viewcode-block" id="LCATotalGenerator.get_eutrophication_emission_dataframes">
+<a class="viewcode-back" href="../../../autoapi/goblin_lite/LCA_processing/lca_total_generator/index.html#goblin_lite.LCA_processing.lca_total_generator.LCATotalGenerator.get_eutrophication_emission_dataframes">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_eutrophication_emission_dataframes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves dataframes containing eutrophication emissions by category.</span>
+
+<span class="sd">        This method fetches dataframes containing eutrophication emissions for different categories, such as &quot;crop&quot; and</span>
+<span class="sd">        &quot;animal,&quot; using the DataFetcher class.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            A dictionary containing dataframes of eutrophication emissions for different categories.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">crop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db_reference_class</span><span class="o">.</span><span class="n">get_eutrophication_crop_emissions_by_category</span><span class="p">()</span>
+        <span class="n">animal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db_reference_class</span><span class="o">.</span><span class="n">get_eutrophication_animal_emissions_by_category</span><span class="p">()</span>
+
+        <span class="n">total_emissions_dict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;crop&quot;</span><span class="p">:</span> <span class="n">crop</span><span class="p">,</span>
+            <span class="s2">&quot;animal&quot;</span><span class="p">:</span> <span class="n">animal</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">total_emissions_dict</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Colm Duffy.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

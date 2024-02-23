@@ -10,7 +10,11 @@ Subpackages
    :titlesonly:
    :maxdepth: 3
 
+   LCA_processing/index.rst
+   data_processing/index.rst
    database/index.rst
+   resource_manager/index.rst
+   scenario_analysis/index.rst
 
 
 Submodules
@@ -19,11 +23,6 @@ Submodules
    :titlesonly:
    :maxdepth: 1
 
-   data_fetcher/index.rst
-   data_grapher/index.rst
-   database_manager/index.rst
    goblin/index.rst
-   goblin_data_manager/index.rst
-   impact_categories/index.rst
 
 

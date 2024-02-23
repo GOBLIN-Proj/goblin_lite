@@ -1,0 +1,161 @@
+:py:mod:`goblin_lite.LCA_processing.lca_total_generator`
+========================================================
+
+.. py:module:: goblin_lite.LCA_processing.lca_total_generator
+
+.. autoapi-nested-parse::
+
+   LCA Total Generator
+   ===================
+   This module contains the LCATotalGenerator class, which is responsible for generating total footprints for climate change, eutrophication, and air quality.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   goblin_lite.LCA_processing.lca_total_generator.LCATotalGenerator
+
+
+
+
+.. py:class:: LCATotalGenerator(calibration_year, target_year, scenario_dataframe)
+
+
+   Manages the calculation of total environmental footprints (climate change, eutrophication, air quality).
+   Utilizes ClimateChangeTotal, EutrophicationTotal, and AirQualityTotal classes.
+
+   .. attribute:: db_reference_class
+
+      An instance of the DataFetcher class for retrieving data.
+
+      :type: DataFetcher
+
+   .. attribute:: data_manager_class
+
+      An instance of the DataManager class for database interactions.
+
+      :type: DataManager
+
+   .. attribute:: calibration_year
+
+      Base year for model calibration.
+
+      :type: int
+
+   .. attribute:: target_year
+
+      Year of analysis.
+
+      :type: int
+
+   .. attribute:: scenario_dataframe
+
+      Dataframe containing scenario-specific parameters.
+
+      :type: pandas.DataFrame
+
+   .. method:: generate_climate_change_totals()
+
+      Calculates total climate change emissions for scenarios.
+
+   .. method:: generate_eutrophication_totals()
+
+      Calculates total eutrophication emissions for scenarios.
+
+   .. method:: generate_air_quality_totals()
+
+      Calculates total air quality emissions for scenarios.
+
+   .. method:: get_climate_emission_dataframes()
+
+      Fetches climate change emission dataframes by category.
+
+   .. method:: get_air_quality_emission_dataframes()
+
+      Fetches air quality emission dataframes by category.
+
+   .. method:: get_eutrophication_emission_dataframes()
+
+      Fetches eutrophication emission dataframes by category.
+
+
+   .. py:method:: generate_climate_change_totals()
+
+      Calculates total climate change emissions for scenarios.
+
+      Details
+      -------
+      * Leverages the ClimateChangeTotal class.
+      * Fetches emission dataframes using `get_climate_change_emission_dataframes()`.
+      * Saves results to a database via the DataManager class.
+
+      :rtype: None
+
+
+   .. py:method:: generate_eutrophication_totals()
+
+      Calculates total eutrophication emissions for scenarios.
+
+      Details
+      -------
+      * Leverages the EutrophicationTotal class.
+      * Fetches emission dataframes using `get_eutrophication_emission_dataframes()`.
+      * Saves results to a database via the DataManager class.
+
+      :rtype: None
+
+
+   .. py:method:: generate_air_quality_totals()
+
+      Calculates total air quality emissions for scenarios.
+
+      Details
+      -------
+      * Leverages the AirQualityTotal class.
+      * Fetches emission dataframes using `get_air_quality_emission_dataframes()`.
+      * Saves results to a database via the DataManager class.
+
+      :rtype: None
+
+
+   .. py:method:: get_climate_emission_dataframes()
+
+      Retrieves dataframes containing climate change emissions by category.
+
+      This method fetches dataframes containing climate change emissions for different categories, such as "crop," "animal,"
+      and "land," using the DataFetcher class.
+
+
+      :returns: A dictionary containing dataframes of climate change emissions for different categories.
+      :rtype: dict
+
+
+   .. py:method:: get_air_quality_emission_dataframes()
+
+      Retrieves dataframes containing air quality emissions by category.
+
+      This method fetches dataframes containing air quality emissions for different categories, such as "crop" and
+      "animal," using the DataFetcher class.
+
+      :returns: A dictionary containing dataframes of air quality emissions for different categories.
+      :rtype: dict
+
+
+   .. py:method:: get_eutrophication_emission_dataframes()
+
+      Retrieves dataframes containing eutrophication emissions by category.
+
+      This method fetches dataframes containing eutrophication emissions for different categories, such as "crop" and
+      "animal," using the DataFetcher class.
+
+      :returns: A dictionary containing dataframes of eutrophication emissions for different categories.
+      :rtype: dict
+
+
+

@@ -4,10 +4,10 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🧌🏋️ Goblin lite, for the generation of static scenarios using the GOBLIN modelling framework &mdash; GOBLIN lite 0.1.0 documentation</title>
+  <title>🧌🏋️ Goblin lite, for the generation of static scenarios using the GOBLIN modelling framework &mdash; GOBLIN lite 0.3.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+      <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
       <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=eafc0fe6" />
 
   
@@ -17,7 +17,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=01f34227"></script>
+        <script src="_static/documentation_options.js?v=e259d695"></script>
         <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -84,6 +84,7 @@
 <p>In addition to climate change impact categories, goblin lite also produces eutrophication and air quality impacts as well.</p>
 <p>There are specific classes for the retrieval of input and output dataframes, and the production of a limited number of graphics.</p>
 <p>GOBLIN lite also has the capacity to rank scenarios based on environmental impacts and the overall change in protein production.</p>
+<p>For a full list of custom package documentation that GOBLIN lite relies on, please see the (FUSION research website)[https://fusion-research.eu/goblin-package-documentation.html#goblin-package-documentation].</p>
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
 <p>Install from git hub.</p>
@@ -190,32 +191,37 @@ scenario with additional prameters.</p>
 </div>
 <p>Below is an example of the model, which generates scenarios, and the uses the results to generate graphics.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">goblin_lite.goblin</span> <span class="kn">import</span> <span class="n">ScenarioRunner</span>
-<span class="kn">from</span> <span class="nn">goblin_lite.data_grapher</span> <span class="kn">import</span> <span class="n">DataGrapher</span>
+<span class="kn">from</span> <span class="nn">goblin_lite.scenario_analysis.data_grapher</span> <span class="kn">import</span> <span class="n">DataGrapher</span>
 <span class="kn">import</span> <span class="nn">shutil</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
+
 <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-
-    <span class="c1">#configuration </span>
-
+    <span class="c1"># configuration</span>
     <span class="n">goblin_config</span> <span class="o">=</span> <span class="s2">&quot;./data/config.json&quot;</span>
     <span class="n">cbm_config</span> <span class="o">=</span> <span class="s2">&quot;./data/cbm_factory.yaml&quot;</span>
     <span class="n">ef_country</span> <span class="o">=</span> <span class="s2">&quot;ireland&quot;</span>
     <span class="n">baseline_year</span> <span class="o">=</span> <span class="mi">2020</span>
     <span class="n">target_year</span> <span class="o">=</span> <span class="mi">2050</span>
 
-    <span class="c1">#output dir </span>
-    <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="s2">&quot;./graph_data&quot;</span><span class="p">)</span>
     <span class="n">data_path</span> <span class="o">=</span> <span class="s2">&quot;./graph_data&quot;</span>
+    <span class="c1"># remove graph dir</span>
+    <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">data_path</span><span class="p">)</span>
 
-    <span class="c1">#class instances</span>
-    <span class="n">runner_class</span> <span class="o">=</span> <span class="n">ScenarioRunner</span><span class="p">(</span><span class="n">ef_country</span><span class="p">,</span> <span class="n">baseline_year</span><span class="p">,</span><span class="n">target_year</span><span class="p">,</span> <span class="n">goblin_config</span><span class="p">,</span> <span class="n">cbm_config</span><span class="p">)</span>
+    <span class="c1"># output dir</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">data_path</span><span class="p">)</span>
+
+
+    <span class="c1"># class instances</span>
+    <span class="n">runner_class</span> <span class="o">=</span> <span class="n">ScenarioRunner</span><span class="p">(</span>
+        <span class="n">ef_country</span><span class="p">,</span> <span class="n">baseline_year</span><span class="p">,</span> <span class="n">target_year</span><span class="p">,</span> <span class="n">goblin_config</span><span class="p">,</span> <span class="n">cbm_config</span>
+    <span class="p">)</span>
     <span class="n">graph_class</span> <span class="o">=</span> <span class="n">DataGrapher</span><span class="p">()</span>
 
-    <span class="c1">#run scenarios</span>
+    <span class="c1"># run scenarios</span>
     <span class="n">runner_class</span><span class="o">.</span><span class="n">run_scenarios</span><span class="p">()</span>
 
-    <span class="c1">#plot data </span>
+    <span class="c1"># plot data</span>
     <span class="n">graph_class</span><span class="o">.</span><span class="n">plot_animal_lca_emissions_by_category</span><span class="p">(</span><span class="n">data_path</span><span class="p">)</span>
     <span class="n">graph_class</span><span class="o">.</span><span class="n">plot_land_use_emissions</span><span class="p">(</span><span class="n">data_path</span><span class="p">)</span>
     <span class="n">graph_class</span><span class="o">.</span><span class="n">plot_forest_flux</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -224,19 +230,15 @@ scenario with additional prameters.</p>
     <span class="n">graph_class</span><span class="o">.</span><span class="n">plot_crop_lca_emissions_by_category</span><span class="p">(</span><span class="n">data_path</span><span class="p">)</span>
     <span class="n">graph_class</span><span class="o">.</span><span class="n">plot_crop_livestock_lca_emissions_by_category</span><span class="p">(</span><span class="n">data_path</span><span class="p">)</span>
 
-    <span class="c1">#ranking variables </span>
-    <span class="n">target</span> <span class="o">=</span> <span class="mf">0.02</span>
-    <span class="n">gas</span> <span class="o">=</span> <span class="s2">&quot;CO2e&quot;</span>
+    <span class="c1"># ranking variables</span>
+    <span class="n">target</span> <span class="o">=</span> <span class="mf">0.01</span>
+    <span class="n">gas</span> <span class="o">=</span> <span class="s2">&quot;CO2E&quot;</span>
 
-    <span class="c1">#plot ranks</span>
+    <span class="c1"># plot ranks</span>
     <span class="n">graph_class</span><span class="o">.</span><span class="n">rank_chart</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">gas</span><span class="p">,</span> <span class="n">data_path</span><span class="p">)</span>
-
-    <span class="c1">#remove graph dir </span>
-    <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">data_path</span><span class="p">)</span>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
     <span class="n">main</span><span class="p">()</span>
-    
 </pre></div>
 </div>
 </section>

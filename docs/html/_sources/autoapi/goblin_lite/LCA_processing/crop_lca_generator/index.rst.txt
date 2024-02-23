@@ -1,0 +1,145 @@
+:py:mod:`goblin_lite.LCA_processing.crop_lca_generator`
+=======================================================
+
+.. py:module:: goblin_lite.LCA_processing.crop_lca_generator
+
+.. autoapi-nested-parse::
+
+   Crop LCA Generator
+   ==================
+   This module contains the CropLCAGenerator class, which is responsible for generating crop footprints for climate change, eutrophication, and air quality.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   goblin_lite.LCA_processing.crop_lca_generator.CropLCAGenerator
+
+
+
+
+.. py:class:: CropLCAGenerator(ef_country, crop_dataframe, scenario_dataframe, AR_VALUE)
+
+
+   Manages the calculation of crop-related footprints for various environmental impacts.
+   Leverages external classes for specific impact calculations.
+
+   .. attribute:: data_manager_class
+
+      An instance of the DataManager class for database interactions.
+
+      :type: DataManager
+
+   .. attribute:: goblin_data_manager
+
+      Handles data management for the GOBLIN LCA framework.
+
+      :type: GoblinDataManager
+
+   .. attribute:: crop_dataframe
+
+      Dataframe containing crop-related data.
+
+      :type: pandas.DataFrame
+
+   .. attribute:: scenario_dataframe
+
+      Dataframe containing scenario-specific parameters.
+
+      :type: pandas.DataFrame
+
+   .. attribute:: AR_VALUE
+
+      IPCC Assessment Report version (e.g., 'AR4', 'AR5') for impact calculations.
+
+      :type: str
+
+   .. attribute:: ef_country
+
+      Country code for emission factors.
+
+      :type: str
+
+   .. attribute:: default_urea
+
+      Default urea application rate.
+
+      :type: float
+
+   .. attribute:: default_urea_abated
+
+      Default urea abated application rate.
+
+      :type: float
+
+   .. method:: generate_crop_footprint()
+
+      Calculates footprints for climate change, eutrophication, and air quality.
+
+
+   .. method:: generate_aggregated_crop_footprint()
+
+      Calculates aggregated climate change footprints for crops.
+
+
+   .. py:method:: generate_crop_footprint(urea=None, urea_abated=None)
+
+      Generate crop footprints for climate change, eutrophication, and air quality for each scenario.
+
+      This method calculates and generates crop footprints for climate change, eutrophication, and air quality for each
+      scenario based on the crop_dataframe and scenario_dataframe class attributes. The footprints are computed using default urea
+      and urea abated values (these can be overridden ) for the baseline, while urea values are derived from the scenario_dataframe for each scenario.
+      The AR Value (AR4, AR5) is derived from the class attributes, which defaults to AR5.
+
+      Data is saved to the database using the `save_goblin_results_to_database` method from the DataManager class.
+
+      Details
+      -------
+      * Footprints are generated for each scenario.
+      * Employs default urea values for the baseline, scenario-specific urea from the `scenario_dataframe`.
+      * Leverages the following classes:
+          * ClimateChangeCrop
+          * EutrophicationCrop
+          * AirQualityCrop
+      * Saves results to a database via the DataManager class.
+
+      :param urea: Urea application rate. Defaults to class-level default.
+      :type urea: float, optional
+      :param urea_abated: Urea abated application rate. Defaults to class-level default.
+      :type urea_abated: float, optional
+
+      :rtype: None
+
+
+   .. py:method:: generate_aggregated_crop_footprint(urea=None, urea_abated=None)
+
+      Generate aggregated crop footprints for climate change.
+
+      This method calculates and generates aggregated crop footprints for climate change based on the provided crop_dataframe
+      and scenario_dataframe. The footprints for the baseline are computed using default urea and urea abated values (these can be overridden),
+      as well as the AR value (AR4, AR5), defaults to AR5, specified in the class instance.
+
+      Data is saved to the database using the `save_goblin_results_to_database` method from the DataManager class.
+
+      Details
+      -------
+      * Footprints are generated for each scenario.
+      * Employs default urea values for the baseline, scenario-specific urea from the `scenario_dataframe`.
+      * Leverages the ClimateChangeCrop class.
+      * Saves results to a database via the DataManager class.
+
+      :param urea: Urea application rate. Defaults to class-level default.
+      :type urea: float, optional
+      :param urea_abated: Urea abated application rate. Defaults to class-level default.
+      :type urea_abated: float, optional
+
+      :rtype: None
+
+
+

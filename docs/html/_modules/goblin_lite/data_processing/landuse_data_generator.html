@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>goblin_lite.data_processing.landuse_data_generator &mdash; GOBLIN lite 0.3.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=eafc0fe6" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=e259d695"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            GOBLIN lite
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../autoapi/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../example.html">Example Usage</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">GOBLIN lite</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">goblin_lite.data_processing.landuse_data_generator</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for goblin_lite.data_processing.landuse_data_generator</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Landuse Data Generator</span>
+<span class="sd">======================</span>
+<span class="sd">This module contains the LandUseDataGenerator class, which is responsible for generating landuse data and landcover outputs.</span>
+<span class="sd">The class leverages the TransitionMatrix, LandCover and Afforestation classes to calculate landuse data and landcover outputs based on scenario-specific and baseline landuse data.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">landcover_assignment.transition_matrix</span> <span class="kn">import</span> <span class="n">TransitionMatrix</span>
+<span class="kn">from</span> <span class="nn">landcover_assignment.landcover</span> <span class="kn">import</span> <span class="n">LandCover</span>
+<span class="kn">from</span> <span class="nn">landcover_assignment.afforestation</span> <span class="kn">import</span> <span class="n">Afforestation</span>
+
+
+<div class="viewcode-block" id="LandUseDataGenerator">
+<a class="viewcode-back" href="../../../autoapi/goblin_lite/data_processing/landuse_data_generator/index.html#goblin_lite.data_processing.landuse_data_generator.LandUseDataGenerator">[docs]</a>
+<span class="k">class</span> <span class="nc">LandUseDataGenerator</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Manages the generation of land use and land cover data. Leverages TransitionMatrix, </span>
+<span class="sd">    LandCover, and Afforestation classes for core calculations.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    calibration_year : int</span>
+<span class="sd">        Base year for model calibration.</span>
+<span class="sd">    target_year : int</span>
+<span class="sd">        Year of analysis.</span>
+<span class="sd">    scenario_dataframe : pandas.DataFrame</span>
+<span class="sd">        Dataframe containing scenario-specific land use parameters.</span>
+<span class="sd">    grassland_area : pandas.DataFrame </span>
+<span class="sd">        Grassland area data.</span>
+<span class="sd">    spared_area : pandas.DataFrame</span>
+<span class="sd">        Spared grassland area data (converted to other land uses).</span>
+<span class="sd">    spared_area_breakdown : pandas.DataFrame</span>
+<span class="sd">        Breakdown of spared grassland area (e.g., by soil type). </span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    generate_transition_matrix()</span>
+<span class="sd">        Creates a land use transition matrix using the TransitionMatrix class.</span>
+
+<span class="sd">    generate_landuse_data()</span>
+<span class="sd">       Calculates the base and future land use areas using the LandCover class.</span>
+
+<span class="sd">    generate_afforestation_data()</span>
+<span class="sd">        Generates afforestation data for the CBM, using the Afforestation class. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calibration_year</span><span class="p">,</span> <span class="n">target_year</span><span class="p">,</span> <span class="n">scenario_dataframe</span><span class="p">,</span> <span class="n">grassland_area</span><span class="p">,</span> <span class="n">spared_area</span><span class="p">,</span> <span class="n">spared_area_breakdown</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span> <span class="o">=</span> <span class="n">calibration_year</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span> <span class="o">=</span> <span class="n">target_year</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scenario_dataframe</span> <span class="o">=</span> <span class="n">scenario_dataframe</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grassland_area</span> <span class="o">=</span> <span class="n">grassland_area</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spared_area</span> <span class="o">=</span> <span class="n">spared_area</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spared_area_breakdown</span> <span class="o">=</span> <span class="n">spared_area_breakdown</span>
+    
+
+<div class="viewcode-block" id="LandUseDataGenerator.generate_transition_matrix">
+<a class="viewcode-back" href="../../../autoapi/goblin_lite/data_processing/landuse_data_generator/index.html#goblin_lite.data_processing.landuse_data_generator.LandUseDataGenerator.generate_transition_matrix">[docs]</a>
+    <span class="k">def</span> <span class="nf">generate_transition_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">transition</span> <span class="o">=</span> <span class="n">TransitionMatrix</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenario_dataframe</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">grassland_area</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">spared_area</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">spared_area_breakdown</span>
+        <span class="p">)</span>
+
+
+        <span class="n">transition_matrix</span> <span class="o">=</span> <span class="n">transition</span><span class="o">.</span><span class="n">create_transition_matrix</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">transition_matrix</span></div>
+
+    
+<div class="viewcode-block" id="LandUseDataGenerator.generate_landuse_data">
+<a class="viewcode-back" href="../../../autoapi/goblin_lite/data_processing/landuse_data_generator/index.html#goblin_lite.data_processing.landuse_data_generator.LandUseDataGenerator.generate_landuse_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">generate_landuse_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+
+        <span class="n">land</span> <span class="o">=</span> <span class="n">LandCover</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenario_dataframe</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">grassland_area</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">spared_area</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">spared_area_breakdown</span>
+        <span class="p">)</span>
+
+        <span class="n">landuse_data</span> <span class="o">=</span> <span class="n">land</span><span class="o">.</span><span class="n">combined_future_land_use_area</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">landuse_data</span></div>
+
+    
+<div class="viewcode-block" id="LandUseDataGenerator.generate_afforestation_data">
+<a class="viewcode-back" href="../../../autoapi/goblin_lite/data_processing/landuse_data_generator/index.html#goblin_lite.data_processing.landuse_data_generator.LandUseDataGenerator.generate_afforestation_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">generate_afforestation_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="n">transition_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_transition_matrix</span><span class="p">()</span>
+        
+        <span class="n">afforestation_class</span> <span class="o">=</span> <span class="n">Afforestation</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenario_dataframe</span><span class="p">,</span> <span class="n">transition_matrix</span>
+        <span class="p">)</span>
+
+        <span class="n">afforestation_data</span> <span class="o">=</span> <span class="n">afforestation_class</span><span class="o">.</span><span class="n">gen_cbm_afforestation_dataframe</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">spared_area_breakdown</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">afforestation_data</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Colm Duffy.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

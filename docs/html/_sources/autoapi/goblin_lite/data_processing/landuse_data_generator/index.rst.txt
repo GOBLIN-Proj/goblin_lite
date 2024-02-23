@@ -1,0 +1,94 @@
+:py:mod:`goblin_lite.data_processing.landuse_data_generator`
+============================================================
+
+.. py:module:: goblin_lite.data_processing.landuse_data_generator
+
+.. autoapi-nested-parse::
+
+   Landuse Data Generator
+   ======================
+   This module contains the LandUseDataGenerator class, which is responsible for generating landuse data and landcover outputs.
+   The class leverages the TransitionMatrix, LandCover and Afforestation classes to calculate landuse data and landcover outputs based on scenario-specific and baseline landuse data.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   goblin_lite.data_processing.landuse_data_generator.LandUseDataGenerator
+
+
+
+
+.. py:class:: LandUseDataGenerator(calibration_year, target_year, scenario_dataframe, grassland_area, spared_area, spared_area_breakdown)
+
+
+   Manages the generation of land use and land cover data. Leverages TransitionMatrix,
+   LandCover, and Afforestation classes for core calculations.
+
+   .. attribute:: calibration_year
+
+      Base year for model calibration.
+
+      :type: int
+
+   .. attribute:: target_year
+
+      Year of analysis.
+
+      :type: int
+
+   .. attribute:: scenario_dataframe
+
+      Dataframe containing scenario-specific land use parameters.
+
+      :type: pandas.DataFrame
+
+   .. attribute:: grassland_area
+
+      Grassland area data.
+
+      :type: pandas.DataFrame
+
+   .. attribute:: spared_area
+
+      Spared grassland area data (converted to other land uses).
+
+      :type: pandas.DataFrame
+
+   .. attribute:: spared_area_breakdown
+
+      Breakdown of spared grassland area (e.g., by soil type).
+
+      :type: pandas.DataFrame
+
+   .. method:: generate_transition_matrix()
+
+      Creates a land use transition matrix using the TransitionMatrix class.
+
+
+   .. method:: generate_landuse_data()
+
+      Calculates the base and future land use areas using the LandCover class.
+
+
+   .. method:: generate_afforestation_data()
+
+      Generates afforestation data for the CBM, using the Afforestation class.
+
+
+   .. py:method:: generate_transition_matrix()
+
+
+   .. py:method:: generate_landuse_data()
+
+
+   .. py:method:: generate_afforestation_data()
+
+
+

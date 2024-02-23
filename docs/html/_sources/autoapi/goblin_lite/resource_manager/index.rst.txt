@@ -1,0 +1,18 @@
+:py:mod:`goblin_lite.resource_manager`
+======================================
+
+.. py:module:: goblin_lite.resource_manager
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   data_fetcher/index.rst
+   database_manager/index.rst
+   goblin_data_manager/index.rst
+   scenario_data_fetcher/index.rst
+
+

@@ -1,0 +1,99 @@
+:py:mod:`goblin_lite.LCA_processing.landuse_lca_generator`
+==========================================================
+
+.. py:module:: goblin_lite.LCA_processing.landuse_lca_generator
+
+.. autoapi-nested-parse::
+
+   Landuse LCA Generator
+   =====================
+   This module contains the LandUseLCAGenerator class, which is responsible for generating land-use footprints for climate change.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   goblin_lite.LCA_processing.landuse_lca_generator.LandUseLCAGenerator
+
+
+
+
+.. py:class:: LandUseLCAGenerator(ef_country, calibration_year, target_year, landuse_data, transition_matrix, forest_data, AR_VALUE)
+
+
+   Manages the calculation of climate change footprints associated with various land use types.
+   Employs the ClimateChangeLandUse class for specific calculations.
+
+   .. attribute:: data_manager_class
+
+      An instance of the DataManager class for database interactions.
+
+      :type: DataManager
+
+   .. attribute:: ef_country
+
+      Country code for emission factors.
+
+      :type: str
+
+   .. attribute:: calibration_year
+
+      Base year for model calibration.
+
+      :type: int
+
+   .. attribute:: target_year
+
+      Year of analysis.
+
+      :type: int
+
+   .. attribute:: landuse_data
+
+      Dataframe containing land use information.
+
+      :type: pandas.DataFrame
+
+   .. attribute:: transition_matrix
+
+      Dataframe representing transitions between land use types.
+
+      :type: pandas.DataFrame
+
+   .. attribute:: forest_data
+
+      Dataframe containing forest-related data.
+
+      :type: pandas.DataFrame
+
+   .. attribute:: AR_VALUE
+
+      IPCC Assessment Report version (e.g., 'AR4', 'AR5') for impact calculations.
+
+      :type: str
+
+   .. method:: generate_landuse_footprint()
+
+      Calculates climate change footprints for various land use types.
+
+
+   .. py:method:: generate_landuse_footprint()
+
+      Calculates climate change footprints for various land use types (forest, grassland, wetland, cropland).
+
+      Details
+      -------
+      * Leverages the ClimateChangeLandUse class.
+      * Employs AR value (AR4, AR5) from the class instance for calculations.
+      * Saves results to a database via the DataManager class.
+
+      :rtype: None
+
+
+

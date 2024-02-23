@@ -1,0 +1,71 @@
+:py:mod:`goblin_lite.data_processing.forest_carbon_generator`
+=============================================================
+
+.. py:module:: goblin_lite.data_processing.forest_carbon_generator
+
+.. autoapi-nested-parse::
+
+   Forest Carbon Generator
+   =======================
+   This module contains the ForestCarbonGenerator class, which is responsible for generating forest carbon data.
+   The class leverages the Runner class to calculate forest carbon data based on scenario-specific and baseline forest data.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   goblin_lite.data_processing.forest_carbon_generator.ForestCarbonGenerator
+
+
+
+
+.. py:class:: ForestCarbonGenerator(calibration_year, cbm_config_path, scenario_dataframe, afforestation_dataframe)
+
+
+   Manages the process of generating forest carbon data, leveraging the CBM
+   Runner class (from the cbm_runner module) to perform the core carbon calculations.
+
+   .. attribute:: calibration_year
+
+      The base year used for calibrating the carbon model.
+
+      :type: int
+
+   .. attribute:: cbm_config_path
+
+      The path to the configuration file for the CBM.
+
+      :type: str
+
+   .. attribute:: scenario_dataframe
+
+      Dataframe containing forest management scenario descriptions.
+
+      :type: pandas.DataFrame
+
+   .. attribute:: afforestation_dataframe
+
+      Dataframe containing information about afforestation activities.
+
+      :type: pandas.DataFrame
+
+   .. method:: generate_forest_carbon()
+
+      Generates forest carbon data using the provided input data.
+
+
+   .. py:method:: generate_forest_carbon()
+
+      Generates forest carbon data using the provided input data.
+
+      :returns: A dictionary containing forest carbon data with keys 'forest_flux' and 'forest_aggregate'.
+      :rtype: dict
+
+
+
