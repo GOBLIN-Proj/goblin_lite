@@ -1,0 +1,19 @@
+:py:mod:`goblin_lite.LCA_processing`
+====================================
+
+.. py:module:: goblin_lite.LCA_processing
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   crop_lca_generator/index.rst
+   impact_categories/index.rst
+   landuse_lca_generator/index.rst
+   lca_total_generator/index.rst
+   livestock_lca_generator/index.rst
+
+

@@ -1,0 +1,107 @@
+:py:mod:`goblin_lite.data_processing.grassland_data_generation`
+===============================================================
+
+.. py:module:: goblin_lite.data_processing.grassland_data_generation
+
+.. autoapi-nested-parse::
+
+   Grassland Data Generator
+   ========================
+   This module contains the GrasslandDataGenerator class, which is responsible for generating grassland data and farm outputs.
+   The class leverages the GrasslandOutput class to calculate grassland data and farm outputs based on scenario-specific and baseline grassland data.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   goblin_lite.data_processing.grassland_data_generation.GrasslandDataGenerator
+
+
+
+
+.. py:class:: GrasslandDataGenerator(ef_country, calibration_year, target_year, scenario_dataframe, scenario_animal_data, baseline_animal_data)
+
+
+   Manages the process of generating grassland data and related farm outputs. Leverages
+   the GrasslandOutput class to perform core calculations.
+
+   .. attribute:: ef_country
+
+      Country code for emission factors.
+
+      :type: str
+
+   .. attribute:: calibration_year
+
+      Base year for model calibration.
+
+      :type: int
+
+   .. attribute:: target_year
+
+      Year of analysis.
+
+      :type: int
+
+   .. attribute:: scenario_dataframe
+
+      Dataframe containing scenario-specific grassland parameters.
+
+      :type: pandas.DataFrame
+
+   .. attribute:: scenario_animal_data
+
+      Dataframe containing animal data for the scenarios.
+
+      :type: pandas.DataFrame
+
+   .. attribute:: baseline_animal_data
+
+      Dataframe containing baseline animal data.
+
+      :type: pandas.DataFrame
+
+   .. method:: generate_farm_inputs()
+
+      Generates farm input data (from the GrasslandOutput class) for both baseline and scenario conditions.
+
+
+   .. method:: generate_grassland_areas()
+
+      Calculates total spared grassland, total grassland area, spared area per soil type, and grassland stocking rate.
+
+
+   .. py:method:: generate_farm_inputs()
+
+
+   .. py:method:: generate_grassland_areas()
+
+      Calculate the total spared and total grassland areas for each scenario.
+
+      This method calculates and returns the total spared, total grassland areas, spared area by soil group and stocking rate for each scenario based on the provided
+      scenario_dataframe, scenario_animal_data, and baseline_animal_data attributes. The GrasslandOutput class is utilized to perform
+      the necessary calculations for each scenario.
+
+      The total spared area represents the area of grassland that will be converted (destocked) to other land uses (e.g., wetland,
+      forests) in the target year compared to the baseline year. The total grassland area represents
+      the remaining grassland area. Spared area by soil group represents the spared area by soil group (e.g., class 1, 2 and 3).
+      The stocking rate represents the stocking rate per hectare of grassland.
+
+      :param scenario_dataframe: A pandas DataFrame containing scenario parameters.
+      :type scenario_dataframe: pandas.DataFrame
+      :param scenario_animal_data: A pandas DataFrame containing animal data for different scenarios.
+      :type scenario_animal_data: pandas.DataFrame
+      :param baseline_animal_data: A pandas DataFrame containing baseline animal data.
+      :type baseline_animal_data: pandas.DataFrame
+
+      :returns: A tuple containing four pandas DataFrame: (total_spared_area, total_grassland_area, total_spared_area_by_soil_group, per_hectare_stocking_rate).
+      :rtype: tuple
+
+
+

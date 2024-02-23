@@ -1,0 +1,15 @@
+:py:mod:`goblin_lite.scenario_analysis`
+=======================================
+
+.. py:module:: goblin_lite.scenario_analysis
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   data_grapher/index.rst
+
+

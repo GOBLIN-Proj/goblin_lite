@@ -1,0 +1,108 @@
+:py:mod:`goblin_lite.data_processing.animal_data_generation`
+============================================================
+
+.. py:module:: goblin_lite.data_processing.animal_data_generation
+
+.. autoapi-nested-parse::
+
+   Animal Data Generation
+   ======================
+   This module contains the AnimalDataGenerator class, which is responsible for generating animal data and livestock outputs
+   for a specified scenario. The class leverages the AnimalData and Exports classes to calculate animal data and livestock outputs
+   based on scenario-specific and baseline animal data.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   goblin_lite.data_processing.animal_data_generation.AnimalDataGenerator
+
+
+
+
+.. py:class:: AnimalDataGenerator(ef_country, calibration_year, target_year, scenario_input_dataframe)
+
+
+   A class to generate animal data and livestock outputs for a specified scenario.
+
+   This class is responsible for generating animal data and livestock outputs for a specified scenario. It leverages the
+   AnimalData and Exports classes to calculate animal data and livestock outputs based on scenario-specific and baseline animal data.
+
+   .. attribute:: ef_country
+
+      The country for which the livestock data is being generated.
+
+      :type: str
+
+   .. attribute:: calibration_year
+
+      The year used for calibration.
+
+      :type: int
+
+   .. attribute:: target_year
+
+      The target year for the scenario.
+
+      :type: int
+
+   .. attribute:: scenario_input_dataframe
+
+      A DataFrame containing scenario-specific input data required for livestock output calculations.
+
+      :type: pandas.DataFrame
+
+   .. method:: generate_animal_data()
+
+      Generates animal data for a specified scenario.
+
+
+   .. method:: generate_livestock_ouputs()
+
+      Generates and returns a DataFrame of livestock outputs for the given scenario.
+
+   .. py:method:: generate_animal_data()
+
+      Generates animal data for baseline and scenarios.
+
+      :returns: A tuple containing two pandas DataFrames: (baseline_animal_data, scenario_animal_data).
+      :rtype: tuple
+
+
+   .. py:method:: generate_livestock_ouputs()
+
+      Generates and returns a DataFrame of livestock outputs for the given scenario.
+
+      This method leverages the Exports class to calculate protein and milk production based on scenario-specific and baseline
+      animal data. It produces a summary DataFrame combining milk production data and beef (carcass) weight from protein production data.
+
+      :returns: A DataFrame, named protein_and_milk_summary, combining milk production data and beef carcass weight,
+                indexed by 'Scenarios'.
+      :rtype: pandas.DataFrame
+
+      .. rubric:: Notes
+
+      The method performs the following steps:
+      1. Initializes an instance of the Exports class with country-specific parameters, calibration year, target year,
+      and scenario inputs.
+      2. Computes protein production data using `compute_system_protien_exports` of the Exports class, which includes
+      carcass weight information.
+      3. Computes milk production data using `compute_system_milk_exports` of the Exports class.
+      4. Creates the protein_and_milk_summary DataFrame by copying milk production data and appending the beef carcass
+      weight from the protein production data.
+      5. Sets 'Scenarios' as the index of the protein_and_milk_summary DataFrame.
+
+      The generated protein_and_milk_summary DataFrame provides a comprehensive overview of the livestock outputs,
+      including milk production and beef carcass weight, for both scenario-specific and baseline data comparisons.
+
+      The attributes and methods referenced in this documentation are class attributes and methods and should be
+      available within the class instance when this method is called.
+
+
+

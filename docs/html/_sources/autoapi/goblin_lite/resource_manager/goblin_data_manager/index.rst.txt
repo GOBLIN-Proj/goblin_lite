@@ -1,0 +1,200 @@
+:py:mod:`goblin_lite.resource_manager.goblin_data_manager`
+==========================================================
+
+.. py:module:: goblin_lite.resource_manager.goblin_data_manager
+
+.. autoapi-nested-parse::
+
+   Goblin Data Manager
+   ===================
+   This module contains the GoblinDataManager class, which is responsible for managing data for the GOBLIN LCA framework.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   goblin_lite.resource_manager.goblin_data_manager.GoblinDataManager
+
+
+
+
+.. py:class:: GoblinDataManager(AR_VALUE='AR5')
+
+
+   Manages data for the GOBLIN LCA framework.
+
+   This class is responsible for managing data for the GOBLIN LCA framework. It provides access to AR values, climate change livestock emissions groups,
+   climate change livestock emissions categories, climate change livestock conversion groups, climate change crops emissions groups,
+   climate change crop conversion groups, default urea, and default urea abated.
+
+   .. attribute:: AR4_values
+
+      The AR4 values for CH4, N2O, and CO2e.
+
+      :type: dict
+
+   .. attribute:: AR5_values
+
+      The AR5 values for CH4, N2O, and CO2e.
+
+      :type: dict
+
+   .. attribute:: AR_values
+
+      The AR values for CH4, N2O, and CO2e.
+
+      :type: dict
+
+   .. attribute:: climate_change_livestock_emissions_groups
+
+      The climate change livestock emissions groups.
+
+      :type: dict
+
+   .. attribute:: climate_change_livestock_emissions_categories
+
+      The climate change livestock emissions categories.
+
+      :type: dict
+
+   .. attribute:: climate_change_livestock_conversion_groups
+
+      The climate change livestock conversion groups.
+
+      :type: dict
+
+   .. attribute:: climate_change_crops_emissions_groups
+
+      The climate change crops emissions groups.
+
+      :type: dict
+
+   .. attribute:: climate_change_crop_conversion_groups
+
+      The climate change crop conversion groups.
+
+      :type: dict
+
+   .. attribute:: default_urea
+
+      The default urea value.
+
+      :type: float
+
+   .. attribute:: default_urea_abated
+
+      The default urea abated value.
+
+      :type: float
+
+   .. method:: get_AR_values()
+
+      Retrieves the AR values for CH4, N2O, and CO2e.
+
+
+   .. method:: get_climate_change_livestock_emissions_groups()
+
+      Retrieves the climate change livestock emissions groups.
+
+
+   .. method:: get_climate_change_livestock_emissions_categories()
+
+      Retrieves the climate change livestock emissions categories.
+
+
+   .. method:: get_climate_change_livestock_conversion_groups()
+
+      Retrieves the climate change livestock conversion groups.
+
+
+   .. method:: get_climate_change_crops_emissions_groups()
+
+      Retrieves the climate change crops emissions groups.
+
+
+   .. method:: get_climate_change_crop_conversion_groups()
+
+      Retrieves the climate change crop conversion groups.
+
+
+   .. method:: get_default_urea()
+
+      Retrieves the default urea value.
+
+
+   .. method:: get_default_urea_abated()
+
+      Retrieves the default urea abated value.
+
+
+   .. py:method:: get_AR_values()
+
+      Retrieves the AR values for CH4, N2O, and CO2e.
+
+      :returns: The AR values.
+      :rtype: dict
+
+
+   .. py:method:: get_climate_change_livestock_emissions_groups()
+
+      Retrieves the climate change livestock emissions groups.
+
+      :returns: The climate change livestock emissions groups.
+      :rtype: dict
+
+
+   .. py:method:: get_climate_change_livestock_emissions_categories()
+
+      Retrieves the climate change livestock emissions categories.
+
+      :returns: The climate change livestock emissions categories.
+      :rtype: dict
+
+
+   .. py:method:: get_climate_change_livestock_conversion_groups()
+
+      Retrieves the climate change livestock conversion groups.
+
+      :returns: The climate change livestock conversion groups.
+      :rtype: dict
+
+
+   .. py:method:: get_climate_change_crops_emissions_groups()
+
+      Retrieves the climate change crops emissions groups.
+
+      :returns: The climate change crops emissions groups.
+      :rtype: dict
+
+
+   .. py:method:: get_climate_change_crop_conversion_groups()
+
+      Retrieves the climate change crop conversion groups.
+
+      :returns: The climate change crop conversion groups.
+      :rtype: dict
+
+
+   .. py:method:: get_default_urea()
+
+      Retrieves the default urea value.
+
+      :returns: The default urea value.
+      :rtype: float
+
+
+   .. py:method:: get_default_urea_abated()
+
+      Retrieves the default urea abated value.
+
+      :returns: The default urea abated value.
+      :rtype: float
+
+
+

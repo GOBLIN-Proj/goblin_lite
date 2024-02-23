@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_lite.goblin &mdash; GOBLIN lite 0.1.0 documentation</title>
+  <title>goblin_lite.goblin &mdash; GOBLIN lite 0.3.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -16,7 +16,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=01f34227"></script>
+        <script src="../../_static/documentation_options.js?v=e259d695"></script>
         <script src="../../_static/doctools.js?v=888ff710"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -74,105 +74,39 @@
              
   <h1>Source code for goblin_lite.goblin</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">===================</span>
-<span class="sd">Goblin lite module</span>
-<span class="sd">===================</span>
+<span class="sd">Goblin module</span>
+<span class="sd">==============</span>
 
-<span class="sd">The Goblin Lite module is designed for running environmental impact scenarios, particularly focused on land use, </span>
-<span class="sd">livestock, crop production, and their associated impacts on climate change, air quality, and eutrophication. It </span>
-<span class="sd">utilizes various data sources and models to simulate scenarios and calculate the environmental footprints of different </span>
-<span class="sd">agricultural practices and land use changes at the national level in the Irish context.</span>
+<span class="sd">The Goblin Lite module is designed for running environmental impact scenarios, focusing on agricultural practices and land use.</span>
+<span class="sd">It is intended to be used in the context of environmental impact assessments, and it generates a series of data tables representing</span>
+<span class="sd">various aspects of environmental impact under different agricultural and land use scenarios. </span>
 
-<span class="sd">Classes</span>
-<span class="sd">-------</span>
-<span class="sd">ScenarioRunner</span>
-<span class="sd">    A class responsible for orchestrating the entire scenario generation process, utilizing other classes and methods </span>
-<span class="sd">    to generate, analyze, and store scenario data.</span>
-
-<span class="sd">Dependencies</span>
-<span class="sd">------------</span>
-<span class="sd">- ScenarioGeneration</span>
-<span class="sd">- AnimalData</span>
-<span class="sd">- Exports</span>
-<span class="sd">- GrasslandOutput</span>
-<span class="sd">- AirQualityTotal, EutrophicationTotal, ClimateChangeTotal</span>
-<span class="sd">- DataManager</span>
-<span class="sd">- DataFetcher</span>
-<span class="sd">- TransitionMatrix</span>
-<span class="sd">- LandCover</span>
-<span class="sd">- Afforestation</span>
-<span class="sd">- Runner</span>
-<span class="sd">- NationalCropData</span>
-
-<span class="sd">Usage</span>
-<span class="sd">-----</span>
-<span class="sd">The ScenarioRunner class is initialized with country-specific parameters, calibration year, target year, scenario </span>
-<span class="sd">configuration file path, and CBM CFS3 configuration file path. It generates a series of data tables representing </span>
-<span class="sd">various aspects of environmental impact under different agricultural and land use scenarios. These tables are stored </span>
-<span class="sd">and can be accessed for further analysis and visualization.</span>
-
-<span class="sd">Key Methods</span>
-<span class="sd">-----------</span>
-<span class="sd">- run_scenarios(): Orchestrates the scenario generation process.</span>
-<span class="sd">- generate_livestock_outputs(): Calculates livestock production outputs for scenarios.</span>
-<span class="sd">- generate_air_quality_totals(), generate_eutrophication_totals(), generate_climate_change_totals(): Generate total </span>
-<span class="sd">  emissions and impacts for air quality, eutrophication, and climate change.</span>
-<span class="sd">- generate_transition_matrix(): Creates a matrix representing land use transitions.</span>
-<span class="sd">- generate_landuse_data(): Produces land use data based on scenario inputs.</span>
-<span class="sd">- generate_crop_data(), generate_crop_farm_data(): Generate crop-related data and crop farm inputs.</span>
-<span class="sd">- generate_baseline_farm_inputs(), generate_scenario_farm_inputs(): Estimate grassland farm inputs for baseline and scenario </span>
-<span class="sd">  cases.</span>
-<span class="sd">- generate_grassland_areas(): Calculates spared and total grassland areas, spared area by soil group, and stocking rate for scenarios.</span>
-<span class="sd">- generate_crop_footprint(), generate_aggregated_crop_footprint(): Calculate environmental footprints associated with crop production.</span>
-<span class="sd">- generate_landuse_footprint(): Computes the environmental footprint of land use.</span>
-<span class="sd">- generate_livestock_footprint(), generate_aggregated_livestock_footprint(): Estimate environmental impacts of livestock production.</span>
-<span class="sd">- generate_afforestation_data(): Generates data related to afforestation activities.</span>
-<span class="sd">- generate_forest_carbon(): Calculates forest carbon data based on afforestation and scenario data.</span>
-
+<span class="sd">These tables are stored and can be accessed for further analysis and visualization.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">static_scenario_generator.scenarios</span> <span class="kn">import</span> <span class="n">ScenarioGeneration</span>
-<span class="kn">from</span> <span class="nn">livestock_generation.livestock</span> <span class="kn">import</span> <span class="n">AnimalData</span>
-<span class="kn">from</span> <span class="nn">livestock_generation.livestock_exports</span> <span class="kn">import</span> <span class="n">Exports</span>
-<span class="kn">from</span> <span class="nn">grassland_production.grassland_output</span> <span class="kn">import</span> <span class="n">GrasslandOutput</span>
-<span class="kn">from</span> <span class="nn">goblin_lite.impact_categories</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">AirQualityTotal</span><span class="p">,</span>
-    <span class="n">EutrophicationTotal</span><span class="p">,</span>
-    <span class="n">ClimateChangeTotal</span><span class="p">,</span>
-    <span class="n">ClimateChangeLivestock</span><span class="p">,</span>
-    <span class="n">EutrophicationLivestock</span><span class="p">,</span>
-    <span class="n">AirQualityLivestock</span><span class="p">,</span>
-    <span class="n">ClimateChangeLandUse</span><span class="p">,</span>
-    <span class="n">ClimateChangeCrop</span><span class="p">,</span>
-    <span class="n">EurtrophicationCrop</span><span class="p">,</span>
-    <span class="n">AirQualityCrop</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span> <span class="nn">goblin_lite.database_manager</span> <span class="kn">import</span> <span class="n">DataManager</span>
-<span class="kn">from</span> <span class="nn">goblin_lite.data_fetcher</span> <span class="kn">import</span> <span class="n">DataFetcher</span>
-<span class="kn">from</span> <span class="nn">landcover_assignment.transition_matrix</span> <span class="kn">import</span> <span class="n">TransitionMatrix</span>
-<span class="kn">from</span> <span class="nn">landcover_assignment.landcover</span> <span class="kn">import</span> <span class="n">LandCover</span>
-<span class="kn">from</span> <span class="nn">landcover_assignment.afforestation</span> <span class="kn">import</span> <span class="n">Afforestation</span>
-<span class="kn">from</span> <span class="nn">cbm_runner.runner</span> <span class="kn">import</span> <span class="n">Runner</span>
-<span class="kn">from</span> <span class="nn">crop_lca.national_crop_production</span> <span class="kn">import</span> <span class="n">NationalCropData</span>
+<span class="kn">from</span> <span class="nn">goblin_lite.data_processing.animal_data_generation</span> <span class="kn">import</span> <span class="n">AnimalDataGenerator</span>
+<span class="kn">from</span> <span class="nn">goblin_lite.data_processing.grassland_data_generation</span> <span class="kn">import</span> <span class="n">GrasslandDataGenerator</span>
+<span class="kn">from</span> <span class="nn">goblin_lite.data_processing.crop_data_generator</span> <span class="kn">import</span> <span class="n">CropDataGenerator</span>
+<span class="kn">from</span> <span class="nn">goblin_lite.data_processing.landuse_data_generator</span> <span class="kn">import</span> <span class="n">LandUseDataGenerator</span>
+<span class="kn">from</span> <span class="nn">goblin_lite.data_processing.forest_carbon_generator</span> <span class="kn">import</span> <span class="n">ForestCarbonGenerator</span>
+<span class="kn">from</span> <span class="nn">goblin_lite.LCA_processing.crop_lca_generator</span> <span class="kn">import</span> <span class="n">CropLCAGenerator</span>
+<span class="kn">from</span> <span class="nn">goblin_lite.LCA_processing.landuse_lca_generator</span> <span class="kn">import</span> <span class="n">LandUseLCAGenerator</span>
+<span class="kn">from</span> <span class="nn">goblin_lite.LCA_processing.livestock_lca_generator</span> <span class="kn">import</span> <span class="n">LivestockLCAGenerator</span>
+<span class="kn">from</span> <span class="nn">goblin_lite.LCA_processing.lca_total_generator</span> <span class="kn">import</span> <span class="n">LCATotalGenerator</span>
+<span class="kn">from</span> <span class="nn">goblin_lite.resource_manager.database_manager</span> <span class="kn">import</span> <span class="n">DataManager</span>
 <span class="kn">import</span> <span class="nn">copy</span> <span class="k">as</span> <span class="nn">copy</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
 
 
 <div class="viewcode-block" id="ScenarioRunner">
 <a class="viewcode-back" href="../../autoapi/goblin_lite/goblin/index.html#goblin_lite.goblin.ScenarioRunner">[docs]</a>
 <span class="k">class</span> <span class="nc">ScenarioRunner</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A class used to run scenarios based on the input configuration files. There are two configuration files required:</span>
-<span class="sd">    (1) Scenario configuration files, containing the specified scenario parameters, (2) The CBM CFS3 configuration file, containing the nationally specific</span>
-<span class="sd">    forest configuration settings.</span>
-
-<span class="sd">    In total, the scenario runner generates data for each scenario and the selected baseline contained in 29 tables. These data tables can be referenced using the DataFetcher</span>
-<span class="sd">    class, and visualized using the DataGrapher class.</span>
-
-<span class="sd">    Tables are returned as pandas dataframes.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The ScenarioRunner class is responsible for orchestrating the entire scenario generation process in the context</span>
+<span class="sd">    of environmental impact assessments, focusing on agricultural practices and land use scenarios.</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
-<span class="sd">    AR_VALUE : str</span>
-<span class="sd">        The Assessment Report value. Default is &quot;AR5&quot;.</span>
 <span class="sd">    ef_country : str</span>
 <span class="sd">        The country for which the scenario is being run.</span>
 <span class="sd">    calibration_year : int</span>
@@ -183,78 +117,18 @@
 <span class="sd">        The path to the scenario configuration file.</span>
 <span class="sd">    cbm_config_path : str</span>
 <span class="sd">        The path to the CBM CFS3 configuration file.</span>
-<span class="sd">    scenario_class : ScenarioGeneration</span>
-<span class="sd">        An instance of the ScenarioGeneration class.</span>
+<span class="sd">    AR_VALUE : str, optional</span>
+<span class="sd">        The Assessment Report value. Default is &quot;AR5&quot;.</span>
 <span class="sd">    data_manager_class : DataManager</span>
-<span class="sd">        An instance of the DataManager class.</span>
+<span class="sd">        An instance of the DataManager class for managing data storage.</span>
 
 <span class="sd">    Methods</span>
 <span class="sd">    -------</span>
-<span class="sd">    run_scenarios():</span>
-<span class="sd">        Runs the scenario generation process based on the provided inputs.</span>
-
-<span class="sd">    generate_livestock_outputs(scenario_animal_data, baseline_animal_data, scenario_inputs_df):</span>
-<span class="sd">        Generates livestock outputs based on the scenario animal data, baseline animal data, and scenario inputs dataframe.</span>
-
-<span class="sd">    generate_air_quality_totals(scenario_dataframe):</span>
-<span class="sd">        Generates air quality totals based on the scenario dataframe.</span>
-
-<span class="sd">    generate_eutrophication_totals(scenario_dataframe):</span>
-<span class="sd">        Generates eutrophication totals based on the scenario dataframe.</span>
-
-<span class="sd">    generate_climate_change_totals(calibration_year, target_year, scenario_dataframe):</span>
-<span class="sd">        Generates climate change totals based on the calibration year, target year, and scenario dataframe.</span>
-
-<span class="sd">    get_air_quality_emission_dataframes():</span>
-<span class="sd">        Retrieves air quality emission dataframes.</span>
-
-<span class="sd">    get_eutrophication_emission_dataframes():</span>
-<span class="sd">        Retrieves eutrophication emission dataframes.</span>
-
-<span class="sd">    get_climate_emission_dataframes():</span>
-<span class="sd">        Retrieves climate emission dataframes.</span>
-
-<span class="sd">    generate_transition_matrix(scenario_dataframe, grassland_area, spared_area):</span>
-<span class="sd">        Generates the transition matrix based on the scenario dataframe, grassland area, and spared area.</span>
-
-<span class="sd">    generate_landuse_data(scenario_dataframe, grassland_area, spared_area):</span>
-<span class="sd">        Generates land use data based on the scenario dataframe, grassland area, and spared area.</span>
-
-<span class="sd">    generate_crop_data(scenario_dataframe):</span>
-<span class="sd">        Generates crop data based on the scenario dataframe.</span>
-
-<span class="sd">    generate_crop_farm_data(scenario_dataframe, crop_dataframe, default_urea, default_urea_abated):</span>
-<span class="sd">        Generates crop farm data based on the scenario dataframe, crop dataframe, default urea, and default urea abated.</span>
-
-<span class="sd">    generate_baseline_farm_inputs(scenario_dataframe, scenario_animal_data, baseline_animal_data):</span>
-<span class="sd">        Generates baseline farm inputs based on the scenario dataframe, scenario animal data, and baseline animal data.</span>
-
-<span class="sd">    generate_scenario_farm_inputs(scenario_dataframe, scenario_animal_data, baseline_animal_data):</span>
-<span class="sd">        Generates scenario farm inputs based on the scenario dataframe, scenario animal data, and baseline animal data.</span>
-
-<span class="sd">    generate_grassland_areas(scenario_dataframe, scenario_animal_data, baseline_animal_data):</span>
-<span class="sd">        Generates grassland areas and stocking rates based on the scenario dataframe, scenario animal data, and baseline animal data.</span>
-
-<span class="sd">    generate_crop_footprint(crop_dataframe, scenario_dataframe, default_urea, default_urea_abated):</span>
-<span class="sd">        Generates crop footprint based on the crop dataframe, scenario dataframe, default urea, and default urea abated.</span>
-
-<span class="sd">    generate_aggregated_crop_footprint(crop_dataframe, scenario_dataframe, default_urea, default_urea_abated):</span>
-<span class="sd">        Generates aggregated crop footprint based on the crop dataframe, scenario dataframe, default urea, and default urea abated.</span>
-
-<span class="sd">    generate_landuse_footprint(landuse_data, transition_matrix, forest_data):</span>
-<span class="sd">        Generates land use footprint based on the land use data, transition matrix, and forest data.</span>
-
-<span class="sd">    generate_livestock_footprint(baseline_animal_data, scenario_animal_data, farm_inputs_baseline, farm_inputs_scenario):</span>
-<span class="sd">        Generates livestock footprint based on the baseline animal data, scenario animal data, farm inputs for the baseline, and farm inputs for the scenario.</span>
-
-<span class="sd">    generate_aggregated_livestock_footprint(baseline_animal_data, scenario_animal_data, farm_inputs_baseline, farm_inputs_scenario):</span>
-<span class="sd">        Generates aggregated livestock footprint based on the baseline animal data, scenario animal data, farm inputs for the baseline, and farm inputs for the scenario.</span>
-
-<span class="sd">    generate_afforestation_data(transition_matrix, scenario_dataframe):</span>
-<span class="sd">        Generates afforestation data based on the transition matrix and scenario dataframe.</span>
-
-<span class="sd">    generate_forest_carbon(afforestation_dataframe, scenario_dataframe):</span>
-<span class="sd">        Generates forest carbon data based on the afforestation dataframe and scenario dataframe.</span>
+<span class="sd">    run_scenarios()</span>
+<span class="sd">        Orchestrates the scenario generation process, encompassing data preparation, analysis, and storage.</span>
+<span class="sd">        It generates a series of data tables representing various aspects of environmental impact under different</span>
+<span class="sd">        agricultural and land use scenarios. These tables are stored and can be accessed for further analysis</span>
+<span class="sd">        and visualization.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
@@ -271,8 +145,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span> <span class="o">=</span> <span class="n">calibration_year</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span> <span class="o">=</span> <span class="n">target_year</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config_path</span> <span class="o">=</span> <span class="n">config_path</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cbm_config_path</span> <span class="o">=</span> <span class="n">cbm_config_path</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">scenario_class</span> <span class="o">=</span> <span class="n">ScenarioGeneration</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cbm_config_path</span> <span class="o">=</span> <span class="n">cbm_config_path</span> <span class="c1"># generate scenario_data</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span> <span class="o">=</span> <span class="n">DataManager</span><span class="p">()</span>
 
 <div class="viewcode-block" id="ScenarioRunner.run_scenarios">
@@ -282,132 +155,71 @@
 <span class="sd">        Executes the scenario generation process using provided inputs and configurations.</span>
 
 <span class="sd">        This method manages the complete scenario generation process. It prepares and generates data for various scenarios</span>
-<span class="sd">        and the selected baseline across multiple domains (such as animal data, land use, crop data, carbon flux, etc.), </span>
+<span class="sd">        and the selected baseline across multiple domains (such as animal data, land use, crop data, carbon flux, etc.),</span>
 <span class="sd">        encapsulated in 26 distinct data tables. These tables are saved as pandas dataframes and are intended for subsequent</span>
 <span class="sd">        analysis and visualization.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        None</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        None</span>
-
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        The method executes the following steps:</span>
-
-<span class="sd">        1. Initialize or clear the database using the DataManager instance (:attr:`data_manager_class`).</span>
-
-<span class="sd">        2. Generate scenario input data by invoking the `generate_scenario_dataframe` method of the ScenarioGeneration class</span>
-<span class="sd">        (:attr:`scenario_class`), using the configuration path provided in :attr:`config_path`.</span>
-
-<span class="sd">        3. Create instances of the AnimalData class (:attr:`animal_class`) to generate data for animals, using parameters</span>
-<span class="sd">        such as :attr:`ef_country`, :attr:`baseline_year`, :attr:`target_year`, and the generated scenario input data.</span>
-
-<span class="sd">        4. Generate baseline and scenario-specific animal data using methods from the AnimalData class.</span>
-
-<span class="sd">        5. Calculate farm inputs for both the baseline and scenario contexts using generated animal data.</span>
-
-<span class="sd">        6. Compute Grassland area data and stocking rates based on the animal data and scenario inputs.</span>
-
-<span class="sd">        7. Generate crop-related data and crop farm data for the scenario using the scenario input data.</span>
-
-<span class="sd">        8. Create a transition matrix for land use changes and generate associated land use data.</span>
-
-<span class="sd">        9. Produce afforestation data and corresponding forest carbon data, including flux and aggregate calculations,</span>
-<span class="sd">        using the Carbon Budget Model (CBM) CFS3 runner.</span>
-
-<span class="sd">        10. Execute Life Cycle Assessment (LCA) calculations for various environmental impact metrics, such as crop and</span>
-<span class="sd">            livestock footprints, climate change, eutrophication, and air quality impacts.</span>
-
-<span class="sd">        11. Generate summary outputs for livestock, including protein and milk production analysis, based on the animal data.</span>
-
-<span class="sd">        12. Save all generated data to the database using the `save_goblin_results_to_database` method of the DataManager class,</span>
-<span class="sd">            ensuring each dataset is labeled with its respective name for identification and retrieval.</span>
-
-<span class="sd">        13. Print a completion message upon successfully running all scenarios.</span>
-
-<span class="sd">        The method extensively utilizes class attributes and methods, assuming their availability and proper initialization</span>
-<span class="sd">        within the class context when this method is invoked.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        
-
         <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">create_or_clear_database</span><span class="p">()</span>
 
-        <span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_path</span>
         <span class="n">ef_country</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span>
         <span class="n">baseline_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span>
         <span class="n">target_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span>
-        <span class="n">calibration_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span>
+        <span class="n">AR_VALUE</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AR_VALUE</span>
 
-        <span class="n">default_urea</span> <span class="o">=</span> <span class="mf">0.2</span>
-        <span class="n">default_urea_abated</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1">#scenario data </span>
+        <span class="n">scenario_data_generator</span> <span class="o">=</span> <span class="n">ScenarioGeneration</span><span class="p">()</span>
+        <span class="n">scenario_input_dataframe</span> <span class="o">=</span> <span class="n">scenario_data_generator</span><span class="o">.</span><span class="n">generate_scenario_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config_path</span><span class="p">)</span>
 
-        <span class="c1"># generate scenario_data</span>
-        <span class="n">scenario_input_dataframe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenario_class</span><span class="o">.</span><span class="n">generate_scenario_dataframe</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">afforest_year</span> <span class="o">=</span> <span class="n">scenario_input_dataframe</span><span class="p">[</span><span class="s2">&quot;Afforest year&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
-        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Error may be a results of multiple Afforest, scenarios should have identical Afforest years ... &quot;</span><span class="p">,</span>
-                <span class="n">e</span><span class="p">,</span>
-            <span class="p">)</span>
-
-        <span class="n">animal_class</span> <span class="o">=</span> <span class="n">AnimalData</span><span class="p">(</span>
+        <span class="c1"># animal data</span>
+        <span class="n">animal_data_generator</span> <span class="o">=</span> <span class="n">AnimalDataGenerator</span><span class="p">(</span>
             <span class="n">ef_country</span><span class="p">,</span> <span class="n">baseline_year</span><span class="p">,</span> <span class="n">target_year</span><span class="p">,</span> <span class="n">scenario_input_dataframe</span>
         <span class="p">)</span>
 
-        <span class="n">baseline_animal_data</span> <span class="o">=</span> <span class="n">animal_class</span><span class="o">.</span><span class="n">create_baseline_animal_dataframe</span><span class="p">()</span>
+        <span class="n">baseline_animal_data</span><span class="p">,</span> <span class="n">scenario_animal_data</span> <span class="o">=</span> <span class="n">animal_data_generator</span><span class="o">.</span><span class="n">generate_animal_data</span><span class="p">()</span>
 
-        <span class="c1"># create dataframe for scenarios animals</span>
-        <span class="n">scenario_animal_data</span> <span class="o">=</span> <span class="n">animal_class</span><span class="o">.</span><span class="n">create_animal_dataframe</span><span class="p">()</span>
+        <span class="c1">#Animal Exports </span>
+        <span class="n">protein_and_milk_summary</span> <span class="o">=</span> <span class="n">animal_data_generator</span><span class="o">.</span><span class="n">generate_livestock_ouputs</span><span class="p">()</span>
 
-        <span class="c1"># farm inputs</span>
-        <span class="n">grassland_farm_inputs_scenario</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_scenario_farm_inputs</span><span class="p">(</span>
-            <span class="n">scenario_input_dataframe</span><span class="p">,</span> <span class="n">scenario_animal_data</span><span class="p">,</span> <span class="n">baseline_animal_data</span>
-        <span class="p">)</span>
+        <span class="c1"># Grassland data</span>
+        <span class="n">grassland_data_generator</span> <span class="o">=</span> <span class="n">GrasslandDataGenerator</span><span class="p">(</span><span class="n">ef_country</span><span class="p">,</span> 
+                                                          <span class="n">baseline_year</span><span class="p">,</span> 
+                                                          <span class="n">target_year</span><span class="p">,</span> 
+                                                          <span class="n">scenario_input_dataframe</span><span class="p">,</span>
+                                                          <span class="n">scenario_animal_data</span><span class="p">,</span>
+                                                          <span class="n">baseline_animal_data</span><span class="p">)</span>
 
-        <span class="n">grassland_farm_inputs_baseline</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_baseline_farm_inputs</span><span class="p">(</span>
-            <span class="n">scenario_input_dataframe</span><span class="p">,</span> <span class="n">scenario_animal_data</span><span class="p">,</span> <span class="n">baseline_animal_data</span>
-        <span class="p">)</span>
-
-        <span class="c1"># Grassland</span>
-        <span class="n">total_spared_area</span><span class="p">,</span> <span class="n">total_grassland_area</span><span class="p">,</span> <span class="n">total_spared_area_by_soil_group</span><span class="p">,</span> <span class="n">per_hectare_stocking_rate</span><span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_grassland_areas</span><span class="p">(</span>
-            <span class="n">scenario_input_dataframe</span><span class="p">,</span> <span class="n">scenario_animal_data</span><span class="p">,</span> <span class="n">baseline_animal_data</span>
-        <span class="p">)</span>
-
-        <span class="n">crop_input_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_crop_data</span><span class="p">(</span><span class="n">scenario_input_dataframe</span><span class="p">)</span>
-        <span class="n">crop_farm_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_crop_farm_data</span><span class="p">(</span>
-            <span class="n">scenario_input_dataframe</span><span class="p">,</span> <span class="n">crop_input_data</span><span class="p">,</span> <span class="n">default_urea</span><span class="p">,</span> <span class="n">default_urea_abated</span>
-        <span class="p">)</span>
-
-        <span class="n">transition_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_transition_matrix</span><span class="p">(</span>
-            <span class="n">scenario_input_dataframe</span><span class="p">,</span> <span class="n">total_grassland_area</span><span class="p">,</span> <span class="n">total_spared_area</span>
-        <span class="p">)</span>
+        <span class="c1"># farm inputs data grassland </span>
+        <span class="n">grassland_farm_inputs_baseline</span><span class="p">,</span> <span class="n">grassland_farm_inputs_scenario</span> <span class="o">=</span> <span class="n">grassland_data_generator</span><span class="o">.</span><span class="n">generate_farm_inputs</span><span class="p">()</span>
 
 
-        <span class="n">landuse_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_landuse_data</span><span class="p">(</span>
-            <span class="n">scenario_input_dataframe</span><span class="p">,</span> <span class="n">total_grassland_area</span><span class="p">,</span> <span class="n">total_spared_area</span>
-        <span class="p">)</span>
+        <span class="c1"># Grassland data</span>
+        <span class="n">total_spared_area</span><span class="p">,</span> <span class="n">total_grassland_area</span><span class="p">,</span> <span class="n">total_spared_area_by_soil_group</span><span class="p">,</span> <span class="n">per_hectare_stocking_rate</span><span class="o">=</span> <span class="n">grassland_data_generator</span><span class="o">.</span><span class="n">generate_grassland_areas</span><span class="p">()</span>
 
-        <span class="n">cbm_afforestation_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_afforestation_data</span><span class="p">(</span>
-            <span class="n">transition_matrix</span><span class="p">,</span> <span class="n">scenario_input_dataframe</span>
-        <span class="p">)</span>
+        <span class="c1"># Crop data</span>
+        <span class="n">crop_data_generator</span> <span class="o">=</span> <span class="n">CropDataGenerator</span><span class="p">(</span><span class="n">baseline_year</span><span class="p">,</span> <span class="n">target_year</span><span class="p">,</span> <span class="n">scenario_input_dataframe</span><span class="p">)</span>
 
-        <span class="n">forest_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_forest_carbon</span><span class="p">(</span>
-            <span class="n">afforest_year</span><span class="p">,</span> <span class="n">cbm_afforestation_data</span><span class="p">,</span> <span class="n">scenario_input_dataframe</span>
-        <span class="p">)</span>
+        <span class="n">crop_input_data</span> <span class="o">=</span> <span class="n">crop_data_generator</span><span class="o">.</span><span class="n">generate_crop_data</span><span class="p">()</span>
+
+        <span class="c1">#Crop farm data</span>
+        <span class="n">crop_farm_data</span> <span class="o">=</span> <span class="n">crop_data_generator</span><span class="o">.</span><span class="n">generate_crop_farm_data</span><span class="p">()</span>
+
+        <span class="c1"># Land use data</span>
+        <span class="n">landuse_data_generator</span> <span class="o">=</span> <span class="n">LandUseDataGenerator</span><span class="p">(</span><span class="n">baseline_year</span><span class="p">,</span> <span class="n">target_year</span><span class="p">,</span> <span class="n">scenario_input_dataframe</span><span class="p">,</span> <span class="n">total_grassland_area</span><span class="p">,</span> <span class="n">total_spared_area</span><span class="p">,</span> <span class="n">total_spared_area_by_soil_group</span><span class="p">)</span>
+
+        <span class="n">transition_matrix</span> <span class="o">=</span> <span class="n">landuse_data_generator</span><span class="o">.</span><span class="n">generate_transition_matrix</span><span class="p">()</span>
+
+        <span class="n">landuse_data</span> <span class="o">=</span> <span class="n">landuse_data_generator</span><span class="o">.</span><span class="n">generate_landuse_data</span><span class="p">()</span>
+
+        <span class="n">cbm_afforestation_data</span> <span class="o">=</span> <span class="n">landuse_data_generator</span><span class="o">.</span><span class="n">generate_afforestation_data</span><span class="p">()</span>
+
+        <span class="c1"># Forest carbon data</span>
+        <span class="n">forest_data_generator</span> <span class="o">=</span> <span class="n">ForestCarbonGenerator</span><span class="p">(</span><span class="n">baseline_year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbm_config_path</span><span class="p">,</span> <span class="n">scenario_input_dataframe</span><span class="p">,</span> <span class="n">cbm_afforestation_data</span><span class="p">)</span>
+
+        <span class="n">forest_data</span> <span class="o">=</span> <span class="n">forest_data_generator</span><span class="o">.</span><span class="n">generate_forest_carbon</span><span class="p">()</span>
 
         <span class="n">forest_carbon_flux</span> <span class="o">=</span> <span class="n">forest_data</span><span class="p">[</span><span class="s2">&quot;forest_flux&quot;</span><span class="p">]</span>
         <span class="n">forest_carbon_aggregate</span> <span class="o">=</span> <span class="n">forest_data</span><span class="p">[</span><span class="s2">&quot;forest_aggregate&quot;</span><span class="p">]</span>
 
-        <span class="c1"># livestock ouputs</span>
-        <span class="n">protein_and_milk_summary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_livestock_ouputs</span><span class="p">(</span>
-            <span class="n">scenario_animal_data</span><span class="p">,</span> <span class="n">baseline_animal_data</span><span class="p">,</span> <span class="n">scenario_input_dataframe</span>
-        <span class="p">)</span>
 
         <span class="c1">#SAVE DATA</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">save_goblin_results_to_database</span><span class="p">((</span><span class="s2">&quot;scenario_input_dataframe&quot;</span><span class="p">,</span><span class="n">scenario_input_dataframe</span><span class="p">),</span>
@@ -428,1313 +240,48 @@
                                                                 <span class="p">(</span><span class="s2">&quot;forest_carbon_aggregate&quot;</span><span class="p">,</span><span class="n">forest_carbon_aggregate</span><span class="p">),</span>
                                                                 <span class="p">(</span><span class="s2">&quot;protein_and_milk_summary&quot;</span><span class="p">,</span><span class="n">protein_and_milk_summary</span><span class="p">))</span>
 
-        <span class="c1"># LCA</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">generate_crop_footprint</span><span class="p">(</span>
-            <span class="n">crop_input_data</span><span class="p">,</span> <span class="n">scenario_input_dataframe</span><span class="p">,</span> <span class="n">default_urea</span><span class="p">,</span> <span class="n">default_urea_abated</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">generate_aggregated_crop_footprint</span><span class="p">(</span>
-            <span class="n">crop_input_data</span><span class="p">,</span> <span class="n">scenario_input_dataframe</span><span class="p">,</span> <span class="n">default_urea</span><span class="p">,</span> <span class="n">default_urea_abated</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">generate_landuse_footprint</span><span class="p">(</span>
-            <span class="n">landuse_data</span><span class="p">,</span> <span class="n">transition_matrix</span><span class="p">,</span> <span class="n">forest_data</span><span class="p">[</span><span class="s2">&quot;forest_flux&quot;</span><span class="p">]</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">generate_livestock_footprint</span><span class="p">(</span>
-            <span class="n">baseline_animal_data</span><span class="p">,</span>
-            <span class="n">scenario_animal_data</span><span class="p">,</span>
-            <span class="n">grassland_farm_inputs_baseline</span><span class="p">,</span>
-            <span class="n">grassland_farm_inputs_scenario</span><span class="p">,</span>
-            <span class="n">landuse_data</span><span class="p">,</span> 
-            <span class="n">transition_matrix</span><span class="p">,</span>
-            <span class="n">crop_input_data</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">generate_aggregated_livestock_footprint</span><span class="p">(</span>
-            <span class="n">baseline_animal_data</span><span class="p">,</span>
-            <span class="n">scenario_animal_data</span><span class="p">,</span>
-            <span class="n">grassland_farm_inputs_baseline</span><span class="p">,</span>
-            <span class="n">grassland_farm_inputs_scenario</span><span class="p">,</span>
-            <span class="n">landuse_data</span><span class="p">,</span> 
-            <span class="n">transition_matrix</span><span class="p">,</span>
-            <span class="n">crop_input_data</span>
-        <span class="p">)</span>
+        <span class="c1"># Crop LCA</span>
+        <span class="n">crop_data_generator</span> <span class="o">=</span> <span class="n">CropLCAGenerator</span><span class="p">(</span><span class="n">ef_country</span><span class="p">,</span> <span class="n">crop_input_data</span><span class="p">,</span> <span class="n">scenario_input_dataframe</span><span class="p">,</span> <span class="n">AR_VALUE</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">generate_climate_change_totals</span><span class="p">(</span>
-            <span class="n">calibration_year</span><span class="p">,</span> <span class="n">target_year</span><span class="p">,</span> <span class="n">scenario_input_dataframe</span>
+        <span class="n">crop_data_generator</span><span class="o">.</span><span class="n">generate_crop_footprint</span><span class="p">()</span>
+
+        <span class="n">crop_data_generator</span><span class="o">.</span><span class="n">generate_aggregated_crop_footprint</span><span class="p">()</span>
+
+        <span class="c1"># Land use LCA</span>
+        <span class="n">landuse_data_generator</span> <span class="o">=</span> <span class="n">LandUseLCAGenerator</span><span class="p">(</span><span class="n">ef_country</span><span class="p">,</span> <span class="n">baseline_year</span><span class="p">,</span> <span class="n">target_year</span><span class="p">,</span> <span class="n">landuse_data</span><span class="p">,</span> <span class="n">transition_matrix</span><span class="p">,</span> <span class="n">forest_data</span><span class="p">[</span><span class="s2">&quot;forest_flux&quot;</span><span class="p">],</span> <span class="n">AR_VALUE</span><span class="p">)</span>
+
+        <span class="n">landuse_data_generator</span><span class="o">.</span><span class="n">generate_landuse_footprint</span><span class="p">()</span>
+
+        <span class="c1"># Livestock LCA</span>
+        <span class="n">livestock_data_generator</span> <span class="o">=</span> <span class="n">LivestockLCAGenerator</span><span class="p">(</span><span class="n">ef_country</span><span class="p">,</span> 
+                                                        <span class="n">baseline_year</span><span class="p">,</span> 
+                                                        <span class="n">target_year</span><span class="p">,</span> 
+                                                        <span class="n">baseline_animal_data</span><span class="p">,</span>
+                                                        <span class="n">scenario_animal_data</span><span class="p">,</span>
+                                                        <span class="n">grassland_farm_inputs_baseline</span><span class="p">,</span>
+                                                        <span class="n">grassland_farm_inputs_scenario</span><span class="p">,</span>
+                                                        <span class="n">landuse_data</span><span class="p">,</span> 
+                                                        <span class="n">transition_matrix</span><span class="p">,</span>
+                                                        <span class="n">crop_input_data</span><span class="p">,</span>
+                                                        <span class="n">AR_VALUE</span><span class="p">)</span>
+        
+        <span class="n">livestock_data_generator</span><span class="o">.</span><span class="n">generate_livestock_footprint</span><span class="p">()</span>
+        <span class="n">livestock_data_generator</span><span class="o">.</span><span class="n">generate_aggregated_livestock_footprint</span><span class="p">()</span>
+
+        <span class="c1"># Climate change totals</span>
+        <span class="n">climate_change_totals</span> <span class="o">=</span> <span class="n">LCATotalGenerator</span><span class="p">(</span>
+            <span class="n">baseline_year</span><span class="p">,</span> <span class="n">target_year</span><span class="p">,</span> <span class="n">scenario_input_dataframe</span>
         <span class="p">)</span>
+        <span class="n">climate_change_totals</span><span class="o">.</span><span class="n">generate_climate_change_totals</span><span class="p">()</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">generate_eutrophication_totals</span><span class="p">()</span>
+        <span class="n">climate_change_totals</span><span class="o">.</span><span class="n">generate_eutrophication_totals</span><span class="p">()</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">generate_air_quality_totals</span><span class="p">()</span>
+        <span class="n">climate_change_totals</span><span class="o">.</span><span class="n">generate_air_quality_totals</span><span class="p">()</span>
 
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Scenario Generation Complete ... </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="ScenarioRunner.generate_livestock_ouputs">
-<a class="viewcode-back" href="../../autoapi/goblin_lite/goblin/index.html#goblin_lite.goblin.ScenarioRunner.generate_livestock_ouputs">[docs]</a>
-    <span class="k">def</span> <span class="nf">generate_livestock_ouputs</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">scenario_animal_data</span><span class="p">,</span> <span class="n">baseline_animal_data</span><span class="p">,</span> <span class="n">scenario_inputs_df</span>
-    <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Generates and returns a summary DataFrame of livestock outputs for the given scenario.</span>
-
-<span class="sd">        This method leverages the Exports class to calculate protein and milk production based on scenario-specific and baseline </span>
-<span class="sd">        animal data. It produces a summary DataFrame combining milk production data and beef (carcass) weight from protein production data.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        scenario_animal_data : pandas.DataFrame</span>
-<span class="sd">            A DataFrame containing animal-related data specific to the scenario being analyzed.</span>
-
-<span class="sd">        baseline_animal_data : pandas.DataFrame</span>
-<span class="sd">            A DataFrame containing baseline animal-related data for comparison.</span>
-
-<span class="sd">        scenario_inputs_df : pandas.DataFrame</span>
-<span class="sd">            A DataFrame containing scenario-specific input data required for livestock output calculations.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        pandas.DataFrame</span>
-<span class="sd">            A summary DataFrame, named protein_and_milk_summary, combining milk production data and beef carcass weight, </span>
-<span class="sd">            indexed by &#39;Scenarios&#39;.</span>
-
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        The method performs the following steps:</span>
-<span class="sd">        1. Initializes an instance of the Exports class with country-specific parameters, calibration year, target year, </span>
-<span class="sd">        and scenario inputs.</span>
-<span class="sd">        2. Computes protein production data using `compute_system_protien_exports` of the Exports class, which includes </span>
-<span class="sd">        carcass weight information.</span>
-<span class="sd">        3. Computes milk production data using `compute_system_milk_exports` of the Exports class.</span>
-<span class="sd">        4. Creates the protein_and_milk_summary DataFrame by copying milk production data and appending the beef carcass </span>
-<span class="sd">        weight from the protein production data.</span>
-<span class="sd">        5. Sets &#39;Scenarios&#39; as the index of the protein_and_milk_summary DataFrame.</span>
-
-<span class="sd">        The generated protein_and_milk_summary DataFrame provides a comprehensive overview of the livestock outputs, </span>
-<span class="sd">        including milk production and beef carcass weight, for both scenario-specific and baseline data comparisons.</span>
-
-<span class="sd">        The attributes and methods referenced in this documentation are class attributes and methods and should be </span>
-<span class="sd">        available within the class instance when this method is called.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">ef_country</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span>
-        <span class="n">calibration_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span>
-        <span class="n">target_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span>
-
-        <span class="n">export_class</span> <span class="o">=</span> <span class="n">Exports</span><span class="p">(</span>
-            <span class="n">ef_country</span><span class="p">,</span> <span class="n">calibration_year</span><span class="p">,</span> <span class="n">target_year</span><span class="p">,</span> <span class="n">scenario_inputs_df</span>
-        <span class="p">)</span>
-
-        <span class="n">protein_production_df</span> <span class="o">=</span> <span class="n">export_class</span><span class="o">.</span><span class="n">compute_system_protien_exports</span><span class="p">(</span>
-            <span class="n">scenario_animal_data</span><span class="p">,</span> <span class="n">baseline_animal_data</span>
-        <span class="p">)</span>
-
-        <span class="n">milk_production_df</span> <span class="o">=</span> <span class="n">export_class</span><span class="o">.</span><span class="n">compute_system_milk_exports</span><span class="p">(</span>
-            <span class="n">scenario_animal_data</span><span class="p">,</span> <span class="n">baseline_animal_data</span>
-        <span class="p">)</span>
-
-        <span class="n">protein_and_milk_summary</span> <span class="o">=</span> <span class="n">milk_production_df</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-        <span class="n">protein_and_milk_summary</span><span class="p">[</span><span class="s2">&quot;total_beef_kg&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">protein_production_df</span><span class="p">[</span>
-            <span class="s2">&quot;carcass_weight_kg&quot;</span>
-        <span class="p">]</span>
-        <span class="c1"># Set &#39;Scenarios&#39; as the index</span>
-        <span class="n">protein_and_milk_summary</span> <span class="o">=</span> <span class="n">protein_and_milk_summary</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;Scenarios&#39;</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">protein_and_milk_summary</span></div>
-
-    
-
-<div class="viewcode-block" id="ScenarioRunner.generate_air_quality_totals">
-<a class="viewcode-back" href="../../autoapi/goblin_lite/goblin/index.html#goblin_lite.goblin.ScenarioRunner.generate_air_quality_totals">[docs]</a>
-    <span class="k">def</span> <span class="nf">generate_air_quality_totals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Generates total air quality emissions for the given scenario.</span>
-
-<span class="sd">        This method calculates and generates the total air quality emissions for the specified scenarios based on the provided</span>
-<span class="sd">        calculated air_quality emissions for crop and livestock. It uses the AirQualityTotal class to perform the calculations.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        scenario_dataframe : pandas.DataFrame</span>
-<span class="sd">            A DataFrame containing the scenario-specific data required for air quality emissions calculations.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        None</span>
-
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        The method utilizes the scenario_dataframe and the calculated air_quality emission for crop and livestock to determine the scenario-specific data for air quality emissions in total.</span>
-<span class="sd">        calculations.</span>
-
-<span class="sd">        It calls the get_air_quality_emission_dataframes method to obtain dataframes containing air quality emissions for</span>
-<span class="sd">        different categories (e.g., crop, animal) using the DataFetcher class. These dataframes are used in the calculations</span>
-<span class="sd">        performed by the AirQualityTotal class.</span>
-
-<span class="sd">        The air_quality_class instance of AirQualityTotal is responsible for calculating the total air quality emissions</span>
-<span class="sd">        for the given scenario. The result is stored in the air_quality DataFrame.</span>
-
-<span class="sd">        The generated air_quality DataFrame is then saved as &quot;air_quality_totals&quot; using the DataManager instance</span>
-<span class="sd">        (:attr:`data_manager_class`).</span>
-
-<span class="sd">        The attributes and methods referenced in this documentation are class attributes and methods and should be</span>
-<span class="sd">        available within the class instance when this method is called.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">air_quality_class</span> <span class="o">=</span> <span class="n">AirQualityTotal</span><span class="p">()</span>
-
-        <span class="n">dataframes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_air_quality_emission_dataframes</span><span class="p">()</span>
-
-        <span class="n">air_quality</span> <span class="o">=</span> <span class="n">air_quality_class</span><span class="o">.</span><span class="n">total_air_quality_emissions</span><span class="p">(</span><span class="n">dataframes</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">save_goblin_results_output_datatable</span><span class="p">(</span>
-            <span class="n">air_quality</span><span class="p">,</span> <span class="s2">&quot;air_quality_totals&quot;</span>
-        <span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="ScenarioRunner.generate_eutrophication_totals">
-<a class="viewcode-back" href="../../autoapi/goblin_lite/goblin/index.html#goblin_lite.goblin.ScenarioRunner.generate_eutrophication_totals">[docs]</a>
-    <span class="k">def</span> <span class="nf">generate_eutrophication_totals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Generates total eutrophication emissions for the given scenario.</span>
-
-<span class="sd">        This method calculates and generates the total eutrophication emissions for the specified scenarios based on the</span>
-<span class="sd">        provided scenario_dataframe. It uses the EutrophicationTotal class to perform the calculations.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        scenario_dataframe : pandas.DataFrame</span>
-<span class="sd">            A DataFrame containing the scenario-specific data required for eutrophication emissions calculations.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        None</span>
-
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        The method utilizes the scenario_dataframe to determine the scenario-specific data for eutrophication emissions</span>
-<span class="sd">        calculations.</span>
-
-<span class="sd">        It calls the get_eutrophication_emission_dataframes method to obtain dataframes containing eutrophication emissions</span>
-<span class="sd">        for different categories (e.g., crop, animal) using the DataFetcher class. These dataframes are used in the</span>
-<span class="sd">        calculations performed by the EutrophicationTotal class.</span>
-
-<span class="sd">        The eutrophication_class instance of EutrophicationTotal is responsible for calculating the total eutrophication</span>
-<span class="sd">        emissions for the given scenario. The result is stored in the eutrophication DataFrame.</span>
-
-<span class="sd">        The generated eutrophication DataFrame is then saved as &quot;eutrophication_totals&quot; using the DataManager instance</span>
-<span class="sd">        (:attr:`data_manager_class`).</span>
-
-<span class="sd">        The attributes and methods referenced in this documentation are class attributes and methods and should be</span>
-<span class="sd">        available within the class instance when this method is called.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">eutrophication_class</span> <span class="o">=</span> <span class="n">EutrophicationTotal</span><span class="p">()</span>
-
-        <span class="n">dataframes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_eutrophication_emission_dataframes</span><span class="p">()</span>
-
-        <span class="n">eutrophication</span> <span class="o">=</span> <span class="n">eutrophication_class</span><span class="o">.</span><span class="n">total_eutrophication_emissions</span><span class="p">(</span><span class="n">dataframes</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">save_goblin_results_output_datatable</span><span class="p">(</span>
-            <span class="n">eutrophication</span><span class="p">,</span> <span class="s2">&quot;eutrophication_totals&quot;</span>
-        <span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="ScenarioRunner.generate_climate_change_totals">
-<a class="viewcode-back" href="../../autoapi/goblin_lite/goblin/index.html#goblin_lite.goblin.ScenarioRunner.generate_climate_change_totals">[docs]</a>
-    <span class="k">def</span> <span class="nf">generate_climate_change_totals</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">calibration_year</span><span class="p">,</span> <span class="n">target_year</span><span class="p">,</span> <span class="n">scenario_dataframe</span>
-    <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Generates total climate change emissions for the given scenario.</span>
-
-<span class="sd">        This method calculates and generates the total climate change emissions for the specified scenarios based on the</span>
-<span class="sd">        provided calibration_year, target_year, and scenario_dataframe. It uses the ClimateChangeTotal class to perform the</span>
-<span class="sd">        calculations.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        calibration_year : int</span>
-<span class="sd">            The year representing the calibration period for the emissions calculations.</span>
-
-<span class="sd">        target_year : int</span>
-<span class="sd">            The year representing the target period for the emissions calculations.</span>
-
-<span class="sd">        scenario_dataframe : pandas.DataFrame</span>
-<span class="sd">            A DataFrame containing the scenario-specific data required for climate change emissions calculations.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        None</span>
-
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        The method utilizes the calibration_year, target_year, and scenario_dataframe to determine the scenario-specific</span>
-<span class="sd">        data for climate change emissions calculations.</span>
-
-<span class="sd">        It calls the get_climate_emission_dataframes method to obtain dataframes containing climate change emissions for</span>
-<span class="sd">        different categories (e.g., crop, animal, land) using the DataFetcher class. These dataframes are used in the</span>
-<span class="sd">        calculations performed by the ClimateChangeTotal class.</span>
-
-<span class="sd">        The climate_class instance of ClimateChangeTotal is responsible for calculating the total climate change emissions</span>
-<span class="sd">        for the given scenario, taking into account the specified calibration_year, target_year, and scenario_dataframe.</span>
-<span class="sd">        The result is stored in the climate_change DataFrame.</span>
-
-<span class="sd">        The generated climate_change DataFrame is then saved as &quot;climate_change_totals&quot; using the DataManager instance</span>
-<span class="sd">        (:attr:`data_manager_class`).</span>
-
-<span class="sd">        The attributes and methods referenced in this documentation are class attributes and methods and should be</span>
-<span class="sd">        available within the class instance when this method is called.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">climate_class</span> <span class="o">=</span> <span class="n">ClimateChangeTotal</span><span class="p">()</span>
-
-        <span class="n">dataframes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_climate_emission_dataframes</span><span class="p">()</span>
-
-        <span class="n">climate_change_totals</span> <span class="o">=</span> <span class="n">climate_class</span><span class="o">.</span><span class="n">total_climate_change_emissions</span><span class="p">(</span>
-            <span class="n">calibration_year</span><span class="p">,</span> <span class="n">target_year</span><span class="p">,</span> <span class="n">scenario_dataframe</span><span class="p">,</span> <span class="n">dataframes</span>
-        <span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">save_goblin_results_to_database</span><span class="p">((</span><span class="s2">&quot;climate_change_totals&quot;</span><span class="p">,</span> <span class="n">climate_change_totals</span><span class="p">))</span></div>
-
-
-<div class="viewcode-block" id="ScenarioRunner.get_air_quality_emission_dataframes">
-<a class="viewcode-back" href="../../autoapi/goblin_lite/goblin/index.html#goblin_lite.goblin.ScenarioRunner.get_air_quality_emission_dataframes">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_air_quality_emission_dataframes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retrieves dataframes containing air quality emissions by category.</span>
-
-<span class="sd">        This method fetches dataframes containing air quality emissions for different categories, such as &quot;crop&quot; and</span>
-<span class="sd">        &quot;animal,&quot; using the DataFetcher class.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        None</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        dict</span>
-<span class="sd">            A dictionary containing dataframes of air quality emissions for different categories.</span>
-
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        The method utilizes the DataFetcher class to obtain the dataframes containing air quality emissions data by</span>
-<span class="sd">        category. It calls the `get_air_quality_crop_emissions_by_category` and</span>
-<span class="sd">        `get_air_quality_animal_emissions_by_category` methods from the DataFetcher class to fetch emissions data for crops</span>
-<span class="sd">        and animals, respectively.</span>
-
-<span class="sd">        The method then constructs a dictionary, `total_emissions_dict`, with keys representing different categories (&quot;crop&quot;</span>
-<span class="sd">        and &quot;animal&quot;) and their corresponding dataframes as values.</span>
-
-<span class="sd">        The attributes and methods referenced in this documentation are class attributes and methods and should be</span>
-<span class="sd">        available within the class instance when this method is called.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">db_reference_class</span> <span class="o">=</span> <span class="n">DataFetcher</span><span class="p">()</span>
-
-        <span class="n">crop</span> <span class="o">=</span> <span class="n">db_reference_class</span><span class="o">.</span><span class="n">get_air_quality_crop_emissions_by_category</span><span class="p">()</span>
-        <span class="n">animal</span> <span class="o">=</span> <span class="n">db_reference_class</span><span class="o">.</span><span class="n">get_air_quality_animal_emissions_by_category</span><span class="p">()</span>
-
-        <span class="n">total_emissions_dict</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;crop&quot;</span><span class="p">:</span> <span class="n">crop</span><span class="p">,</span>
-            <span class="s2">&quot;animal&quot;</span><span class="p">:</span> <span class="n">animal</span><span class="p">,</span>
-        <span class="p">}</span>
-
-        <span class="k">return</span> <span class="n">total_emissions_dict</span></div>
-
-
-<div class="viewcode-block" id="ScenarioRunner.get_eutrophication_emission_dataframes">
-<a class="viewcode-back" href="../../autoapi/goblin_lite/goblin/index.html#goblin_lite.goblin.ScenarioRunner.get_eutrophication_emission_dataframes">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_eutrophication_emission_dataframes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retrieves dataframes containing eutrophication emissions by category.</span>
-
-<span class="sd">        This method fetches dataframes containing eutrophication emissions for different categories, such as &quot;crop&quot; and</span>
-<span class="sd">        &quot;animal,&quot; using the DataFetcher class.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        None</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        dict</span>
-<span class="sd">            A dictionary containing dataframes of eutrophication emissions for different categories.</span>
-
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        The method utilizes the DataFetcher class to obtain the dataframes containing eutrophication emissions data by</span>
-<span class="sd">        category. It calls the `get_eutrophication_crop_emissions_by_category` and</span>
-<span class="sd">        `get_eutrophication_animal_emissions_by_category` methods from the DataFetcher class to fetch emissions data for</span>
-<span class="sd">        crops and animals, respectively.</span>
-
-<span class="sd">        The method then constructs a dictionary, `total_emissions_dict`, with keys representing different categories (&quot;crop&quot;</span>
-<span class="sd">        and &quot;animal&quot;) and their corresponding dataframes as values.</span>
-
-<span class="sd">        The attributes and methods referenced in this documentation are class attributes and methods and should be</span>
-<span class="sd">        available within the class instance when this method is called.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">db_reference_class</span> <span class="o">=</span> <span class="n">DataFetcher</span><span class="p">()</span>
-
-        <span class="n">crop</span> <span class="o">=</span> <span class="n">db_reference_class</span><span class="o">.</span><span class="n">get_eutrophication_crop_emissions_by_category</span><span class="p">()</span>
-        <span class="n">animal</span> <span class="o">=</span> <span class="n">db_reference_class</span><span class="o">.</span><span class="n">get_eutrophication_animal_emissions_by_category</span><span class="p">()</span>
-
-        <span class="n">total_emissions_dict</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;crop&quot;</span><span class="p">:</span> <span class="n">crop</span><span class="p">,</span>
-            <span class="s2">&quot;animal&quot;</span><span class="p">:</span> <span class="n">animal</span><span class="p">,</span>
-        <span class="p">}</span>
-
-        <span class="k">return</span> <span class="n">total_emissions_dict</span></div>
-
-
-<div class="viewcode-block" id="ScenarioRunner.get_climate_emission_dataframes">
-<a class="viewcode-back" href="../../autoapi/goblin_lite/goblin/index.html#goblin_lite.goblin.ScenarioRunner.get_climate_emission_dataframes">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_climate_emission_dataframes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retrieves dataframes containing climate change emissions by category.</span>
-
-<span class="sd">        This method fetches dataframes containing climate change emissions for different categories, such as &quot;crop,&quot; &quot;animal,&quot;</span>
-<span class="sd">        and &quot;land,&quot; using the DataFetcher class.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        None</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        dict</span>
-<span class="sd">            A dictionary containing dataframes of climate change emissions for different categories.</span>
-
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        The method utilizes the DataFetcher class to obtain the dataframes containing climate change emissions data by</span>
-<span class="sd">        category. It calls the `get_climate_change_crop_emissions_aggregated`, `get_climate_change_animal_emissions_aggregated`,</span>
-<span class="sd">        and `get_landuse_emissions_totals` methods from the DataFetcher class to fetch emissions data for crops, animals,</span>
-<span class="sd">        and land, respectively.</span>
-
-<span class="sd">        The method then constructs a dictionary, `total_emissions_dict`, with keys representing different categories</span>
-<span class="sd">        (&quot;crop&quot;, &quot;animal&quot;, and &quot;land&quot;) and their corresponding dataframes as values.</span>
-
-<span class="sd">        The attributes and methods referenced in this documentation are class attributes and methods and should be</span>
-<span class="sd">        available within the class instance when this method is called.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">db_reference_class</span> <span class="o">=</span> <span class="n">DataFetcher</span><span class="p">()</span>
-
-        <span class="n">crop</span> <span class="o">=</span> <span class="n">db_reference_class</span><span class="o">.</span><span class="n">get_climate_change_crop_emissions_aggregated</span><span class="p">()</span>
-        <span class="n">animal</span> <span class="o">=</span> <span class="n">db_reference_class</span><span class="o">.</span><span class="n">get_climate_change_animal_emissions_aggregated</span><span class="p">()</span>
-        <span class="n">land</span> <span class="o">=</span> <span class="n">db_reference_class</span><span class="o">.</span><span class="n">get_landuse_emissions_totals</span><span class="p">()</span>
-
-        <span class="n">total_emissions_dict</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;crop&quot;</span><span class="p">:</span> <span class="n">crop</span><span class="p">,</span>
-            <span class="s2">&quot;animal&quot;</span><span class="p">:</span> <span class="n">animal</span><span class="p">,</span>
-            <span class="s2">&quot;land&quot;</span><span class="p">:</span> <span class="n">land</span><span class="p">,</span>
-        <span class="p">}</span>
-
-        <span class="k">return</span> <span class="n">total_emissions_dict</span></div>
-
-
-<div class="viewcode-block" id="ScenarioRunner.generate_transition_matrix">
-<a class="viewcode-back" href="../../autoapi/goblin_lite/goblin/index.html#goblin_lite.goblin.ScenarioRunner.generate_transition_matrix">[docs]</a>
-    <span class="k">def</span> <span class="nf">generate_transition_matrix</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">scenario_dataframe</span><span class="p">,</span> <span class="n">grassland_area</span><span class="p">,</span> <span class="n">spared_area</span>
-    <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Generates and returns a land use transition matrix for the specified scenario.</span>
-
-<span class="sd">        This method computes a transition matrix, representing land use changes between categories, based on the scenario </span>
-<span class="sd">        parameters and land use data provided. It leverages the TransitionMatrix class for calculations, considering the </span>
-<span class="sd">        baseline year, target year, total grassland area, and spared area from conversion.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        scenario_dataframe : pandas.DataFrame</span>
-<span class="sd">            A pandas DataFrame containing scenario parameters.</span>
-<span class="sd">        grassland_area : pandas.DataFrame</span>
-<span class="sd">            A pandas DataFrame the total area of grassland.</span>
-<span class="sd">        spared_area : pandas.DataFrame</span>
-<span class="sd">            A pandas DataFrame the area of grassland spared (destocked).</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        numpy.ndarray</span>
-<span class="sd">            The generated transition matrix as a NumPy array, illustrating the land use changes.</span>
-
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        The method follows these steps:</span>
-<span class="sd">        1. Initializes an instance of the TransitionMatrix class using the calibration year as the baseline year, target year, </span>
-<span class="sd">        scenario parameters, grassland area, and spared area.</span>
-<span class="sd">        2. Calls the `create_transition_matrix` method of the TransitionMatrix instance to calculate the transition matrix.</span>
-<span class="sd">        3. Returns the computed transition matrix, which is a NumPy array depicting the area transitions between different </span>
-<span class="sd">        land use categories.</span>
-
-<span class="sd">        The transition matrix quantifies the changes in land use areas, providing insights into how different land use categories </span>
-<span class="sd">        are expected to shift under the scenario.</span>
-
-<span class="sd">        The attributes and methods referenced in this documentation are class attributes and methods and should be </span>
-<span class="sd">        available within the class instance when this method is called.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">baseline_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span>
-        <span class="n">target_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span>
-
-        <span class="n">transition</span> <span class="o">=</span> <span class="n">TransitionMatrix</span><span class="p">(</span>
-            <span class="n">baseline_year</span><span class="p">,</span> <span class="n">target_year</span><span class="p">,</span> <span class="n">scenario_dataframe</span><span class="p">,</span> <span class="n">grassland_area</span><span class="p">,</span> <span class="n">spared_area</span>
-        <span class="p">)</span>
-
-        <span class="n">transition_matrix</span> <span class="o">=</span> <span class="n">transition</span><span class="o">.</span><span class="n">create_transition_matrix</span><span class="p">()</span>
-
-        <span class="k">return</span> <span class="n">transition_matrix</span></div>
-
-
-<div class="viewcode-block" id="ScenarioRunner.generate_landuse_data">
-<a class="viewcode-back" href="../../autoapi/goblin_lite/goblin/index.html#goblin_lite.goblin.ScenarioRunner.generate_landuse_data">[docs]</a>
-    <span class="k">def</span> <span class="nf">generate_landuse_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scenario_dataframe</span><span class="p">,</span> <span class="n">grassland_area</span><span class="p">,</span> <span class="n">spared_area</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Generates land use data based on scenario parameters and land area information.</span>
-
-<span class="sd">        This method calculates the current and projected future land use data using scenario parameters, baseline year, target year,</span>
-<span class="sd">        total grassland area, and spared grassland area.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        scenario_dataframe : pandas.DataFrame</span>
-<span class="sd">            A pandas DataFrame containing scenario parameters.</span>
-<span class="sd">        grassland_area : pandas.DataFrame</span>
-<span class="sd">            A DataFrame representing the total area of grassland.</span>
-<span class="sd">        spared_area : pandas.DataFrame</span>
-<span class="sd">            A DataFrame representing the area of grassland spared (destocked).</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        pandas.DataFrame</span>
-<span class="sd">            A pandas DataFrame containing the generated land use data, which includes current and projected future land use areas for different</span>
-<span class="sd">            land use categories.</span>
-
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        The method utilizes the LandCover class to calculate the current and future land use data based on the given scenario parameters,</span>
-<span class="sd">        baseline year, target year, grassland area, and spared grassland area. The future land use data represents the projected land use areas</span>
-<span class="sd">        for different land use categories, taking into account the spared grassland areas.</span>
-
-<span class="sd">        The resulting land use data is saved as a datatable using the `save_goblin_results_output_datatable` method from the DataManager class</span>
-<span class="sd">        with the name &quot;landuse_data&quot;.</span>
-
-<span class="sd">        The attributes and methods referenced in this documentation are class attributes and methods and should be available within the class</span>
-<span class="sd">        instance when this method is called.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">baseline_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span>
-        <span class="n">target_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span>
-
-        <span class="n">land</span> <span class="o">=</span> <span class="n">LandCover</span><span class="p">(</span>
-            <span class="n">baseline_year</span><span class="p">,</span> <span class="n">target_year</span><span class="p">,</span> <span class="n">scenario_dataframe</span><span class="p">,</span> <span class="n">grassland_area</span><span class="p">,</span> <span class="n">spared_area</span>
-        <span class="p">)</span>
-
-        <span class="n">landuse_data</span> <span class="o">=</span> <span class="n">land</span><span class="o">.</span><span class="n">combined_future_land_use_area</span><span class="p">()</span>
-
-        <span class="k">return</span> <span class="n">landuse_data</span></div>
-
-
-<div class="viewcode-block" id="ScenarioRunner.generate_crop_data">
-<a class="viewcode-back" href="../../autoapi/goblin_lite/goblin/index.html#goblin_lite.goblin.ScenarioRunner.generate_crop_data">[docs]</a>
-    <span class="k">def</span> <span class="nf">generate_crop_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scenario_dataframe</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Generates crop data based on scenario parameters and national CSO crop production data.</span>
-
-<span class="sd">        This method calculates crop data at the national level and given scenario parameters for urea, baseline year, and target year.</span>
-<span class="sd">        It uses scenario-specific crop production data provided by the NationalCropData class. The resulting crop data is saved</span>
-<span class="sd">        as a datatable using the DataManager class.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        scenario_dataframe : pandas.DataFrame</span>
-<span class="sd">            A pandas DataFrame containing scenario parameters.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        pandas.DataFrame</span>
-<span class="sd">            A pandas DataFrame containing the generated crop data.</span>
-
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        The method utilizes the NationalCropData class to generate crop production for from national level data for Ireland for each scenario</span>
-<span class="sd">        based on the given baseline year, target year, and scenario. It iterates through unique scenario values in the</span>
-<span class="sd">        scenario_dataframe and generates crop data accordingly. The generated crop data is stored in the crop_df variable</span>
-<span class="sd">        for each scenario, and the final crop data for the last scenario is returned as the output.</span>
-
-<span class="sd">        The attributes and methods referenced in this documentation are class attributes and methods and should be</span>
-<span class="sd">        available within the class instance when this method is called.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">baseline_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span>
-        <span class="n">target_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span>
-        <span class="n">scenarios</span> <span class="o">=</span> <span class="n">scenario_dataframe</span><span class="p">[</span><span class="s2">&quot;Scenarios&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
-
-        <span class="k">for</span> <span class="n">sc</span> <span class="ow">in</span> <span class="n">scenarios</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">sc</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">crop_df</span> <span class="o">=</span> <span class="n">NationalCropData</span><span class="o">.</span><span class="n">gen_scenario_crop_production_dataframe</span><span class="p">(</span>
-                    <span class="n">baseline_year</span><span class="p">,</span> <span class="n">target_year</span><span class="p">,</span> <span class="n">sc</span><span class="p">,</span> <span class="n">crop_df</span>
-                <span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">crop_df</span> <span class="o">=</span> <span class="n">NationalCropData</span><span class="o">.</span><span class="n">gen_scenario_crop_production_dataframe</span><span class="p">(</span>
-                    <span class="n">baseline_year</span><span class="p">,</span> <span class="n">target_year</span><span class="p">,</span> <span class="n">sc</span>
-                <span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">crop_df</span></div>
-
-
-<div class="viewcode-block" id="ScenarioRunner.generate_crop_farm_data">
-<a class="viewcode-back" href="../../autoapi/goblin_lite/goblin/index.html#goblin_lite.goblin.ScenarioRunner.generate_crop_farm_data">[docs]</a>
-    <span class="k">def</span> <span class="nf">generate_crop_farm_data</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">scenario_dataframe</span><span class="p">,</span> <span class="n">crop_dataframe</span><span class="p">,</span> <span class="n">default_urea</span><span class="p">,</span> <span class="n">default_urea_abated</span>
-    <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Generates crop farm data representing fertilizer inputs for each scenario.</span>
-
-<span class="sd">        This method calculates crop farm data representing fertilizer inputs (in kg) for each scenario. It utilizes the provided</span>
-<span class="sd">        crop production data and scenario parameters to determine the total amount of fertilizers (urea, urea abated, total N,</span>
-<span class="sd">        P, and K fertilizers) required at the national level.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        scenario_dataframe : pandas.DataFrame</span>
-<span class="sd">            A pandas DataFrame containing scenario parameters.</span>
-
-<span class="sd">        crop_dataframe : pandas.DataFrame</span>
-<span class="sd">            A pandas DataFrame containing crop production data for different scenarios.</span>
-
-<span class="sd">        default_urea : float</span>
-<span class="sd">            The default proportion of urea applied in crop farming.</span>
-
-<span class="sd">        default_urea_abated : float</span>
-<span class="sd">            The default proportion of urea abated in crop farming.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        pandas.DataFrame</span>
-<span class="sd">            A pandas DataFrame containing the generated crop farm data representing fertilizer inputs (in kg) for each scenario.</span>
-
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        The method first selects specific columns, namely &#39;Scenarios&#39;, &#39;Urea proportion&#39;, and &#39;Urea abated proportion&#39;, from</span>
-<span class="sd">        the scenario_dataframe and drops any duplicate rows. This results in a subset_df that contains unique scenario</span>
-<span class="sd">        parameters related to urea proportion and abatement.</span>
-
-<span class="sd">        Using the provided crop_dataframe and the subset_df, the method then utilizes the NationalCropData class to calculate</span>
-<span class="sd">        the fertilizer inputs (in kg) at the national level for each crop. The total amount of fertilizers, including urea,</span>
-<span class="sd">        urea abated, total N, P, and K fertilizers, is calculated based on the given urea proportion and abatement parameters.</span>
-
-<span class="sd">        The generated crop farm data, representing fertilizer inputs (in kg) for each scenario, is saved as a datatable using</span>
-<span class="sd">        the `save_goblin_results_output_datatable` method from the DataManager class with the name &quot;crop_farm_data&quot;.</span>
-
-<span class="sd">        The attributes and methods referenced in this documentation are class attributes and methods and should be</span>
-<span class="sd">        available within the class instance when this method is called.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">subset_df</span> <span class="o">=</span> <span class="n">scenario_dataframe</span><span class="p">[</span>
-            <span class="p">[</span><span class="s2">&quot;Scenarios&quot;</span><span class="p">,</span> <span class="s2">&quot;Urea proportion&quot;</span><span class="p">,</span> <span class="s2">&quot;Urea abated proportion&quot;</span><span class="p">]</span>
-        <span class="p">]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
-
-        <span class="c1"># Set &#39;Scenarios&#39; as the index of the DataFrame</span>
-        <span class="n">subset_df</span> <span class="o">=</span> <span class="n">subset_df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;Scenarios&#39;</span><span class="p">)</span>
-
-        <span class="n">crop_farm_data</span> <span class="o">=</span> <span class="n">NationalCropData</span><span class="o">.</span><span class="n">gen_farm_data</span><span class="p">(</span>
-            <span class="n">crop_dataframe</span><span class="p">,</span> <span class="n">subset_df</span><span class="p">,</span> <span class="n">default_urea</span><span class="p">,</span> <span class="n">default_urea_abated</span>
-        <span class="p">)</span>
-
-
-        <span class="k">return</span> <span class="n">crop_farm_data</span></div>
-
-
-<div class="viewcode-block" id="ScenarioRunner.generate_baseline_farm_inputs">
-<a class="viewcode-back" href="../../autoapi/goblin_lite/goblin/index.html#goblin_lite.goblin.ScenarioRunner.generate_baseline_farm_inputs">[docs]</a>
-    <span class="k">def</span> <span class="nf">generate_baseline_farm_inputs</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">scenario_dataframe</span><span class="p">,</span> <span class="n">scenario_animal_data</span><span class="p">,</span> <span class="n">baseline_animal_data</span>
-    <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Generates baseline farm inputs for grassland.</span>
-
-<span class="sd">        This method estimates the baseline farm inputs (fertilizer) application to grassland, at the national</span>
-<span class="sd">        level for each scenario. The fertilizer application rates specified in the scenario_dataframe are used to determine</span>
-<span class="sd">        the total amount of fertilizer (in kg) required for grassland.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        scenario_dataframe : pandas.DataFrame</span>
-<span class="sd">            A pandas DataFrame containing scenario parameters.</span>
-
-<span class="sd">        scenario_animal_data : pandas.DataFrame</span>
-<span class="sd">            A pandas DataFrame containing animal data for different scenarios.</span>
-
-<span class="sd">        baseline_animal_data : pandas.DataFrame</span>
-<span class="sd">            A pandas DataFrame containing baseline animal data.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        pandas.DataFrame</span>
-<span class="sd">            A pandas DataFrame containing the generated baseline farm inputs for grassland, specifically the fertilizer</span>
-<span class="sd">            application (in kg) at the national level for the baseline.</span>
-
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        The method utilizes the provided scenario_dataframe, scenario_animal_data, and baseline_animal_data to estimate the</span>
-<span class="sd">        baseline farm inputs for grassland. The scenario_dataframe contains the specified fertilizer application rates, which</span>
-<span class="sd">        are used to calculate the total amount of fertilizer (in kg) required at the national level for each scenario.</span>
-
-<span class="sd">        The baseline farm inputs, representing the fertilizer application (in kg) for grassland, are determined based on the</span>
-<span class="sd">        national level data. The generated baseline farm</span>
-<span class="sd">        inputs data is saved as a datatable using the `save_goblin_results_output_datatable` method from the DataManager</span>
-<span class="sd">        class with the name &quot;grassland_farm_inputs_baseline&quot;.</span>
-
-<span class="sd">        The attributes and methods referenced in this documentation are class attributes and methods and should be</span>
-<span class="sd">        available within the class instance when this method is called.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">ef_country</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span>
-        <span class="n">baseline_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span>
-        <span class="n">target_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span>
-
-        <span class="n">grassland_class</span> <span class="o">=</span> <span class="n">GrasslandOutput</span><span class="p">(</span>
-            <span class="n">ef_country</span><span class="p">,</span>
-            <span class="n">baseline_year</span><span class="p">,</span>
-            <span class="n">target_year</span><span class="p">,</span>
-            <span class="n">scenario_dataframe</span><span class="p">,</span>
-            <span class="n">scenario_animal_data</span><span class="p">,</span>
-            <span class="n">baseline_animal_data</span><span class="p">,</span>
-        <span class="p">)</span>
-
-        <span class="n">farm_inputs_baseline</span> <span class="o">=</span> <span class="n">grassland_class</span><span class="o">.</span><span class="n">baseline_farm_inputs_data</span><span class="p">()</span>
-
-        <span class="k">return</span> <span class="n">farm_inputs_baseline</span></div>
-
-
-<div class="viewcode-block" id="ScenarioRunner.generate_scenario_farm_inputs">
-<a class="viewcode-back" href="../../autoapi/goblin_lite/goblin/index.html#goblin_lite.goblin.ScenarioRunner.generate_scenario_farm_inputs">[docs]</a>
-    <span class="k">def</span> <span class="nf">generate_scenario_farm_inputs</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">scenario_dataframe</span><span class="p">,</span> <span class="n">scenario_animal_data</span><span class="p">,</span> <span class="n">baseline_animal_data</span>
-    <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Generates scenario-specific farm inputs for grassland.</span>
-
-<span class="sd">        This method estimates the scenario-specific farm inputs (fertilizer) application to grassland, at the</span>
-<span class="sd">        national level for each scenario. The fertilizer application rates specified in the scenario_dataframe are used to</span>
-<span class="sd">        determine the total amount of fertilizer (in kg) required for grassland in each scenario.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        scenario_dataframe : pandas.DataFrame</span>
-<span class="sd">            A pandas DataFrame containing scenario parameters.</span>
-
-<span class="sd">        scenario_animal_data : pandas.DataFrame</span>
-<span class="sd">            A pandas DataFrame containing animal data for different scenarios.</span>
-
-<span class="sd">        baseline_animal_data : pandas.DataFrame</span>
-<span class="sd">            A pandas DataFrame containing baseline animal data.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        pandas.DataFrame</span>
-<span class="sd">            A pandas DataFrame containing the generated scenario-specific farm inputs for grassland, specifically the fertilizer</span>
-<span class="sd">            application (in kg) at the national level for each scenario.</span>
-
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        The method utilizes the provided scenario_dataframe, scenario_animal_data, and baseline_animal_data to estimate the</span>
-<span class="sd">        scenario-specific farm inputs for grassland. The scenario_dataframe contains the specified fertilizer application rates,</span>
-<span class="sd">        which are used to calculate the total amount of fertilizer (in kg) required at the national level for each scenario.</span>
-
-<span class="sd">        The scenario-specific farm inputs, representing the fertilizer application (in kg) for grassland in each scenario, are</span>
-<span class="sd">        determined based on the specified fertilizer application rates in the scenario_dataframe and other relevant data. The</span>
-<span class="sd">        generated scenario-specific farm inputs data is saved as a datatable using the `save_goblin_results_output_datatable`</span>
-<span class="sd">        method from the DataManager class with the name &quot;livestock_farm_inputs_scenario&quot;.</span>
-
-<span class="sd">        The attributes and methods referenced in this documentation are class attributes and methods and should be available</span>
-<span class="sd">        within the class instance when this method is called.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">ef_country</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span>
-        <span class="n">baseline_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span>
-        <span class="n">target_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span>
-
-        <span class="n">grassland_class</span> <span class="o">=</span> <span class="n">GrasslandOutput</span><span class="p">(</span>
-            <span class="n">ef_country</span><span class="p">,</span>
-            <span class="n">baseline_year</span><span class="p">,</span>
-            <span class="n">target_year</span><span class="p">,</span>
-            <span class="n">scenario_dataframe</span><span class="p">,</span>
-            <span class="n">scenario_animal_data</span><span class="p">,</span>
-            <span class="n">baseline_animal_data</span><span class="p">,</span>
-        <span class="p">)</span>
-
-        <span class="n">farm_inputs_scenario</span> <span class="o">=</span> <span class="n">grassland_class</span><span class="o">.</span><span class="n">farm_inputs_data</span><span class="p">()</span>
-
-        <span class="k">return</span> <span class="n">farm_inputs_scenario</span></div>
-
-
-<div class="viewcode-block" id="ScenarioRunner.generate_grassland_areas">
-<a class="viewcode-back" href="../../autoapi/goblin_lite/goblin/index.html#goblin_lite.goblin.ScenarioRunner.generate_grassland_areas">[docs]</a>
-    <span class="k">def</span> <span class="nf">generate_grassland_areas</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">scenario_dataframe</span><span class="p">,</span> <span class="n">scenario_animal_data</span><span class="p">,</span> <span class="n">baseline_animal_data</span>
-    <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculate the total spared and total grassland areas for each scenario.</span>
-
-<span class="sd">        This method calculates and returns the total spared, total grassland areas, spared area by soil group and stocking rate for each scenario based on the provided</span>
-<span class="sd">        scenario_dataframe, scenario_animal_data, and baseline_animal_data. The GrasslandOutput class is utilized to perform</span>
-<span class="sd">        the necessary calculations for each scenario.</span>
-
-<span class="sd">        The total spared area represents the area of grassland that will be converted (destocked) to other land uses (e.g., wetland,</span>
-<span class="sd">        forests) in the target year compared to the baseline year. The total grassland area represents</span>
-<span class="sd">        the remaining grassland area. Spared area by soil group represents the spared area by soil group (e.g., class 1, 2 and 3). </span>
-<span class="sd">        The stocking rate represents the stocking rate per hectare of grassland.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        scenario_dataframe : pandas.DataFrame</span>
-<span class="sd">            A pandas DataFrame containing scenario parameters.</span>
-
-<span class="sd">        scenario_animal_data : pandas.DataFrame</span>
-<span class="sd">            A pandas DataFrame containing animal data for different scenarios.</span>
-
-<span class="sd">        baseline_animal_data : pandas.DataFrame</span>
-<span class="sd">            A pandas DataFrame containing baseline animal data.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        tuple</span>
-<span class="sd">            A tuple containing four pandas DataFrame: (total_spared_area, total_grassland_area, total_spared_area_by_soil_group, per_hectare_stocking_rate).</span>
-
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        The method uses the provided scenario_dataframe, scenario_animal_data, and baseline_animal_data to calculate the total</span>
-<span class="sd">        spared and total grassland areas for each scenario. The GrasslandOutput class is utilized to perform the necessary</span>
-<span class="sd">        calculations based on the specified parameters.</span>
-
-<span class="sd">        The calculated total spared and total grassland areas for each scenario are returned as a tuple containing two pandas</span>
-<span class="sd">        DataFrame representing the total spared and total grassland areas, respectively.</span>
-
-<span class="sd">        Additionally, the method saves the calculated total spared area and total grassland area as datatables using the</span>
-<span class="sd">        `save_goblin_results_output_datatable` method from the DataManager class. The spared area datatable is saved with the name</span>
-<span class="sd">        &quot;total_spared_area&quot;, and the grassland area datatable with the name &quot;total_grassland_area&quot;.</span>
-
-<span class="sd">        The attributes and methods referenced in this documentation are class attributes and methods and should be available</span>
-<span class="sd">        within the class instance when this method is called.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">ef_country</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span>
-        <span class="n">baseline_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span>
-        <span class="n">target_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span>
-
-        <span class="n">grassland_class</span> <span class="o">=</span> <span class="n">GrasslandOutput</span><span class="p">(</span>
-            <span class="n">ef_country</span><span class="p">,</span>
-            <span class="n">baseline_year</span><span class="p">,</span>
-            <span class="n">target_year</span><span class="p">,</span>
-            <span class="n">scenario_dataframe</span><span class="p">,</span>
-            <span class="n">scenario_animal_data</span><span class="p">,</span>
-            <span class="n">baseline_animal_data</span><span class="p">,</span>
-        <span class="p">)</span>
-
-        <span class="n">spared_area</span> <span class="o">=</span> <span class="n">grassland_class</span><span class="o">.</span><span class="n">total_spared_area</span><span class="p">()</span>
-        <span class="n">total_grassland</span> <span class="o">=</span> <span class="n">grassland_class</span><span class="o">.</span><span class="n">total_grassland_area</span><span class="p">()</span>
-
-        <span class="n">total_spared_area_by_soil_group</span> <span class="o">=</span> <span class="n">grassland_class</span><span class="o">.</span><span class="n">total_spared_area_breakdown</span><span class="p">()</span>
-        <span class="n">per_hectare_stocking_rate</span> <span class="o">=</span> <span class="n">grassland_class</span><span class="o">.</span><span class="n">grassland_stocking_rate</span><span class="p">()</span>
-
-        <span class="k">return</span> <span class="n">spared_area</span><span class="p">,</span> <span class="n">total_grassland</span><span class="p">,</span> <span class="n">total_spared_area_by_soil_group</span><span class="p">,</span> <span class="n">per_hectare_stocking_rate</span></div>
-
-
-
-<div class="viewcode-block" id="ScenarioRunner.generate_crop_footprint">
-<a class="viewcode-back" href="../../autoapi/goblin_lite/goblin/index.html#goblin_lite.goblin.ScenarioRunner.generate_crop_footprint">[docs]</a>
-    <span class="k">def</span> <span class="nf">generate_crop_footprint</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">crop_dataframe</span><span class="p">,</span> <span class="n">scenario_dataframe</span><span class="p">,</span> <span class="n">default_urea</span><span class="p">,</span> <span class="n">default_urea_abated</span>
-    <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Generate crop footprints for climate change, eutrophication, and air quality for each scenario.</span>
-
-<span class="sd">        This method calculates and generates crop footprints for climate change, eutrophication, and air quality for each</span>
-<span class="sd">        scenario based on the provided crop_dataframe and scenario_dataframe. The footprints are computed using default urea</span>
-<span class="sd">        and urea abated values for the baseline, while urea values are derived from the scenario_dataframe for each scenario.</span>
-<span class="sd">        The AR Value (AR4, AR5) is derived from the class attributes, which defaults to &quot;AR5&quot;.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        crop_dataframe : pandas.DataFrame</span>
-<span class="sd">            A pandas DataFrame containing crop production data.</span>
-
-<span class="sd">        scenario_dataframe : pandas.DataFrame</span>
-<span class="sd">            A pandas DataFrame containing scenario parameters.</span>
-
-<span class="sd">        default_urea : float</span>
-<span class="sd">            The default proportion of urea used in crop production.</span>
-
-<span class="sd">        default_urea_abated : float</span>
-<span class="sd">            The default proportion of urea abated in crop production.</span>
-
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        The method utilizes three different classes: ClimateChangeCrop, EutrophicationCrop, and AirQualityCrop to calculate</span>
-<span class="sd">        and generate the crop footprints for climate change, eutrophication, and air quality, respectively. Each class is</span>
-<span class="sd">        instantiated with the appropriate parameters (ef_country, default_urea, default_urea_abated, and AR_VALUE) to perform</span>
-<span class="sd">        the necessary calculations.</span>
-
-<span class="sd">        The calculated crop footprints for each scenario are saved as datatables using the `save_goblin_results_output_datatable`</span>
-<span class="sd">        method from the DataManager class. The footprints for climate change are saved with the name &quot;climate_change_crops_disaggregated&quot;,</span>
-<span class="sd">        the footprints for eutrophication are saved with the name &quot;eutrophication_crops_disaggregated&quot;, and the footprints for air quality</span>
-<span class="sd">        are saved with the name &quot;air_quality_crops_disaggregated&quot;.</span>
-
-<span class="sd">        The attributes and methods referenced in this documentation are class attributes and methods and should be available</span>
-<span class="sd">        within the class instance when this method is called.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">AR_VALUE</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AR_VALUE</span>
-        <span class="n">ef_country</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span>
-
-        <span class="n">climate_change_crop_class</span> <span class="o">=</span> <span class="n">ClimateChangeCrop</span><span class="p">(</span>
-            <span class="n">ef_country</span><span class="p">,</span> <span class="n">default_urea</span><span class="p">,</span> <span class="n">default_urea_abated</span><span class="p">,</span> <span class="n">AR_VALUE</span>
-        <span class="p">)</span>
-
-        <span class="n">climate_change_crops_disaggregated</span> <span class="o">=</span> <span class="n">climate_change_crop_class</span><span class="o">.</span><span class="n">climate_change_crops_dissagregated</span><span class="p">(</span>
-            <span class="n">crop_dataframe</span><span class="p">,</span> <span class="n">scenario_dataframe</span>
-        <span class="p">)</span>
-
-        <span class="n">eutrophication_crop_class</span> <span class="o">=</span> <span class="n">EurtrophicationCrop</span><span class="p">(</span>
-            <span class="n">ef_country</span><span class="p">,</span> <span class="n">default_urea</span><span class="p">,</span> <span class="n">default_urea_abated</span>
-        <span class="p">)</span>
-
-        <span class="n">eutrophication_crops_disaggregated</span> <span class="o">=</span> <span class="n">eutrophication_crop_class</span><span class="o">.</span><span class="n">eutrophication_crops_dissagregated</span><span class="p">(</span>
-            <span class="n">crop_dataframe</span><span class="p">,</span> <span class="n">scenario_dataframe</span>
-        <span class="p">)</span>
-
-        <span class="n">air_quality_crop_class</span> <span class="o">=</span> <span class="n">AirQualityCrop</span><span class="p">(</span>
-            <span class="n">ef_country</span><span class="p">,</span> <span class="n">default_urea</span><span class="p">,</span> <span class="n">default_urea_abated</span>
-        <span class="p">)</span>
-
-        <span class="n">air_quality_crops_disaggregated</span> <span class="o">=</span> <span class="n">air_quality_crop_class</span><span class="o">.</span><span class="n">air_quality_crops_dissagregated</span><span class="p">(</span>
-            <span class="n">crop_dataframe</span><span class="p">,</span> <span class="n">scenario_dataframe</span>
-        <span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">save_goblin_results_to_database</span><span class="p">((</span><span class="s2">&quot;climate_change_crops_disaggregated&quot;</span><span class="p">,</span> <span class="n">climate_change_crops_disaggregated</span><span class="p">),</span>
-                                                                <span class="p">(</span><span class="s2">&quot;eutrophication_crops_disaggregated&quot;</span><span class="p">,</span> <span class="n">eutrophication_crops_disaggregated</span><span class="p">),</span>
-                                                                <span class="p">(</span><span class="s2">&quot;air_quality_crops_disaggregated&quot;</span><span class="p">,</span> <span class="n">air_quality_crops_disaggregated</span><span class="p">))</span></div>
-
-
-
-<div class="viewcode-block" id="ScenarioRunner.generate_aggregated_crop_footprint">
-<a class="viewcode-back" href="../../autoapi/goblin_lite/goblin/index.html#goblin_lite.goblin.ScenarioRunner.generate_aggregated_crop_footprint">[docs]</a>
-    <span class="k">def</span> <span class="nf">generate_aggregated_crop_footprint</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">crop_dataframe</span><span class="p">,</span> <span class="n">scenario_dataframe</span><span class="p">,</span> <span class="n">default_urea</span><span class="p">,</span> <span class="n">default_urea_abated</span>
-    <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Generate aggregated crop footprints for climate change.</span>
-
-<span class="sd">        This method calculates and generates aggregated crop footprints for climate change based on the provided crop_dataframe</span>
-<span class="sd">        and scenario_dataframe. The footprints for the baseline are computed using default urea and urea abated values, as well as the AR value (AR4, AR5)</span>
-<span class="sd">        specified in the class instance.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        crop_dataframe : pandas.DataFrame</span>
-<span class="sd">            A pandas DataFrame containing crop production data.</span>
-
-<span class="sd">        scenario_dataframe : pandas.DataFrame</span>
-<span class="sd">            A pandas DataFrame containing scenario parameters.</span>
-
-<span class="sd">        default_urea : float</span>
-<span class="sd">            The default proportion of urea used in crop production.</span>
-
-<span class="sd">        default_urea_abated : float</span>
-<span class="sd">            The default proportion of urea abated in crop production.</span>
-
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        The method utilizes the ClimateChangeCrop class to calculate and generate the crop footprints for climate change. The</span>
-<span class="sd">        class is instantiated with the appropriate parameters (ef_country, default_urea, default_urea_abated, and AR_VALUE) to</span>
-<span class="sd">        perform the necessary calculations.</span>
-
-<span class="sd">        Two types of aggregated footprints are generated: climate_change_categories_as_co2e and climate_change_crops_aggregated.</span>
-<span class="sd">        The climate_change_categories_as_co2e represents the footprints for each category of climate change gas (converted to CO2e),</span>
-<span class="sd">        and climate_change_crops_aggregated represents the overall aggregated footprint for all climate change gases.</span>
-
-<span class="sd">        The calculated aggregated crop footprints for climate change are saved as datatables using the `save_goblin_results_output_datatable`</span>
-<span class="sd">        method from the DataManager class. The footprints for individual categories of climate change gases are saved with the name</span>
-<span class="sd">        &quot;climate_change_crops_categories_as_co2e&quot;, and the overall aggregated footprint is saved with the name &quot;climate_change_crops_aggregated&quot;.</span>
-
-<span class="sd">        The attributes and methods referenced in this documentation are class attributes and methods and should be available within</span>
-<span class="sd">        the class instance when this method is called.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">AR_VALUE</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AR_VALUE</span>
-        <span class="n">ef_country</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span>
-
-        <span class="n">climate_change_crop_class</span> <span class="o">=</span> <span class="n">ClimateChangeCrop</span><span class="p">(</span>
-            <span class="n">ef_country</span><span class="p">,</span> <span class="n">default_urea</span><span class="p">,</span> <span class="n">default_urea_abated</span><span class="p">,</span> <span class="n">AR_VALUE</span>
-        <span class="p">)</span>
-
-        <span class="n">climate_change_categories_as_co2e</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">climate_change_crop_class</span><span class="o">.</span><span class="n">climate_change_crops_categories_as_co2e</span><span class="p">(</span>
-                <span class="n">crop_dataframe</span><span class="p">,</span> <span class="n">scenario_dataframe</span>
-            <span class="p">)</span>
-        <span class="p">)</span>
-        <span class="n">climate_change_crops_aggregated</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">climate_change_crop_class</span><span class="o">.</span><span class="n">climate_change_crops_aggregated</span><span class="p">(</span>
-                <span class="n">crop_dataframe</span><span class="p">,</span> <span class="n">scenario_dataframe</span>
-            <span class="p">)</span>
-        <span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">save_goblin_results_to_database</span><span class="p">((</span><span class="s2">&quot;climate_change_crops_categories_as_co2e&quot;</span><span class="p">,</span> <span class="n">climate_change_categories_as_co2e</span><span class="p">),</span>
-                                                                <span class="p">(</span><span class="s2">&quot;climate_change_crops_aggregated&quot;</span><span class="p">,</span> <span class="n">climate_change_crops_aggregated</span><span class="p">))</span></div>
-
-
-
-<div class="viewcode-block" id="ScenarioRunner.generate_landuse_footprint">
-<a class="viewcode-back" href="../../autoapi/goblin_lite/goblin/index.html#goblin_lite.goblin.ScenarioRunner.generate_landuse_footprint">[docs]</a>
-    <span class="k">def</span> <span class="nf">generate_landuse_footprint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">landuse_data</span><span class="p">,</span> <span class="n">transition_matrix</span><span class="p">,</span> <span class="n">forest_data</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Generate land-use footprints for climate change.</span>
-
-<span class="sd">        This method calculates and generates land-use (forest, grassland, wetland, cropland) footprints for climate change based on the provided landuse_data,</span>
-<span class="sd">        transition_matrix, and forest_data. The footprints are computed using the AR value (AR4, AR5) specified in the class instance.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        landuse_data : pandas.DataFrame</span>
-<span class="sd">            A pandas DataFrame containing land-use data.</span>
-
-<span class="sd">        transition_matrix : pandas.DataFrame</span>
-<span class="sd">            A pandas DataFrame containing the transition matrix for land-use changes.</span>
-
-<span class="sd">        forest_data : pandas.Series</span>
-<span class="sd">            A pandas Series containing forest carbon data.</span>
-
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        The method utilizes the ClimateChangeLandUse class to calculate and generate the land-use footprints for climate change.</span>
-<span class="sd">        The class is instantiated with the appropriate parameters (calibration_year, target_year, transition_matrix, landuse_data,</span>
-<span class="sd">        forest_data, ef_country, and AR_VALUE) to perform the necessary calculations.</span>
-
-<span class="sd">        The calculated land-use footprints for climate change are saved as a datatable using the `save_goblin_results_output_datatable`</span>
-<span class="sd">        method from the DataManager class. The datatable is saved with the name &quot;climate_change_landuse&quot;.</span>
-
-<span class="sd">        The attributes and methods referenced in this documentation are class attributes and methods and should be available within</span>
-<span class="sd">        the class instance when this method is called.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">AR_VALUE</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AR_VALUE</span>
-        <span class="n">ef_country</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span>
-        <span class="n">calibration_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span>
-        <span class="n">target_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span>
-
-        <span class="n">climate_change_landuse_class</span> <span class="o">=</span> <span class="n">ClimateChangeLandUse</span><span class="p">(</span>
-            <span class="n">calibration_year</span><span class="p">,</span>
-            <span class="n">target_year</span><span class="p">,</span>
-            <span class="n">transition_matrix</span><span class="p">,</span>
-            <span class="n">landuse_data</span><span class="p">,</span>
-            <span class="n">forest_data</span><span class="p">,</span>
-            <span class="n">ef_country</span><span class="p">,</span>
-            <span class="n">AR_VALUE</span><span class="p">,</span>
-        <span class="p">)</span>
-
-        <span class="n">climate_change_landuse</span> <span class="o">=</span> <span class="n">climate_change_landuse_class</span><span class="o">.</span><span class="n">climate_change_landuse</span><span class="p">()</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">save_goblin_results_to_database</span><span class="p">((</span><span class="s2">&quot;climate_change_landuse&quot;</span><span class="p">,</span> <span class="n">climate_change_landuse</span><span class="p">))</span></div>
-
-
-
-<div class="viewcode-block" id="ScenarioRunner.generate_livestock_footprint">
-<a class="viewcode-back" href="../../autoapi/goblin_lite/goblin/index.html#goblin_lite.goblin.ScenarioRunner.generate_livestock_footprint">[docs]</a>
-    <span class="k">def</span> <span class="nf">generate_livestock_footprint</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">baseline_animal_data</span><span class="p">,</span>
-        <span class="n">scenario_animal_data</span><span class="p">,</span>
-        <span class="n">farm_inputs_baseline</span><span class="p">,</span>
-        <span class="n">farm_inputs_scenario</span><span class="p">,</span>
-        <span class="n">landuse_data</span><span class="p">,</span> 
-        <span class="n">transition_matrix</span><span class="p">,</span>
-        <span class="n">crop_data</span>
-    <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculate the environmental footprints associated with livestock production for both the baseline and scenario datasets.</span>
-
-<span class="sd">        This method estimates the climate change, eutrophication, and air quality impacts of livestock production. It utilizes data from both the baseline and scenario animal datasets, along with farm (fertilizer) inputs.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        baseline_animal_data : DataFrame</span>
-<span class="sd">            A DataFrame containing baseline animal data.</span>
-<span class="sd">        scenario_animal_data : DataFrame</span>
-<span class="sd">            A DataFrame containing scenario-specific animal data.</span>
-<span class="sd">        farm_inputs_baseline : DataFrame</span>
-<span class="sd">            A DataFrame containing farm inputs (fertilizers) for the baseline scenario.</span>
-<span class="sd">        farm_inputs_scenario : DataFrame</span>
-<span class="sd">            A DataFrame containing farm inputs (fertilizers) for the specific scenario.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        None</span>
-<span class="sd">            The method does not return any value. The results are saved to output data tables for further analysis.</span>
-
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        - This method relies on the `AR_VALUE` (AR4, AR5) and `ef_country` attributes to calculate the environmental impacts, which should be set appropriately before calling this method.</span>
-
-<span class="sd">        - The method utilizes the following classes for calculating impacts:</span>
-<span class="sd">            - `ClimateChangeLivestock`: For climate change-related impacts.</span>
-<span class="sd">            - `EutrophicationLivestock`: For eutrophication-related impacts.</span>
-<span class="sd">            - `AirQualityLivestock`: For air quality-related impacts.</span>
-
-<span class="sd">        - The calculated environmental footprints are not returned directly but are saved to the output data tables using the `save_goblin_results_output_datatable` method.</span>
-
-<span class="sd">        See Also</span>
-<span class="sd">        --------</span>
-<span class="sd">        ClimateChangeLivestock : Class for calculating climate change impacts of livestock production.</span>
-<span class="sd">        EutrophicationLivestock : Class for calculating eutrophication impacts of livestock production.</span>
-<span class="sd">        AirQualityLivestock : Class for calculating air quality impacts of livestock production.</span>
-<span class="sd">        save_goblin_results_output_datatable : Method to save data to output data tables.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">AR_VALUE</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AR_VALUE</span>
-        <span class="n">ef_country</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span>
-        <span class="n">calibration_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span>
-        <span class="n">target_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span>
-
-
-        <span class="n">climate_change_livestock_class</span> <span class="o">=</span> <span class="n">ClimateChangeLivestock</span><span class="p">(</span><span class="n">ef_country</span><span class="p">,</span><span class="n">calibration_year</span><span class="p">,</span> <span class="n">target_year</span><span class="p">,</span> <span class="n">transition_matrix</span><span class="p">,</span> <span class="n">landuse_data</span><span class="p">,</span> <span class="n">crop_data</span><span class="p">,</span> <span class="n">AR_VALUE</span><span class="p">)</span>
-
-
-        <span class="n">climate_change_livestock_disaggregated</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">climate_change_livestock_class</span><span class="o">.</span><span class="n">climate_change_livestock_dissagregated</span><span class="p">(</span>
-                <span class="n">baseline_animal_data</span><span class="p">,</span>
-                <span class="n">scenario_animal_data</span><span class="p">,</span>
-                <span class="n">farm_inputs_baseline</span><span class="p">,</span>
-                <span class="n">farm_inputs_scenario</span><span class="p">,</span>
-            <span class="p">)</span>
-        <span class="p">)</span>
-
-        <span class="n">eutrophication_livestock_class</span> <span class="o">=</span> <span class="n">EutrophicationLivestock</span><span class="p">(</span><span class="n">ef_country</span><span class="p">)</span>
-
-        <span class="n">eutrophication_livestock_disaggregated</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">eutrophication_livestock_class</span><span class="o">.</span><span class="n">eutrophication_livestock_dissagregated</span><span class="p">(</span>
-                <span class="n">baseline_animal_data</span><span class="p">,</span>
-                <span class="n">scenario_animal_data</span><span class="p">,</span>
-                <span class="n">farm_inputs_baseline</span><span class="p">,</span>
-                <span class="n">farm_inputs_scenario</span><span class="p">,</span>
-            <span class="p">)</span>
-        <span class="p">)</span>
-
-        <span class="n">air_quality_livestock_class</span> <span class="o">=</span> <span class="n">AirQualityLivestock</span><span class="p">(</span><span class="n">ef_country</span><span class="p">)</span>
-
-        <span class="n">air_quality_livestock_disaggregated</span> <span class="o">=</span> <span class="n">air_quality_livestock_class</span><span class="o">.</span><span class="n">air_quality_livestock_dissagregated</span><span class="p">(</span>
-            <span class="n">baseline_animal_data</span><span class="p">,</span>
-            <span class="n">scenario_animal_data</span><span class="p">,</span>
-            <span class="n">farm_inputs_baseline</span><span class="p">,</span>
-            <span class="n">farm_inputs_scenario</span><span class="p">,</span>
-        <span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">save_goblin_results_to_database</span><span class="p">((</span><span class="s2">&quot;climate_change_livestock_disaggregated&quot;</span><span class="p">,</span> <span class="n">climate_change_livestock_disaggregated</span><span class="p">),</span>
-                                                                <span class="p">(</span><span class="s2">&quot;eutrophication_livestock_disaggregated&quot;</span><span class="p">,</span> <span class="n">eutrophication_livestock_disaggregated</span><span class="p">),</span>
-                                                                <span class="p">(</span><span class="s2">&quot;air_quality_livestock_disaggregated&quot;</span><span class="p">,</span> <span class="n">air_quality_livestock_disaggregated</span><span class="p">))</span></div>
-
-
-<div class="viewcode-block" id="ScenarioRunner.generate_aggregated_livestock_footprint">
-<a class="viewcode-back" href="../../autoapi/goblin_lite/goblin/index.html#goblin_lite.goblin.ScenarioRunner.generate_aggregated_livestock_footprint">[docs]</a>
-    <span class="k">def</span> <span class="nf">generate_aggregated_livestock_footprint</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">baseline_animal_data</span><span class="p">,</span>
-        <span class="n">scenario_animal_data</span><span class="p">,</span>
-        <span class="n">farm_inputs_baseline</span><span class="p">,</span>
-        <span class="n">farm_inputs_scenario</span><span class="p">,</span>
-        <span class="n">landuse_data</span><span class="p">,</span> 
-        <span class="n">transition_matrix</span><span class="p">,</span>
-        <span class="n">crop_data</span>
-    <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculate the aggregated environmental footprints associated with livestock production for both the baseline and scenario datasets.</span>
-
-<span class="sd">        This method estimates the aggregated climate change impacts of livestock production at the national level. It utilizes data from both the baseline and scenario animal datasets, along with farm (fertilizer) inputs.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        baseline_animal_data : DataFrame</span>
-<span class="sd">            A DataFrame containing baseline animal data.</span>
-<span class="sd">        scenario_animal_data : DataFrame</span>
-<span class="sd">            A DataFrame containing scenario-specific animal data.</span>
-<span class="sd">        farm_inputs_baseline : DataFrame</span>
-<span class="sd">            A DataFrame containing farm inputs (fertilizers) for the baseline scenario.</span>
-<span class="sd">        farm_inputs_scenario : DataFrame</span>
-<span class="sd">            A DataFrame containing farm inputs (fertilizers) for the specific scenario.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        None</span>
-<span class="sd">            The method does not return any value. The aggregated results are saved to output data tables for further analysis.</span>
-
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        - This method relies on the `AR_VALUE` and `ef_country` attributes to calculate the environmental impacts, which should be set appropriately before calling this method.</span>
-
-<span class="sd">        - The method utilizes the `ClimateChangeLivestock` class for calculating the climate change impacts of livestock production.</span>
-
-<span class="sd">        - The aggregated climate change impacts are not returned directly but are saved to the output data tables using the `save_goblin_results_output_datatable` method.</span>
-
-<span class="sd">        See Also</span>
-<span class="sd">        --------</span>
-<span class="sd">        ClimateChangeLivestock : Class for calculating climate change impacts of livestock production.</span>
-<span class="sd">        save_goblin_results_output_datatable : Method to save data to output data tables.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">AR_VALUE</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AR_VALUE</span>
-        <span class="n">ef_country</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span>
-        <span class="n">calibration_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span>
-        <span class="n">target_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span>
-
-
-        <span class="n">climate_change_livestock_class</span> <span class="o">=</span> <span class="n">ClimateChangeLivestock</span><span class="p">(</span><span class="n">ef_country</span><span class="p">,</span><span class="n">calibration_year</span><span class="p">,</span> <span class="n">target_year</span><span class="p">,</span> <span class="n">transition_matrix</span><span class="p">,</span> <span class="n">landuse_data</span><span class="p">,</span> <span class="n">crop_data</span><span class="p">,</span> <span class="n">AR_VALUE</span><span class="p">)</span>
-
-        <span class="n">climate_change_livestock_aggregated</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">climate_change_livestock_class</span><span class="o">.</span><span class="n">climate_change_livestock_aggregated</span><span class="p">(</span>
-                <span class="n">baseline_animal_data</span><span class="p">,</span>
-                <span class="n">scenario_animal_data</span><span class="p">,</span>
-                <span class="n">farm_inputs_baseline</span><span class="p">,</span>
-                <span class="n">farm_inputs_scenario</span><span class="p">,</span>
-            <span class="p">)</span>
-        <span class="p">)</span>
-        <span class="n">climate_change_livestock_categories_as_co2e</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">climate_change_livestock_class</span><span class="o">.</span><span class="n">climate_change_livestock_categories_as_co2e</span><span class="p">(</span>
-                <span class="n">baseline_animal_data</span><span class="p">,</span>
-                <span class="n">scenario_animal_data</span><span class="p">,</span>
-                <span class="n">farm_inputs_baseline</span><span class="p">,</span>
-                <span class="n">farm_inputs_scenario</span><span class="p">,</span>
-            <span class="p">)</span>
-        <span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">save_goblin_results_to_database</span><span class="p">((</span><span class="s2">&quot;climate_change_livestock_aggregated&quot;</span><span class="p">,</span> <span class="n">climate_change_livestock_aggregated</span><span class="p">),</span>
-                                                                <span class="p">(</span><span class="s2">&quot;climate_change_livestock_categories_as_co2e&quot;</span><span class="p">,</span> <span class="n">climate_change_livestock_categories_as_co2e</span><span class="p">))</span></div>
-
-        
-
-<div class="viewcode-block" id="ScenarioRunner.generate_afforestation_data">
-<a class="viewcode-back" href="../../autoapi/goblin_lite/goblin/index.html#goblin_lite.goblin.ScenarioRunner.generate_afforestation_data">[docs]</a>
-    <span class="k">def</span> <span class="nf">generate_afforestation_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transition_matrix</span><span class="p">,</span> <span class="n">scenario_dataframe</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Generate afforestation data based on the given transition matrix and scenario data.</span>
-
-<span class="sd">        This method calculates and generates afforestation data using the provided transition matrix and scenario data. Afforestation refers to the process of converting non-forest land into forested areas.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        transition_matrix : DataFrame</span>
-<span class="sd">            A DataFrame representing the transition matrix, which describes the changes in land use from one category to another.</span>
-<span class="sd">        scenario_dataframe : DataFrame</span>
-<span class="sd">            A DataFrame containing scenario-specific data.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        DataFrame</span>
-<span class="sd">            A DataFrame containing the generated afforestation data.</span>
-
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        - The method utilizes the `Afforestation` class to generate afforestation data.</span>
-
-<span class="sd">        - The generated afforestation data is saved to the output data table using the `save_goblin_results_output_datatable` method.</span>
-
-<span class="sd">        - The `baseline_year` and `target_year` attributes are used in the process, and they should be set appropriately before calling this method.</span>
-
-<span class="sd">        See Also</span>
-<span class="sd">        --------</span>
-<span class="sd">        Afforestation : Class for generating afforestation data.</span>
-<span class="sd">        save_goblin_results_output_datatable : Method to save data to output data tables.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">baseline_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span>
-        <span class="n">target_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span>
-
-        <span class="n">afforestation_class</span> <span class="o">=</span> <span class="n">Afforestation</span><span class="p">(</span>
-            <span class="n">baseline_year</span><span class="p">,</span> <span class="n">target_year</span><span class="p">,</span> <span class="n">scenario_dataframe</span>
-        <span class="p">)</span>
-
-        <span class="n">afforestation_data</span> <span class="o">=</span> <span class="n">afforestation_class</span><span class="o">.</span><span class="n">gen_cbm_afforestation_dataframe</span><span class="p">(</span>
-            <span class="n">transition_matrix</span>
-        <span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">afforestation_data</span></div>
-
-
-
-<div class="viewcode-block" id="ScenarioRunner.generate_forest_carbon">
-<a class="viewcode-back" href="../../autoapi/goblin_lite/goblin/index.html#goblin_lite.goblin.ScenarioRunner.generate_forest_carbon">[docs]</a>
-    <span class="k">def</span> <span class="nf">generate_forest_carbon</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">afforest_year</span><span class="p">,</span> <span class="n">afforestation_dataframe</span><span class="p">,</span> <span class="n">scenario_dataframe</span>
-    <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Generate forest carbon data based on afforestation and scenario data.</span>
-
-<span class="sd">        This method calculates and generates forest carbon data by running the Carbon Budget Model (CBM CFS3) using the provided afforestation data and scenario data.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        afforest_year : int</span>
-<span class="sd">            The target year for afforestation, representing the year when non-forest land is converted to forested areas.</span>
-<span class="sd">        afforestation_dataframe : DataFrame</span>
-<span class="sd">            A DataFrame containing the afforestation data, which represents the conversion of non-forest land to forested areas.</span>
-<span class="sd">        scenario_dataframe : DataFrame</span>
-<span class="sd">            A DataFrame containing scenario-specific data.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        dict</span>
-<span class="sd">            A dictionary containing the generated forest carbon data, as pandas.DataFrame, including aggregated and annual flux results.</span>
-
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        - The method utilizes the `Runner` class to run the CBM model and generate forest carbon data.</span>
-
-<span class="sd">        - The CBM model requires the `cbm_configuration` attribute, which should be set appropriately before calling this method.</span>
-
-<span class="sd">        - The generated forest carbon data, both aggregated and annual flux results.</span>
-
-<span class="sd">        - The `calibration_year` and `target_year` attributes are used in the process, and they should be set appropriately before calling this method.</span>
-
-<span class="sd">        See Also</span>
-<span class="sd">        --------</span>
-<span class="sd">        Runner : Class for running the Carbon Budget Model (CBM CFS3).</span>
-<span class="sd">        save_goblin_results_output_datatable : Method to save data to output data tables.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">calibration_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span>
-        <span class="n">target_year</span> <span class="o">=</span> <span class="n">afforest_year</span>
-
-        <span class="n">cbm_configuration</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbm_config_path</span>
-
-        <span class="n">cbm_runner</span> <span class="o">=</span> <span class="n">Runner</span><span class="p">(</span>
-            <span class="n">cbm_configuration</span><span class="p">,</span>
-            <span class="n">calibration_year</span><span class="p">,</span>
-            <span class="n">target_year</span><span class="p">,</span>
-            <span class="n">afforestation_dataframe</span><span class="p">,</span>
-            <span class="n">scenario_dataframe</span><span class="p">,</span>
-        <span class="p">)</span>
-
-        <span class="n">cbm_runner</span><span class="o">.</span><span class="n">generate_input_data</span><span class="p">()</span>
-
-        <span class="c1"># generation of aggregated results</span>
-        <span class="n">forest_aggregate</span> <span class="o">=</span> <span class="n">cbm_runner</span><span class="o">.</span><span class="n">run_aggregate_scenarios</span><span class="p">()</span>
-
-        <span class="c1"># generation of annual flux results</span>
-        <span class="n">forest_flux</span> <span class="o">=</span> <span class="n">cbm_runner</span><span class="o">.</span><span class="n">run_flux_scenarios</span><span class="p">()</span>
-
-        <span class="c1"># Define columns to exclude from inversion</span>
-        <span class="n">exclude_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span> <span class="s1">&#39;Scenario&#39;</span><span class="p">]</span>
-
-        <span class="c1"># Invert values in forest_flux, excluding specific columns</span>
-        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">forest_flux</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">exclude_columns</span><span class="p">:</span>
-                <span class="n">forest_flux</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">forest_flux</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">*</span> <span class="o">-</span><span class="mi">1</span>
-
-        <span class="c1"># Invert values in forest_aggregate, excluding specific columns</span>
-        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">forest_aggregate</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">exclude_columns</span><span class="p">:</span>
-                <span class="n">forest_aggregate</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">forest_aggregate</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">*</span> <span class="o">-</span><span class="mi">1</span>
-
-
-        <span class="n">forest_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;forest_flux&quot;</span><span class="p">:</span> <span class="n">forest_flux</span><span class="p">,</span> <span class="s2">&quot;forest_aggregate&quot;</span><span class="p">:</span> <span class="n">forest_aggregate</span><span class="p">}</span>
-
-        <span class="k">return</span> <span class="n">forest_data</span></div>
 </div>
 
+    
 </pre></div>
 
            </div>

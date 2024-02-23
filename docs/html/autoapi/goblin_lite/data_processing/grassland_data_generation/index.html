@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>goblin_lite.data_processing.grassland_data_generation &mdash; GOBLIN lite 0.3.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=eafc0fe6" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../_static/documentation_options.js?v=e259d695"></script>
+        <script src="../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="goblin_lite.data_processing.landuse_data_generator" href="../landuse_data_generator/index.html" />
+    <link rel="prev" title="goblin_lite.data_processing.forest_carbon_generator" href="../forest_carbon_generator/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            GOBLIN lite
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_lite</span></code></a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../../index.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../LCA_processing/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_lite.LCA_processing</span></code></a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_lite.data_processing</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../database/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_lite.database</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../resource_manager/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_lite.resource_manager</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../scenario_analysis/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_lite.scenario_analysis</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../index.html#submodules">Submodules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../example.html">Example Usage</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">GOBLIN lite</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_lite</span></code></a></li>
+          <li class="breadcrumb-item"><a href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_lite.data_processing</span></code></a></li>
+      <li class="breadcrumb-item active"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_lite.data_processing.grassland_data_generation</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../_sources/autoapi/goblin_lite/data_processing/grassland_data_generation/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-goblin_lite.data_processing.grassland_data_generation">
+<span id="goblin-lite-data-processing-grassland-data-generation"></span><h1><a class="reference internal" href="#module-goblin_lite.data_processing.grassland_data_generation" title="goblin_lite.data_processing.grassland_data_generation"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_lite.data_processing.grassland_data_generation</span></code></a><a class="headerlink" href="#module-goblin_lite.data_processing.grassland_data_generation" title="Link to this heading"></a></h1>
+<section id="grassland-data-generator">
+<p>This module contains the GrasslandDataGenerator class, which is responsible for generating grassland data and farm outputs.
+The class leverages the GrasslandOutput class to calculate grassland data and farm outputs based on scenario-specific and baseline grassland data.</p>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#goblin_lite.data_processing.grassland_data_generation.GrasslandDataGenerator" title="goblin_lite.data_processing.grassland_data_generation.GrasslandDataGenerator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GrasslandDataGenerator</span></code></a></p></td>
+<td><p>Manages the process of generating grassland data and related farm outputs. Leverages</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="goblin_lite.data_processing.grassland_data_generation.GrasslandDataGenerator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_lite.data_processing.grassland_data_generation.</span></span><span class="sig-name descname"><span class="pre">GrasslandDataGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ef_country</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_animal_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baseline_animal_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/data_processing/grassland_data_generation.html#GrasslandDataGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.data_processing.grassland_data_generation.GrasslandDataGenerator" title="Link to this definition"></a></dt>
+<dd><p>Manages the process of generating grassland data and related farm outputs. Leverages
+the GrasslandOutput class to perform core calculations.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_lite.data_processing.grassland_data_generation.GrasslandDataGenerator.ef_country">
+<span class="sig-name descname"><span class="pre">ef_country</span></span><a class="headerlink" href="#goblin_lite.data_processing.grassland_data_generation.GrasslandDataGenerator.ef_country" title="Link to this definition"></a></dt>
+<dd><p>Country code for emission factors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_lite.data_processing.grassland_data_generation.GrasslandDataGenerator.calibration_year">
+<span class="sig-name descname"><span class="pre">calibration_year</span></span><a class="headerlink" href="#goblin_lite.data_processing.grassland_data_generation.GrasslandDataGenerator.calibration_year" title="Link to this definition"></a></dt>
+<dd><p>Base year for model calibration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_lite.data_processing.grassland_data_generation.GrasslandDataGenerator.target_year">
+<span class="sig-name descname"><span class="pre">target_year</span></span><a class="headerlink" href="#goblin_lite.data_processing.grassland_data_generation.GrasslandDataGenerator.target_year" title="Link to this definition"></a></dt>
+<dd><p>Year of analysis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_lite.data_processing.grassland_data_generation.GrasslandDataGenerator.scenario_dataframe">
+<span class="sig-name descname"><span class="pre">scenario_dataframe</span></span><a class="headerlink" href="#goblin_lite.data_processing.grassland_data_generation.GrasslandDataGenerator.scenario_dataframe" title="Link to this definition"></a></dt>
+<dd><p>Dataframe containing scenario-specific grassland parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_lite.data_processing.grassland_data_generation.GrasslandDataGenerator.scenario_animal_data">
+<span class="sig-name descname"><span class="pre">scenario_animal_data</span></span><a class="headerlink" href="#goblin_lite.data_processing.grassland_data_generation.GrasslandDataGenerator.scenario_animal_data" title="Link to this definition"></a></dt>
+<dd><p>Dataframe containing animal data for the scenarios.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_lite.data_processing.grassland_data_generation.GrasslandDataGenerator.baseline_animal_data">
+<span class="sig-name descname"><span class="pre">baseline_animal_data</span></span><a class="headerlink" href="#goblin_lite.data_processing.grassland_data_generation.GrasslandDataGenerator.baseline_animal_data" title="Link to this definition"></a></dt>
+<dd><p>Dataframe containing baseline animal data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_lite.data_processing.grassland_data_generation.GrasslandDataGenerator.generate_farm_inputs">
+<span class="sig-name descname"><span class="pre">generate_farm_inputs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/data_processing/grassland_data_generation.html#GrasslandDataGenerator.generate_farm_inputs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.data_processing.grassland_data_generation.GrasslandDataGenerator.generate_farm_inputs" title="Link to this definition"></a></dt>
+<dd><p>Generates farm input data (from the GrasslandOutput class) for both baseline and scenario conditions.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_lite.data_processing.grassland_data_generation.GrasslandDataGenerator.generate_grassland_areas">
+<span class="sig-name descname"><span class="pre">generate_grassland_areas</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/data_processing/grassland_data_generation.html#GrasslandDataGenerator.generate_grassland_areas"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.data_processing.grassland_data_generation.GrasslandDataGenerator.generate_grassland_areas" title="Link to this definition"></a></dt>
+<dd><p>Calculates total spared grassland, total grassland area, spared area per soil type, and grassland stocking rate.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">generate_farm_inputs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/data_processing/grassland_data_generation.html#GrasslandDataGenerator.generate_farm_inputs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">generate_grassland_areas</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/data_processing/grassland_data_generation.html#GrasslandDataGenerator.generate_grassland_areas"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<dd><p>Calculate the total spared and total grassland areas for each scenario.</p>
+<p>This method calculates and returns the total spared, total grassland areas, spared area by soil group and stocking rate for each scenario based on the provided
+scenario_dataframe, scenario_animal_data, and baseline_animal_data attributes. The GrasslandOutput class is utilized to perform
+the necessary calculations for each scenario.</p>
+<p>The total spared area represents the area of grassland that will be converted (destocked) to other land uses (e.g., wetland,
+forests) in the target year compared to the baseline year. The total grassland area represents
+the remaining grassland area. Spared area by soil group represents the spared area by soil group (e.g., class 1, 2 and 3).
+The stocking rate represents the stocking rate per hectare of grassland.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scenario_dataframe</strong> (<em>pandas.DataFrame</em>) – A pandas DataFrame containing scenario parameters.</p></li>
+<li><p><strong>scenario_animal_data</strong> (<em>pandas.DataFrame</em>) – A pandas DataFrame containing animal data for different scenarios.</p></li>
+<li><p><strong>baseline_animal_data</strong> (<em>pandas.DataFrame</em>) – A pandas DataFrame containing baseline animal data.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing four pandas DataFrame: (total_spared_area, total_grassland_area, total_spared_area_by_soil_group, per_hectare_stocking_rate).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../forest_carbon_generator/index.html" class="btn btn-neutral float-left" title="goblin_lite.data_processing.forest_carbon_generator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../landuse_data_generator/index.html" class="btn btn-neutral float-right" title="goblin_lite.data_processing.landuse_data_generator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Colm Duffy.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
