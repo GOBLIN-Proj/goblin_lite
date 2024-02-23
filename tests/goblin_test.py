@@ -2,7 +2,7 @@ import unittest
 import os
 import shutil
 from goblin_lite.goblin import ScenarioRunner
-from goblin_lite.data_grapher import DataGrapher
+from goblin_lite.scenario_analysis.data_grapher import DataGrapher
 
 
 class TestGoblin(unittest.TestCase):
