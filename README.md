@@ -14,7 +14,7 @@ There are specific classes for the retrieval of input and output dataframes, and
 
 GOBLIN lite also has the capacity to rank scenarios based on environmental impacts and the overall change in protein production. 
 
-For a full list of custom package documentation that GOBLIN lite relies on, please see the (FUSION research website)[https://fusion-research.eu/goblin-package-documentation.html#goblin-package-documentation].
+For a full list of custom package documentation that GOBLIN lite relies on, please see the [FUSION research website](https://fusion-research.eu/goblin-package-documentation.html#goblin-package-documentation).
 
 ## Installation
 

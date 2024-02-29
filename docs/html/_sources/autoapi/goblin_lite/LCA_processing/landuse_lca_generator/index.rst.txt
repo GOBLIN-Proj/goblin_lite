@@ -83,6 +83,10 @@ Classes
       Calculates climate change footprints for various land use types.
 
 
+   .. rubric:: Notes
+
+   The wetlands category includes emissions from extraction and use of horticultural peat.
+
    .. py:method:: generate_landuse_footprint()
 
       Calculates climate change footprints for various land use types (forest, grassland, wetland, cropland).

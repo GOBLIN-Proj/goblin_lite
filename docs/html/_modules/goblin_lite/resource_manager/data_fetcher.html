@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_lite.resource_manager.data_fetcher &mdash; GOBLIN lite 0.3.0 documentation</title>
+  <title>goblin_lite.resource_manager.data_fetcher &mdash; GOBLIN lite 0.3.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -16,7 +16,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=e259d695"></script>
+        <script src="../../../_static/documentation_options.js?v=4621528c"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -77,7 +77,7 @@
 <span class="sd">Data Fetcher Module</span>
 <span class="sd">====================</span>
 
-<span class="sd">This module provides a class for fetching various types of data from output data tables managed by the DataManager.</span>
+<span class="sd">This module provides a class for fetching various types of data from 31 output data tables managed by the DataManager.</span>
 <span class="sd">It is designed to facilitate easy access and retrieval of data across different environmental impact scenarios.</span>
 
 <span class="sd">Classes</span>
@@ -127,6 +127,7 @@
 <span class="sd">    - get_forest_flux(): Fetches annual forest carbon flux data.</span>
 <span class="sd">    - get_forest_aggregate(): Retrieves aggregated forest carbon data.</span>
 <span class="sd">    - get_total_afforested(): Retrieves data on total afforested area for each scenario.</span>
+<span class="sd">    - get_landuse_areas(): Retrieves data on land use areas for each scenario and the baseline.</span>
 
 <span class="sd">Each method in the DataFetcher class is designed to retrieve a specific type of data from the output tables managed by the DataManager. The methods return pandas DataFrames containing relevant data, which can be further analyzed or visualized as required.</span>
 
@@ -243,6 +244,9 @@
 
 <span class="sd">        get_total_afforested()</span>
 <span class="sd">            Returns the total afforested data from the &quot;cbm_afforestation_data&quot; output data table.</span>
+
+<span class="sd">        get_landuse_areas()</span>
+<span class="sd">            Returns the land use areas data from the &quot;land_use_areas&quot; output data table.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span> <span class="o">=</span> <span class="n">DataManager</span><span class="p">()</span>
 
@@ -1166,6 +1170,30 @@
             <span class="s2">&quot;cbm_afforestation_data&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s2">&quot;index&quot;</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">afforestation</span></div>
+
+    
+<div class="viewcode-block" id="DataFetcher.get_landuse_areas">
+<a class="viewcode-back" href="../../../autoapi/goblin_lite/resource_manager/data_fetcher/index.html#goblin_lite.resource_manager.data_fetcher.DataFetcher.get_landuse_areas">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_landuse_areas</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the land use areas for each scenario and the baseline.</span>
+
+<span class="sd">        This method retrieves a dataframe that provides the land use areas for each scenario and the baseline. The area values are reported in hectares (ha),</span>
+<span class="sd">        representing the extent of land allocated to different land uses, including grassland, cropland, forest and farmable condition.</span>
+
+<span class="sd">        Share variables for mineral soils, organic soils, organic mineral soils, rewetted, peat extraction, are fractions of the total area of the land use type.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame:</span>
+<span class="sd">                A dataframe containing the land use areas for each scenario and the baseline. The area values are reported in hectares (ha) and shares are</span>
+<span class="sd">                fractions of the total area of the land use type.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">landuse_areas</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_goblin_results_output_datatable</span><span class="p">(</span>
+            <span class="s2">&quot;landuse_data&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s2">&quot;index&quot;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">landuse_areas</span></div>
 </div>
 
 </pre></div>

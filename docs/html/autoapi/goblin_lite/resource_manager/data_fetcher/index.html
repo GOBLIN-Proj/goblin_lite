@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_lite.resource_manager.data_fetcher &mdash; GOBLIN lite 0.3.0 documentation</title>
+  <title>goblin_lite.resource_manager.data_fetcher &mdash; GOBLIN lite 0.3.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=e259d695"></script>
+        <script src="../../../../_static/documentation_options.js?v=4621528c"></script>
         <script src="../../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -95,7 +95,7 @@
   <section id="module-goblin_lite.resource_manager.data_fetcher">
 <span id="goblin-lite-resource-manager-data-fetcher"></span><h1><a class="reference internal" href="#module-goblin_lite.resource_manager.data_fetcher" title="goblin_lite.resource_manager.data_fetcher"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_lite.resource_manager.data_fetcher</span></code></a><a class="headerlink" href="#module-goblin_lite.resource_manager.data_fetcher" title="Link to this heading"></a></h1>
 <section id="data-fetcher-module">
-<p>This module provides a class for fetching various types of data from output data tables managed by the DataManager.
+<p>This module provides a class for fetching various types of data from 31 output data tables managed by the DataManager.
 It is designed to facilitate easy access and retrieval of data across different environmental impact scenarios.</p>
 <section id="classes">
 <h3>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h3>
@@ -263,6 +263,11 @@ can be used for analysis, comparison, and visualization of environmental impacts
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">-</span> <span class="pre">get_total_afforested():</span> <span class="pre">Retrieves</span> <span class="pre">data</span> <span class="pre">on</span> <span class="pre">total</span> <span class="pre">afforested</span> <span class="pre">area</span> <span class="pre">for</span> <span class="pre">each</span> <span class="pre">scenario.</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">-</span> <span class="pre">get_landuse_areas():</span> <span class="pre">Retrieves</span> <span class="pre">data</span> <span class="pre">on</span> <span class="pre">land</span> <span class="pre">use</span> <span class="pre">areas</span> <span class="pre">for</span> <span class="pre">each</span> <span class="pre">scenario</span> <span class="pre">and</span> <span class="pre">the</span> <span class="pre">baseline.</span></span></dt>
 <dd></dd></dl>
 
 <p>Each method in the DataFetcher class is designed to retrieve a specific type of data from the output tables managed by the DataManager. The methods return pandas DataFrames containing relevant data, which can be further analyzed or visualized as required.</p>
@@ -1050,6 +1055,24 @@ helping to offset carbon emissions and mitigate climate change. Additionally, af
 ecosystem services, and sustainable land management practices.</p>
 <p>Reported in ha.</p>
 </div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_lite.resource_manager.data_fetcher.DataFetcher.get_landuse_areas">
+<span class="sig-name descname"><span class="pre">get_landuse_areas</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/resource_manager/data_fetcher.html#DataFetcher.get_landuse_areas"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.resource_manager.data_fetcher.DataFetcher.get_landuse_areas" title="Link to this definition"></a></dt>
+<dd><p>Get the land use areas for each scenario and the baseline.</p>
+<p>This method retrieves a dataframe that provides the land use areas for each scenario and the baseline. The area values are reported in hectares (ha),
+representing the extent of land allocated to different land uses, including grassland, cropland, forest and farmable condition.</p>
+<p>Share variables for mineral soils, organic soils, organic mineral soils, rewetted, peat extraction, are fractions of the total area of the land use type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dataframe containing the land use areas for each scenario and the baseline. The area values are reported in hectares (ha) and shares are
+fractions of the total area of the land use type.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pandas.DataFrame</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>

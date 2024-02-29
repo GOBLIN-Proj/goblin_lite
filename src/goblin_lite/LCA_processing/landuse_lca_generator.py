@@ -35,6 +35,10 @@ class LandUseLCAGenerator:
     -------
     generate_landuse_footprint()
         Calculates climate change footprints for various land use types.
+
+    Notes
+    -----
+    The wetlands category includes emissions from extraction and use of horticultural peat.
     """
     def __init__(self, ef_country, calibration_year, target_year, landuse_data, transition_matrix, forest_data, AR_VALUE):
         self.data_manager_class = DataManager()
