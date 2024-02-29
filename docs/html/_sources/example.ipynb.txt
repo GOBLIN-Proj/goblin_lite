@@ -15,7 +15,7 @@
    "source": [
     "## Imports\n",
     "\n",
-    "Firstly, we start of by importing the relevant classes from the toolkit. \n"
+    "Firstly, we start of by importing the relevant classes. \n"
    ]
   },
   {

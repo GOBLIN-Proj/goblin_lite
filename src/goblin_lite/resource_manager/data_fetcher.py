@@ -2,7 +2,7 @@
 Data Fetcher Module
 ====================
 
-This module provides a class for fetching various types of data from output data tables managed by the DataManager.
+This module provides a class for fetching various types of data from 31 output data tables managed by the DataManager.
 It is designed to facilitate easy access and retrieval of data across different environmental impact scenarios.
 
 Classes
@@ -52,6 +52,7 @@ Methods
     - get_forest_flux(): Fetches annual forest carbon flux data.
     - get_forest_aggregate(): Retrieves aggregated forest carbon data.
     - get_total_afforested(): Retrieves data on total afforested area for each scenario.
+    - get_landuse_areas(): Retrieves data on land use areas for each scenario and the baseline.
 
 Each method in the DataFetcher class is designed to retrieve a specific type of data from the output tables managed by the DataManager. The methods return pandas DataFrames containing relevant data, which can be further analyzed or visualized as required.
 
@@ -166,6 +167,9 @@ class DataFetcher:
 
         get_total_afforested()
             Returns the total afforested data from the "cbm_afforestation_data" output data table.
+
+        get_landuse_areas()
+            Returns the land use areas data from the "land_use_areas" output data table.
         """
         self.data_manager_class = DataManager()
 
@@ -1000,3 +1004,24 @@ class DataFetcher:
             "cbm_afforestation_data", index_col="index"
         )
         return afforestation
+    
+    def get_landuse_areas(self):
+        """
+        Get the land use areas for each scenario and the baseline.
+
+        This method retrieves a dataframe that provides the land use areas for each scenario and the baseline. The area values are reported in hectares (ha),
+        representing the extent of land allocated to different land uses, including grassland, cropland, forest and farmable condition.
+
+        Share variables for mineral soils, organic soils, organic mineral soils, rewetted, peat extraction, are fractions of the total area of the land use type.
+
+        Returns:
+            pandas.DataFrame:
+                A dataframe containing the land use areas for each scenario and the baseline. The area values are reported in hectares (ha) and shares are
+                fractions of the total area of the land use type.
+
+        """
+
+        landuse_areas = self.data_manager_class.get_goblin_results_output_datatable(
+            "landuse_data", index_col="index"
+        )
+        return landuse_areas

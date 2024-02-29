@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Example Usage &mdash; GOBLIN lite 0.3.0 documentation</title>
+  <title>Example Usage &mdash; GOBLIN lite 0.3.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -17,7 +17,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=e259d695"></script>
+        <script src="_static/documentation_options.js?v=4621528c"></script>
         <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -88,7 +88,7 @@
 <p>Here is a demonstartion of the potential usage of <code class="docutils literal notranslate"><span class="pre">GOBLIN</span> <span class="pre">lite</span></code>.</p>
 <section id="imports">
 <h2>Imports<a class="headerlink" href="#imports" title="Link to this heading"></a></h2>
-<p>Firstly, we start of by importing the relevant classes from the toolkit.</p>
+<p>Firstly, we start of by importing the relevant classes.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
@@ -164,7 +164,9 @@ JSON file detected
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>... calibration year not present, 2015 default year used for Spread Manure Dictionary...
-... calibration year not present, 2015 default year used for Spread Manure Dictionary...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>... calibration year not present, 2015 default year used for Spread Manure Dictionary...
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>... calibration year not present, 2015 default year used for Spread Manure Dictionary...
@@ -249,9 +251,9 @@ Scenarios
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              CH4        N2O           CO2          CO2e
 index                                                   
--1     531.729908  23.883325   6001.073822  27218.592311
- 0     232.712823  12.768333 -49582.550186 -39682.982879
- 1     232.713557  12.748906 -45638.631576 -35744.192000
+-1     531.729908  23.883325   5957.570057  27175.088547
+ 0     232.712823  12.768333 -49585.230946 -39685.663638
+ 1     232.713557  12.748906 -45632.179036 -35737.739459
 </pre></div>
 </div>
 </div>
@@ -325,37 +327,37 @@ index
 scenario                                                              
 -1         cropland  2020      0.000000  1.542857e-07  4.000000e-09   
 -1        grassland  2020   6123.737109  8.926721e+00  2.614493e-03   
--1           forest  2020  -2869.396068  1.615270e+00  5.113616e-01   
+-1           forest  2020  -2912.899833  1.615270e+00  5.113616e-01   
 -1          wetland  2020   2237.847408  3.463152e+00  5.877036e-02   
--1            total  2020   5492.188448  1.400514e+01  5.727464e-01   
+-1            total  2020   5448.684684  1.400514e+01  5.727464e-01   
  0         cropland  2050      0.000000  1.542857e-07  4.000000e-09   
  0        grassland  2050   6123.622686  8.925177e+00  6.691010e-02   
- 0           forest  2050 -58194.441805  1.615270e+00  5.113616e-01   
+ 0           forest  2050 -58197.122565  1.615270e+00  5.113616e-01   
  0          wetland  2050   2051.746085  3.463152e+00  5.877036e-02   
- 0            total  2050 -50019.073035  1.400360e+01  6.370420e-01   
+ 0            total  2050 -50021.753795  1.400360e+01  6.370420e-01   
  1         cropland  2050      0.000000  1.542857e-07  4.000000e-09   
  1        grassland  2050   6123.622356  8.925173e+00  6.709508e-02   
- 1           forest  2050 -54250.245008  1.615270e+00  5.113616e-01   
+ 1           forest  2050 -54243.792468  1.615270e+00  5.113616e-01   
  1          wetland  2050   2051.746085  3.463152e+00  5.877036e-02   
- 1            total  2050 -46074.876567  1.400359e+01  6.372270e-01   
+ 1            total  2050 -46068.424027  1.400359e+01  6.372270e-01   
 
                   CO2e  
 scenario                
 -1            0.000005  
 -1         6374.378136  
--1        -2688.657697  
+-1        -2732.161462  
 -1         2350.389800  
--1         6036.110244  
+-1         5992.606480  
  0            0.000005  
  0         6391.258823  
- 0       -58013.703434  
+ 0       -58016.384194  
  0         2164.288477  
- 0       -49458.156129  
+ 0       -49460.836889  
  1            0.000005  
  1         6391.307389  
- 1       -54069.506637  
+ 1       -54063.054096  
  1         2164.288477  
- 1       -45513.910766  
+ 1       -45507.458226  
 </pre></div>
 </div>
 </div>
@@ -403,31 +405,31 @@ index
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>       Year           AGB           BGB      Deadwood        Litter  \
 index                                                                 
-0      2020 -1.734694e+06 -3.760364e+05  1.106666e+06 -1.934607e+05   
-1      2021 -2.040458e+06 -4.420484e+05  1.088609e+06 -5.748942e+04   
-2      2022 -1.788427e+06 -3.845206e+05  9.997111e+05 -1.490154e+05   
-3      2023 -1.903712e+06 -4.094317e+05  9.587723e+05 -1.051283e+05   
-4      2024 -1.778305e+06 -3.805019e+05  9.089971e+05 -1.420246e+05   
+0      2020 -1.744299e+06 -3.782819e+05  1.105671e+06 -1.923430e+05   
+1      2021 -2.031616e+06 -4.401785e+05  1.077316e+06 -6.059700e+04   
+2      2022 -1.796268e+06 -3.863447e+05  1.001805e+06 -1.495783e+05   
+3      2023 -1.911006e+06 -4.111638e+05  9.606415e+05 -1.059646e+05   
+4      2024 -1.786179e+06 -3.822465e+05  9.110807e+05 -1.420560e+05   
 ...     ...           ...           ...           ...           ...   
-88     2046 -1.007908e+07 -2.250921e+06 -3.043175e+05 -1.260203e+06   
-89     2047 -1.037667e+07 -2.309292e+06 -3.823156e+05 -1.322498e+06   
-90     2048 -1.015913e+07 -2.253314e+06 -5.394222e+05 -1.623491e+06   
-91     2049 -1.040626e+07 -2.305059e+06 -5.913080e+05 -1.503447e+06   
-92     2050 -1.018339e+07 -2.252199e+06 -7.066426e+05 -1.626150e+06   
+88     2046 -1.008202e+07 -2.251618e+06 -3.023676e+05 -1.259650e+06   
+89     2047 -1.039375e+07 -2.313104e+06 -3.741236e+05 -1.317914e+06   
+90     2048 -1.017120e+07 -2.255925e+06 -5.383330e+05 -1.620365e+06   
+91     2049 -1.040460e+07 -2.304722e+06 -5.938065e+05 -1.506630e+06   
+92     2050 -1.018031e+07 -2.251105e+06 -7.049535e+05 -1.630298e+06   
 
                 Soil  Total Ecosystem  Scenario  
 index                                            
-0      -29257.236641    -1.226782e+06        -1  
-1      -26799.585848    -1.478187e+06        -1  
-2      -29266.887880    -1.351519e+06        -1  
-3      -27937.679752    -1.487437e+06        -1  
-4      -29559.025738    -1.421393e+06        -1  
+0      -29383.532286    -1.238636e+06        -1  
+1      -26988.796058    -1.482064e+06        -1  
+2      -29312.406396    -1.359698e+06        -1  
+3      -28021.153693    -1.495514e+06        -1  
+4      -29645.473631    -1.429046e+06        -1  
 ...              ...              ...       ...  
-88    -389184.841444    -1.428371e+07         1  
-89    -405723.821202    -1.479650e+07         1  
-90    -425131.558474    -1.500049e+07         1  
-91    -440835.602076    -1.524691e+07         1  
-92    -458636.109598    -1.522701e+07         1  
+88    -389131.574277    -1.428479e+07         1  
+89    -405612.531882    -1.480451e+07         1  
+90    -425052.384807    -1.501088e+07         1  
+91    -440790.940174    -1.525055e+07         1  
+92    -458586.695696    -1.522526e+07         1  
 
 [93 rows x 8 columns]
 </pre></div>
@@ -471,7 +473,7 @@ index
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/1eb5549d543882079f980a73dc54586263732623826fcec5b4793465894aa15d.png" src="_images/1eb5549d543882079f980a73dc54586263732623826fcec5b4793465894aa15d.png" />
+<img alt="_images/b767dd3f80ced532b3518ff7a1de89898c9ba3f4a6da7d427fb868ddd0559f00.png" src="_images/b767dd3f80ced532b3518ff7a1de89898c9ba3f4a6da7d427fb868ddd0559f00.png" />
 </div>
 </div>
 <div class="cell docutils container">
