@@ -215,7 +215,7 @@ class DataFetcher:
             >>> baseline_data = data_manager.get_stocking_rate_per_ha()
         """
         stocking_rate = self.data_manager_class.get_goblin_results_output_datatable(
-            "per_hectare_stocking_rate", index_col="index"
+            "per_hectare_stocking_rate"
         )
         return stocking_rate
 
