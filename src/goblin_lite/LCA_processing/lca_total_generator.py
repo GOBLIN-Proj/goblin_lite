@@ -29,6 +29,8 @@ class LCATotalGenerator:
         Year of analysis.
     scenario_dataframe : pandas.DataFrame
         Dataframe containing scenario-specific parameters.
+    DATABASE_PATH : str, optional
+        Path to the external database, if None, default internal database used.
 
     Methods
     -------
@@ -45,9 +47,9 @@ class LCATotalGenerator:
     get_eutrophication_emission_dataframes()
         Fetches eutrophication emission dataframes by category.
     """
-    def __init__(self, calibration_year, target_year, scenario_dataframe):
+    def __init__(self, calibration_year, target_year, scenario_dataframe, DATABASE_PATH):
         self.db_reference_class = DataFetcher()
-        self.data_manager_class = DataManager()
+        self.data_manager_class = DataManager(DATABASE_PATH)
         self.calibration_year = calibration_year
         self.target_year = target_year
         self.scenario_dataframe = scenario_dataframe

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_lite.resource_manager.database_manager &mdash; GOBLIN lite 0.3.2 documentation</title>
+  <title>goblin_lite.resource_manager.database_manager &mdash; GOBLIN lite 0.3.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -16,7 +16,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=71d9d8e6"></script>
+        <script src="../../../_static/documentation_options.js?v=d5a15cff"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -122,31 +122,44 @@
 <span class="sd">        Retrieves a DataFrame from the database.</span>
 <span class="sd"> </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">database_dir</span> <span class="o">=</span> <span class="n">get_local_dir</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">external_database_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the DataManager.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        external_database_path : str, optional</span>
+<span class="sd">            The path to an external database file. If None, the default local database is used.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">external_database_path</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">database_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">external_database_path</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">database_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">external_database_path</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">database_dir</span> <span class="o">=</span> <span class="n">get_local_dir</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">database_name</span> <span class="o">=</span> <span class="s2">&quot;goblin_database.db&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_engine_creater</span><span class="p">()</span>
 
 <div class="viewcode-block" id="DataManager.data_engine_creater">
 <a class="viewcode-back" href="../../../autoapi/goblin_lite/resource_manager/database_manager/index.html#goblin_lite.resource_manager.database_manager.DataManager.data_engine_creater">[docs]</a>
     <span class="k">def</span> <span class="nf">data_engine_creater</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Creates the database engine.</span>
+<span class="sd">        Creates the database engine based on either the default or provided external database path.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        sqlalchemy.engine.base.Engine</span>
 <span class="sd">            The database engine.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">database_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">database_dir</span><span class="p">,</span> <span class="s2">&quot;goblin_database.db&quot;</span><span class="p">)</span>
-        <span class="p">)</span>
+        <span class="n">database_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">database_dir</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">database_name</span><span class="p">))</span>
         <span class="n">engine_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;sqlite:///</span><span class="si">{</span><span class="n">database_path</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="n">engine</span> <span class="o">=</span> <span class="n">sqa</span><span class="o">.</span><span class="n">create_engine</span><span class="p">(</span><span class="n">engine_url</span><span class="p">)</span>
-
-        <span class="c1"># Create the database if it doesn&#39;t exist</span>
         <span class="n">create_database</span><span class="p">(</span><span class="n">engine_url</span><span class="p">)</span>
-
         <span class="k">return</span> <span class="n">engine</span></div>
+
+
+    <span class="c1"># The rest of your class implementation remains unchanged.</span>
 
 
 <div class="viewcode-block" id="DataManager.create_or_clear_database">

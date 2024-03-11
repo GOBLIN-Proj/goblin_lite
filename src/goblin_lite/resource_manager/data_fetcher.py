@@ -63,10 +63,10 @@ Note:
 """
 
 from goblin_lite.resource_manager.database_manager import DataManager
-
+import os
 
 class DataFetcher:
-    def __init__(self) -> None:
+    def __init__(self, DATABASE_PATH=None):
         """
         A class responsible for fetching various types of data from output data tables.
 
@@ -74,7 +74,8 @@ class DataFetcher:
 
         Parameters
         ----------
-        None
+        DATABASE_PATH : str, optional
+            The path to the external database. If None, the default internal database is used. (default is None)
 
         Methods
         -------
@@ -171,7 +172,7 @@ class DataFetcher:
         get_landuse_areas()
             Returns the land use areas data from the "land_use_areas" output data table.
         """
-        self.data_manager_class = DataManager()
+        self.data_manager_class = DataManager(DATABASE_PATH)
 
     def get_scenario_inputs(self):
         """
@@ -1025,3 +1026,59 @@ class DataFetcher:
             "landuse_data", index_col="index"
         )
         return landuse_areas
+
+
+
+    def dump_tables(self, data_path):
+        """
+        Dump all tables to a specified path.
+
+        Parameters
+        ----------
+        path : str
+            The path to the directory where the tables will be dumped.
+
+        Returns
+        -------
+        None
+
+        Notes
+        -----
+        This method is used to dump all the tables from the database to a specified directory. The tables are saved as CSV files.
+
+        """
+        tables = [(self.get_air_quality_animal_emissions_by_category, "air_quality_animal_emissions.csv"),
+                    (self.get_air_quality_crop_emissions_by_category, "air_quality_crop_emissions.csv"),
+                    (self.get_air_quality_emission_totals, "air_quality_emissions_totals.csv"),
+                    (self.get_climate_change_animal_emissions_aggregated,"climate_change_animal_emissions_aggregated.csv"),
+                    (self.get_climate_change_crop_emissions_aggregated, "climate_change_crop_emissions_aggregated.csv"),
+                    (self.get_climate_change_emission_totals, "climate_change_emissions_totals.csv"),
+                    (self.get_climate_change_animal_emissions_by_category, "climate_change_animal_emissions_by_category.csv"),
+                    (self.get_climate_change_crop_emissions_by_category, "climate_change_crop_emissions_by_category.csv"),
+                    (self.get_crop_national_inputs, "crop_catchment_inputs.csv"),
+                    (self.get_crop_emissions_by_category_co2e, "crop_emissions_by_category_co2e.csv"),
+                    (self.get_crop_farm_input_applied, "crop_farm_input_applied.csv"),
+                    (self.get_eutrophication_emission_totals, "eutrophication_emission_totals.csv"),
+                    (self.get_eutrophication_crop_emissions_by_category, "eutrophication_crop_emissions_by_category.csv"),
+                    (self.get_eutrophication_animal_emissions_by_category, "eutrophication_animal_emissions_by_category.csv"),
+                    (self.get_baseline_livestock_data, "baseline_livestock_data.csv"),
+                    (self.get_scenario_livestock_data, "scenario_livestock_data.csv"),
+                    (self.get_livestock_output_summary, "livestock_output_summary.csv"),
+                    (self.get_landuse_areas, "landuse_areas.csv"),
+                    (self.get_landuse_emissions_totals, "landuse_emissions_totals.csv"),
+                    (self.get_total_afforested, "total_afforested.csv"),
+                    (self.get_total_grassland_area, "total_grassland_area.csv"),
+                    (self.get_transition_matrix, "transition_matrix.csv"),
+                    (self.get_grassland_spared_area_by_soil_group, "grassland_spared_area_by_soil_group.csv"),
+                    (self.get_grassland_scenario_farm_inputs, "grassland_scenario_farm_inputs.csv"),
+                    (self.get_grassland_baseline_farm_inputs, "grassland_baseline_farm_inputs.csv"),
+                    (self.get_scenario_inputs, "scenario_inputs.csv"),
+                    (self.get_stocking_rate_per_ha, "stocking_rate_per_ha.csv"),
+                    (self.get_forest_aggregate, "forest_aggregate.csv"),
+                    (self.get_forest_flux, "forest_flux.csv"),
+                    (self.get_total_spared_area, "total_spared_area.csv"),
+                    (self.get_animal_emissions_by_category_co2e, "animal_emissions_by_category_co2e.csv")]
+        
+
+        for get_method, filename in tables:
+            get_method().to_csv(os.path.join(data_path, filename))

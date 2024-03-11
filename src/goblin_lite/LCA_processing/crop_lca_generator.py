@@ -26,6 +26,8 @@ class CropLCAGenerator:
         Dataframe containing crop-related data.
     scenario_dataframe : pandas.DataFrame
         Dataframe containing scenario-specific parameters.
+    DATABASE_PATH : str, optional
+        Path to the external database, if None, default internal database used.
     AR_VALUE : str 
         IPCC Assessment Report version (e.g., 'AR4', 'AR5') for impact calculations.
     ef_country : str
@@ -43,8 +45,8 @@ class CropLCAGenerator:
     generate_aggregated_crop_footprint()
         Calculates aggregated climate change footprints for crops.  
     """
-    def __init__(self, ef_country, crop_dataframe, scenario_dataframe, AR_VALUE):
-        self.data_manager_class = DataManager()
+    def __init__(self, ef_country, crop_dataframe, scenario_dataframe, DATABASE_PATH, AR_VALUE):
+        self.data_manager_class = DataManager(DATABASE_PATH)
         self.goblin_data_manager = GoblinDataManager(AR_VALUE=AR_VALUE)
         self.crop_dataframe = crop_dataframe
         self.scenario_dataframe = scenario_dataframe

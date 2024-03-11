@@ -27,7 +27,7 @@ Classes
 
 
 
-.. py:class:: DataManager
+.. py:class:: DataManager(external_database_path=None)
 
 
    Manages the GOBLIN LCA database.
@@ -73,7 +73,7 @@ Classes
 
    .. py:method:: data_engine_creater()
 
-      Creates the database engine.
+      Creates the database engine based on either the default or provided external database path.
 
       :returns: The database engine.
       :rtype: sqlalchemy.engine.base.Engine
