@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_lite.resource_manager.data_fetcher &mdash; GOBLIN lite 0.3.2 documentation</title>
+  <title>goblin_lite.resource_manager.data_fetcher &mdash; GOBLIN lite 0.3.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -16,7 +16,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=71d9d8e6"></script>
+        <script src="../../../_static/documentation_options.js?v=d5a15cff"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -138,12 +138,12 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">goblin_lite.resource_manager.database_manager</span> <span class="kn">import</span> <span class="n">DataManager</span>
-
+<span class="kn">import</span> <span class="nn">os</span>
 
 <div class="viewcode-block" id="DataFetcher">
 <a class="viewcode-back" href="../../../autoapi/goblin_lite/resource_manager/data_fetcher/index.html#goblin_lite.resource_manager.data_fetcher.DataFetcher">[docs]</a>
 <span class="k">class</span> <span class="nc">DataFetcher</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">DATABASE_PATH</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        A class responsible for fetching various types of data from output data tables.</span>
 
@@ -151,7 +151,8 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        None</span>
+<span class="sd">        DATABASE_PATH : str, optional</span>
+<span class="sd">            The path to the external database. If None, the default internal database is used. (default is None)</span>
 
 <span class="sd">        Methods</span>
 <span class="sd">        -------</span>
@@ -248,7 +249,7 @@
 <span class="sd">        get_landuse_areas()</span>
 <span class="sd">            Returns the land use areas data from the &quot;land_use_areas&quot; output data table.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span> <span class="o">=</span> <span class="n">DataManager</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span> <span class="o">=</span> <span class="n">DataManager</span><span class="p">(</span><span class="n">DATABASE_PATH</span><span class="p">)</span>
 
 <div class="viewcode-block" id="DataFetcher.get_scenario_inputs">
 <a class="viewcode-back" href="../../../autoapi/goblin_lite/resource_manager/data_fetcher/index.html#goblin_lite.resource_manager.data_fetcher.DataFetcher.get_scenario_inputs">[docs]</a>
@@ -1194,6 +1195,65 @@
             <span class="s2">&quot;landuse_data&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s2">&quot;index&quot;</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">landuse_areas</span></div>
+
+
+
+
+<div class="viewcode-block" id="DataFetcher.dump_tables">
+<a class="viewcode-back" href="../../../autoapi/goblin_lite/resource_manager/data_fetcher/index.html#goblin_lite.resource_manager.data_fetcher.DataFetcher.dump_tables">[docs]</a>
+    <span class="k">def</span> <span class="nf">dump_tables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Dump all tables to a specified path.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        path : str</span>
+<span class="sd">            The path to the directory where the tables will be dumped.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        This method is used to dump all the tables from the database to a specified directory. The tables are saved as CSV files.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tables</span> <span class="o">=</span> <span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_air_quality_animal_emissions_by_category</span><span class="p">,</span> <span class="s2">&quot;air_quality_animal_emissions.csv&quot;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_air_quality_crop_emissions_by_category</span><span class="p">,</span> <span class="s2">&quot;air_quality_crop_emissions.csv&quot;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_air_quality_emission_totals</span><span class="p">,</span> <span class="s2">&quot;air_quality_emissions_totals.csv&quot;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_climate_change_animal_emissions_aggregated</span><span class="p">,</span><span class="s2">&quot;climate_change_animal_emissions_aggregated.csv&quot;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_climate_change_crop_emissions_aggregated</span><span class="p">,</span> <span class="s2">&quot;climate_change_crop_emissions_aggregated.csv&quot;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_climate_change_emission_totals</span><span class="p">,</span> <span class="s2">&quot;climate_change_emissions_totals.csv&quot;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_climate_change_animal_emissions_by_category</span><span class="p">,</span> <span class="s2">&quot;climate_change_animal_emissions_by_category.csv&quot;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_climate_change_crop_emissions_by_category</span><span class="p">,</span> <span class="s2">&quot;climate_change_crop_emissions_by_category.csv&quot;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_crop_national_inputs</span><span class="p">,</span> <span class="s2">&quot;crop_catchment_inputs.csv&quot;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_crop_emissions_by_category_co2e</span><span class="p">,</span> <span class="s2">&quot;crop_emissions_by_category_co2e.csv&quot;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_crop_farm_input_applied</span><span class="p">,</span> <span class="s2">&quot;crop_farm_input_applied.csv&quot;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_eutrophication_emission_totals</span><span class="p">,</span> <span class="s2">&quot;eutrophication_emission_totals.csv&quot;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_eutrophication_crop_emissions_by_category</span><span class="p">,</span> <span class="s2">&quot;eutrophication_crop_emissions_by_category.csv&quot;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_eutrophication_animal_emissions_by_category</span><span class="p">,</span> <span class="s2">&quot;eutrophication_animal_emissions_by_category.csv&quot;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_baseline_livestock_data</span><span class="p">,</span> <span class="s2">&quot;baseline_livestock_data.csv&quot;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_scenario_livestock_data</span><span class="p">,</span> <span class="s2">&quot;scenario_livestock_data.csv&quot;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_livestock_output_summary</span><span class="p">,</span> <span class="s2">&quot;livestock_output_summary.csv&quot;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_landuse_areas</span><span class="p">,</span> <span class="s2">&quot;landuse_areas.csv&quot;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_landuse_emissions_totals</span><span class="p">,</span> <span class="s2">&quot;landuse_emissions_totals.csv&quot;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_total_afforested</span><span class="p">,</span> <span class="s2">&quot;total_afforested.csv&quot;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_total_grassland_area</span><span class="p">,</span> <span class="s2">&quot;total_grassland_area.csv&quot;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_transition_matrix</span><span class="p">,</span> <span class="s2">&quot;transition_matrix.csv&quot;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_grassland_spared_area_by_soil_group</span><span class="p">,</span> <span class="s2">&quot;grassland_spared_area_by_soil_group.csv&quot;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_grassland_scenario_farm_inputs</span><span class="p">,</span> <span class="s2">&quot;grassland_scenario_farm_inputs.csv&quot;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_grassland_baseline_farm_inputs</span><span class="p">,</span> <span class="s2">&quot;grassland_baseline_farm_inputs.csv&quot;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_scenario_inputs</span><span class="p">,</span> <span class="s2">&quot;scenario_inputs.csv&quot;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_stocking_rate_per_ha</span><span class="p">,</span> <span class="s2">&quot;stocking_rate_per_ha.csv&quot;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_forest_aggregate</span><span class="p">,</span> <span class="s2">&quot;forest_aggregate.csv&quot;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_forest_flux</span><span class="p">,</span> <span class="s2">&quot;forest_flux.csv&quot;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_total_spared_area</span><span class="p">,</span> <span class="s2">&quot;total_spared_area.csv&quot;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_animal_emissions_by_category_co2e</span><span class="p">,</span> <span class="s2">&quot;animal_emissions_by_category_co2e.csv&quot;</span><span class="p">)]</span>
+        
+
+        <span class="k">for</span> <span class="n">get_method</span><span class="p">,</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">:</span>
+            <span class="n">get_method</span><span class="p">()</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span></div>
 </div>
 
 </pre></div>

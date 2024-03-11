@@ -40,6 +40,8 @@ class ScenarioRunner:
         The path to the scenario configuration file.
     cbm_config_path : str
         The path to the CBM CFS3 configuration file.
+    DATABASE_PATH : str, optional
+        The path to the database. Default is None.
     AR_VALUE : str, optional
         The Assessment Report value. Default is "AR5".
     data_manager_class : DataManager
@@ -61,6 +63,7 @@ class ScenarioRunner:
         target_year,
         config_path,
         cbm_config_path,
+        DATABASE_PATH=None,
         AR_VALUE="AR5",
     ):
         self.AR_VALUE = AR_VALUE
@@ -69,7 +72,8 @@ class ScenarioRunner:
         self.target_year = target_year
         self.config_path = config_path
         self.cbm_config_path = cbm_config_path # generate scenario_data
-        self.data_manager_class = DataManager()
+        self.data_manager_class = DataManager(DATABASE_PATH)
+        self.database_path = DATABASE_PATH
 
     def run_scenarios(self):
         """
@@ -86,6 +90,7 @@ class ScenarioRunner:
         baseline_year = self.calibration_year
         target_year = self.target_year
         AR_VALUE = self.AR_VALUE
+        DATABASE_PATH = self.database_path
 
         #scenario data 
         scenario_data_generator = ScenarioGeneration()
@@ -162,14 +167,14 @@ class ScenarioRunner:
                                                                 ("protein_and_milk_summary",protein_and_milk_summary))
 
         # Crop LCA
-        crop_data_generator = CropLCAGenerator(ef_country, crop_input_data, scenario_input_dataframe, AR_VALUE)
+        crop_data_generator = CropLCAGenerator(ef_country, crop_input_data, scenario_input_dataframe, DATABASE_PATH, AR_VALUE)
 
         crop_data_generator.generate_crop_footprint()
 
         crop_data_generator.generate_aggregated_crop_footprint()
 
         # Land use LCA
-        landuse_data_generator = LandUseLCAGenerator(ef_country, baseline_year, target_year, landuse_data, transition_matrix, forest_data["forest_flux"], AR_VALUE)
+        landuse_data_generator = LandUseLCAGenerator(ef_country, baseline_year, target_year, landuse_data, transition_matrix, forest_data["forest_flux"], DATABASE_PATH, AR_VALUE)
 
         landuse_data_generator.generate_landuse_footprint()
 
@@ -184,6 +189,7 @@ class ScenarioRunner:
                                                         landuse_data, 
                                                         transition_matrix,
                                                         crop_input_data,
+                                                        DATABASE_PATH,
                                                         AR_VALUE)
         
         livestock_data_generator.generate_livestock_footprint()
@@ -191,7 +197,7 @@ class ScenarioRunner:
 
         # Climate change totals
         climate_change_totals = LCATotalGenerator(
-            baseline_year, target_year, scenario_input_dataframe
+            baseline_year, target_year, scenario_input_dataframe, DATABASE_PATH
         )
         climate_change_totals.generate_climate_change_totals()
 

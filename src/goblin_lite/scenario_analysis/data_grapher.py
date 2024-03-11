@@ -67,7 +67,8 @@ class DataGrapher:
 
     Attributes
     ----------
-    None
+    DATABASE_PATH : str, optional
+        Path to the external database, if None, default internal database used.
 
     Methods
     -------
@@ -100,8 +101,8 @@ class DataGrapher:
 
     """
 
-    def __init__(self) -> None:
-        self.data_fetcher_class = DataFetcher()
+    def __init__(self, DATABASE_PATH=None):
+        self.data_fetcher_class = DataFetcher(DATABASE_PATH)
 
     def plot_crop_livestock_lca_emissions_by_category(self, path):
         """Plot combined crop and livestock life cycle assessment (LCA) emissions by category for different scenarios.

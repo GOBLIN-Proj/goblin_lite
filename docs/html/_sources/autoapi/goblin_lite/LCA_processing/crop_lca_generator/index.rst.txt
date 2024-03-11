@@ -24,7 +24,7 @@ Classes
 
 
 
-.. py:class:: CropLCAGenerator(ef_country, crop_dataframe, scenario_dataframe, AR_VALUE)
+.. py:class:: CropLCAGenerator(ef_country, crop_dataframe, scenario_dataframe, DATABASE_PATH, AR_VALUE)
 
 
    Manages the calculation of crop-related footprints for various environmental impacts.
@@ -53,6 +53,12 @@ Classes
       Dataframe containing scenario-specific parameters.
 
       :type: pandas.DataFrame
+
+   .. attribute:: DATABASE_PATH
+
+      Path to the external database, if None, default internal database used.
+
+      :type: str, optional
 
    .. attribute:: AR_VALUE
 

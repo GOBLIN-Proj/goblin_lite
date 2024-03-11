@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_lite.scenario_analysis.data_grapher &mdash; GOBLIN lite 0.3.2 documentation</title>
+  <title>goblin_lite.scenario_analysis.data_grapher &mdash; GOBLIN lite 0.3.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=71d9d8e6"></script>
+        <script src="../../../../_static/documentation_options.js?v=d5a15cff"></script>
         <script src="../../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -212,14 +212,20 @@ It is particularly useful for environmental researchers, policy makers, and anal
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="goblin_lite.scenario_analysis.data_grapher.DataGrapher">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_lite.scenario_analysis.data_grapher.</span></span><span class="sig-name descname"><span class="pre">DataGrapher</span></span><a class="reference internal" href="../../../../_modules/goblin_lite/scenario_analysis/data_grapher.html#DataGrapher"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.scenario_analysis.data_grapher.DataGrapher" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_lite.scenario_analysis.data_grapher.</span></span><span class="sig-name descname"><span class="pre">DataGrapher</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DATABASE_PATH</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/scenario_analysis/data_grapher.html#DataGrapher"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.scenario_analysis.data_grapher.DataGrapher" title="Link to this definition"></a></dt>
 <dd><p>A class used to organize methods for data visualization. The current collection is relatively limited, however, utilization of the
 DataFetcher class will allow users to output dataframes and easily construct their plots.</p>
 <p>Though this class is still very much in development, it should still provide inspiration for various plotting pathways.</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="goblin_lite.scenario_analysis.data_grapher.DataGrapher.None">
-<span class="sig-name descname"><span class="pre">None</span></span><a class="headerlink" href="#goblin_lite.scenario_analysis.data_grapher.DataGrapher.None" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="goblin_lite.scenario_analysis.data_grapher.DataGrapher.DATABASE_PATH">
+<span class="sig-name descname"><span class="pre">DATABASE_PATH</span></span><a class="headerlink" href="#goblin_lite.scenario_analysis.data_grapher.DataGrapher.DATABASE_PATH" title="Link to this definition"></a></dt>
+<dd><p>Path to the external database, if None, default internal database used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str, optional</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py">

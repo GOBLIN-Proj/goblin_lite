@@ -40,6 +40,8 @@ class LivestockLCAGenerator:
         Data representing transitions between land use types.
     crop_data : pandas.DataFrame
         Crop-related data.
+    DATABASE_PATH : str, optional
+        Path to the external database, if None, default internal database used.
     AR_VALUE : str
         IPCC Assessment Report version (e.g., 'AR4', 'AR5') for impact calculations.
 
@@ -60,9 +62,10 @@ class LivestockLCAGenerator:
                 landuse_data, 
                 transition_matrix,
                 crop_data,
+                DATABASE_PATH,
                 AR_VALUE):
         
-        self.data_manager_class = DataManager()
+        self.data_manager_class = DataManager(DATABASE_PATH)
         self.ef_country = ef_country
         self.calibration_year = calibration_year
         self.target_year = target_year

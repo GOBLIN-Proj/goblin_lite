@@ -45,29 +45,42 @@ class DataManager:
         Retrieves a DataFrame from the database.
  
     """
-    def __init__(self):
-        self.database_dir = get_local_dir()
+
+    def __init__(self, external_database_path=None):
+        """
+        Initializes the DataManager.
+
+        Parameters
+        ----------
+        external_database_path : str, optional
+            The path to an external database file. If None, the default local database is used.
+        """
+
+        if external_database_path:
+            self.database_dir = os.path.dirname(external_database_path)
+            self.database_name = os.path.basename(external_database_path)
+        else:
+            self.database_dir = get_local_dir()
+            self.database_name = "goblin_database.db"
         self.engine = self.data_engine_creater()
 
     def data_engine_creater(self):
         """
-        Creates the database engine.
+        Creates the database engine based on either the default or provided external database path.
 
         Returns
         -------
         sqlalchemy.engine.base.Engine
             The database engine.
         """
-        database_path = os.path.abspath(
-            os.path.join(self.database_dir, "goblin_database.db")
-        )
+        database_path = os.path.abspath(os.path.join(self.database_dir, self.database_name))
         engine_url = f"sqlite:///{database_path}"
         engine = sqa.create_engine(engine_url)
-
-        # Create the database if it doesn't exist
         create_database(engine_url)
-
         return engine
+
+    # The rest of your class implementation remains unchanged.
+
 
     def create_or_clear_database(self):
         """

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "goblin_lite"
-version = "0.3.2"
+version = "0.3.3"
 description = "A goblin tool for the generation of static land balance scenarios and environmental impacts"
 authors = ["Colm Duffy"]
 license = "GPL"

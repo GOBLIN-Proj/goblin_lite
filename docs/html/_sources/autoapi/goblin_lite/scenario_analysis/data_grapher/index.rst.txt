@@ -85,7 +85,7 @@ Classes
 
 
 
-.. py:class:: DataGrapher
+.. py:class:: DataGrapher(DATABASE_PATH=None)
 
 
    A class used to organize methods for data visualization. The current collection is relatively limited, however, utilization of the
@@ -93,9 +93,11 @@ Classes
 
    Though this class is still very much in development, it should still provide inspiration for various plotting pathways.
 
-   .. attribute:: None
+   .. attribute:: DATABASE_PATH
 
+      Path to the external database, if None, default internal database used.
 
+      :type: str, optional
 
    .. method:: plot_crop_livestock_lca_emissions_by_category(path):
 

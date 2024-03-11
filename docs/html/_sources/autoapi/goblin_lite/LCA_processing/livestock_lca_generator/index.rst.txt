@@ -25,7 +25,7 @@ Classes
 
 
 
-.. py:class:: LivestockLCAGenerator(ef_country, calibration_year, target_year, baseline_animal_data, scenario_animal_data, farm_inputs_baseline, farm_inputs_scenario, landuse_data, transition_matrix, crop_data, AR_VALUE)
+.. py:class:: LivestockLCAGenerator(ef_country, calibration_year, target_year, baseline_animal_data, scenario_animal_data, farm_inputs_baseline, farm_inputs_scenario, landuse_data, transition_matrix, crop_data, DATABASE_PATH, AR_VALUE)
 
 
    Manages the calculation of environmental footprints (climate change, eutrophication, air quality) associated with livestock production.
@@ -96,6 +96,12 @@ Classes
       Crop-related data.
 
       :type: pandas.DataFrame
+
+   .. attribute:: DATABASE_PATH
+
+      Path to the external database, if None, default internal database used.
+
+      :type: str, optional
 
    .. attribute:: AR_VALUE
 

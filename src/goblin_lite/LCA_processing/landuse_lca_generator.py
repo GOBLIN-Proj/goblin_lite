@@ -28,6 +28,8 @@ class LandUseLCAGenerator:
         Dataframe representing transitions between land use types.
     forest_data : pandas.DataFrame
         Dataframe containing forest-related data.
+    DATABASE_PATH : str, optional
+        Path to the external database, if None, default internal database used.
     AR_VALUE : str
         IPCC Assessment Report version (e.g., 'AR4', 'AR5') for impact calculations.
 
@@ -40,8 +42,8 @@ class LandUseLCAGenerator:
     -----
     The wetlands category includes emissions from extraction and use of horticultural peat.
     """
-    def __init__(self, ef_country, calibration_year, target_year, landuse_data, transition_matrix, forest_data, AR_VALUE):
-        self.data_manager_class = DataManager()
+    def __init__(self, ef_country, calibration_year, target_year, landuse_data, transition_matrix, forest_data, DATABASE_PATH, AR_VALUE):
+        self.data_manager_class = DataManager(DATABASE_PATH)
         self.ef_country = ef_country
         self.calibration_year = calibration_year
         self.target_year = target_year

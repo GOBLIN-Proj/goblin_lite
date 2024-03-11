@@ -24,7 +24,7 @@ Classes
 
 
 
-.. py:class:: LandUseLCAGenerator(ef_country, calibration_year, target_year, landuse_data, transition_matrix, forest_data, AR_VALUE)
+.. py:class:: LandUseLCAGenerator(ef_country, calibration_year, target_year, landuse_data, transition_matrix, forest_data, DATABASE_PATH, AR_VALUE)
 
 
    Manages the calculation of climate change footprints associated with various land use types.
@@ -71,6 +71,12 @@ Classes
       Dataframe containing forest-related data.
 
       :type: pandas.DataFrame
+
+   .. attribute:: DATABASE_PATH
+
+      Path to the external database, if None, default internal database used.
+
+      :type: str, optional
 
    .. attribute:: AR_VALUE
 

@@ -24,7 +24,7 @@ Classes
 
 
 
-.. py:class:: LCATotalGenerator(calibration_year, target_year, scenario_dataframe)
+.. py:class:: LCATotalGenerator(calibration_year, target_year, scenario_dataframe, DATABASE_PATH)
 
 
    Manages the calculation of total environmental footprints (climate change, eutrophication, air quality).
@@ -59,6 +59,12 @@ Classes
       Dataframe containing scenario-specific parameters.
 
       :type: pandas.DataFrame
+
+   .. attribute:: DATABASE_PATH
+
+      Path to the external database, if None, default internal database used.
+
+      :type: str, optional
 
    .. method:: generate_climate_change_totals()
 

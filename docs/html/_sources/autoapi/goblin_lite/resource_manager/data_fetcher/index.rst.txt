@@ -111,7 +111,7 @@ Classes
 
 
 
-.. py:class:: DataFetcher
+.. py:class:: DataFetcher(DATABASE_PATH=None)
 
 
    .. py:method:: get_scenario_inputs()
@@ -721,6 +721,20 @@ Classes
       :returns:     A dataframe containing the land use areas for each scenario and the baseline. The area values are reported in hectares (ha) and shares are
                     fractions of the total area of the land use type.
       :rtype: pandas.DataFrame
+
+
+   .. py:method:: dump_tables(data_path)
+
+      Dump all tables to a specified path.
+
+      :param path: The path to the directory where the tables will be dumped.
+      :type path: str
+
+      :rtype: None
+
+      .. rubric:: Notes
+
+      This method is used to dump all the tables from the database to a specified directory. The tables are saved as CSV files.
 
 
 

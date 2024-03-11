@@ -3,7 +3,8 @@ import os
 
 def main():
     
-    fetcher_class = DataFetcher()
+    DATABASE ="./data/DATABASE/instance_1.db"
+    fetcher_class = DataFetcher(DATABASE)
     
     os.makedirs("fetch_test_data")
 
