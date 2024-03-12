@@ -80,6 +80,7 @@
 <span class="sd">The class leverages the Runner class to calculate forest carbon data based on scenario-specific and baseline forest data.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">cbm_runner.runner</span> <span class="kn">import</span> <span class="n">Runner</span>
+<span class="kn">import</span> <span class="nn">os</span> 
 
 <div class="viewcode-block" id="ForestCarbonGenerator">
 <a class="viewcode-back" href="../../../autoapi/goblin_lite/data_processing/forest_carbon_generator/index.html#goblin_lite.data_processing.forest_carbon_generator.ForestCarbonGenerator">[docs]</a>
@@ -107,11 +108,13 @@
 <span class="sd">    generate_forest_carbon()</span>
 <span class="sd">        Generates forest carbon data using the provided input data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calibration_year</span><span class="p">,</span> <span class="n">cbm_config_path</span><span class="p">,</span> <span class="n">scenario_dataframe</span><span class="p">,</span> <span class="n">afforestation_dataframe</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calibration_year</span><span class="p">,</span> <span class="n">cbm_config_path</span><span class="p">,</span> <span class="n">scenario_dataframe</span><span class="p">,</span> <span class="n">afforestation_dataframe</span><span class="p">,</span> <span class="n">sit_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cbm_validation</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span> <span class="o">=</span> <span class="n">calibration_year</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cbm_configuration</span> <span class="o">=</span> <span class="n">cbm_config_path</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scenario_dataframe</span> <span class="o">=</span> <span class="n">scenario_dataframe</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">afforestation_dataframe</span> <span class="o">=</span> <span class="n">afforestation_dataframe</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sit_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">sit_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">sit_path</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">validation</span> <span class="o">=</span> <span class="n">cbm_validation</span>
 
 <div class="viewcode-block" id="ForestCarbonGenerator.generate_forest_carbon">
 <a class="viewcode-back" href="../../../autoapi/goblin_lite/data_processing/forest_carbon_generator/index.html#goblin_lite.data_processing.forest_carbon_generator.ForestCarbonGenerator.generate_forest_carbon">[docs]</a>
@@ -127,6 +130,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">afforestation_dataframe</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">scenario_dataframe</span><span class="p">,</span>
+            <span class="n">gen_validation</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">validation</span><span class="p">,</span>
+            <span class="n">sit_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sit_path</span>
         <span class="p">)</span>
 
         <span class="n">cbm_runner</span><span class="o">.</span><span class="n">generate_input_data</span><span class="p">()</span>

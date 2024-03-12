@@ -29,11 +29,30 @@ Classes
 
 
 
-.. py:class:: ScenarioRunner(ef_country, calibration_year, target_year, config_path, cbm_config_path, DATABASE_PATH=None, AR_VALUE='AR5')
+.. py:class:: ScenarioRunner(ef_country, calibration_year, target_year, config_path, cbm_config_path, DATABASE_PATH=None, cbm_validation=False, AR_VALUE='AR5')
 
 
    The ScenarioRunner class is responsible for orchestrating the entire scenario generation process in the context
    of environmental impact assessments, focusing on agricultural practices and land use scenarios.
+
+   Args:
+   -----
+   ef_country : str
+       The country for which the scenario is being run.
+   calibration_year : int
+       The year for calibration data.
+   target_year : int
+       The target year for which the scenario is generated.
+   config_path : str
+       The path to the scenario configuration file.
+   cbm_config_path : str
+       The path to the CBM CFS3 configuration file.
+   DATABASE_PATH : str, optional
+       The path to the database. Default is None.
+   cbm_validation : bool, optional
+       A flag indicating whether CBM validation is enabled. Default is False.
+   AR_VALUE : str, optional
+       The Assessment Report value. Default is "AR5".
 
    .. attribute:: ef_country
 
@@ -71,6 +90,12 @@ Classes
 
       :type: str, optional
 
+   .. attribute:: cbm_validation
+
+      A flag indicating whether CBM validation is enabled. Default is False.
+
+      :type: bool, optional
+
    .. attribute:: AR_VALUE
 
       The Assessment Report value. Default is "AR5".
@@ -89,6 +114,13 @@ Classes
       It generates a series of data tables representing various aspects of environmental impact under different
       agricultural and land use scenarios. These tables are stored and can be accessed for further analysis
       and visualization.
+
+
+   .. method:: Note:
+
+   .. method:: -----
+
+      An external database is required for the CBM validation process. If CBM validation is enabled, the DATABASE_PATH must be provided.
 
 
    .. py:method:: run_scenarios()
