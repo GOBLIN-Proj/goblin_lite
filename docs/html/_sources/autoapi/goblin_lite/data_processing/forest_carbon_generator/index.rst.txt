@@ -25,7 +25,7 @@ Classes
 
 
 
-.. py:class:: ForestCarbonGenerator(calibration_year, cbm_config_path, scenario_dataframe, afforestation_dataframe)
+.. py:class:: ForestCarbonGenerator(calibration_year, cbm_config_path, scenario_dataframe, afforestation_dataframe, sit_path=None, cbm_validation=False)
 
 
    Manages the process of generating forest carbon data, leveraging the CBM

@@ -105,6 +105,25 @@
 <span class="sd">    The ScenarioRunner class is responsible for orchestrating the entire scenario generation process in the context</span>
 <span class="sd">    of environmental impact assessments, focusing on agricultural practices and land use scenarios.</span>
 
+<span class="sd">    Args:</span>
+<span class="sd">    -----</span>
+<span class="sd">    ef_country : str</span>
+<span class="sd">        The country for which the scenario is being run.</span>
+<span class="sd">    calibration_year : int</span>
+<span class="sd">        The year for calibration data.</span>
+<span class="sd">    target_year : int</span>
+<span class="sd">        The target year for which the scenario is generated.</span>
+<span class="sd">    config_path : str</span>
+<span class="sd">        The path to the scenario configuration file.</span>
+<span class="sd">    cbm_config_path : str</span>
+<span class="sd">        The path to the CBM CFS3 configuration file.</span>
+<span class="sd">    DATABASE_PATH : str, optional</span>
+<span class="sd">        The path to the database. Default is None.</span>
+<span class="sd">    cbm_validation : bool, optional</span>
+<span class="sd">        A flag indicating whether CBM validation is enabled. Default is False.</span>
+<span class="sd">    AR_VALUE : str, optional</span>
+<span class="sd">        The Assessment Report value. Default is &quot;AR5&quot;.</span>
+<span class="sd">        </span>
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
 <span class="sd">    ef_country : str</span>
@@ -119,6 +138,8 @@
 <span class="sd">        The path to the CBM CFS3 configuration file.</span>
 <span class="sd">    DATABASE_PATH : str, optional</span>
 <span class="sd">        The path to the database. Default is None.</span>
+<span class="sd">    cbm_validation : bool, optional</span>
+<span class="sd">        A flag indicating whether CBM validation is enabled. Default is False.</span>
 <span class="sd">    AR_VALUE : str, optional</span>
 <span class="sd">        The Assessment Report value. Default is &quot;AR5&quot;.</span>
 <span class="sd">    data_manager_class : DataManager</span>
@@ -131,6 +152,10 @@
 <span class="sd">        It generates a series of data tables representing various aspects of environmental impact under different</span>
 <span class="sd">        agricultural and land use scenarios. These tables are stored and can be accessed for further analysis</span>
 <span class="sd">        and visualization.</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">    -----</span>
+<span class="sd">        An external database is required for the CBM validation process. If CBM validation is enabled, the DATABASE_PATH must be provided.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
@@ -141,6 +166,7 @@
         <span class="n">config_path</span><span class="p">,</span>
         <span class="n">cbm_config_path</span><span class="p">,</span>
         <span class="n">DATABASE_PATH</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">cbm_validation</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">AR_VALUE</span><span class="o">=</span><span class="s2">&quot;AR5&quot;</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">AR_VALUE</span> <span class="o">=</span> <span class="n">AR_VALUE</span>
@@ -151,6 +177,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">cbm_config_path</span> <span class="o">=</span> <span class="n">cbm_config_path</span> <span class="c1"># generate scenario_data</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span> <span class="o">=</span> <span class="n">DataManager</span><span class="p">(</span><span class="n">DATABASE_PATH</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">database_path</span> <span class="o">=</span> <span class="n">DATABASE_PATH</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cbm_validation</span> <span class="o">=</span> <span class="n">cbm_validation</span>
+
+        <span class="k">if</span> <span class="n">DATABASE_PATH</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">cbm_validation</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Database path is required for CBM validation&quot;</span><span class="p">)</span>
+            
 
 <div class="viewcode-block" id="ScenarioRunner.run_scenarios">
 <a class="viewcode-back" href="../../autoapi/goblin_lite/goblin/index.html#goblin_lite.goblin.ScenarioRunner.run_scenarios">[docs]</a>
@@ -170,6 +201,7 @@
         <span class="n">target_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span>
         <span class="n">AR_VALUE</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AR_VALUE</span>
         <span class="n">DATABASE_PATH</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">database_path</span>
+        <span class="n">cbm_validation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbm_validation</span>
 
         <span class="c1">#scenario data </span>
         <span class="n">scenario_data_generator</span> <span class="o">=</span> <span class="n">ScenarioGeneration</span><span class="p">()</span>
@@ -218,7 +250,7 @@
         <span class="n">cbm_afforestation_data</span> <span class="o">=</span> <span class="n">landuse_data_generator</span><span class="o">.</span><span class="n">generate_afforestation_data</span><span class="p">()</span>
 
         <span class="c1"># Forest carbon data</span>
-        <span class="n">forest_data_generator</span> <span class="o">=</span> <span class="n">ForestCarbonGenerator</span><span class="p">(</span><span class="n">baseline_year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbm_config_path</span><span class="p">,</span> <span class="n">scenario_input_dataframe</span><span class="p">,</span> <span class="n">cbm_afforestation_data</span><span class="p">)</span>
+        <span class="n">forest_data_generator</span> <span class="o">=</span> <span class="n">ForestCarbonGenerator</span><span class="p">(</span><span class="n">baseline_year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbm_config_path</span><span class="p">,</span> <span class="n">scenario_input_dataframe</span><span class="p">,</span> <span class="n">cbm_afforestation_data</span><span class="p">,</span> <span class="n">sit_path</span><span class="o">=</span><span class="n">DATABASE_PATH</span><span class="p">,</span> <span class="n">cbm_validation</span><span class="o">=</span><span class="n">cbm_validation</span><span class="p">)</span>
 
         <span class="n">forest_data</span> <span class="o">=</span> <span class="n">forest_data_generator</span><span class="o">.</span><span class="n">generate_forest_carbon</span><span class="p">()</span>
 
