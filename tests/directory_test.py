@@ -9,7 +9,7 @@ def main():
     dir_class = Directories("./data/directory_test/", gen_baseline=True, gen_validation=False)
 
     # create directory structure
-    dir_class.create_goblin_directory_strucutre()
+    dir_class.create_goblin_directory_strucutre(10)
 
 if __name__ == "__main__":
     main()

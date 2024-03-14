@@ -14,6 +14,17 @@ class Directories:
     def create_cbm_directory(self):
          self.paths_class.setup_runner_paths(self.path)
 
-    def create_goblin_directory_strucutre(self):
+
+    def cbm_generated_input_directories(self, scenarios):
+        generated_input_cbm_dir  = self.paths_class.get_generated_input_data_path()
+
+        os.makedirs(os.path.join(generated_input_cbm_dir,"-1"), exist_ok=True)
+
+        for sc in range(scenarios):
+            os.makedirs(os.path.join(generated_input_cbm_dir,str(sc)), exist_ok=True)
+
+
+    def create_goblin_directory_strucutre(self, scenarios):
         self.create_database_directory()
         self.create_cbm_directory()
+        self.cbm_generated_input_directories(scenarios)
