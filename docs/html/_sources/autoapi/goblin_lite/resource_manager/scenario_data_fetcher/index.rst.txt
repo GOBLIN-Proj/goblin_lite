@@ -110,6 +110,14 @@ Classes
       :rtype: list
 
 
+   .. py:method:: get_total_scenarios()
+
+      Retrieves the total number of scenarios present in the scenario data.
+
+      :returns: The total number of scenarios.
+      :rtype: int
+
+
    .. py:method:: get_scenario_index()
 
       Retrieves a list of afforestation scenario indices, with -1 indicating a special scenario,

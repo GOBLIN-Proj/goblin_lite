@@ -19,6 +19,8 @@ from goblin_lite.LCA_processing.landuse_lca_generator import LandUseLCAGenerator
 from goblin_lite.LCA_processing.livestock_lca_generator import LivestockLCAGenerator
 from goblin_lite.LCA_processing.lca_total_generator import LCATotalGenerator
 from goblin_lite.resource_manager.database_manager import DataManager
+from goblin_lite.resource_manager.scenario_data_fetcher import ScenarioDataFetcher
+from goblin_lite.resource_manager.directory import Directories
 import copy as copy
 
 
@@ -112,11 +114,9 @@ class ScenarioRunner:
 
         This method manages the complete scenario generation process. It prepares and generates data for various scenarios
         and the selected baseline across multiple domains (such as animal data, land use, crop data, carbon flux, etc.),
-        encapsulated in 26 distinct data tables. These tables are saved as pandas dataframes and are intended for subsequent
+        encapsulated in 31 distinct data tables. These tables are saved as pandas dataframes and are intended for subsequent
         analysis and visualization.
         """
-        self.data_manager_class.create_or_clear_database()
-
         ef_country = self.ef_country
         baseline_year = self.calibration_year
         target_year = self.target_year
@@ -124,9 +124,22 @@ class ScenarioRunner:
         DATABASE_PATH = self.database_path
         cbm_validation = self.cbm_validation
 
+        self.data_manager_class.create_or_clear_database()
+        
         #scenario data 
         scenario_data_generator = ScenarioGeneration()
         scenario_input_dataframe = scenario_data_generator.generate_scenario_dataframe(self.config_path)
+
+        if DATABASE_PATH is not None:
+            
+            sc_ferch_class = ScenarioDataFetcher(scenario_input_dataframe)
+            num_scenarios = sc_ferch_class.get_total_scenarios()
+
+            #create directories
+            dir_class = Directories(DATABASE_PATH)
+            dir_class.create_goblin_directory_structure(num_scenarios)
+
+        
 
         # animal data
         animal_data_generator = AnimalDataGenerator(

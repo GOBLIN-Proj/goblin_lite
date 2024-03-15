@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_lite.goblin &mdash; GOBLIN lite 0.3.3 documentation</title>
+  <title>goblin_lite.goblin &mdash; GOBLIN lite 0.3.4 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -16,7 +16,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=d5a15cff"></script>
+        <script src="../../_static/documentation_options.js?v=1e28cc32"></script>
         <script src="../../_static/doctools.js?v=888ff710"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -94,6 +94,8 @@
 <span class="kn">from</span> <span class="nn">goblin_lite.LCA_processing.livestock_lca_generator</span> <span class="kn">import</span> <span class="n">LivestockLCAGenerator</span>
 <span class="kn">from</span> <span class="nn">goblin_lite.LCA_processing.lca_total_generator</span> <span class="kn">import</span> <span class="n">LCATotalGenerator</span>
 <span class="kn">from</span> <span class="nn">goblin_lite.resource_manager.database_manager</span> <span class="kn">import</span> <span class="n">DataManager</span>
+<span class="kn">from</span> <span class="nn">goblin_lite.resource_manager.scenario_data_fetcher</span> <span class="kn">import</span> <span class="n">ScenarioDataFetcher</span>
+<span class="kn">from</span> <span class="nn">goblin_lite.resource_manager.directory</span> <span class="kn">import</span> <span class="n">Directories</span>
 <span class="kn">import</span> <span class="nn">copy</span> <span class="k">as</span> <span class="nn">copy</span>
 
 
@@ -191,11 +193,9 @@
 
 <span class="sd">        This method manages the complete scenario generation process. It prepares and generates data for various scenarios</span>
 <span class="sd">        and the selected baseline across multiple domains (such as animal data, land use, crop data, carbon flux, etc.),</span>
-<span class="sd">        encapsulated in 26 distinct data tables. These tables are saved as pandas dataframes and are intended for subsequent</span>
+<span class="sd">        encapsulated in 31 distinct data tables. These tables are saved as pandas dataframes and are intended for subsequent</span>
 <span class="sd">        analysis and visualization.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">create_or_clear_database</span><span class="p">()</span>
-
         <span class="n">ef_country</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span>
         <span class="n">baseline_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span>
         <span class="n">target_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span>
@@ -203,9 +203,22 @@
         <span class="n">DATABASE_PATH</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">database_path</span>
         <span class="n">cbm_validation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbm_validation</span>
 
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">create_or_clear_database</span><span class="p">()</span>
+        
         <span class="c1">#scenario data </span>
         <span class="n">scenario_data_generator</span> <span class="o">=</span> <span class="n">ScenarioGeneration</span><span class="p">()</span>
         <span class="n">scenario_input_dataframe</span> <span class="o">=</span> <span class="n">scenario_data_generator</span><span class="o">.</span><span class="n">generate_scenario_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config_path</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">DATABASE_PATH</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            
+            <span class="n">sc_ferch_class</span> <span class="o">=</span> <span class="n">ScenarioDataFetcher</span><span class="p">(</span><span class="n">scenario_input_dataframe</span><span class="p">)</span>
+            <span class="n">num_scenarios</span> <span class="o">=</span> <span class="n">sc_ferch_class</span><span class="o">.</span><span class="n">get_total_scenarios</span><span class="p">()</span>
+
+            <span class="c1">#create directories</span>
+            <span class="n">dir_class</span> <span class="o">=</span> <span class="n">Directories</span><span class="p">(</span><span class="n">DATABASE_PATH</span><span class="p">)</span>
+            <span class="n">dir_class</span><span class="o">.</span><span class="n">create_goblin_directory_structure</span><span class="p">(</span><span class="n">num_scenarios</span><span class="p">)</span>
+
+        
 
         <span class="c1"># animal data</span>
         <span class="n">animal_data_generator</span> <span class="o">=</span> <span class="n">AnimalDataGenerator</span><span class="p">(</span>

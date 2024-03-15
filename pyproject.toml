@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "goblin_lite"
-version = "0.3.3"
+version = "0.3.4"
 description = "A goblin tool for the generation of static land balance scenarios and environmental impacts"
 authors = ["Colm Duffy"]
 license = "GPL"
@@ -19,7 +19,7 @@ livestock_generation = {git = "https://github.com/colmduff/livestock_generation.
 static_scenario_generator = { git = "https://github.com/colmduff/static_scenario_generator.git", branch = "main" }
 landcover_assignment  = {git = "https://github.com/colmduff/landcover_assignment.git", branch = "main"}
 landcover_lca  = {git = "https://github.com/colmduff/landcover_lca.git", branch = "main"}
-cbm_runner = {git = "https://github.com/colmduff/cbm_runner.git", branch = "dir"}
+cbm_runner = {git = "https://github.com/colmduff/cbm_runner.git", branch = "main"}
 scenario_assessment = {git = "https://github.com/colmduff/scenario_assessment.git", branch = "main"}
 seaborn = "^0.13.1"
 matplotlib = "*"

@@ -129,7 +129,7 @@ Classes
 
       This method manages the complete scenario generation process. It prepares and generates data for various scenarios
       and the selected baseline across multiple domains (such as animal data, land use, crop data, carbon flux, etc.),
-      encapsulated in 26 distinct data tables. These tables are saved as pandas dataframes and are intended for subsequent
+      encapsulated in 31 distinct data tables. These tables are saved as pandas dataframes and are intended for subsequent
       analysis and visualization.
 
 

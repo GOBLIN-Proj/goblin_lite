@@ -45,7 +45,7 @@ class Directories:
 
     """
     def __init__(self, path, gen_baseline = True, gen_validation = False):
-        self.path = path
+        self.path = os.path.dirname(path)
         self.paths_class = Paths(path, gen_baseline, gen_validation)
        
 
@@ -99,7 +99,7 @@ class Directories:
             os.makedirs(os.path.join(generated_input_cbm_dir,str(sc)), exist_ok=True)
 
 
-    def create_goblin_directory_strucutre(self, scenarios):
+    def create_goblin_directory_structure(self, scenarios):
         """
         Create the directory structure for the CBM-Runner model.
 

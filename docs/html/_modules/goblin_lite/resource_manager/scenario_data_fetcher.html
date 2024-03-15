@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_lite.resource_manager.scenario_data_fetcher &mdash; GOBLIN lite 0.3.3 documentation</title>
+  <title>goblin_lite.resource_manager.scenario_data_fetcher &mdash; GOBLIN lite 0.3.4 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -16,7 +16,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=d5a15cff"></script>
+        <script src="../../../_static/documentation_options.js?v=1e28cc32"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -191,6 +191,22 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenario_data</span><span class="p">[</span><span class="n">matching_column_name</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span></div>
 
     
+    
+<div class="viewcode-block" id="ScenarioDataFetcher.get_total_scenarios">
+<a class="viewcode-back" href="../../../autoapi/goblin_lite/resource_manager/scenario_data_fetcher/index.html#goblin_lite.resource_manager.scenario_data_fetcher.ScenarioDataFetcher.get_total_scenarios">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_total_scenarios</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the total number of scenarios present in the scenario data.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int: The total number of scenarios.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">scenario_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_scenario_list</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">scenario_list</span><span class="p">)</span></div>
+
+    
+
 <div class="viewcode-block" id="ScenarioDataFetcher.get_scenario_index">
 <a class="viewcode-back" href="../../../autoapi/goblin_lite/resource_manager/scenario_data_fetcher/index.html#goblin_lite.resource_manager.scenario_data_fetcher.ScenarioDataFetcher.get_scenario_index">[docs]</a>
     <span class="k">def</span> <span class="nf">get_scenario_index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
