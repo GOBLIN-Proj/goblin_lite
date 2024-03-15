@@ -99,6 +99,19 @@ class ScenarioDataFetcher:
 
         return self.scenario_data[matching_column_name].unique().tolist()
     
+    
+    def get_total_scenarios(self):
+        """
+        Retrieves the total number of scenarios present in the scenario data.
+
+        Returns:
+            int: The total number of scenarios.
+        """
+        scenario_list = self.get_scenario_list()
+
+        return len(scenario_list)
+    
+
     def get_scenario_index(self):
         
         """

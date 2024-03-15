@@ -64,6 +64,7 @@ class DataManager:
             self.database_name = "goblin_database.db"
         self.engine = self.data_engine_creater()
 
+
     def data_engine_creater(self):
         """
         Creates the database engine based on either the default or provided external database path.

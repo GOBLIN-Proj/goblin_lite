@@ -48,7 +48,7 @@ class LCATotalGenerator:
         Fetches eutrophication emission dataframes by category.
     """
     def __init__(self, calibration_year, target_year, scenario_dataframe, DATABASE_PATH):
-        self.db_reference_class = DataFetcher()
+        self.db_reference_class = DataFetcher(DATABASE_PATH)
         self.data_manager_class = DataManager(DATABASE_PATH)
         self.calibration_year = calibration_year
         self.target_year = target_year

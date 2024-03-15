@@ -12,6 +12,7 @@ Submodules
 
    data_fetcher/index.rst
    database_manager/index.rst
+   directory/index.rst
    goblin_data_manager/index.rst
    scenario_data_fetcher/index.rst
 
