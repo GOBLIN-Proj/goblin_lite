@@ -11,16 +11,16 @@ python = "^3.9"
 pandas = "2.1.4"
 numpy = "^1.25.0"
 sqlalchemy-utils = "*"
-cattle_lca = {git = "https://github.com/colmduff/cattle_lca.git", branch = "main"}
-sheep_lca = {git = "https://github.com/colmduff/sheep_lca.git", branch = "main"}
-crop_lca = {git = "https://github.com/colmduff/crop_lca.git", branch = "main"}
-grassland_production = {git = "https://github.com/colmduff/grassland_production.git", branch = "main"}
-livestock_generation = {git = "https://github.com/colmduff/livestock_generation.git", branch = "main"}
-static_scenario_generator = { git = "https://github.com/colmduff/static_scenario_generator.git", branch = "main" }
-landcover_assignment  = {git = "https://github.com/colmduff/landcover_assignment.git", branch = "main"}
-landcover_lca  = {git = "https://github.com/colmduff/landcover_lca.git", branch = "main"}
-cbm_runner = {git = "https://github.com/colmduff/cbm_runner.git", branch = "main"}
-scenario_assessment = {git = "https://github.com/colmduff/scenario_assessment.git", branch = "main"}
+cattle_lca = {git = "https://github.com/GOBLIN-Proj/cattle_lca.git", branch = "main"}
+sheep_lca = {git = "https://github.com/GOBLIN-Proj/sheep_lca.git", branch = "main"}
+crop_lca = {git = "https://github.com/GOBLIN-Proj/crop_lca.git", branch = "main"}
+grassland_production = {git = "https://github.com/GOBLIN-Proj/grassland_production.git", branch = "main"}
+livestock_generation = {git = "https://github.com/GOBLIN-Proj/livestock_generation.git", branch = "main"}
+static_scenario_generator = { git = "https://github.com/GOBLIN-Proj/static_scenario_generator.git", branch = "main" }
+landcover_assignment  = {git = "https://github.com/GOBLIN-Proj/landcover_assignment.git", branch = "main"}
+landcover_lca  = {git = "https://github.com/GOBLIN-Proj/landcover_lca.git", branch = "main"}
+cbm_runner = {git = "https://github.com/GOBLIN-Proj/cbm_runner.git", branch = "main"}
+scenario_assessment = {git = "https://github.com/GOBLIN-Proj/scenario_assessment.git", branch = "main"}
 seaborn = "^0.13.1"
 matplotlib = "*"
 
