@@ -55,6 +55,18 @@ Classes
 
       :type: pandas.DataFrame
 
+   .. attribute:: sit_path
+
+      The path to the SIT directory.
+
+      :type: str, optional
+
+   .. attribute:: cbm_validation
+
+      A flag indicating whether to generate validation data.
+
+      :type: bool
+
    .. method:: generate_forest_carbon()
 
       Generates forest carbon data using the provided input data.

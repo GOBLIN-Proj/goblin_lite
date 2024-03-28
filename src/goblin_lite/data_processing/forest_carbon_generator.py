@@ -25,6 +25,12 @@ class ForestCarbonGenerator:
 
         afforestation_dataframe: pandas.DataFrame
             Dataframe containing information about afforestation activities.
+
+        sit_path: str, optional
+            The path to the SIT directory.
+
+        cbm_validation: bool
+            A flag indicating whether to generate validation data.
     
     Methods
     -------
