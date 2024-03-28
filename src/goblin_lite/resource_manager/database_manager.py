@@ -59,6 +59,7 @@ class DataManager:
         if external_database_path:
             self.database_dir = os.path.dirname(external_database_path)
             self.database_name = os.path.basename(external_database_path)
+
         else:
             self.database_dir = get_local_dir()
             self.database_name = "goblin_database.db"
