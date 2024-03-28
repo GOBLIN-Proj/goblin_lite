@@ -15,7 +15,7 @@ air quality.
 Flexible Data Handling: Works with different types of data inputs, including livestock and crop production data, land use transition data, and more.
 """
 
-from cattle_lca.models import load_livestock_data, load_farm_data
+from cattle_lca.resource_manager.models import load_livestock_data, load_farm_data
 from cattle_lca.lca import ClimateChangeTotals as CattleClimateChangeTotals
 from sheep_lca.lca import ClimateChangeTotals as SheepClimateChangeTotals
 from cattle_lca.lca import EutrophicationTotals as CattleEutrophicationTotals
