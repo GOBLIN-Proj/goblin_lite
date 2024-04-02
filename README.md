@@ -16,6 +16,7 @@ GOBLIN lite also has the capacity to rank scenarios based on environmental impac
 
 For a full list of custom package documentation that GOBLIN lite relies on, please see the [FUSION research website](https://fusion-research.eu/goblin-package-documentation.html#goblin-package-documentation).
 
+
 ## Installation
 
 Install from git hub. 
