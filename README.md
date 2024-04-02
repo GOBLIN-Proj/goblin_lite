@@ -20,13 +20,6 @@ For a full list of custom package documentation that GOBLIN lite relies on, plea
 
 Install from git hub. 
 
-When prompted enter your ```<username>``` and password, which is your ```<access_token>```.
-
-```<access_token>``` is provided by the repo manager.
-
-```<username>``` pass your own github username.
-
-
 ```bash
 pip install "goblin_lite@git+https://github.com/GOBLIN-Proj/goblin_lite.git@main" 
 
