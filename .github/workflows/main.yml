@@ -38,3 +38,4 @@ jobs:
       run: |
         cd ./tests/
         python -m unittest goblin_test.py
+        python -m unittest output_test.py
