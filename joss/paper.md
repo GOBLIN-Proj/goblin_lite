@@ -46,11 +46,13 @@ The GOBLIN modeling framework has already been used in recent studies on pathway
 
 Figure 1 illustrates the model architectre and data flow. The scenario module first generates the model input paramters based on user data (a json or csv input). These outputs are utilised by the livestock module in the generation of national livestock (cattle and sheep) numbers for each of the scenarios. The grassland production module then calculates the area required to support these herds/flocks based on the lilvestock energy requirements (from the cattle and sheep LCA modules) and nitrogen (N) response curves [@McEniry:2013]. The N response curve takes into account organic and inorganic fertiliser inputs, as well as soil type. System specific utilisation rates are derived from National Farm Survey data [@NFS]. The total spared area available for alternative land uses is then the difference in grassland required between the scenario and the baseline. Final spared areas are disaggregated by soil group. The land use module is responsible for the assignment of spared area and the production of a transition matrix. Spared area assigned to afforestation has been mapped to forest productivity classes [@Farelly:2015].
 
+![GOBLIN Lite Architecture and Data Flow.\label{fig:Figure2}](goblin_data_flow.drawio.png)
+
 The Life Cycle Assessment (LCA) processing is handled directly in `GOBLIN Lite`. The package coordinates the flow of data and contains the impact categories. In terms of forest emissions and removals, CBM-CSF3 python library is used. 
 
 # Example Output
 
-A brief illustrative example shows a reduction in livestock with spared area being converted to forest. The example is designed to show model output and is tailored for that purpose only. Scenario -1, in all plots, denotes the baseline. {fig: Figure2} shows emissions and removals from the climate change impact pathway. As spared area has been assigned to forest only emissions from grassland and wetland remain constant. In Ireland, a good deal of legacy forest has been planted on organic soils, and as such, emissions of N2O remain constant also. 
+A brief illustrative example shows a reduction in livestock with spared area being converted to forest. The example is designed to show model output and is tailored for that purpose only. Scenario -1, in all plots, denotes the baseline. Figure 2 shows emissions and removals from the climate change impact pathway. As spared area has been assigned to forest only emissions from grassland and wetland remain constant. In Ireland, a good deal of legacy forest has been planted on organic soils, and as such, emissions of N2O remain constant also. 
 
 ![Emissions and Removals from Land Use Change.\label{fig:Figure2}](climate_change_land_use.png)
 
