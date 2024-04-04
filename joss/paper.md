@@ -52,7 +52,7 @@ Life Cycle Assessment (LCA) processing is handled directly within `GOBLIN Lite`.
 
 # Example Output
 
-A brief illustrative example shows a reduction in livestock with spared area being converted to forest. The example is designed to show model output and is tailored for that purpose only. Scenario -1, in all plots, denotes the baseline. Figure 2 shows emissions and removals from the climate change impact pathway. As spared area has been assigned to forest only emissions from grassland and wetland remain constant. In Ireland, a good deal of legacy forest has been planted on organic soils, and as such, emissions of N<sub>2</sub>O remain constant also. 
+A brief illustrative example shows a reduction in livestock with spared area being converted to forest. The example is designed to show model output and is tailored for that purpose only. Scenario -1, in all plots, denotes the baseline. Figure 2 shows emissions and removals from the climate change impact pathway. As spared area has been assigned to forest only emissions from grassland and wetland remain constant. In Ireland, a good deal of legacy forest has been planted on organic soils, and as such, emissions of N$_2$O remain constant also. 
 
 ![Emissions and Removals from Land Use Change.\label{fig:Figure2}](climate_change_land_use.png)
 
