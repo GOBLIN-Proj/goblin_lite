@@ -46,6 +46,7 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../autoapi/index.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../example.html">Example Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
 </ul>
 
         </div>
@@ -792,6 +793,7 @@
         <span class="n">climate_change</span><span class="p">[</span><span class="s2">&quot;manure_management&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">climate_change_livestock</span><span class="p">[</span>
             <span class="s2">&quot;manure_management&quot;</span>
         <span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
         <span class="n">climate_change</span><span class="p">[</span><span class="s2">&quot;enteric&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">climate_change_livestock</span><span class="p">[</span><span class="s2">&quot;enteric&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
         <span class="n">climate_change</span><span class="p">[</span><span class="s2">&quot;grassland_soils&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">climate_change_livestock</span><span class="p">[</span><span class="s2">&quot;soils&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">-</span> <span class="n">climate_change_crop</span><span class="p">[</span><span class="s2">&quot;soils&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
         <span class="n">climate_change</span><span class="p">[</span><span class="s2">&quot;crop_soils&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">climate_change_crop</span><span class="p">[</span><span class="s2">&quot;soils&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
@@ -808,7 +810,7 @@
         <span class="n">air_quality</span><span class="p">[</span><span class="s2">&quot;grassland_soils&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">air_quality_livestock</span><span class="p">[</span><span class="s2">&quot;soils&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">-</span> <span class="n">air_quality_crop</span><span class="p">[</span><span class="s2">&quot;soils&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
         <span class="n">air_quality</span><span class="p">[</span><span class="s2">&quot;crop_soils&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">air_quality_crop</span><span class="p">[</span><span class="s2">&quot;soils&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
 
-        <span class="n">frames</span> <span class="o">=</span> <span class="p">[</span><span class="n">climate_change</span><span class="p">,</span> <span class="n">eutrophication</span><span class="p">,</span> <span class="n">air_quality</span><span class="p">]</span>
+        <span class="n">frames</span> <span class="o">=</span> <span class="p">[</span><span class="n">climate_change</span><span class="p">,</span> <span class="n">air_quality</span><span class="p">,</span> <span class="n">eutrophication</span><span class="p">]</span>
 
         <span class="k">return</span> <span class="n">frames</span></div>
 
@@ -977,7 +979,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Colm Duffy.</p>
+    <p>&#169; Copyright 2024, Colm Duffy.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
