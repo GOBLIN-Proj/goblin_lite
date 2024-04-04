@@ -44,23 +44,29 @@ The GOBLIN modeling framework has already been used in recent studies on pathway
 
 # Model Overview
 
-Figure 1 illustrates the model architectre and data flow. The scenario module first generates the model input paramters based on user data (a json or csv input). These outputs are utilised by the livestock module in the generation of national livestock (cattle and sheep) numbers for each of the scenarios. The grassland production module then calculates the area required to support these herds/flocks based on the lilvestock energy requirements (from the cattle and sheep LCA modules) and nitrogen (N) response curves [@McEniry: 2013]. The N response curve takes into account organic and inorganic fertiliser inputs, as well as soil type. System specific utilisation rates are derived from National Farm Survey data [@Dillon:2021]. The total spared area available for alternative land uses is then the difference in grassland required between the scenario and the baseline. Final spared areas are disaggregated by soil group. The land use module is responsible for the assignment of spared area and the production of a transition matrix. Spared area assigned to afforestation has been mapped to forest productivity classes [@Farelly:2015].
+Figure 1 illustrates the model architectre and data flow. The scenario module first generates the model input paramters based on user data (a json or csv input). These outputs are utilised by the livestock module in the generation of national livestock (cattle and sheep) numbers for each of the scenarios. The grassland production module then calculates the area required to support these herds/flocks based on the lilvestock energy requirements (from the cattle and sheep LCA modules) and nitrogen (N) response curves [@McEniry:2013]. The N response curve takes into account organic and inorganic fertiliser inputs, as well as soil type. System specific utilisation rates are derived from National Farm Survey data [@NFS]. The total spared area available for alternative land uses is then the difference in grassland required between the scenario and the baseline. Final spared areas are disaggregated by soil group. The land use module is responsible for the assignment of spared area and the production of a transition matrix. Spared area assigned to afforestation has been mapped to forest productivity classes [@Farelly:2015].
 
 The Life Cycle Assessment (LCA) processing is handled directly in `GOBLIN Lite`. The package coordinates the flow of data and contains the impact categories. In terms of forest emissions and removals, CBM-CSF3 python library is used. 
 
 # Example Output
 
-A brief illustrative example shows a reduction in livestock with spared area being converted to forest. The example is designed to show model output and is tailored for that purpose only. Scenario -1, in all plots, denotes the baseline. {fig: Figure 2} shows emissions and removals from the climate change impact pathway. As spared area has been assigned to forest only emissions from grassland and wetland remain constant. In Ireland, a good deal of legacy forest has been planted on organic soils, and as such, emissions of N2O remain constant also. 
+A brief illustrative example shows a reduction in livestock with spared area being converted to forest. The example is designed to show model output and is tailored for that purpose only. Scenario -1, in all plots, denotes the baseline. {fig: Figure2} shows emissions and removals from the climate change impact pathway. As spared area has been assigned to forest only emissions from grassland and wetland remain constant. In Ireland, a good deal of legacy forest has been planted on organic soils, and as such, emissions of N2O remain constant also. 
 
-![Emissions and Removals from Land Use Change.\label{fig:Figure 2}](climate_change_land_use.png)
+![Emissions and Removals from Land Use Change.\label{fig:Figure2}](climate_change_land_use.png)
 
 Figure 3 shows the estimation of carbon flux using the CBM-CFS3 python library. The total ecosystem is the summation of above ground biomass (ABG), below ground biomass (BGB), deadwood, litter and soils. 
 
-![Forest Carbon Flux.\label{fig:Figure 3}](forest_flux_subplot.png)
+![Forest Carbon Flux.\label{fig:Figure3}](forest_flux_subplot.png)
 
 Finally, Figure 4 shows the environmental impacts of agricultural production for the impact categories of climate change, air quality and eutrophication. The soils category includes both organic and inorganic inputs to soils.
 
-![Impact Categories for Agricultural Production.\label{fig:Figure 4}](Crop_and_Livestock_LCA.png)
+![Impact Categories for Agricultural Production.\label{fig:Figure4}](Crop_and_Livestock_LCA.png)
+
+# Functionality
+
+The `GOBLIN Lite` package allows for the calcuation of environmental impacts from agricultural production and land use change along multiple impact pathways for Ireland. The project is on going and this package, and derivitaves are being developed further. The code presented here can be found on [@Github] where detailed documentation and examples can be found. 
+
+Overall, this package aims to provide insight for policymakers, researchers and students as to the potential impacts of transistion pathways. Care must be taken when defining parameter inputs as the model will attempt to calculate whatever it is asked to. For example, exceeding the baseline livestock populations may result in a grassland area greater than the baseline grassland area. As such, it is important to ensure that parameter inputs are carefully selected. 
 
 # Acknowledgements
 
