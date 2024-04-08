@@ -7,7 +7,7 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = "GOBLIN lite"
-copyright = "2023, Colm Duffy"
+copyright = "2024, Colm Duffy"
 author = "Colm Duffy"
 release = "0.3.4"
 
