@@ -25,6 +25,12 @@ pip install "goblin_lite@git+https://github.com/GOBLIN-Proj/goblin_lite.git@main
 
 ```
 
+Install from PyPI
+
+```bash
+pip install goblin_lite
+```
+
 ## Usage
 Firstly, the config.json file should look like the following. The example shows a two scenarios. 
 
@@ -174,6 +180,7 @@ def main():
 
     # plot ranks
     graph_class.rank_chart(target, gas, data_path)
+
 
 if __name__ == "__main__":
     main()

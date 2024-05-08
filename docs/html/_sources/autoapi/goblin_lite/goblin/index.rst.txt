@@ -29,7 +29,7 @@ Classes
 
 
 
-.. py:class:: ScenarioRunner(ef_country, calibration_year, target_year, config_path, cbm_config_path, DATABASE_PATH=None, cbm_validation=False, AR_VALUE='AR5')
+.. py:class:: ScenarioRunner(ef_country, calibration_year, target_year, config_path, cbm_config_path, DATABASE_PATH=None, AR_VALUE='AR5')
 
 
    The ScenarioRunner class is responsible for orchestrating the entire scenario generation process in the context
@@ -49,8 +49,6 @@ Classes
        The path to the CBM CFS3 configuration file.
    DATABASE_PATH : str, optional
        The path to the database. Default is None.
-   cbm_validation : bool, optional
-       A flag indicating whether CBM validation is enabled. Default is False.
    AR_VALUE : str, optional
        The Assessment Report value. Default is "AR5".
 
@@ -89,12 +87,6 @@ Classes
       The path to the database. Default is None.
 
       :type: str, optional
-
-   .. attribute:: cbm_validation
-
-      A flag indicating whether CBM validation is enabled. Default is False.
-
-      :type: bool, optional
 
    .. attribute:: AR_VALUE
 

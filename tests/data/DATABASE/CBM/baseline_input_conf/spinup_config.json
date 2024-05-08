@@ -27,7 +27,7 @@
         "yield": {
             "type": "csv",
             "params": {
-                "path": "growth.csv"
+                "path": "standing_vol.csv"
             }
         },
         "events": {
@@ -71,54 +71,6 @@
                 {
                     "user_species": "Other Spruce",
                     "default_species": "Spruce"
-                },
-                {
-                    "user_species": "NonForestPineMineral",
-                    "default_species": "Unknown (Ireland)"
-                },
-                {
-                    "user_species": "NonForestSitkaMineral",
-                    "default_species": "Unknown (Ireland)"
-                },
-                {
-                    "user_species": "NonForestSGBMineral",
-                    "default_species": "Unknown (Ireland)"
-                },
-                {
-                    "user_species": "NonForestFGBMineral",
-                    "default_species": "Unknown (Ireland)"
-                },
-                {
-                    "user_species": "NonForestCBmixMineral",
-                    "default_species": "Unknown (Ireland)"
-                },
-                {
-                    "user_species": "NonForestOCMineral",
-                    "default_species": "Unknown (Ireland)"
-                },
-                {
-                    "user_species": "NonForestPinePeat",
-                    "default_species": "Unknown (Ireland)"
-                },
-                {
-                    "user_species": "NonForestSitkaPeat",
-                    "default_species": "Unknown (Ireland)"
-                },
-                {
-                    "user_species": "NonForestSGBPeat",
-                    "default_species": "Unknown (Ireland)"
-                },
-                {
-                    "user_species": "NonForestFGBPeat",
-                    "default_species": "Unknown (Ireland)"
-                },
-                {
-                    "user_species": "NonForestCBmixPeat",
-                    "default_species": "Unknown (Ireland)"
-                },
-                {
-                    "user_species": "NonForestOCPeat",
-                    "default_species": "Unknown (Ireland)"
                 }
             ]
         },
@@ -147,6 +99,10 @@
             {
                 "user_dist_type": "Unknown",
                 "default_dist_type": "Unknown"
+            },
+            {
+                "user_dist_type": "Deforestation",
+                "default_dist_type": "Deforestation"
             }
         ]
     }

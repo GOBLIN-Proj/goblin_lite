@@ -25,7 +25,7 @@ Classes
 
 
 
-.. py:class:: ForestCarbonGenerator(calibration_year, cbm_config_path, scenario_dataframe, afforestation_dataframe, sit_path=None, cbm_validation=False)
+.. py:class:: ForestCarbonGenerator(calibration_year, cbm_config_path, scenario_dataframe, afforestation_dataframe, sit_path=None)
 
 
    Manages the process of generating forest carbon data, leveraging the CBM
@@ -60,12 +60,6 @@ Classes
       The path to the SIT directory.
 
       :type: str, optional
-
-   .. attribute:: cbm_validation
-
-      A flag indicating whether to generate validation data.
-
-      :type: bool
 
    .. method:: generate_forest_carbon()
 

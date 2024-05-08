@@ -44,8 +44,6 @@ class ScenarioRunner:
         The path to the CBM CFS3 configuration file.
     DATABASE_PATH : str, optional
         The path to the database. Default is None.
-    cbm_validation : bool, optional
-        A flag indicating whether CBM validation is enabled. Default is False.
     AR_VALUE : str, optional
         The Assessment Report value. Default is "AR5".
         
@@ -63,8 +61,6 @@ class ScenarioRunner:
         The path to the CBM CFS3 configuration file.
     DATABASE_PATH : str, optional
         The path to the database. Default is None.
-    cbm_validation : bool, optional
-        A flag indicating whether CBM validation is enabled. Default is False.
     AR_VALUE : str, optional
         The Assessment Report value. Default is "AR5".
     data_manager_class : DataManager
@@ -91,7 +87,6 @@ class ScenarioRunner:
         config_path,
         cbm_config_path,
         DATABASE_PATH=None,
-        cbm_validation=False,
         AR_VALUE="AR5",
     ):
         self.AR_VALUE = AR_VALUE
@@ -102,10 +97,6 @@ class ScenarioRunner:
         self.cbm_config_path = cbm_config_path # generate scenario_data
         self.data_manager_class = DataManager(DATABASE_PATH)
         self.database_path = DATABASE_PATH
-        self.cbm_validation = cbm_validation
-
-        if DATABASE_PATH is None and cbm_validation is True:
-            raise ValueError("Database path is required for CBM validation")
             
 
     def run_scenarios(self):
@@ -122,7 +113,6 @@ class ScenarioRunner:
         target_year = self.target_year
         AR_VALUE = self.AR_VALUE
         DATABASE_PATH = self.database_path
-        cbm_validation = self.cbm_validation
 
         self.data_manager_class.create_or_clear_database()
         
@@ -133,11 +123,10 @@ class ScenarioRunner:
         if DATABASE_PATH is not None:
             
             sc_ferch_class = ScenarioDataFetcher(scenario_input_dataframe)
-            num_scenarios = sc_ferch_class.get_total_scenarios()
 
             #create directories
             dir_class = Directories(DATABASE_PATH)
-            dir_class.create_goblin_directory_structure(num_scenarios)
+            dir_class.create_goblin_directory_structure()
 
         
 
@@ -184,7 +173,7 @@ class ScenarioRunner:
         cbm_afforestation_data = landuse_data_generator.generate_afforestation_data()
 
         # Forest carbon data
-        forest_data_generator = ForestCarbonGenerator(baseline_year, self.cbm_config_path, scenario_input_dataframe, cbm_afforestation_data, sit_path=DATABASE_PATH, cbm_validation=cbm_validation)
+        forest_data_generator = ForestCarbonGenerator(baseline_year, self.cbm_config_path, scenario_input_dataframe, cbm_afforestation_data, sit_path=DATABASE_PATH)
 
         forest_data = forest_data_generator.generate_forest_carbon()
 
