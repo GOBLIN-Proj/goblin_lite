@@ -5,7 +5,7 @@ This module is used to create the directory structure for the CBM-Runner model. 
 used to create the directory structure for the SIT when attempting concurrent runs of the model.
 """
 import os 
-from cbm_runner.resource_manager.paths import Paths
+from goblin_cbm_runner.resource_manager.paths import Paths
 
 
 class Directories:
@@ -17,10 +17,6 @@ class Directories:
     -----
     path: str
         The path to the directory where the directory structure will be created.
-    gen_baseline: bool
-        If True, the baseline directory structure will be created.
-    gen_validation: bool
-        If True, the validation directory structure will be created.
 
     Attributes:
     -----------
@@ -44,9 +40,9 @@ class Directories:
         Create the directory structure for the CBM-Runner model.
 
     """
-    def __init__(self, path, gen_baseline = True, gen_validation = False):
+    def __init__(self, path):
         self.path = os.path.dirname(path)
-        self.paths_class = Paths(path, gen_baseline, gen_validation)
+        self.paths_class = Paths(path, gen_baseline=True)
        
 
     def create_database_directory(self):
@@ -99,7 +95,7 @@ class Directories:
             os.makedirs(os.path.join(generated_input_cbm_dir,str(sc)), exist_ok=True)
 
 
-    def create_goblin_directory_structure(self, scenarios):
+    def create_goblin_directory_structure(self):
         """
         Create the directory structure for the CBM-Runner model.
 
@@ -110,4 +106,6 @@ class Directories:
         """
         self.create_database_directory()
         self.create_cbm_directory()
-        self.cbm_generated_input_directories(scenarios)
+
+        #goblin_cbm_runner creates these directories
+        #self.cbm_generated_input_directories(scenarios)

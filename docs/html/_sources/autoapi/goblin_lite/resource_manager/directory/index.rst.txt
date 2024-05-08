@@ -25,7 +25,7 @@ Classes
 
 
 
-.. py:class:: Directories(path, gen_baseline=True, gen_validation=False)
+.. py:class:: Directories(path)
 
 
    Directories class is used to create the directory structure for the CBM-Runner model. This is primarily
@@ -35,10 +35,6 @@ Classes
    -----
    path: str
        The path to the directory where the directory structure will be created.
-   gen_baseline: bool
-       If True, the baseline directory structure will be created.
-   gen_validation: bool
-       If True, the validation directory structure will be created.
 
    Attributes:
    -----------
@@ -102,7 +98,7 @@ Classes
       None
 
 
-   .. py:method:: create_goblin_directory_structure(scenarios)
+   .. py:method:: create_goblin_directory_structure()
 
       Create the directory structure for the CBM-Runner model.
 

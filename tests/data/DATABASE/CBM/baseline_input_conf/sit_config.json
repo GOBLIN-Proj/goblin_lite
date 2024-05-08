@@ -93,8 +93,16 @@
                 "default_dist_type": "Wildfire"
             },
             {
+                "user_dist_type": "Afforestation",
+                "default_dist_type": "Afforestation"
+            },
+            {
                 "user_dist_type": "Unknown",
                 "default_dist_type": "Unknown"
+            },
+            {
+                "user_dist_type": "Deforestation",
+                "default_dist_type": "Deforestation"
             }
         ]
     }

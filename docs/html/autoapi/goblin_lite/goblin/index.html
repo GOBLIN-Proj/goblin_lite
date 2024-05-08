@@ -47,6 +47,7 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../INSTALLATION.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_lite</span></code></a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../index.html#subpackages">Subpackages</a></li>
@@ -109,7 +110,7 @@ various aspects of environmental impact under different agricultural and land us
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="goblin_lite.goblin.ScenarioRunner">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_lite.goblin.</span></span><span class="sig-name descname"><span class="pre">ScenarioRunner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ef_country</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cbm_config_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">DATABASE_PATH</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cbm_validation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AR_VALUE</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'AR5'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/goblin_lite/goblin.html#ScenarioRunner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_lite.goblin.</span></span><span class="sig-name descname"><span class="pre">ScenarioRunner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ef_country</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cbm_config_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">DATABASE_PATH</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AR_VALUE</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'AR5'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/goblin_lite/goblin.html#ScenarioRunner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner" title="Link to this definition"></a></dt>
 <dd><p>The ScenarioRunner class is responsible for orchestrating the entire scenario generation process in the context
 of environmental impact assessments, focusing on agricultural practices and land use scenarios.</p>
 <section id="args">
@@ -126,8 +127,6 @@ of environmental impact assessments, focusing on agricultural practices and land
 <dt>cbm_config_path<span class="classifier">str</span></dt><dd><p>The path to the CBM CFS3 configuration file.</p>
 </dd>
 <dt>DATABASE_PATH<span class="classifier">str, optional</span></dt><dd><p>The path to the database. Default is None.</p>
-</dd>
-<dt>cbm_validation<span class="classifier">bool, optional</span></dt><dd><p>A flag indicating whether CBM validation is enabled. Default is False.</p>
 </dd>
 <dt>AR_VALUE<span class="classifier">str, optional</span></dt><dd><p>The Assessment Report value. Default is “AR5”.</p>
 </dd>
@@ -194,17 +193,6 @@ of environmental impact assessments, focusing on agricultural practices and land
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str, optional</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="goblin_lite.goblin.ScenarioRunner.cbm_validation">
-<span class="sig-name descname"><span class="pre">cbm_validation</span></span><a class="headerlink" href="#goblin_lite.goblin.ScenarioRunner.cbm_validation" title="Link to this definition"></a></dt>
-<dd><p>A flag indicating whether CBM validation is enabled. Default is False.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>bool, optional</p>
 </dd>
 </dl>
 </dd></dl>

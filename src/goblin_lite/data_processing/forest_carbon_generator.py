@@ -4,7 +4,7 @@ Forest Carbon Generator
 This module contains the ForestCarbonGenerator class, which is responsible for generating forest carbon data.
 The class leverages the Runner class to calculate forest carbon data based on scenario-specific and baseline forest data.
 """
-from cbm_runner.runner import Runner
+from goblin_cbm_runner.default_runner.runner import Runner
 import os 
 
 class ForestCarbonGenerator:
@@ -28,22 +28,18 @@ class ForestCarbonGenerator:
 
         sit_path: str, optional
             The path to the SIT directory.
-
-        cbm_validation: bool
-            A flag indicating whether to generate validation data.
     
     Methods
     -------
     generate_forest_carbon()
         Generates forest carbon data using the provided input data.
     """
-    def __init__(self, calibration_year, cbm_config_path, scenario_dataframe, afforestation_dataframe, sit_path=None, cbm_validation=False):
+    def __init__(self, calibration_year, cbm_config_path, scenario_dataframe, afforestation_dataframe, sit_path=None):
         self.calibration_year = calibration_year
         self.cbm_configuration = cbm_config_path
         self.scenario_dataframe = scenario_dataframe
         self.afforestation_dataframe = afforestation_dataframe
         self.sit_path = os.path.dirname(sit_path) if sit_path else None
-        self.validation = cbm_validation
 
     def generate_forest_carbon(self):
         """
@@ -57,7 +53,6 @@ class ForestCarbonGenerator:
             self.calibration_year,
             self.afforestation_dataframe,
             self.scenario_dataframe,
-            gen_validation=self.validation,
             sit_path=self.sit_path
         )
 

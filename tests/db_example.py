@@ -23,7 +23,7 @@ def main():
 
     # class instances
     runner_class = ScenarioRunner(
-        ef_country, baseline_year, target_year, goblin_config, cbm_config, db_path, cbm_validation=True
+        ef_country, baseline_year, target_year, goblin_config, cbm_config, db_path
     )
     graph_class = DataGrapher(db_path)
 

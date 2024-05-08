@@ -47,6 +47,7 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="INSTALLATION.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="autoapi/index.html">API Reference</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Example Usage</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#imports">Imports</a></li>
@@ -106,7 +107,7 @@
 <span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="c1"># Filter out the RuntimeWarning related to unsupported linux distribution</span>
-<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;unsupported linux distribution:&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">RuntimeWarning</span><span class="p">)</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;untested linux distribution:&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">RuntimeWarning</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -161,7 +162,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No tables to clean.
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Existing tables have been deleted.
 JSON file detected
 </pre></div>
 </div>
@@ -182,7 +183,9 @@ JSON file detected
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>... calibration year not present, 2015 default year used for Spread Manure Dictionary...
-... calibration year not present, 2015 default year used for Spread Manure Dictionary...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>... calibration year not present, 2015 default year used for Spread Manure Dictionary...
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>... calibration year not present, 2015 default year used for Spread Manure Dictionary...
@@ -251,9 +254,9 @@ Scenarios
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              CH4        N2O           CO2          CO2e
 index                                                   
--1     531.729908  23.883325   5968.635422  27186.153912
- 0     232.712823  12.703786 -49625.750863 -39743.288474
- 1     232.713557  12.684173 -45639.990554 -35762.705107
+-1     522.224424  23.967861   6756.517692  27730.284835
+ 0     232.911197  12.800875 -48931.355491 -39017.610092
+ 1     233.008983  12.783015 -44997.265775 -35085.515292
 </pre></div>
 </div>
 </div>
@@ -273,39 +276,39 @@ index
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>       enteric_ch4  manure_management_N2O  manure_management_CH4  \
 index                                                              
--1      473.049267               2.721406              44.675498   
- 0      201.291244               1.151512              17.417980   
- 1      201.299522               1.151441              17.410440   
+-1      465.584094               3.075505              42.622576   
+ 0      201.478299               1.314963              17.416696   
+ 1      201.562043               1.315096              17.430742   
 
        manure_applied_N  N_direct_PRP  N_indirect_PRP  N_direct_fertiliser  \
 index                                                                        
--1             1.040157      4.761255        0.784523             7.109264   
- 0             0.446434      2.014111        0.334084             2.135874   
- 1             0.446434      2.013622        0.334013             2.119852   
+-1             0.920240      4.628077        0.765050             7.109264   
+ 0             0.396043      2.014180        0.334145             2.119746   
+ 1             0.396043      2.015091        0.334278             2.103677   
 
        N_indirect_fertiliser   soils_CO2  soil_organic_N_direct  \
 index                                                             
--1                  1.239013  508.885373               5.801413   
- 0                  0.394315  436.522849               2.460546   
- 1                  0.391357  436.244992               2.460057   
+-1                  1.239013  508.885373               5.548316   
+ 0                  0.391338  436.243167               2.410223   
+ 1                  0.388371  435.964488               2.411134   
 
        soil_organic_N_indirect  soil_inorganic_N_direct  \
 index                                                     
--1                    0.784523                 7.109264   
- 0                    0.334084                 2.135874   
- 1                    0.334013                 2.119852   
+-1                    0.765050                 7.109264   
+ 0                    0.334145                 2.119746   
+ 1                    0.334278                 2.103677   
 
        soil_inorganic_N_indirect  soil_histosol_N_direct  crop_residue_direct  \
 index                                                                           
--1                      1.239013                2.125491             3.529468   
- 0                      0.394315                2.125491             3.529468   
- 1                      0.391357                2.125491             3.529468   
+-1                      1.239013                2.128494             3.529468   
+ 0                      0.391338                2.128494             3.529468   
+ 1                      0.388371                2.128494             3.529468   
 
        soil_N_direct  soil_N_indirect  soils_N2O  
 index                                             
--1         18.565637         2.023536  20.589172  
- 0         10.251379         0.728399  10.979779  
- 1         10.234868         0.725370  10.960238  
+-1         18.315543         2.004063  20.319606  
+ 0         10.187932         0.725483  10.913414  
+ 1         10.172773         0.722649  10.895422  
 </pre></div>
 </div>
 </div>
@@ -326,38 +329,38 @@ index
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>           land_use  year           CO2           CH4           N2O  \
 scenario                                                              
 -1         cropland  2020      0.000000  1.542857e-07  4.000000e-09   
--1        grassland  2020   6123.737109  8.926721e+00  2.614493e-03   
--1           forest  2020  -2901.834468  1.615270e+00  5.113616e-01   
+-1        grassland  2020   6132.388421  8.939332e+00  2.618187e-03   
+-1           forest  2020  -2122.603510  1.615270e+00  5.113616e-01   
 -1          wetland  2020   2237.847408  3.463152e+00  5.877036e-02   
--1            total  2020   5459.750049  1.400514e+01  5.727464e-01   
+-1            total  2020   6247.632319  1.401775e+01  5.727501e-01   
  0         cropland  2050      0.000000  1.542857e-07  4.000000e-09   
- 0        grassland  2050   6122.654483  8.925177e+00  2.363236e-03   
- 0           forest  2050 -58236.674280  1.615270e+00  5.113616e-01   
+ 0        grassland  2050   6131.300543  8.937781e+00  2.365710e-03   
+ 0           forest  2050 -57550.645286  1.615270e+00  5.113616e-01   
  0          wetland  2050   2051.746085  3.463152e+00  5.877036e-02   
- 0            total  2050 -50062.273712  1.400360e+01  5.724952e-01   
+ 0            total  2050 -49367.598658  1.401620e+01  5.724976e-01   
  1         cropland  2050      0.000000  1.542857e-07  4.000000e-09   
- 1        grassland  2050   6122.651368  8.925173e+00  2.362513e-03   
- 1           forest  2050 -54250.632998  1.615270e+00  5.113616e-01   
+ 1        grassland  2050   6131.297419  8.937776e+00  2.364985e-03   
+ 1           forest  2050 -53616.273767  1.615270e+00  5.113616e-01   
  1          wetland  2050   2051.746085  3.463152e+00  5.877036e-02   
- 1            total  2050 -46076.235545  1.400359e+01  5.724944e-01   
+ 1            total  2050 -45433.230264  1.401620e+01  5.724969e-01   
 
                   CO2e  
 scenario                
 -1            0.000005  
--1         6374.378136  
--1        -2721.096097  
+-1         6383.383542  
+-1        -1941.865139  
 -1         2350.389800  
--1         6003.671845  
+-1         6791.908208  
  0            0.000005  
- 0         6373.185702  
- 0       -58055.935908  
+ 0         6382.185323  
+ 0       -57369.906914  
  0         2164.288477  
- 0       -49518.461724  
+ 0       -48823.433109  
  1            0.000005  
- 1         6373.182271  
- 1       -54069.894626  
+ 1         6382.181882  
+ 1       -53435.535396  
  1         2164.288477  
- 1       -45532.423873  
+ 1       -44889.065032  
 </pre></div>
 </div>
 </div>
@@ -403,35 +406,35 @@ index
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>       Year           AGB           BGB      Deadwood        Litter  \
-index                                                                 
-0      2020 -1.746113e+06 -3.785691e+05  1.108436e+06 -1.901268e+05   
-1      2021 -2.037913e+06 -4.414819e+05  1.085793e+06 -6.059366e+04   
-2      2022 -1.787086e+06 -3.842269e+05  9.985482e+05 -1.495075e+05   
-3      2023 -1.906880e+06 -4.101801e+05  9.622272e+05 -1.054835e+05   
-4      2024 -1.785587e+06 -3.820570e+05  9.139325e+05 -1.416431e+05   
-...     ...           ...           ...           ...           ...   
-88     2046 -1.009074e+07 -2.253571e+06 -2.929795e+05 -1.259418e+06   
-89     2047 -1.037647e+07 -2.309304e+06 -3.861311e+05 -1.320855e+06   
-90     2048 -1.015322e+07 -2.251757e+06 -5.425552e+05 -1.625411e+06   
-91     2049 -1.040625e+07 -2.305072e+06 -5.902221e+05 -1.504564e+06   
-92     2050 -1.018861e+07 -2.252910e+06 -7.005958e+05 -1.626456e+06   
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>       Year           AGB           BGB       Deadwood        Litter  \
+index                                                                  
+0      2017 -1.271523e+06 -2.629887e+05   14310.306291 -2.931817e+04   
+1      2018 -7.396376e+05 -1.451359e+05  -94794.777582 -2.247464e+05   
+2      2019 -7.356073e+05 -1.559442e+05  -65754.645034 -2.171040e+05   
+3      2020 -5.977606e+05 -1.155876e+05  -80489.106628 -2.112479e+05   
+4      2021 -6.245733e+05 -1.180903e+05  -84963.481106 -1.639868e+05   
+...     ...           ...           ...            ...           ...   
+97     2046 -9.943783e+06 -2.247682e+06 -436089.222430 -9.048314e+05   
+98     2047 -1.031023e+07 -2.323135e+06 -519548.288022 -1.031463e+06   
+99     2048 -1.053227e+07 -2.359665e+06 -623091.148402 -1.196936e+06   
+100    2049 -1.016634e+07 -2.271400e+06 -783161.579982 -1.485339e+06   
+101    2050 -1.011810e+07 -2.253461e+06 -887506.129206 -1.566961e+06   
 
-                Soil  Total Ecosystem  Scenario  
-index                                            
-0      -29247.705426    -1.235621e+06        -1  
-1      -26935.120173    -1.481132e+06        -1  
-2      -29330.155951    -1.351602e+06        -1  
-3      -27977.710327    -1.488294e+06        -1  
-4      -29586.932472    -1.424941e+06        -1  
-...              ...              ...       ...  
-88    -389122.323433    -1.428584e+07         1  
-89    -405703.047822    -1.479847e+07         1  
-90    -425102.176664    -1.499805e+07         1  
-91    -440761.117401    -1.524687e+07         1  
-92    -458545.731996    -1.522712e+07         1  
+                Soil       Harvest  Total Ecosystem  Scenario  
+index                                                          
+0      -10740.835504 -6.382280e+05    -1.560261e+06        -1  
+1      -16971.598679 -9.086246e+05    -1.221286e+06        -1  
+2      -17022.171648 -9.165473e+05    -1.191432e+06        -1  
+3      -18211.347034 -1.027711e+06    -1.023297e+06        -1  
+4      -17942.015780 -1.010614e+06    -1.009556e+06        -1  
+...              ...           ...              ...       ...  
+97    -188402.496628 -8.705401e+05    -1.372079e+07         1  
+98    -197597.765625 -9.220030e+05    -1.438197e+07         1  
+99    -207772.172775 -1.046375e+06    -1.491973e+07         1  
+100   -220042.348373 -1.484998e+06    -1.492628e+07         1  
+101   -228239.576248 -1.677268e+06    -1.505427e+07         1  
 
-[93 rows x 8 columns]
+[102 rows x 9 columns]
 </pre></div>
 </div>
 </div>
@@ -455,7 +458,7 @@ index
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/e5c2cf5c55d7406636b604975171f009f976c45deac88c4059b3164adb856798.png" src="_images/e5c2cf5c55d7406636b604975171f009f976c45deac88c4059b3164adb856798.png" />
+<img alt="_images/a4240e8e78066d7dd70f4df80dc1078d23d21d3a0ee1e466b03f4300476d9c83.png" src="_images/a4240e8e78066d7dd70f4df80dc1078d23d21d3a0ee1e466b03f4300476d9c83.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -473,7 +476,7 @@ index
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/aa4f06222cd0ee62cdeb3dfd36e5ecc18fd3157d9f32cc1f02993f7a861d5b82.png" src="_images/aa4f06222cd0ee62cdeb3dfd36e5ecc18fd3157d9f32cc1f02993f7a861d5b82.png" />
+<img alt="_images/76d87cca08351700543be5234debd0b300293b8eaaf6030afe7121cd1c7d16f9.png" src="_images/76d87cca08351700543be5234debd0b300293b8eaaf6030afe7121cd1c7d16f9.png" />
 </div>
 </div>
 <div class="cell docutils container">
