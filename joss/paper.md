@@ -36,11 +36,11 @@ bibliography: paper.bib
 
 # Statement of need
 
-Ireland's complex AFOLU emissions profile requires a modeling tool that effectively captures both major greenhouse gas (GHG) sources and sinks. `GOBLIN Lite` is designed to meet this need. Based on the original GOBLIN (General Overview for a Backcasting approach to Livestock Intensification) model [@DuffyA:2022], it calculates CO~2~ fluxes from varied soil types and forests, along with CH~4_ emissions from livestock activities. It also models nitrogen (N) losses, including N~2~O, NH~3~, and dissolved forms, across the agricultural landscape.
+Ireland's complex AFOLU emissions profile requires a modeling tool that effectively captures both major greenhouse gas (GHG) sources and sinks. `GOBLIN Lite` is designed to meet this need. Based on the original GOBLIN (General Overview for a Backcasting approach to Livestock Intensification) model \citep{DuffyA2022}, it calculates CO~2~ fluxes from varied soil types and forests, along with CH~4_ emissions from livestock activities. It also models nitrogen (N) losses, including N~2~O, NH~3~, and dissolved forms, across the agricultural landscape.
 
-`GOBLIN Lite`'s enhanced resolution – in herd dynamics, soil group-specific spared area modeling, and additional impact categories – surpasses the original GOBLIN model [@DuffyA:2022]. It integrates Tier 3 forest modeling [@Kurz:2008] for increased detail and aligns with Irish National Inventory reporting [@NIR]. These features make `GOBLIN Lite` a powerful asset for policymakers, researchers, and students, as evidenced by its use in impactful "net-zero" pathway studies.
+`GOBLIN Lite`'s enhanced resolution – in herd dynamics, soil group-specific spared area modeling, and additional impact categories – surpasses the original GOBLIN model \citep{DuffyA2022}. It integrates Tier 3 forest modeling [@Kurz:2008] for increased detail and aligns with Irish National Inventory reporting [@NIR]. These features make `GOBLIN Lite` a powerful asset for policymakers, researchers, and students, as evidenced by its use in impactful "net-zero" pathway studies.
 
-The GOBLIN modeling framework has already been used in recent studies on pathways to "net-zero" for the AFOLU sector and evaluation of "net-zero" definitions [@Bishop:2024; @DuffyB:2022].
+The GOBLIN modeling framework has already been used in recent studies on pathways to "net-zero" for the AFOLU sector and evaluation of "net-zero" definitions [@Bishop:2024; \citep{DuffyB2022}].
 
 # Model Overview
 
