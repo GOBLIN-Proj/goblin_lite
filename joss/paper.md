@@ -52,7 +52,7 @@ Life Cycle Assessment (LCA) processing is handled directly within `GOBLIN Lite`.
 
 # Example Output
 
-A brief illustrative example shows a reduction in livestock with spared area being converted to forest. The example is designed to show model output and is tailored for that purpose only. Scenario -1, in all plots, denotes the baseline. Figure 2 shows emissions and removals from the climate change impact pathway. As spared area has been assigned to forest only emissions from grassland and wetland remain constant. In Ireland, a good deal of legacy forest has been planted on organic soils, and as such, emissions of N~2~O remain constant also. 
+A brief illustrative example shows a reduction in livestock with spared area being converted to forest. The example is designed to show model output and is tailored for that purpose only. Scenario -1, in all plots, denotes the baseline. Figure 2 shows emissions and removals from the climate change impact pathway for various land cover types. As spared area has been assigned to forest only emissions from grassland and wetland remain constant. In Ireland, a good deal of legacy forest has been planted on organic soils, and as such, emissions of N~2~O from forests remain relatively constant also. 
 
 ![Emissions and Removals Grassland, Forest, Wetland and Cropland by gas (CO~2~, CH~4~, N~2~O) and total CO~2~ equivalents.\label{fig:Figure2}](climate_change_land_use.png)
 
@@ -71,7 +71,7 @@ The `GOBLIN Lite` package allows for the calcuation of environmental impacts fro
 Overall, the `GOBLIN Lite` package aims to provide insight for policymakers, researchers and students as to the potential impacts of transistion pathways. Care must be taken when defining parameter inputs as the model will attempt to calculate whatever it is asked to. For example, exceeding the baseline livestock populations may result in a grassland area greater than the baseline grassland area. As such, it is important to ensure that parameter inputs are carefully selected. 
 
 # Limitations
-Scenario generation and execution in `GOBLIN Lite` are resource-intensive. The integration of the CBM-CFS3, significant computational complexity. Additionally, the current model does not include Harvested Wood Products. In addition, impact pathways for eutrophication and air quality apply to nutrient loads from agriculture only. Users should be aware that this model is under continuous research development and improvement. As a result, its functionalities, outputs, and interfaces may change over time. This ongoing development is aimed at enhancing the model's accuracy, efficiency, and usability.
+Scenario generation and execution in `GOBLIN Lite` are resource-intensive as the integration of the CBM-CFS3 adds significant computational complexity. Further, the current model does not include Harvested Wood Products. In addition, impact pathways for eutrophication and air quality apply to nutrient loads from agriculture only. Users should be aware that this model is under continuous research development and improvement. As a result, its functionalities, outputs, and interfaces may change over time. This ongoing development is aimed at enhancing the model's accuracy, efficiency, and usability.
 
 # Acknowledgements
 
