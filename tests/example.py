@@ -27,7 +27,7 @@ def main():
     graph_class = DataGrapher()
 
     # run scenarios
-    runner_class.run_scenarios()
+    #runner_class.run_scenarios()
 
     # plot data
     graph_class.plot_animal_lca_emissions_by_category(data_path)
