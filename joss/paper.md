@@ -62,7 +62,7 @@ Figure 3 shows the estimation of carbon flux using the CBM-CFS3 python library. 
 
 Finally, Figure 4 shows the environmental impacts of agricultural production for the impact categories of climate change, air quality and eutrophication. The soils category includes both organic and inorganic inputs to soils.
 
-![Impact Categories for Agricultural Production showing climate change as CO~2~ equivalents, air quality as NH~3~ and eutrophication as PO~4~ equivalents.\label{fig:Figure4}](Crop_and_Livestock_LCA.png){height="210pt"}
+![Impact Categories for Agricultural Production showing climate change as CO~2~ equivalents, air quality as NH~3~ and eutrophication as PO~4~ equivalents.\label{fig:Figure4}](Crop_and_Livestock_LCA.png){height="420pt"}
 
 # Functionality
 
