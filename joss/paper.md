@@ -62,13 +62,16 @@ Figure 3 shows the estimation of carbon flux using the CBM-CFS3 python library. 
 
 Finally, Figure 4 shows the environmental impacts of agricultural production for the impact categories of climate change, air quality and eutrophication. The soils category includes both organic and inorganic inputs to soils.
 
-![Impact Categories for Agricultural Production showing climate change as CO~2~ equivalents, air quality as NH~3~ and eutrophication as PO~4~ equivalents.\label{fig:Figure4}](Crop_and_Livestock_LCA.png | height=600)
+![Impact Categories for Agricultural Production showing climate change as CO~2~ equivalents, air quality as NH~3~ and eutrophication as PO~4~ equivalents.\label{fig:Figure4}](Crop_and_Livestock_LCA.png){height="9pt"}
 
 # Functionality
 
 The `GOBLIN Lite` package allows for the calcuation of environmental impacts from agricultural production and land use change along multiple impact pathways for Ireland. The project is on going and this package, and derivitaves, are being developed further. The code presented here can be found on Github [@Github] with detailed documentation and examples. 
 
 Overall, the `GOBLIN Lite` package aims to provide insight for policymakers, researchers and students as to the potential impacts of transistion pathways. Care must be taken when defining parameter inputs as the model will attempt to calculate whatever it is asked to. For example, exceeding the baseline livestock populations may result in a grassland area greater than the baseline grassland area. As such, it is important to ensure that parameter inputs are carefully selected. 
+
+# Limitations
+Scenario generation and execution in `GOBLIN Lite` are resource-intensive. The integration of the CBM-CFS3, significant computational complexity. Additionally, the current model does not include Harvested Wood Products. In addition, impact pathways for eutrophication and air quality apply to nutrient loads from agriculture only. Users should be aware that this model is under continuous research development and improvement. As a result, its functionalities, outputs, and interfaces may change over time. This ongoing development is aimed at enhancing the model's accuracy, efficiency, and usability.
 
 # Acknowledgements
 
