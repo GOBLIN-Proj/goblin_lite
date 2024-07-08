@@ -69,7 +69,7 @@ In addition, a csv file can now be used instead. Simply add the keys as columns 
     "Clover fertilisation": 0,
     "Urea proportion": 0.2,
     "Urea abated proportion": 0,
-    "Afforest year": 2050   
+    "Afforest year": 2051   
 },
 {
     "Scenarios": 1,
@@ -99,7 +99,7 @@ In addition, a csv file can now be used instead. Simply add the keys as columns 
     "Clover fertilisation": 0,
     "Urea proportion": 0.2,
     "Urea abated proportion": 0,
-    "Afforest year": 2050  
+    "Afforest year": 2051  
 }]
 ```
 
@@ -109,8 +109,12 @@ The model also requires a yaml file to set specific parameters for the CBM CFS3 
 Classifiers:
 
   harvest:
-    clearfell: 0.01
-    thinning: 0.01
+    clearfell:
+      - conifer: 0.5
+      - broadleaf: 0.06
+    thinning:
+      - conifer: 0.4
+      - broadleaf: 0
 
   age_classes:
     max_age: 100
@@ -128,7 +132,6 @@ Classifiers:
       - YC24_30: 0.17
     SGB:
       - YC10: 1
-
 ```
 
 Below is an example of the model, which generates scenarios, and the uses the results to generate graphics.
