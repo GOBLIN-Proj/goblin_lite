@@ -95,13 +95,13 @@ class DataManager:
         None
         """
         # SQLAlchemy 2.0 - Using the declarative approach for dropping tables
-        metadata = sqa.MetaData(bind=self.engine)
-        metadata.reflect()
+        metadata = sqa.MetaData()
+        metadata.reflect(bind=self.engine)
         existing_tables = metadata.tables
 
         if existing_tables:
             with self.engine.begin() as connection:
-                metadata.drop_all(connection)  # Change: Drop all tables using metadata
+                metadata.drop_all(bind=connection)  # Change: Drop all tables using metadata
             print("Existing tables have been deleted.")
         else:
             print("No tables to clean.")

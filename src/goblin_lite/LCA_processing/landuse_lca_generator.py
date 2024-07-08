@@ -4,7 +4,7 @@ Landuse LCA Generator
 This module contains the LandUseLCAGenerator class, which is responsible for generating land-use footprints for climate change.
 """
 
-from goblin_lite.LCA_processing.impact_categories import ClimateChangeLandUse
+from goblin_lite.impact_categories.climate_change import ClimateChangeLandUse
 from goblin_lite.resource_manager.database_manager import DataManager
 
 class LandUseLCAGenerator:

@@ -1,0 +1,18 @@
+:py:mod:`goblin_lite.impact_categories`
+=======================================
+
+.. py:module:: goblin_lite.impact_categories
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   air_quality/index.rst
+   climate_change/index.rst
+   common/index.rst
+   eutrophication/index.rst
+
+

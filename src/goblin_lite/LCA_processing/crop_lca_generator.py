@@ -5,11 +5,10 @@ This module contains the CropLCAGenerator class, which is responsible for genera
 """
 from goblin_lite.resource_manager.goblin_data_manager import GoblinDataManager
 from goblin_lite.resource_manager.database_manager import DataManager
-from goblin_lite.LCA_processing.impact_categories import (
-    ClimateChangeCrop,
-    EurtrophicationCrop,
-    AirQualityCrop,
-)
+from goblin_lite.impact_categories.climate_change import ClimateChangeCrop
+from goblin_lite.impact_categories.eutrophication import EurtrophicationCrop
+from goblin_lite.impact_categories.air_quality import AirQualityCrop
+
 
 class CropLCAGenerator:
     """

@@ -5,11 +5,9 @@ This module contains the LivestockLCAGenerator class, which is responsible for g
 eutrophication, and air quality.
 """
 from goblin_lite.resource_manager.database_manager import DataManager
-from goblin_lite.LCA_processing.impact_categories import (
-    ClimateChangeLivestock,
-    EutrophicationLivestock,
-    AirQualityLivestock
-)
+from goblin_lite.impact_categories.climate_change import ClimateChangeLivestock
+from goblin_lite.impact_categories.eutrophication import EutrophicationLivestock
+from goblin_lite.impact_categories.air_quality import AirQualityLivestock
 
 class LivestockLCAGenerator:
     """

@@ -13,6 +13,7 @@ Subpackages
    LCA_processing/index.rst
    data_processing/index.rst
    database/index.rst
+   impact_categories/index.rst
    resource_manager/index.rst
    scenario_analysis/index.rst
 
