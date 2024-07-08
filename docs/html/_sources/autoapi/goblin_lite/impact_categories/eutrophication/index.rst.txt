@@ -1,0 +1,242 @@
+:py:mod:`goblin_lite.impact_categories.eutrophication`
+======================================================
+
+.. py:module:: goblin_lite.impact_categories.eutrophication
+
+.. autoapi-nested-parse::
+
+   Impact Category Eutrophication Module
+   =====================================
+
+   The Impact Categories Eutrophication module is designed to calculate and analyze various environmental impacts in the context of land use change, livestock and crop production.
+   The module integrates data from various sources like cattle and sheep lifecycle assessments, crop production data,
+   and land use changes, providing a comprehensive view of environmental impacts.
+
+   Key Features
+   ------------
+   Integration with Multiple Data Sources: Utilizes data from cattle, sheep, crop lifecycle assessments, and land use changes.
+   Environmental Impact Analysis: Calculates emissions contributing to climate change, eutrophication, and
+   air quality.
+
+   Flexible Data Handling: Works with different types of data inputs, including livestock and crop production data, land use transition data, and more.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   goblin_lite.impact_categories.eutrophication.EutrophicationLivestock
+   goblin_lite.impact_categories.eutrophication.EurtrophicationCrop
+   goblin_lite.impact_categories.eutrophication.EutrophicationTotal
+
+
+
+
+.. py:class:: EutrophicationLivestock(ef_country)
+
+
+   A class for assessing the impact of livestock on eutrophication. It calculates emissions
+   from cattle and sheep for both past and future scenarios, considering various emission categories.
+
+   .. attribute:: ef_country
+
+      emission factor country..
+
+      :type: str
+
+   .. attribute:: cattle_eutrophication_class, sheep_eutrophication_class
+
+      Classes for calculating emissions for each category.
+
+   .. attribute:: common_class
+
+      A class for managing various data and constants.
+
+      :type: CommonParams
+
+   .. method:: eutrophication_livestock_past(baseline_animals, baseline_farms)
+
+      
+      Calculates past emissions based on baseline data for animals and farm inputs.
+
+   .. method:: eutrophication_livestock_future(scenario_animals, scenario_farms)
+
+      
+      Projects future emissions based on scenario data for animals and farm inputs.
+
+   .. method:: eutrophication_livestock_dissagregated(baseline_animals, scenario_animals, baseline_farms, scenario_farms)
+
+      
+      Provides detailed emissions data combining past and future scenarios.
+      
+      
+
+   .. py:method:: eutrophication_livestock_past(baseline_animals, baseline_farms)
+
+      Calculate past livestock-related emissions for cattle and sheep, including various emission categories.
+
+      :param baseline_animals: Data containing baseline animal information.
+      :type baseline_animals: DataFrame
+      :param baseline_farms: Data containing baseline farm information.
+      :type baseline_farms: DataFrame
+
+      :returns: A dictionary of emissions data categorized by emission type.
+      :rtype: dict
+
+
+   .. py:method:: eutrophication_livestock_future(scenario_animals, scenario_farms)
+
+      Calculate scenario livestock-related emissions for cattle and sheep, including various emission categories.
+
+      :param baseline_animals: Data containing baseline animal information.
+      :type baseline_animals: DataFrame
+      :param baseline_farms: Data containing baseline farm information.
+      :type baseline_farms: DataFrame
+
+      :returns: A dictionary of emissions data categorized by emission type.
+      :rtype: dict
+
+
+   .. py:method:: eutrophication_livestock_dissagregated(baseline_animals, scenario_animals, baseline_farms, scenario_farms)
+
+      Combine past and future emissions data to provide a comprehensive view of livestock impact on eutrophication.
+
+      :param baseline_animals: Data containing baseline animal information.
+      :type baseline_animals: DataFrame
+      :param scenario_animals: Data containing scenario animal information.
+      :type scenario_animals: DataFrame
+      :param baseline_farms: Data containing baseline farm input information.
+      :type baseline_farms: DataFrame
+      :param scenario_farms: Data containing scenario farm input information.
+      :type scenario_farms: DataFrame
+
+      :returns: A combined dataframe of past and future emissions data.
+      :rtype: DataFrame
+
+
+
+.. py:class:: EurtrophicationCrop(ef_country, default_urea=None, default_urea_abated=None)
+
+
+   A class for assessing the impact of crops on eutrophication. It calculates emissions
+   from crops for both past and future scenarios, considering various emission categories.
+
+   .. attribute:: ef_country
+
+      emission factor country.
+
+      :type: str
+
+   .. attribute:: crop_eutrophication_class
+
+      A class for calculating emissions for each category.
+
+   .. attribute:: common_class
+
+      A class for managing various data and constants.
+
+      :type: CommonParams
+
+   .. attribute:: default_urea_proportion
+
+      The proportion of fertiliser inputs that is urea.
+
+      :type: float
+
+   .. attribute:: default_urea_abated_porpotion
+
+      The proportion of urea that is abated urea.
+
+      :type: float
+
+   .. method:: eutrophication_crop_past(crop_dataframe)
+
+      
+      Calculates past emissions based on baseline data for animals and farm inputs.
+
+   .. method:: eutrophication_crop_future(crop_dataframe, scenario_dataframe)
+
+      
+      Projects future emissions based on scenario data for animals and farm inputs.
+
+   .. method:: eutrophication_crops_dissagregated(crop_dataframe, scenario_dataframe)
+
+      
+      Provides detailed emissions data combining past and future scenarios.
+      
+      
+
+   .. py:method:: eutrophication_crops_past(crop_dataframe)
+
+      Calculates past emissions based on baseline data for animals and farm inputs.
+
+      :param crop_dataframe: Data containing baseline crop information.
+      :type crop_dataframe: DataFrame
+
+      :returns: A dictionary of emissions data categorized by emission type.
+      :rtype: dict
+
+
+   .. py:method:: eutrophication_crops_future(crop_dataframe, scenario_dataframe)
+
+      Projects future emissions based on scenario data for animals and farm inputs.
+
+      :param crop_dataframe: Data containing baseline crop information.
+      :type crop_dataframe: DataFrame
+      :param scenario_dataframe: Data containing scenario information.
+      :type scenario_dataframe: DataFrame
+
+      :returns: A dictionary of emissions data categorized by emission type.
+      :rtype: dict
+
+
+   .. py:method:: eutrophication_crops_dissagregated(crop_dataframe, scenario_dataframe)
+
+      Combine past and future emissions data to provide a comprehensive view of crop impact on eutrophication.
+
+      :param crop_dataframe: Data containing baseline crop information.
+      :type crop_dataframe: DataFrame
+      :param scenario_dataframe: Data containing scenario information.
+      :type scenario_dataframe: DataFrame
+
+      :returns: A combined dataframe of past and future emissions data.
+      :rtype: DataFrame
+
+
+
+.. py:class:: EutrophicationTotal
+
+
+   A class for assessing the total impact of livestock and crops on eutrophication. It calculates emissions
+   from livestock and crops for both past and future scenarios, considering various emission categories.
+
+   .. attribute:: common_class
+
+      A class for managing various data and constants.
+
+      :type: CommonParams
+
+   .. method:: total_eutrophication_emissions(dataframe_dict)
+
+      
+      Calculates total emissions for each scenario.
+      
+      
+
+   .. py:method:: total_eutrophication_emissions(dataframe_dict)
+
+      Calculates eutrophication total emissions for each scenario.
+
+      :param dataframe_dict: A dictionary of dataframes containing baseline and scenario information.
+      :type dataframe_dict: dict
+
+      :returns: A dataframe of total emissions for each scenario.
+      :rtype: DataFrame
+
+
+

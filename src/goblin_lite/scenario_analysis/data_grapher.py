@@ -136,8 +136,6 @@ class DataGrapher:
 
         frames = self.get_combined_crop_and_livestock_pathway_frames()
 
-        print(frames)
-
         xlabels = [label -1 for label in frames[0].index]
 
         sns.set()

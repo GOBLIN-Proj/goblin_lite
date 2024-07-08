@@ -29,7 +29,6 @@ date: 02 April 2024
 bibliography: paper.bib
 
 ---
-
 # Summary
 
 `GOBLIN Lite` is a Python-based tool designed for evaluating land balance and AFOLU (Agriculture, Forestry, and Other Land Use) scenarios within the Irish context. It builds upon the GOBLIN framework, offering increased resolution and aligning with Ireland's National Inventory Report methodologies (including the CBM-CFS3 carbon accounting model). This integration enhances accuracy, making `GOBLIN Lite` a valuable tool for research, policymaking, and education. It calculates emissions across diverse life cycle assessment impact categories, providing policymakers and researchers with a nuanced tool to explore the environmental trade-offs of land-use decisions.

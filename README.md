@@ -69,7 +69,7 @@ In addition, a csv file can now be used instead. Simply add the keys as columns 
     "Clover fertilisation": 0,
     "Urea proportion": 0.2,
     "Urea abated proportion": 0,
-    "Afforest year": 2050   
+    "Afforest year": 2051   
 },
 {
     "Scenarios": 1,
@@ -99,7 +99,7 @@ In addition, a csv file can now be used instead. Simply add the keys as columns 
     "Clover fertilisation": 0,
     "Urea proportion": 0.2,
     "Urea abated proportion": 0,
-    "Afforest year": 2050  
+    "Afforest year": 2051  
 }]
 ```
 

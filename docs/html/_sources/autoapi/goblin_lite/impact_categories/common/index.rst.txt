@@ -1,0 +1,28 @@
+:py:mod:`goblin_lite.impact_categories.common`
+==============================================
+
+.. py:module:: goblin_lite.impact_categories.common
+
+.. autoapi-nested-parse::
+
+   Common parameters for impact categories
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   goblin_lite.impact_categories.common.CommonParams
+
+
+
+
+.. py:class:: CommonParams
+
+
+

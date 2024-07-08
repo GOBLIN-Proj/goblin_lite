@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>goblin_lite.impact_categories.air_quality &mdash; GOBLIN lite 0.4.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=eafc0fe6" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../_static/documentation_options.js?v=c87aa342"></script>
+        <script src="../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="goblin_lite.impact_categories.climate_change" href="../climate_change/index.html" />
+    <link rel="prev" title="goblin_lite.impact_categories" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            GOBLIN lite
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../INSTALLATION.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_lite</span></code></a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../../index.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../LCA_processing/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_lite.LCA_processing</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../data_processing/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_lite.data_processing</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../database/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_lite.database</span></code></a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_lite.impact_categories</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../resource_manager/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_lite.resource_manager</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../scenario_analysis/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_lite.scenario_analysis</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../index.html#submodules">Submodules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../example.html">Example Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../CONTRIBUTING.html">Contributing</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">GOBLIN lite</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_lite</span></code></a></li>
+          <li class="breadcrumb-item"><a href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_lite.impact_categories</span></code></a></li>
+      <li class="breadcrumb-item active"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_lite.impact_categories.air_quality</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../_sources/autoapi/goblin_lite/impact_categories/air_quality/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-goblin_lite.impact_categories.air_quality">
+<span id="goblin-lite-impact-categories-air-quality"></span><h1><a class="reference internal" href="#module-goblin_lite.impact_categories.air_quality" title="goblin_lite.impact_categories.air_quality"><code class="xref py py-mod docutils literal notranslate"><span class="pre">goblin_lite.impact_categories.air_quality</span></code></a><a class="headerlink" href="#module-goblin_lite.impact_categories.air_quality" title="Link to this heading"></a></h1>
+<section id="impact-category-air-quality-module">
+<p>The Impact Categories Air Quality  module is designed to calculate and analyze various environmental impacts in the context of land use change, livestock and crop production.
+The module integrates data from various sources like cattle and sheep lifecycle assessments, crop production data,
+and land use changes, providing a comprehensive view of environmental impacts.</p>
+<section id="key-features">
+<h3>Key Features<a class="headerlink" href="#key-features" title="Link to this heading"></a></h3>
+<p>Integration with Multiple Data Sources: Utilizes data from cattle, sheep, crop lifecycle assessments, and land use changes.
+Environmental Impact Analysis: Calculates emissions contributing to climate change, eutrophication, and
+air quality.</p>
+<p>Flexible Data Handling: Works with different types of data inputs, including livestock and crop production data, land use transition data, and more.</p>
+</section>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#goblin_lite.impact_categories.air_quality.AirQualityLivestock" title="goblin_lite.impact_categories.air_quality.AirQualityLivestock"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AirQualityLivestock</span></code></a></p></td>
+<td><p>A class for assessing the impact of livestock on air quality. It calculates emissions</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#goblin_lite.impact_categories.air_quality.AirQualityCrop" title="goblin_lite.impact_categories.air_quality.AirQualityCrop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AirQualityCrop</span></code></a></p></td>
+<td><p>A class for assessing the impact of crops on air quality. It calculates emissions</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#goblin_lite.impact_categories.air_quality.AirQualityTotal" title="goblin_lite.impact_categories.air_quality.AirQualityTotal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AirQualityTotal</span></code></a></p></td>
+<td><p>A class for assessing the total impact of livestock and crops on air quality. It calculates emissions</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="goblin_lite.impact_categories.air_quality.AirQualityLivestock">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_lite.impact_categories.air_quality.</span></span><span class="sig-name descname"><span class="pre">AirQualityLivestock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ef_country</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/impact_categories/air_quality.html#AirQualityLivestock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.impact_categories.air_quality.AirQualityLivestock" title="Link to this definition"></a></dt>
+<dd><p>A class for assessing the impact of livestock on air quality. It calculates emissions
+from cattle and sheep for both past and future scenarios, considering various emission categories.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_lite.impact_categories.air_quality.AirQualityLivestock.ef_country">
+<span class="sig-name descname"><span class="pre">ef_country</span></span><a class="headerlink" href="#goblin_lite.impact_categories.air_quality.AirQualityLivestock.ef_country" title="Link to this definition"></a></dt>
+<dd><p>emission factor country.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">cattle_air_quality_class,</span> <span class="pre">sheep_air_quality_class</span></span></dt>
+<dd><p>Classes for calculating emissions for each category.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_lite.impact_categories.air_quality.AirQualityLivestock.common_class">
+<span class="sig-name descname"><span class="pre">common_class</span></span><a class="headerlink" href="#goblin_lite.impact_categories.air_quality.AirQualityLivestock.common_class" title="Link to this definition"></a></dt>
+<dd><p>A class for managing various data and constants.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../common/index.html#goblin_lite.impact_categories.common.CommonParams" title="goblin_lite.impact_categories.common.CommonParams">CommonParams</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_lite.impact_categories.air_quality.AirQualityLivestock.air_quality_livestock_past">
+<span class="sig-name descname"><span class="pre">air_quality_livestock_past</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">baseline_animals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baseline_farms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/impact_categories/air_quality.html#AirQualityLivestock.air_quality_livestock_past"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.impact_categories.air_quality.AirQualityLivestock.air_quality_livestock_past" title="Link to this definition"></a></dt>
+<dd><p>Calculates past emissions based on baseline data for animals and farm inputs.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_lite.impact_categories.air_quality.AirQualityLivestock.air_quality_livestock_future">
+<span class="sig-name descname"><span class="pre">air_quality_livestock_future</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario_animals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_farms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/impact_categories/air_quality.html#AirQualityLivestock.air_quality_livestock_future"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.impact_categories.air_quality.AirQualityLivestock.air_quality_livestock_future" title="Link to this definition"></a></dt>
+<dd><p>Projects future emissions based on scenario data for animals and farm inputs.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_lite.impact_categories.air_quality.AirQualityLivestock.air_quality_livestock_dissagregated">
+<span class="sig-name descname"><span class="pre">air_quality_livestock_dissagregated</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">baseline_animals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_animals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baseline_farms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_farms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/impact_categories/air_quality.html#AirQualityLivestock.air_quality_livestock_dissagregated"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.impact_categories.air_quality.AirQualityLivestock.air_quality_livestock_dissagregated" title="Link to this definition"></a></dt>
+<dd><p>Provides detailed emissions data combining past and future scenarios.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">air_quality_livestock_past</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">baseline_animals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baseline_farms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/impact_categories/air_quality.html#AirQualityLivestock.air_quality_livestock_past"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dd><p>Calculates past emissions based on baseline data for animals and farm inputs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>baseline_animals</strong> (<em>DataFrame</em>) – Data containing baseline animal information.</p></li>
+<li><p><strong>baseline_farms</strong> (<em>DataFrame</em>) – Data containing baseline farm information.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary of emissions data categorized by emission type.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">air_quality_livestock_future</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario_animals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_farms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/impact_categories/air_quality.html#AirQualityLivestock.air_quality_livestock_future"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<dd><p>Projects future emissions based on scenario data for animals and farm inputs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scenario_animals</strong> (<em>DataFrame</em>) – Data containing scenario animal information.</p></li>
+<li><p><strong>scenario_farms</strong> (<em>DataFrame</em>) – Data containing scenario farm input information.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary of emissions data categorized by emission type.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">air_quality_livestock_dissagregated</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">baseline_animals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_animals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baseline_farms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_farms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/impact_categories/air_quality.html#AirQualityLivestock.air_quality_livestock_dissagregated"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
+<dd><p>Combine past and future emissions data to provide a comprehensive view of livestock impact on air quality.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>baseline_animals</strong> (<em>DataFrame</em>) – Data containing baseline animal information.</p></li>
+<li><p><strong>scenario_animals</strong> (<em>DataFrame</em>) – Data containing scenario animal information.</p></li>
+<li><p><strong>baseline_farms</strong> (<em>DataFrame</em>) – Data containing baseline farm input information.</p></li>
+<li><p><strong>scenario_farms</strong> (<em>DataFrame</em>) – Data containing scenario farm input information.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A combined dataframe of past and future emissions data.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="goblin_lite.impact_categories.air_quality.AirQualityCrop">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_lite.impact_categories.air_quality.</span></span><span class="sig-name descname"><span class="pre">AirQualityCrop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ef_country</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_urea</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_urea_abated</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/impact_categories/air_quality.html#AirQualityCrop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.impact_categories.air_quality.AirQualityCrop" title="Link to this definition"></a></dt>
+<dd><p>A class for assessing the impact of crops on air quality. It calculates emissions
+from crops for both past and future scenarios, considering various emission categories.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_lite.impact_categories.air_quality.AirQualityCrop.ef_country">
+<span class="sig-name descname"><span class="pre">ef_country</span></span><a class="headerlink" href="#goblin_lite.impact_categories.air_quality.AirQualityCrop.ef_country" title="Link to this definition"></a></dt>
+<dd><p>emission factor country.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_lite.impact_categories.air_quality.AirQualityCrop.crop_air_quality_class">
+<span class="sig-name descname"><span class="pre">crop_air_quality_class</span></span><a class="headerlink" href="#goblin_lite.impact_categories.air_quality.AirQualityCrop.crop_air_quality_class" title="Link to this definition"></a></dt>
+<dd><p>A class for calculating emissions for each category.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_lite.impact_categories.air_quality.AirQualityCrop.common_class">
+<span class="sig-name descname"><span class="pre">common_class</span></span><a class="headerlink" href="#goblin_lite.impact_categories.air_quality.AirQualityCrop.common_class" title="Link to this definition"></a></dt>
+<dd><p>A class for managing various data and constants.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../common/index.html#goblin_lite.impact_categories.common.CommonParams" title="goblin_lite.impact_categories.common.CommonParams">CommonParams</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_lite.impact_categories.air_quality.AirQualityCrop.default_urea_proportion">
+<span class="sig-name descname"><span class="pre">default_urea_proportion</span></span><a class="headerlink" href="#goblin_lite.impact_categories.air_quality.AirQualityCrop.default_urea_proportion" title="Link to this definition"></a></dt>
+<dd><p>The proportion of fertiliser inputs that is urea.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_lite.impact_categories.air_quality.AirQualityCrop.default_urea_abated_porpotion">
+<span class="sig-name descname"><span class="pre">default_urea_abated_porpotion</span></span><a class="headerlink" href="#goblin_lite.impact_categories.air_quality.AirQualityCrop.default_urea_abated_porpotion" title="Link to this definition"></a></dt>
+<dd><p>The proportion of urea that is abated urea.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_lite.impact_categories.air_quality.AirQualityCrop.air_quality_crop_past">
+<span class="sig-name descname"><span class="pre">air_quality_crop_past</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crop_dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goblin_lite.impact_categories.air_quality.AirQualityCrop.air_quality_crop_past" title="Link to this definition"></a></dt>
+<dd><p>Calculates past emissions based on baseline data for animals and farm inputs.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_lite.impact_categories.air_quality.AirQualityCrop.air_quality_crop_future">
+<span class="sig-name descname"><span class="pre">air_quality_crop_future</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crop_dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goblin_lite.impact_categories.air_quality.AirQualityCrop.air_quality_crop_future" title="Link to this definition"></a></dt>
+<dd><p>Projects future emissions based on scenario data for animals and farm inputs.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_lite.impact_categories.air_quality.AirQualityCrop.air_quality_crops_dissagregated">
+<span class="sig-name descname"><span class="pre">air_quality_crops_dissagregated</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crop_dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/impact_categories/air_quality.html#AirQualityCrop.air_quality_crops_dissagregated"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.impact_categories.air_quality.AirQualityCrop.air_quality_crops_dissagregated" title="Link to this definition"></a></dt>
+<dd><p>Provides detailed emissions data combining past and future scenarios.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_lite.impact_categories.air_quality.AirQualityCrop.air_quality_crops_past">
+<span class="sig-name descname"><span class="pre">air_quality_crops_past</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crop_dataframe</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/impact_categories/air_quality.html#AirQualityCrop.air_quality_crops_past"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.impact_categories.air_quality.AirQualityCrop.air_quality_crops_past" title="Link to this definition"></a></dt>
+<dd><p>Calculates past emissions based on baseline data for animals and farm inputs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>crop_dataframe</strong> (<em>DataFrame</em>) – Data containing baseline crop information.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary of emissions data categorized by emission type.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_lite.impact_categories.air_quality.AirQualityCrop.air_quality_crops_future">
+<span class="sig-name descname"><span class="pre">air_quality_crops_future</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crop_dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/impact_categories/air_quality.html#AirQualityCrop.air_quality_crops_future"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.impact_categories.air_quality.AirQualityCrop.air_quality_crops_future" title="Link to this definition"></a></dt>
+<dd><p>Projects future emissions based on scenario data for animals and farm inputs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>crop_dataframe</strong> (<em>DataFrame</em>) – Data containing baseline crop information.</p></li>
+<li><p><strong>scenario_dataframe</strong> (<em>DataFrame</em>) – Data containing scenario information.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary of emissions data categorized by emission type.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">air_quality_crops_dissagregated</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crop_dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/impact_categories/air_quality.html#AirQualityCrop.air_quality_crops_dissagregated"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
+<dd><p>Combine past and future emissions data to provide a comprehensive view of crop impact on air quality.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>crop_dataframe</strong> (<em>DataFrame</em>) – Data containing baseline crop information.</p></li>
+<li><p><strong>scenario_dataframe</strong> (<em>DataFrame</em>) – Data containing scenario information.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A combined dataframe of past and future emissions data.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="goblin_lite.impact_categories.air_quality.AirQualityTotal">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_lite.impact_categories.air_quality.</span></span><span class="sig-name descname"><span class="pre">AirQualityTotal</span></span><a class="reference internal" href="../../../../_modules/goblin_lite/impact_categories/air_quality.html#AirQualityTotal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.impact_categories.air_quality.AirQualityTotal" title="Link to this definition"></a></dt>
+<dd><p>A class for assessing the total impact of livestock and crops on air quality. It calculates emissions
+from livestock and crops for both past and future scenarios, considering various emission categories.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_lite.impact_categories.air_quality.AirQualityTotal.common_class">
+<span class="sig-name descname"><span class="pre">common_class</span></span><a class="headerlink" href="#goblin_lite.impact_categories.air_quality.AirQualityTotal.common_class" title="Link to this definition"></a></dt>
+<dd><p>A class for managing various data and constants.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../common/index.html#goblin_lite.impact_categories.common.CommonParams" title="goblin_lite.impact_categories.common.CommonParams">CommonParams</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_lite.impact_categories.air_quality.AirQualityTotal.total_air_quality_emissions">
+<span class="sig-name descname"><span class="pre">total_air_quality_emissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/impact_categories/air_quality.html#AirQualityTotal.total_air_quality_emissions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.impact_categories.air_quality.AirQualityTotal.total_air_quality_emissions" title="Link to this definition"></a></dt>
+<dd><p>Calculates total emissions for each scenario.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">total_air_quality_emissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/impact_categories/air_quality.html#AirQualityTotal.total_air_quality_emissions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
+<dd><p>Calculates air quality total emissions for each scenario.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dataframe_dict</strong> (<em>dict</em>) – A dictionary of dataframes containing baseline and scenario information.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dataframe of total emissions for each scenario.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="goblin_lite.impact_categories" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../climate_change/index.html" class="btn btn-neutral float-right" title="goblin_lite.impact_categories.climate_change" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Colm Duffy.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

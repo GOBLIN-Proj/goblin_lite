@@ -5,11 +5,9 @@ This module contains the LCATotalGenerator class, which is responsible for gener
 """
 from goblin_lite.resource_manager.data_fetcher import DataFetcher
 from goblin_lite.resource_manager.database_manager import DataManager
-from goblin_lite.LCA_processing.impact_categories import (
-    AirQualityTotal,
-    EutrophicationTotal,
-    ClimateChangeTotal,
-)
+from goblin_lite.impact_categories.climate_change import ClimateChangeTotal
+from goblin_lite.impact_categories.eutrophication import EutrophicationTotal
+from goblin_lite.impact_categories.air_quality import AirQualityTotal
 
 
 class LCATotalGenerator:
@@ -103,6 +101,7 @@ class LCATotalGenerator:
         self.data_manager_class.save_goblin_results_output_datatable(
             eutrophication, "eutrophication_totals"
         )
+
 
 
     def generate_air_quality_totals(self):
