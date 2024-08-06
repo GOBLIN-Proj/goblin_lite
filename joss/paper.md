@@ -24,7 +24,7 @@ affiliations:
    index: 1
  - name: French Agricultural Research Centre for International Development, France
    index: 2
-date: 06 August 2024
+date: 02 April 2024
 bibliography: paper.bib
 
 ---
@@ -42,11 +42,11 @@ The GOBLIN modeling framework has already been used in recent studies on pathway
 
 # Model Overview
 
-Figure 1 illustrates the model architecture and data flow. The scenario module generates model input parameters based on user data (a JSON or CSV input). These outputs are used by the livestock module to determine national livestock (cattle and sheep) numbers for each scenario. The grassland production module then calculates the area required to support these herds/flocks based on livestock energy requirements (from the cattle and sheep LCA modules) and nitrogen (N) response curves [@McEniry:2013]. The N response curve takes into account organic and inorganic fertilizer inputs, as well as soil group. System-specific utilization rates are derived from National Farm Survey data [@NFS]. The total spared area available for alternative land uses is the difference in grassland required between the scenario and the baseline. Final spared areas are disaggregated by soil group. The land use module assigns spared area and produces a transition matrix. Spared area assigned to afforestation is mapped to forest productivity classes [@Farrelly:2015].
+Figure 1 illustrates the model architecture and data flow. The scenario module generates model input parameters based on user data (a JSON or CSV input). These outputs are used by the livestock module to determine national livestock (cattle and sheep) numbers for each scenario. The grassland production module then calculates the area required to support these herds/flocks based on livestock energy requirements (from the cattle and sheep Life Cycle Assessment (LCA) modules) and nitrogen (N) response curves [@McEniry:2013]. The N response curve takes into account organic and inorganic fertilizer inputs, as well as soil group. System-specific utilization rates are derived from National Farm Survey data [@NFS]. The total spared area available for alternative land uses is the difference in grassland required between the scenario and the baseline. Final spared areas are disaggregated by soil group. The land use module assigns spared area and produces a transition matrix. Spared area assigned to afforestation is mapped to forest productivity classes [@Farrelly:2015].
 
 ![GOBLIN Lite Architecture and Data Flow.\label{fig:Figure1}](goblin_data_flow.drawio.png)
 
-Life Cycle Assessment (LCA) processing is handled directly within `GOBLIN Lite`. The package coordinates the flow of data and contains the impact categories. For forest emissions and removals, the CBM-CSF3 Python library is used.
+LCA processing is handled directly within `GOBLIN Lite`. The package coordinates the flow of data and contains the impact categories. For forest emissions and removals, the CBM-CSF3 Python library is used.
 
 # Example Output
 
