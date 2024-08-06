@@ -56,8 +56,6 @@ class ForestCarbonGenerator:
             sit_path=self.sit_path
         )
 
-        cbm_runner.generate_input_data()
-
         # generation of aggregated results
         forest_aggregate = cbm_runner.run_aggregate_scenarios()
 

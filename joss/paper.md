@@ -11,21 +11,20 @@ authors:
     corresponding: true 
     affiliation: 1
   - name: Daniel Henn
-    affiliation: 2
+    orcid: 0000-0002-2249-158X
+    affiliation: 1
   - name: Remi Prudhomme
     orcid: 0000-0002-7042-4656
-    affiliation: 3
+    affiliation: 2
   - name: David Styles
     orcid: 0000-0003-4185-4478
     affiliation: 1
 affiliations:
  - name: University of Galway, Ireland
    index: 1
- - name: University of Limerick, Ireland
-   index: 2
  - name: French Agricultural Research Centre for International Development, France
-   index: 3
-date: 02 April 2024
+   index: 2
+date: 06 August 2024
 bibliography: paper.bib
 
 ---

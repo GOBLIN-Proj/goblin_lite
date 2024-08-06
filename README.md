@@ -40,6 +40,9 @@ In previous versions, each scenario took 4 rows, 1 for each livestock system. Th
 scenario with additional prameters. 
 
 In addition, a csv file can now be used instead. Simply add the keys as columns and the values in the rows, with a row for every scenario.
+
+**Note**: Afforest year should be the target year + 1
+
 ```json
 [{
     "Scenarios": 0,
@@ -107,15 +110,21 @@ The model also requires a yaml file to set specific parameters for the CBM CFS3 
 
 ```yaml
 Classifiers:
-
-  harvest:
-    clearfell:
-      - conifer: 0.5
-      - broadleaf: 0.06
-    thinning:
-      - conifer: 0.4
-      - broadleaf: 0
-
+  baseline:
+    harvest:
+      clearfell:
+        - conifer: 0.95
+        - broadleaf: 0.6
+      thinning:
+        - conifer: 0.5
+        - broadleaf: 0.9
+  scenario:
+    harvest:
+      clearfell:
+        - broadleaf: 0.0
+      thinning:
+        - broadleaf: 0.5
+        
   age_classes:
     max_age: 100
     age_interval: 5
