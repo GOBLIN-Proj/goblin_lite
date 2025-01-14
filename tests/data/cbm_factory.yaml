@@ -1,3 +1,10 @@
+Dynamic_Afforestation:
+  afforest_delay: 5 #delays scenario afforestation by x years
+  annual_afforestation_rate_pre_delay: 1200 #the default annual afforestation rate before during the delay period
+  species_distribution: #the distribution of species in the landscape during delay period
+    - Sitka: 0.7
+    - SGB: 0.3
+
 Classifiers:
   baseline:
     harvest:
