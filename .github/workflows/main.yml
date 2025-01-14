@@ -41,4 +41,4 @@ jobs:
         python -m unittest goblin_test.py
         python -m unittest output_test.py
         cd ./integration/
-        python -m pytest test_landcover_integration.py
+        python -m pytest test_land_cover_balance.py
