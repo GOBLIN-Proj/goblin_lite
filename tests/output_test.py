@@ -39,6 +39,9 @@ class TestOutput(unittest.TestCase):
 
         self.generated_data = self.fetch_class.get_climate_change_emission_totals()
 
+        print(f"Test data: {self.test_data}")
+        print(f"Generated data: {self.generated_data}")
+
 
     def test_output_percentage_difference(self):
         for col in self.generated_data.columns:
