@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_lite.data_processing.animal_data_generation &mdash; GOBLIN lite 0.4.1 documentation</title>
+  <title>goblin_lite.data_processing.animal_data_generation &mdash; GOBLIN lite 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -16,7 +16,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=c87aa342"></script>
+        <script src="../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -96,6 +96,9 @@
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
+<span class="sd">    goblin_data_manager_class : class</span>
+<span class="sd">        The data manager class used to retrieve country, calibration year, and target year information.</span>
+
 <span class="sd">    ef_country : str</span>
 <span class="sd">        The country for which the livestock data is being generated.</span>
 
@@ -113,14 +116,14 @@
 <span class="sd">    generate_animal_data()</span>
 <span class="sd">        Generates animal data for a specified scenario.</span>
 
-<span class="sd">    generate_livestock_ouputs()</span>
+<span class="sd">    generate_livestock_outputs()</span>
 <span class="sd">        Generates and returns a DataFrame of livestock outputs for the given scenario.</span>
-<span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ef_country</span><span class="p">,</span> <span class="n">calibration_year</span><span class="p">,</span> <span class="n">target_year</span><span class="p">,</span> <span class="n">scenario_input_dataframe</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span> <span class="o">=</span> <span class="n">ef_country</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span> <span class="o">=</span> <span class="n">calibration_year</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span> <span class="o">=</span> <span class="n">target_year</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">goblin_data_manager_class</span><span class="p">,</span> <span class="n">scenario_input_dataframe</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span> <span class="o">=</span> <span class="n">goblin_data_manager_class</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="o">.</span><span class="n">get_ef_country</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="o">.</span><span class="n">get_calibration_year</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="o">.</span><span class="n">get_target_year</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scenario_input_dataframe</span> <span class="o">=</span> <span class="n">scenario_input_dataframe</span>
 
 
@@ -147,9 +150,9 @@
         <span class="k">return</span> <span class="n">baseline_animal_data</span><span class="p">,</span> <span class="n">scenario_animal_data</span></div>
 
     
-<div class="viewcode-block" id="AnimalDataGenerator.generate_livestock_ouputs">
-<a class="viewcode-back" href="../../../autoapi/goblin_lite/data_processing/animal_data_generation/index.html#goblin_lite.data_processing.animal_data_generation.AnimalDataGenerator.generate_livestock_ouputs">[docs]</a>
-    <span class="k">def</span> <span class="nf">generate_livestock_ouputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="AnimalDataGenerator.generate_livestock_outputs">
+<a class="viewcode-back" href="../../../autoapi/goblin_lite/data_processing/animal_data_generation/index.html#goblin_lite.data_processing.animal_data_generation.AnimalDataGenerator.generate_livestock_outputs">[docs]</a>
+    <span class="k">def</span> <span class="nf">generate_livestock_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generates and returns a DataFrame of livestock outputs for the given scenario.</span>
 
@@ -167,7 +170,7 @@
 <span class="sd">        The method performs the following steps:</span>
 <span class="sd">        1. Initializes an instance of the Exports class with country-specific parameters, calibration year, target year, </span>
 <span class="sd">        and scenario inputs.</span>
-<span class="sd">        2. Computes protein production data using `compute_system_protien_exports` of the Exports class, which includes </span>
+<span class="sd">        2. Computes protein production data using `compute_system_protein_exports` of the Exports class, which includes </span>
 <span class="sd">        carcass weight information.</span>
 <span class="sd">        3. Computes milk production data using `compute_system_milk_exports` of the Exports class.</span>
 <span class="sd">        4. Creates the protein_and_milk_summary DataFrame by copying milk production data and appending the beef carcass </span>

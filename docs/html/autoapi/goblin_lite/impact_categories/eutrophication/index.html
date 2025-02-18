@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_lite.impact_categories.eutrophication &mdash; GOBLIN lite 0.4.1 documentation</title>
+  <title>goblin_lite.impact_categories.eutrophication &mdash; GOBLIN lite 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=c87aa342"></script>
+        <script src="../../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -106,7 +106,8 @@ and land use changes, providing a comprehensive view of environmental impacts.</
 <p>Integration with Multiple Data Sources: Utilizes data from cattle, sheep, crop lifecycle assessments, and land use changes.
 Environmental Impact Analysis: Calculates emissions contributing to climate change, eutrophication, and
 air quality.</p>
-<p>Flexible Data Handling: Works with different types of data inputs, including livestock and crop production data, land use transition data, and more.</p>
+<p>Flexible Data Handling: Works with different types of data inputs, including livestock and crop production data, land use transition data, and more.
+Integration with Goblin Data Manager: Utilizes <cite>goblin_data_manager</cite> for managing data and constants.</p>
 </section>
 </section>
 <section id="module-contents">
@@ -128,13 +129,19 @@ air quality.</p>
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="goblin_lite.impact_categories.eutrophication.EutrophicationLivestock">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_lite.impact_categories.eutrophication.</span></span><span class="sig-name descname"><span class="pre">EutrophicationLivestock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ef_country</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/impact_categories/eutrophication.html#EutrophicationLivestock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.impact_categories.eutrophication.EutrophicationLivestock" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_lite.impact_categories.eutrophication.</span></span><span class="sig-name descname"><span class="pre">EutrophicationLivestock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">goblin_data_manager</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/impact_categories/eutrophication.html#EutrophicationLivestock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.impact_categories.eutrophication.EutrophicationLivestock" title="Link to this definition"></a></dt>
 <dd><p>A class for assessing the impact of livestock on eutrophication. It calculates emissions
 from cattle and sheep for both past and future scenarios, considering various emission categories.</p>
 <dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_lite.impact_categories.eutrophication.EutrophicationLivestock.goblin_data_manager_class">
+<span class="sig-name descname"><span class="pre">goblin_data_manager_class</span></span><a class="headerlink" href="#goblin_lite.impact_categories.eutrophication.EutrophicationLivestock.goblin_data_manager_class" title="Link to this definition"></a></dt>
+<dd><p>An instance of the Goblin Data Manager class.</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="goblin_lite.impact_categories.eutrophication.EutrophicationLivestock.ef_country">
 <span class="sig-name descname"><span class="pre">ef_country</span></span><a class="headerlink" href="#goblin_lite.impact_categories.eutrophication.EutrophicationLivestock.ef_country" title="Link to this definition"></a></dt>
-<dd><p>emission factor country..</p>
+<dd><p>Emission factor country.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
@@ -243,13 +250,19 @@ from cattle and sheep for both past and future scenarios, considering various em
 
 <dl class="py class">
 <dt class="sig sig-object py" id="goblin_lite.impact_categories.eutrophication.EurtrophicationCrop">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_lite.impact_categories.eutrophication.</span></span><span class="sig-name descname"><span class="pre">EurtrophicationCrop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ef_country</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_urea</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_urea_abated</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/impact_categories/eutrophication.html#EurtrophicationCrop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.impact_categories.eutrophication.EurtrophicationCrop" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_lite.impact_categories.eutrophication.</span></span><span class="sig-name descname"><span class="pre">EurtrophicationCrop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">goblin_data_manager</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">urea</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">urea_abated</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/impact_categories/eutrophication.html#EurtrophicationCrop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.impact_categories.eutrophication.EurtrophicationCrop" title="Link to this definition"></a></dt>
 <dd><p>A class for assessing the impact of crops on eutrophication. It calculates emissions
 from crops for both past and future scenarios, considering various emission categories.</p>
 <dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_lite.impact_categories.eutrophication.EurtrophicationCrop.goblin_data_manager_class">
+<span class="sig-name descname"><span class="pre">goblin_data_manager_class</span></span><a class="headerlink" href="#goblin_lite.impact_categories.eutrophication.EurtrophicationCrop.goblin_data_manager_class" title="Link to this definition"></a></dt>
+<dd><p>An instance of the Goblin Data Manager class.</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="goblin_lite.impact_categories.eutrophication.EurtrophicationCrop.ef_country">
 <span class="sig-name descname"><span class="pre">ef_country</span></span><a class="headerlink" href="#goblin_lite.impact_categories.eutrophication.EurtrophicationCrop.ef_country" title="Link to this definition"></a></dt>
-<dd><p>emission factor country.</p>
+<dd><p>Emission factor country.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>

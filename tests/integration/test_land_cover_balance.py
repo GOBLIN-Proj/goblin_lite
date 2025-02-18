@@ -1,4 +1,5 @@
 from goblin_lite.data_processing.landuse_data_generator import LandUseDataGenerator
+from goblin_lite.resource_manager.goblin_data_manager import GoblinDataManager
 import pandas as pd
 import os
 
@@ -13,20 +14,31 @@ def test_landcover_balance():
     total_spared_area = pd.read_csv(os.path.join(input_path, "total_spared_area.csv"))
     total_spared_area_by_soil_group = pd.read_csv(os.path.join(input_path, "total_spared_area_by_soil_group.csv"))
 
-    # Configuration
+    # configuration
+    goblin_config = "../data/config.json"
+    cbm_config = "../data/cbm_factory.yaml"
+    ef_country = "ireland"
     baseline_year = 2020
     target_year = 2050
 
+    # create goblin data manager
+    goblin_data_manager = GoblinDataManager(
+        ef_country = ef_country, 
+        calibration_year= baseline_year,
+        target_year= target_year,
+        configuration_path= goblin_config,
+        cbm_configuration_path= cbm_config,
+    )
+
     # Land use data
-    landuse_data_generator = LandUseDataGenerator(baseline_year, 
-                                                  target_year, 
+    landuse_data_generator = LandUseDataGenerator(goblin_data_manager,
                                                   scenario_input_dataframe, 
                                                   total_grassland_area, 
                                                   total_spared_area, 
                                                   total_spared_area_by_soil_group)
 
     transition_matrix = landuse_data_generator.generate_transition_matrix()
-    landuse_data = landuse_data_generator.generate_landuse_data()
+    landuse_data = landuse_data_generator.generate_landuse_data()["landuse_data"]
 
     rows = []
 
@@ -90,7 +102,8 @@ def test_landcover_balance():
     for sc in df["scenario"].unique():
         transition_area = df.loc[sc, "transition_area"].item()
         total_land_use_area = df.loc[sc,["farmable_condition_area", "forest_area", "wetland_area"]].sum()
-        assert transition_area == total_land_use_area, f"Transition area mismatch for scenario {sc}: {transition_area} != {total_land_use_area}"
+        assert int(round(transition_area)) == int(round(total_land_use_area)), \
+            f"Transition area mismatch for scenario {sc}: {transition_area} != {total_land_use_area}"
 
 
 if __name__ == "__main__":

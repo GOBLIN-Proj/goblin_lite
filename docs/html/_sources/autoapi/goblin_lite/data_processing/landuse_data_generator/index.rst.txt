@@ -10,6 +10,26 @@
    This module contains the LandUseDataGenerator class, which is responsible for generating landuse data and landcover outputs.
    The class leverages the TransitionMatrix, LandCover and Afforestation classes to calculate landuse data and landcover outputs based on scenario-specific and baseline landuse data.
 
+   Classes
+   -------
+   LandUseDataGenerator
+       Manages the generation of land use and land cover data. Leverages TransitionMatrix,
+       LandCover, and Afforestation classes for core calculations.
+
+       Methods
+       -------
+       generate_transition_matrix()
+           Creates a land use transition matrix using the TransitionMatrix class.
+
+       generate_landuse_data()
+          Calculates the base and future land use areas using the LandCover class.
+
+       generate_spared_area_category_totals()
+           Generates the total spared area by category using the LandCover class.
+
+       generate_afforestation_data()
+           Generates afforestation data for the CBM, using the Afforestation class.
+
 
 
 Module Contents
@@ -25,11 +45,17 @@ Classes
 
 
 
-.. py:class:: LandUseDataGenerator(calibration_year, target_year, scenario_dataframe, grassland_area, spared_area, spared_area_breakdown)
+.. py:class:: LandUseDataGenerator(goblin_data_manager, scenario_dataframe, grassland_area, spared_area, spared_area_breakdown)
 
 
    Manages the generation of land use and land cover data. Leverages TransitionMatrix,
    LandCover, and Afforestation classes for core calculations.
+
+   .. attribute:: goblin_data_manager_class
+
+      Instance of the GoblinDataManager class.
+
+      :type: object
 
    .. attribute:: calibration_year
 
@@ -77,6 +103,11 @@ Classes
       Calculates the base and future land use areas using the LandCover class.
 
 
+   .. method:: generate_spared_area_category_totals()
+
+      Generates the total spared area by category using the LandCover class.
+
+
    .. method:: generate_afforestation_data()
 
       Generates afforestation data for the CBM, using the Afforestation class.
@@ -86,6 +117,9 @@ Classes
 
 
    .. py:method:: generate_landuse_data()
+
+
+   .. py:method:: generate_spared_area_category_totals()
 
 
    .. py:method:: generate_afforestation_data()

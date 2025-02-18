@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_lite.resource_manager.data_fetcher &mdash; GOBLIN lite 0.4.1 documentation</title>
+  <title>goblin_lite.resource_manager.data_fetcher &mdash; GOBLIN lite 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -16,7 +16,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=c87aa342"></script>
+        <script src="../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -129,7 +129,10 @@
 <span class="sd">    - get_forest_flux(): Fetches annual forest carbon flux data.</span>
 <span class="sd">    - get_forest_aggregate(): Retrieves aggregated forest carbon data.</span>
 <span class="sd">    - get_total_afforested(): Retrieves data on total afforested area for each scenario.</span>
+<span class="sd">    - get_total_afforested_inputs(): Retrieves total afforested area inputs for each scenario.</span>
+<span class="sd">    - get_cbm_afforesatation_disturbances(): Retrieves afforestation disturbances data for each scenario.</span>
 <span class="sd">    - get_landuse_areas(): Retrieves data on land use areas for each scenario and the baseline.</span>
+<span class="sd">    - dump_tables(data_path): Dumps all tables to a specified path.</span>
 
 <span class="sd">Each method in the DataFetcher class is designed to retrieve a specific type of data from the output tables managed by the DataManager. The methods return pandas DataFrames containing relevant data, which can be further analyzed or visualized as required.</span>
 
@@ -250,6 +253,9 @@
 
 <span class="sd">        get_landuse_areas()</span>
 <span class="sd">            Returns the land use areas data from the &quot;land_use_areas&quot; output data table.</span>
+
+<span class="sd">        dump_tables(data_path)</span>
+<span class="sd">            Dumps all tables to a specified path.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span> <span class="o">=</span> <span class="n">DataManager</span><span class="p">(</span><span class="n">DATABASE_PATH</span><span class="p">)</span>
 
@@ -1145,11 +1151,11 @@
         <span class="k">return</span> <span class="n">forest_aggregate</span></div>
 
 
-<div class="viewcode-block" id="DataFetcher.get_total_afforested">
-<a class="viewcode-back" href="../../../autoapi/goblin_lite/resource_manager/data_fetcher/index.html#goblin_lite.resource_manager.data_fetcher.DataFetcher.get_total_afforested">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_total_afforested</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DataFetcher.get_total_afforested_inputs">
+<a class="viewcode-back" href="../../../autoapi/goblin_lite/resource_manager/data_fetcher/index.html#goblin_lite.resource_manager.data_fetcher.DataFetcher.get_total_afforested_inputs">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_total_afforested_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the total afforested area for each scenario.</span>
+<span class="sd">        Get the total afforested area for each scenario, as derived from land use change modules.</span>
 
 <span class="sd">        This method retrieves a dataframe that provides the total area afforested in each scenario. The values are reported in hectares (ha),</span>
 <span class="sd">        representing the extent of land that has been converted to forest through afforestation. The afforested areas are essential indicators</span>
@@ -1170,9 +1176,32 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">afforestation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_goblin_results_output_datatable</span><span class="p">(</span>
-            <span class="s2">&quot;cbm_afforestation_data&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s2">&quot;index&quot;</span>
+            <span class="s2">&quot;cbm_afforestation_data_derived_input&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s2">&quot;index&quot;</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">afforestation</span></div>
+
+    
+<div class="viewcode-block" id="DataFetcher.get_cbm_afforesatation_disturbances">
+<a class="viewcode-back" href="../../../autoapi/goblin_lite/resource_manager/data_fetcher/index.html#goblin_lite.resource_manager.data_fetcher.DataFetcher.get_cbm_afforesatation_disturbances">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_cbm_afforesatation_disturbances</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the total afforested area for each scenario as per the libcbm.</span>
+
+<span class="sd">        This method fetches the afforestation disturbances data, which includes:</span>
+<span class="sd">        - The baseline scenario (-1) that includes afforested stands from 1990.</span>
+<span class="sd">        - Other scenarios that include afforestation areas from the calibration year.</span>
+
+<span class="sd">        The baseline outputs are cached and reused with each scenario, meaning the total afforestation in any scenario </span>
+<span class="sd">        will include both the baseline and scenario-specific afforestation areas.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pandas.DataFrame: A DataFrame containing the afforestation disturbances data with the index column set to &quot;index&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">afforestation_disturbance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">get_goblin_results_output_datatable</span><span class="p">(</span>
+            <span class="s2">&quot;cbm_spared_area_afforestation_time_series_output&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s2">&quot;index&quot;</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">afforestation_disturbance</span></div>
 
     
 <div class="viewcode-block" id="DataFetcher.get_landuse_areas">
@@ -1240,7 +1269,8 @@
                     <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_livestock_output_summary</span><span class="p">,</span> <span class="s2">&quot;livestock_output_summary.csv&quot;</span><span class="p">),</span>
                     <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_landuse_areas</span><span class="p">,</span> <span class="s2">&quot;landuse_areas.csv&quot;</span><span class="p">),</span>
                     <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_landuse_emissions_totals</span><span class="p">,</span> <span class="s2">&quot;landuse_emissions_totals.csv&quot;</span><span class="p">),</span>
-                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_total_afforested</span><span class="p">,</span> <span class="s2">&quot;total_afforested.csv&quot;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_total_afforested_inputs</span><span class="p">,</span> <span class="s2">&quot;total_afforested_inputs.csv&quot;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_cbm_afforesatation_disturbances</span><span class="p">,</span> <span class="s2">&quot;cbm_afforesatation_disturbances.csv&quot;</span><span class="p">),</span>
                     <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_total_grassland_area</span><span class="p">,</span> <span class="s2">&quot;total_grassland_area.csv&quot;</span><span class="p">),</span>
                     <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_transition_matrix</span><span class="p">,</span> <span class="s2">&quot;transition_matrix.csv&quot;</span><span class="p">),</span>
                     <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_grassland_spared_area_by_soil_group</span><span class="p">,</span> <span class="s2">&quot;grassland_spared_area_by_soil_group.csv&quot;</span><span class="p">),</span>

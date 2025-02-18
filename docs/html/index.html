@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🧌🏋️ Goblin lite, for the generation of static scenarios using the GOBLIN modelling framework &mdash; GOBLIN lite 0.4.1 documentation</title>
+  <title>🧌🏋️ Goblin lite, for the generation of static scenarios using the GOBLIN modelling framework &mdash; GOBLIN lite 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -17,7 +17,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=c87aa342"></script>
+        <script src="_static/documentation_options.js?v=1dd76d02"></script>
         <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -105,6 +105,7 @@
 <p>In previous versions, each scenario took 4 rows, 1 for each livestock system. This has been reduced to a single row for each
 scenario with additional prameters.</p>
 <p>In addition, a csv file can now be used instead. Simply add the keys as columns and the values in the rows, with a row for every scenario.</p>
+<p><strong>Note</strong>: Afforest year should be the target year + 1</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">[{</span>
 <span class="w">    </span><span class="nt">&quot;Scenarios&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;Manure management cattle&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tank liquid&quot;</span><span class="p">,</span>
@@ -168,16 +169,32 @@ scenario with additional prameters.</p>
 </pre></div>
 </div>
 <p>The model also requires a yaml file to set specific parameters for the CBM CFS3 model</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">Classifiers</span><span class="p">:</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">Dynamic_Afforestation</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">afforest_delay</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span><span class="w"> </span><span class="c1">#delays scenario afforestation by x years</span>
+<span class="w">  </span><span class="nt">annual_afforestation_rate_pre_delay</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1200</span><span class="w"> </span><span class="c1">#the default annual afforestation rate before during the delay period</span>
+<span class="w">  </span><span class="nt">species_distribution</span><span class="p">:</span><span class="w"> </span><span class="c1">#the distribution of species in the landscape during delay period</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Sitka</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.7</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">SGB</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.3</span>
 
-<span class="w">  </span><span class="nt">harvest</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">clearfell</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">conifer</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.5</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">broadleaf</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.06</span>
-<span class="w">    </span><span class="nt">thinning</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">conifer</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.4</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">broadleaf</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+<span class="nt">Forest_management</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">intensity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">high</span>
 
+<span class="nt">Classifiers</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">baseline</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">harvest</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">clearfell</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">conifer</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.95</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">broadleaf</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.6</span>
+<span class="w">      </span><span class="nt">thinning</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">conifer</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.5</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">broadleaf</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.9</span>
+<span class="w">  </span><span class="nt">scenario</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">harvest</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">clearfell</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">broadleaf</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0</span>
+<span class="w">      </span><span class="nt">thinning</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">broadleaf</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.5</span>
+<span class="w">        </span>
 <span class="w">  </span><span class="nt">age_classes</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">max_age</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span>
 <span class="w">    </span><span class="nt">age_interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
@@ -198,6 +215,7 @@ scenario with additional prameters.</p>
 </div>
 <p>Below is an example of the model, which generates scenarios, and the uses the results to generate graphics.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">goblin_lite.goblin</span> <span class="kn">import</span> <span class="n">ScenarioRunner</span>
+<span class="kn">from</span> <span class="nn">goblin_lite.resource_manager.goblin_data_manager</span> <span class="kn">import</span> <span class="n">GoblinDataManager</span>
 <span class="kn">from</span> <span class="nn">goblin_lite.scenario_analysis.data_grapher</span> <span class="kn">import</span> <span class="n">DataGrapher</span>
 <span class="kn">import</span> <span class="nn">shutil</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -219,10 +237,19 @@ scenario with additional prameters.</p>
     <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">data_path</span><span class="p">)</span>
 
 
-    <span class="c1"># class instances</span>
-    <span class="n">runner_class</span> <span class="o">=</span> <span class="n">ScenarioRunner</span><span class="p">(</span>
-        <span class="n">ef_country</span><span class="p">,</span> <span class="n">baseline_year</span><span class="p">,</span> <span class="n">target_year</span><span class="p">,</span> <span class="n">goblin_config</span><span class="p">,</span> <span class="n">cbm_config</span>
+    <span class="c1"># create goblin data manager</span>
+    <span class="n">goblin_data_manger</span> <span class="o">=</span> <span class="n">GoblinDataManager</span><span class="p">(</span>
+        <span class="n">ef_country</span> <span class="o">=</span> <span class="n">ef_country</span><span class="p">,</span> 
+        <span class="n">calibration_year</span><span class="o">=</span> <span class="n">baseline_year</span><span class="p">,</span>
+        <span class="n">target_year</span><span class="o">=</span> <span class="n">target_year</span><span class="p">,</span>
+        <span class="n">configuration_path</span><span class="o">=</span> <span class="n">goblin_config</span><span class="p">,</span>
+        <span class="n">cbm_configuration_path</span><span class="o">=</span> <span class="n">cbm_config</span><span class="p">,</span>
     <span class="p">)</span>
+
+    <span class="c1"># class instances</span>
+    <span class="n">runner_class</span> <span class="o">=</span> <span class="n">ScenarioRunner</span><span class="p">(</span><span class="n">goblin_data_manger</span><span class="p">)</span>
+
+    
     <span class="n">graph_class</span> <span class="o">=</span> <span class="n">DataGrapher</span><span class="p">()</span>
 
     <span class="c1"># run scenarios</span>

@@ -23,29 +23,37 @@ class CropDataGenerator:
     target_year : int
         The target year for the scenario.
 
-    scenario_dataframe : pandas.DataFrame
-        A DataFrame containing scenario-specific input data required for crop output calculations.
+    default_urea : float
+        The default amount of urea used for crop production.
+
+    default_urea_abated : float
+        The default amount of urea abated.
+
+    sc_fetcher : ScenarioDataFetcher
+        An instance of ScenarioDataFetcher to fetch scenario-specific data.
+
+    goblin_data_manager_class : GoblinDataManager
+        An instance of GoblinDataManager to manage goblin data.
 
     Methods
     -------
     generate_crop_data()
-        Generates and returns a Dataframe based on national level crop data.
+        Generates and returns a DataFrame based on national level crop data.
     
-    generate_crop_farm_data()
+    generate_crop_farm_data(urea=None, urea_abated=None)
         Generates and returns a DataFrame of farm outputs.
-
     """
-    def __init__(self, calibration_year, target_year, scenario_dataframe):
+    def __init__(self,goblin_data_manager, scenario_dataframe):
         self.sc_fetcher = ScenarioDataFetcher(scenario_dataframe)
-        self.data_manager = GoblinDataManager()
-        self.calibration_year = calibration_year
-        self.target_year = target_year
-        self.default_urea = self.data_manager.get_default_urea()
-        self.default_urea_abated = self.data_manager.get_default_urea_abated()
+        self.goblin_data_manager_class = goblin_data_manager
+        self.calibration_year = self.goblin_data_manager_class.get_calibration_year()
+        self.target_year = self.goblin_data_manager_class.get_target_year()
+        self.default_urea = self.goblin_data_manager_class.get_default_urea()
+        self.default_urea_abated = self.goblin_data_manager_class.get_default_urea_abated()
 
     def generate_crop_data(self):
         """
-        Generates and returns a Dataframe based on national level crop data.
+        Generates and returns a DataFrame based on national level crop data.
 
         Returns
         -------
@@ -75,10 +83,10 @@ class CropDataGenerator:
 
         Parameters
         ----------
-        urea : float
+        urea : float, optional
             The amount of urea used for crop production. If not provided, the default value is used.
 
-        urea_abated : float
+        urea_abated : float, optional
             The amount of urea abated. If not provided, the default value is used.
 
         Returns

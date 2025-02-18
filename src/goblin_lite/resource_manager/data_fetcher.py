@@ -52,7 +52,10 @@ Methods
     - get_forest_flux(): Fetches annual forest carbon flux data.
     - get_forest_aggregate(): Retrieves aggregated forest carbon data.
     - get_total_afforested(): Retrieves data on total afforested area for each scenario.
+    - get_total_afforested_inputs(): Retrieves total afforested area inputs for each scenario.
+    - get_cbm_afforesatation_disturbances(): Retrieves afforestation disturbances data for each scenario.
     - get_landuse_areas(): Retrieves data on land use areas for each scenario and the baseline.
+    - dump_tables(data_path): Dumps all tables to a specified path.
 
 Each method in the DataFetcher class is designed to retrieve a specific type of data from the output tables managed by the DataManager. The methods return pandas DataFrames containing relevant data, which can be further analyzed or visualized as required.
 
@@ -171,6 +174,9 @@ class DataFetcher:
 
         get_landuse_areas()
             Returns the land use areas data from the "land_use_areas" output data table.
+
+        dump_tables(data_path)
+            Dumps all tables to a specified path.
         """
         self.data_manager_class = DataManager(DATABASE_PATH)
 
@@ -979,9 +985,9 @@ class DataFetcher:
         )
         return forest_aggregate
 
-    def get_total_afforested(self):
+    def get_total_afforested_inputs(self):
         """
-        Get the total afforested area for each scenario.
+        Get the total afforested area for each scenario, as derived from land use change modules.
 
         This method retrieves a dataframe that provides the total area afforested in each scenario. The values are reported in hectares (ha),
         representing the extent of land that has been converted to forest through afforestation. The afforested areas are essential indicators
@@ -1002,9 +1008,29 @@ class DataFetcher:
         """
 
         afforestation = self.data_manager_class.get_goblin_results_output_datatable(
-            "cbm_afforestation_data", index_col="index"
+            "cbm_afforestation_data_derived_input", index_col="index"
         )
         return afforestation
+    
+    def get_cbm_afforesatation_disturbances(self):
+        """
+        Retrieves the total afforested area for each scenario as per the libcbm.
+
+        This method fetches the afforestation disturbances data, which includes:
+        - The baseline scenario (-1) that includes afforested stands from 1990.
+        - Other scenarios that include afforestation areas from the calibration year.
+
+        The baseline outputs are cached and reused with each scenario, meaning the total afforestation in any scenario 
+        will include both the baseline and scenario-specific afforestation areas.
+
+        Returns:
+            pandas.DataFrame: A DataFrame containing the afforestation disturbances data with the index column set to "index".
+        """
+        afforestation_disturbance = self.data_manager_class.get_goblin_results_output_datatable(
+            "cbm_spared_area_afforestation_time_series_output", index_col="index"
+        )
+
+        return afforestation_disturbance
     
     def get_landuse_areas(self):
         """
@@ -1028,6 +1054,15 @@ class DataFetcher:
         return landuse_areas
 
 
+    def get_spared_area_log(self):
+        """
+        Get the spared area log for each scenario.
+        """
+        spared_area_log = self.data_manager_class.get_goblin_results_output_datatable(
+            "spared_area_log", index_col="index"
+        )
+        return spared_area_log
+    
 
     def dump_tables(self, data_path):
         """
@@ -1066,7 +1101,8 @@ class DataFetcher:
                     (self.get_livestock_output_summary, "livestock_output_summary.csv"),
                     (self.get_landuse_areas, "landuse_areas.csv"),
                     (self.get_landuse_emissions_totals, "landuse_emissions_totals.csv"),
-                    (self.get_total_afforested, "total_afforested.csv"),
+                    (self.get_total_afforested_inputs, "total_afforested_inputs.csv"),
+                    (self.get_cbm_afforesatation_disturbances, "cbm_afforesatation_disturbances.csv"),
                     (self.get_total_grassland_area, "total_grassland_area.csv"),
                     (self.get_transition_matrix, "transition_matrix.csv"),
                     (self.get_grassland_spared_area_by_soil_group, "grassland_spared_area_by_soil_group.csv"),

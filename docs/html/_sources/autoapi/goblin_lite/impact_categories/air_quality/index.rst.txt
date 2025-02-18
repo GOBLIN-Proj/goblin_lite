@@ -8,7 +8,7 @@
    Impact Category Air Quality Module
    ==================================
 
-   The Impact Categories Air Quality  module is designed to calculate and analyze various environmental impacts in the context of land use change, livestock and crop production.
+   The Impact Categories Air Quality module is designed to calculate and analyze various environmental impacts in the context of land use change, livestock and crop production.
    The module integrates data from various sources like cattle and sheep lifecycle assessments, crop production data,
    and land use changes, providing a comprehensive view of environmental impacts.
 
@@ -19,6 +19,12 @@
    air quality.
 
    Flexible Data Handling: Works with different types of data inputs, including livestock and crop production data, land use transition data, and more.
+
+   Classes
+   -------
+   AirQualityLivestock: A class for assessing the impact of livestock on air quality.
+   AirQualityCrop: A class for assessing the impact of crops on air quality.
+   AirQualityTotal: A class for assessing the total impact of livestock and crops on air quality.
 
 
 
@@ -37,27 +43,35 @@ Classes
 
 
 
-.. py:class:: AirQualityLivestock(ef_country)
+.. py:class:: AirQualityLivestock(goblin_data_manager)
 
 
    A class for assessing the impact of livestock on air quality. It calculates emissions
    from cattle and sheep for both past and future scenarios, considering various emission categories.
 
+   .. attribute:: goblin_data_manager_class
+
+      A class for managing goblin data.
+
    .. attribute:: ef_country
 
-      emission factor country.
+      Emission factor country.
 
       :type: str
-
-   .. attribute:: cattle_air_quality_class, sheep_air_quality_class
-
-      Classes for calculating emissions for each category.
 
    .. attribute:: common_class
 
       A class for managing various data and constants.
 
       :type: CommonParams
+
+   .. attribute:: cattle_air_quality_class
+
+      A class for calculating cattle emissions.
+
+   .. attribute:: sheep_air_quality_class
+
+      A class for calculating sheep emissions.
 
    .. method:: air_quality_livestock_past(baseline_animals, baseline_farms)
 
@@ -120,7 +134,7 @@ Classes
 
 
 
-.. py:class:: AirQualityCrop(ef_country, default_urea=None, default_urea_abated=None)
+.. py:class:: AirQualityCrop(goblin_data_manager, urea, urea_abated)
 
 
    A class for assessing the impact of crops on air quality. It calculates emissions

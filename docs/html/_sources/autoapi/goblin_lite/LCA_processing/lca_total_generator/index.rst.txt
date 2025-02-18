@@ -24,11 +24,17 @@ Classes
 
 
 
-.. py:class:: LCATotalGenerator(calibration_year, target_year, scenario_dataframe, DATABASE_PATH)
+.. py:class:: LCATotalGenerator(goblin_data_manager, scenario_dataframe)
 
 
    Manages the calculation of total environmental footprints (climate change, eutrophication, air quality).
    Utilizes ClimateChangeTotal, EutrophicationTotal, and AirQualityTotal classes.
+
+   .. attribute:: goblin_data_manager_class
+
+      An instance of the GoblinDataManager class for managing goblin data.
+
+      :type: GoblinDataManager
 
    .. attribute:: db_reference_class
 

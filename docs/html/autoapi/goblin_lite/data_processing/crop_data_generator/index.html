@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_lite.data_processing.crop_data_generator &mdash; GOBLIN lite 0.4.1 documentation</title>
+  <title>goblin_lite.data_processing.crop_data_generator &mdash; GOBLIN lite 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=c87aa342"></script>
+        <script src="../../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -114,7 +114,7 @@ The class leverages the NationalCropData class to calculate crop data and farm o
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="goblin_lite.data_processing.crop_data_generator.CropDataGenerator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_lite.data_processing.crop_data_generator.</span></span><span class="sig-name descname"><span class="pre">CropDataGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">calibration_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/data_processing/crop_data_generator.html#CropDataGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.data_processing.crop_data_generator.CropDataGenerator" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_lite.data_processing.crop_data_generator.</span></span><span class="sig-name descname"><span class="pre">CropDataGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">goblin_data_manager</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/data_processing/crop_data_generator.html#CropDataGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.data_processing.crop_data_generator.CropDataGenerator" title="Link to this definition"></a></dt>
 <dd><p>A class to generate crop data and farm outputs for a specified scenario.</p>
 <p>This class is responsible for generating crop data and farm outputs.
 It leverages the NationalCropData class to calculate crop data and farm outputs based on scenario-specific and baseline crop data.</p>
@@ -141,12 +141,45 @@ It leverages the NationalCropData class to calculate crop data and farm outputs 
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="goblin_lite.data_processing.crop_data_generator.CropDataGenerator.scenario_dataframe">
-<span class="sig-name descname"><span class="pre">scenario_dataframe</span></span><a class="headerlink" href="#goblin_lite.data_processing.crop_data_generator.CropDataGenerator.scenario_dataframe" title="Link to this definition"></a></dt>
-<dd><p>A DataFrame containing scenario-specific input data required for crop output calculations.</p>
+<dt class="sig sig-object py" id="goblin_lite.data_processing.crop_data_generator.CropDataGenerator.default_urea">
+<span class="sig-name descname"><span class="pre">default_urea</span></span><a class="headerlink" href="#goblin_lite.data_processing.crop_data_generator.CropDataGenerator.default_urea" title="Link to this definition"></a></dt>
+<dd><p>The default amount of urea used for crop production.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pandas.DataFrame</p>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_lite.data_processing.crop_data_generator.CropDataGenerator.default_urea_abated">
+<span class="sig-name descname"><span class="pre">default_urea_abated</span></span><a class="headerlink" href="#goblin_lite.data_processing.crop_data_generator.CropDataGenerator.default_urea_abated" title="Link to this definition"></a></dt>
+<dd><p>The default amount of urea abated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_lite.data_processing.crop_data_generator.CropDataGenerator.sc_fetcher">
+<span class="sig-name descname"><span class="pre">sc_fetcher</span></span><a class="headerlink" href="#goblin_lite.data_processing.crop_data_generator.CropDataGenerator.sc_fetcher" title="Link to this definition"></a></dt>
+<dd><p>An instance of ScenarioDataFetcher to fetch scenario-specific data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../../resource_manager/scenario_data_fetcher/index.html#goblin_lite.resource_manager.scenario_data_fetcher.ScenarioDataFetcher" title="goblin_lite.resource_manager.scenario_data_fetcher.ScenarioDataFetcher">ScenarioDataFetcher</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_lite.data_processing.crop_data_generator.CropDataGenerator.goblin_data_manager_class">
+<span class="sig-name descname"><span class="pre">goblin_data_manager_class</span></span><a class="headerlink" href="#goblin_lite.data_processing.crop_data_generator.CropDataGenerator.goblin_data_manager_class" title="Link to this definition"></a></dt>
+<dd><p>An instance of GoblinDataManager to manage goblin data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../../resource_manager/goblin_data_manager/index.html#goblin_lite.resource_manager.goblin_data_manager.GoblinDataManager" title="goblin_lite.resource_manager.goblin_data_manager.GoblinDataManager">GoblinDataManager</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -154,19 +187,19 @@ It leverages the NationalCropData class to calculate crop data and farm outputs 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_lite.data_processing.crop_data_generator.CropDataGenerator.generate_crop_data">
 <span class="sig-name descname"><span class="pre">generate_crop_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/data_processing/crop_data_generator.html#CropDataGenerator.generate_crop_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.data_processing.crop_data_generator.CropDataGenerator.generate_crop_data" title="Link to this definition"></a></dt>
-<dd><p>Generates and returns a Dataframe based on national level crop data.</p>
+<dd><p>Generates and returns a DataFrame based on national level crop data.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_lite.data_processing.crop_data_generator.CropDataGenerator.generate_crop_farm_data">
-<span class="sig-name descname"><span class="pre">generate_crop_farm_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/data_processing/crop_data_generator.html#CropDataGenerator.generate_crop_farm_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.data_processing.crop_data_generator.CropDataGenerator.generate_crop_farm_data" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">generate_crop_farm_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">urea</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">urea_abated</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/data_processing/crop_data_generator.html#CropDataGenerator.generate_crop_farm_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.data_processing.crop_data_generator.CropDataGenerator.generate_crop_farm_data" title="Link to this definition"></a></dt>
 <dd><p>Generates and returns a DataFrame of farm outputs.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id0">
 <span class="sig-name descname"><span class="pre">generate_crop_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/data_processing/crop_data_generator.html#CropDataGenerator.generate_crop_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
-<dd><p>Generates and returns a Dataframe based on national level crop data.</p>
+<dd><p>Generates and returns a DataFrame based on national level crop data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A DataFrame containing national level crop data.</p>
@@ -184,8 +217,8 @@ It leverages the NationalCropData class to calculate crop data and farm outputs 
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>urea</strong> (<em>float</em>) – The amount of urea used for crop production. If not provided, the default value is used.</p></li>
-<li><p><strong>urea_abated</strong> (<em>float</em>) – The amount of urea abated. If not provided, the default value is used.</p></li>
+<li><p><strong>urea</strong> (<em>float</em><em>, </em><em>optional</em>) – The amount of urea used for crop production. If not provided, the default value is used.</p></li>
+<li><p><strong>urea_abated</strong> (<em>float</em><em>, </em><em>optional</em>) – The amount of urea abated. If not provided, the default value is used.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>

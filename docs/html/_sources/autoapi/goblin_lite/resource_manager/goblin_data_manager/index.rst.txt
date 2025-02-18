@@ -24,7 +24,7 @@ Classes
 
 
 
-.. py:class:: GoblinDataManager(AR_VALUE='AR5')
+.. py:class:: GoblinDataManager(ef_country, calibration_year, target_year, configuration_path, cbm_configuration_path, DATABASE_PATH=None, AR_VALUE='AR5')
 
 
    Manages data for the GOBLIN LCA framework.
@@ -133,6 +133,36 @@ Classes
       Retrieves the default urea abated value.
 
 
+   .. method:: get_calibration_year()
+
+      Retrieves the calibration year.
+
+
+   .. method:: get_target_year()
+
+      Retrieves the target year.
+
+
+   .. method:: get_configuration_path()
+
+      Retrieves the configuration path.
+
+
+   .. method:: get_cbm_configuration_path()
+
+      Retrieves the CBM configuration path.
+
+
+   .. method:: get_database_path()
+
+      Retrieves the database path.
+
+
+   .. method:: get_ef_country()
+
+      Retrieves the EF country.
+
+
    .. py:method:: get_AR_values()
 
       Retrieves the AR values for CH4, N2O, and CO2e.
@@ -195,6 +225,54 @@ Classes
 
       :returns: The default urea abated value.
       :rtype: float
+
+
+   .. py:method:: get_calibration_year()
+
+      Retrieves the calibration year.
+
+      :returns: The calibration year.
+      :rtype: int
+
+
+   .. py:method:: get_target_year()
+
+      Retrieves the target year.
+
+      :returns: The target year.
+      :rtype: int
+
+
+   .. py:method:: get_configuration_path()
+
+      Retrieves the configuration path.
+
+      :returns: The configuration path.
+      :rtype: str
+
+
+   .. py:method:: get_cbm_configuration_path()
+
+      Retrieves the CBM configuration path.
+
+      :returns: The CBM configuration path.
+      :rtype: str
+
+
+   .. py:method:: get_database_path()
+
+      Retrieves the database path.
+
+      :returns: The database path.
+      :rtype: str
+
+
+   .. py:method:: get_ef_country()
+
+      Retrieves the EF country.
+
+      :returns: The EF country.
+      :rtype: str
 
 
 

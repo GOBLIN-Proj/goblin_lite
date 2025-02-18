@@ -10,13 +10,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Set up Python 3.10.6
+    - name: Set up Python 3.10.12
       uses: actions/setup-python@v5
       with:
-        python-version: 3.9.13
+        python-version: 3.10.12
 
     - name: Check-out repository
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Ensures a full clone with history
+  
 
     - name: Set up Git authentication
       run: git config --global url."https://${{ secrets.PAT_TOKEN }}@github.com/".insteadOf "https://github.com/"

@@ -17,6 +17,8 @@ class LCATotalGenerator:
 
     Attributes
     ----------
+    goblin_data_manager_class : GoblinDataManager
+        An instance of the GoblinDataManager class for managing goblin data.
     db_reference_class : DataFetcher
         An instance of the DataFetcher class for retrieving data.
     data_manager_class : DataManager
@@ -45,11 +47,23 @@ class LCATotalGenerator:
     get_eutrophication_emission_dataframes()
         Fetches eutrophication emission dataframes by category.
     """
-    def __init__(self, calibration_year, target_year, scenario_dataframe, DATABASE_PATH):
-        self.db_reference_class = DataFetcher(DATABASE_PATH)
-        self.data_manager_class = DataManager(DATABASE_PATH)
-        self.calibration_year = calibration_year
-        self.target_year = target_year
+    def __init__(self, goblin_data_manager, scenario_dataframe):
+        """
+        Initializes the LCATotalGenerator with the provided goblin data manager and scenario dataframe.
+
+        Parameters
+        ----------
+        goblin_data_manager : GoblinDataManager
+            An instance of the GoblinDataManager class for managing goblin data.
+        scenario_dataframe : pandas.DataFrame
+            Dataframe containing scenario-specific parameters.
+        """
+        self.goblin_data_manager_class = goblin_data_manager
+        self.DATABASE_PATH = self.goblin_data_manager_class.get_database_path()
+        self.db_reference_class = DataFetcher(self.DATABASE_PATH)
+        self.data_manager_class = DataManager(self.DATABASE_PATH)
+        self.calibration_year = self.goblin_data_manager_class.get_calibration_year()
+        self.target_year = self.goblin_data_manager_class.get_target_year()
         self.scenario_dataframe = scenario_dataframe
 
 

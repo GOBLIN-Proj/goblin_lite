@@ -86,7 +86,13 @@
 
    .. method:: - get_total_afforested(): Retrieves data on total afforested area for each scenario.
 
+   .. method:: - get_total_afforested_inputs(): Retrieves total afforested area inputs for each scenario.
+
+   .. method:: - get_cbm_afforesatation_disturbances(): Retrieves afforestation disturbances data for each scenario.
+
    .. method:: - get_landuse_areas(): Retrieves data on land use areas for each scenario and the baseline.
+
+   .. method:: - dump_tables(data_path): Dumps all tables to a specified path.
 
 
 
@@ -688,9 +694,9 @@ Classes
          Reproted in tons.
 
 
-   .. py:method:: get_total_afforested()
+   .. py:method:: get_total_afforested_inputs()
 
-      Get the total afforested area for each scenario.
+      Get the total afforested area for each scenario, as derived from land use change modules.
 
       This method retrieves a dataframe that provides the total area afforested in each scenario. The values are reported in hectares (ha),
       representing the extent of land that has been converted to forest through afforestation. The afforested areas are essential indicators
@@ -707,6 +713,21 @@ Classes
          ecosystem services, and sustainable land management practices.
          
          Reported in ha.
+
+
+   .. py:method:: get_cbm_afforesatation_disturbances()
+
+      Retrieves the total afforested area for each scenario as per the libcbm.
+
+      This method fetches the afforestation disturbances data, which includes:
+      - The baseline scenario (-1) that includes afforested stands from 1990.
+      - Other scenarios that include afforestation areas from the calibration year.
+
+      The baseline outputs are cached and reused with each scenario, meaning the total afforestation in any scenario
+      will include both the baseline and scenario-specific afforestation areas.
+
+      :returns: A DataFrame containing the afforestation disturbances data with the index column set to "index".
+      :rtype: pandas.DataFrame
 
 
    .. py:method:: get_landuse_areas()

@@ -26,13 +26,19 @@ Classes
 
 
 
-.. py:class:: AnimalDataGenerator(ef_country, calibration_year, target_year, scenario_input_dataframe)
+.. py:class:: AnimalDataGenerator(goblin_data_manager_class, scenario_input_dataframe)
 
 
    A class to generate animal data and livestock outputs for a specified scenario.
 
    This class is responsible for generating animal data and livestock outputs for a specified scenario. It leverages the
    AnimalData and Exports classes to calculate animal data and livestock outputs based on scenario-specific and baseline animal data.
+
+   .. attribute:: goblin_data_manager_class
+
+      The data manager class used to retrieve country, calibration year, and target year information.
+
+      :type: class
 
    .. attribute:: ef_country
 
@@ -63,9 +69,10 @@ Classes
       Generates animal data for a specified scenario.
 
 
-   .. method:: generate_livestock_ouputs()
+   .. method:: generate_livestock_outputs()
 
       Generates and returns a DataFrame of livestock outputs for the given scenario.
+
 
    .. py:method:: generate_animal_data()
 
@@ -75,7 +82,7 @@ Classes
       :rtype: tuple
 
 
-   .. py:method:: generate_livestock_ouputs()
+   .. py:method:: generate_livestock_outputs()
 
       Generates and returns a DataFrame of livestock outputs for the given scenario.
 
@@ -91,7 +98,7 @@ Classes
       The method performs the following steps:
       1. Initializes an instance of the Exports class with country-specific parameters, calibration year, target year,
       and scenario inputs.
-      2. Computes protein production data using `compute_system_protien_exports` of the Exports class, which includes
+      2. Computes protein production data using `compute_system_protein_exports` of the Exports class, which includes
       carcass weight information.
       3. Computes milk production data using `compute_system_milk_exports` of the Exports class.
       4. Creates the protein_and_milk_summary DataFrame by copying milk production data and appending the beef carcass

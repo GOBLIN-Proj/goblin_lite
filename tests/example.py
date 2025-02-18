@@ -1,4 +1,5 @@
 from goblin_lite.goblin import ScenarioRunner
+from goblin_lite.resource_manager.goblin_data_manager import GoblinDataManager
 from goblin_lite.scenario_analysis.data_grapher import DataGrapher
 import shutil
 import os
@@ -19,11 +20,17 @@ def main():
     # output dir
     os.mkdir(data_path)
 
+    # create goblin data manager
+    goblin_data_manger = GoblinDataManager(
+        ef_country = ef_country, 
+        calibration_year= baseline_year,
+        target_year= target_year,
+        configuration_path= goblin_config,
+        cbm_configuration_path= cbm_config,
+    )
 
     # class instances
-    runner_class = ScenarioRunner(
-        ef_country, baseline_year, target_year, goblin_config, cbm_config
-    )
+    runner_class = ScenarioRunner(goblin_data_manger)
     graph_class = DataGrapher()
 
     # run scenarios

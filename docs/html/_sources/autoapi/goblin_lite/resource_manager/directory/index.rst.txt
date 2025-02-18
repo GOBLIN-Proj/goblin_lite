@@ -104,8 +104,7 @@ Classes
 
       Args:
       -----
-      scenarios: int
-          The number of scenarios to create directories for.
+      None
 
 
 

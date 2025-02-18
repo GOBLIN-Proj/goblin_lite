@@ -13,6 +13,8 @@ Environmental Impact Analysis: Calculates emissions contributing to climate chan
 air quality.
 
 Flexible Data Handling: Works with different types of data inputs, including livestock and crop production data, land use transition data, and more.
+Integration with Goblin Data Manager: Utilizes `goblin_data_manager` for managing data and constants.
+
 """
 
 from cattle_lca.resource_manager.models import load_livestock_data, load_farm_data
@@ -30,7 +32,8 @@ class EutrophicationLivestock:
     from cattle and sheep for both past and future scenarios, considering various emission categories.
     
     Attributes:
-        ef_country (str): emission factor country..
+        goblin_data_manager_class: An instance of the Goblin Data Manager class.
+        ef_country (str): Emission factor country.
         cattle_eutrophication_class, sheep_eutrophication_class: Classes for calculating emissions for each category.
         common_class (CommonParams): A class for managing various data and constants.
         
@@ -43,10 +46,12 @@ class EutrophicationLivestock:
             Provides detailed emissions data combining past and future scenarios.
                 
     """
-    def __init__(self, ef_country):
+    def __init__(self, goblin_data_manager):
+        self.goblin_data_manager_class = goblin_data_manager
+        self.ef_country = self.goblin_data_manager_class.get_ef_country()
         self.common_class = CommonParams()
-        self.cattle_eutrophication_class = CattleEutrophicationTotals(ef_country)
-        self.sheep_eutrophication_class = SheepEutrophicationTotals(ef_country)
+        self.cattle_eutrophication_class = CattleEutrophicationTotals(self.ef_country)
+        self.sheep_eutrophication_class = SheepEutrophicationTotals(self.ef_country)
 
     def eutrophication_livestock_past(self, baseline_animals, baseline_farms):
         """
@@ -216,7 +221,8 @@ class EurtrophicationCrop:
     from crops for both past and future scenarios, considering various emission categories.
 
     Attributes:
-        ef_country (str): emission factor country.
+        goblin_data_manager_class: An instance of the Goblin Data Manager class.
+        ef_country (str): Emission factor country.
         crop_eutrophication_class: A class for calculating emissions for each category.
         common_class (CommonParams): A class for managing various data and constants.
         default_urea_proportion (float): The proportion of fertiliser inputs that is urea.
@@ -231,14 +237,15 @@ class EurtrophicationCrop:
             Provides detailed emissions data combining past and future scenarios.
 
     """
-    def __init__(self, ef_country, default_urea=None, default_urea_abated=None):
+    def __init__(self, goblin_data_manager, urea, urea_abated):
+        self.goblin_data_manager_class = goblin_data_manager
         self.common_class = CommonParams()
-        self.ef_country = ef_country
+        self.ef_country = self.goblin_data_manager_class.get_ef_country()
 
-        self.crop_etrophication_class = CropEutrophicationTotals(ef_country)
+        self.crop_etrophication_class = CropEutrophicationTotals(self.ef_country)
 
-        self.default_urea_proportion = default_urea
-        self.default_urea_abated_porpotion = default_urea_abated
+        self.default_urea_proportion = urea if urea is not None else self.goblin_data_manager_class.get_default_urea()
+        self.default_urea_abated_porpotion = urea_abated if urea_abated is not None else self.goblin_data_manager_class.get_default_urea_abated()
 
 
     def eutrophication_crops_past(self, crop_dataframe):

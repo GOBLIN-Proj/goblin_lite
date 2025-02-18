@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_lite.resource_manager.goblin_data_manager &mdash; GOBLIN lite 0.4.1 documentation</title>
+  <title>goblin_lite.resource_manager.goblin_data_manager &mdash; GOBLIN lite 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=c87aa342"></script>
+        <script src="../../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -113,7 +113,7 @@
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="goblin_lite.resource_manager.goblin_data_manager.GoblinDataManager">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_lite.resource_manager.goblin_data_manager.</span></span><span class="sig-name descname"><span class="pre">GoblinDataManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">AR_VALUE</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'AR5'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/resource_manager/goblin_data_manager.html#GoblinDataManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.resource_manager.goblin_data_manager.GoblinDataManager" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_lite.resource_manager.goblin_data_manager.</span></span><span class="sig-name descname"><span class="pre">GoblinDataManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ef_country</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cbm_configuration_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">DATABASE_PATH</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AR_VALUE</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'AR5'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/resource_manager/goblin_data_manager.html#GoblinDataManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.resource_manager.goblin_data_manager.GoblinDataManager" title="Link to this definition"></a></dt>
 <dd><p>Manages data for the GOBLIN LCA framework.</p>
 <p>This class is responsible for managing data for the GOBLIN LCA framework. It provides access to AR values, climate change livestock emissions groups,
 climate change livestock emissions categories, climate change livestock conversion groups, climate change crops emissions groups,
@@ -277,6 +277,42 @@ climate change crop conversion groups, default urea, and default urea abated.</p
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="goblin_lite.resource_manager.goblin_data_manager.GoblinDataManager.get_calibration_year">
+<span class="sig-name descname"><span class="pre">get_calibration_year</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/resource_manager/goblin_data_manager.html#GoblinDataManager.get_calibration_year"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.resource_manager.goblin_data_manager.GoblinDataManager.get_calibration_year" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the calibration year.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_lite.resource_manager.goblin_data_manager.GoblinDataManager.get_target_year">
+<span class="sig-name descname"><span class="pre">get_target_year</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/resource_manager/goblin_data_manager.html#GoblinDataManager.get_target_year"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.resource_manager.goblin_data_manager.GoblinDataManager.get_target_year" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the target year.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_lite.resource_manager.goblin_data_manager.GoblinDataManager.get_configuration_path">
+<span class="sig-name descname"><span class="pre">get_configuration_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/resource_manager/goblin_data_manager.html#GoblinDataManager.get_configuration_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.resource_manager.goblin_data_manager.GoblinDataManager.get_configuration_path" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the configuration path.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_lite.resource_manager.goblin_data_manager.GoblinDataManager.get_cbm_configuration_path">
+<span class="sig-name descname"><span class="pre">get_cbm_configuration_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/resource_manager/goblin_data_manager.html#GoblinDataManager.get_cbm_configuration_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.resource_manager.goblin_data_manager.GoblinDataManager.get_cbm_configuration_path" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the CBM configuration path.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_lite.resource_manager.goblin_data_manager.GoblinDataManager.get_database_path">
+<span class="sig-name descname"><span class="pre">get_database_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/resource_manager/goblin_data_manager.html#GoblinDataManager.get_database_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.resource_manager.goblin_data_manager.GoblinDataManager.get_database_path" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the database path.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="goblin_lite.resource_manager.goblin_data_manager.GoblinDataManager.get_ef_country">
+<span class="sig-name descname"><span class="pre">get_ef_country</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/resource_manager/goblin_data_manager.html#GoblinDataManager.get_ef_country"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.resource_manager.goblin_data_manager.GoblinDataManager.get_ef_country" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the EF country.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="id0">
 <span class="sig-name descname"><span class="pre">get_AR_values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/resource_manager/goblin_data_manager.html#GoblinDataManager.get_AR_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
 <dd><p>Retrieves the AR values for CH4, N2O, and CO2e.</p>
@@ -384,6 +420,90 @@ climate change crop conversion groups, default urea, and default urea abated.</p
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id8">
+<span class="sig-name descname"><span class="pre">get_calibration_year</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/resource_manager/goblin_data_manager.html#GoblinDataManager.get_calibration_year"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id8" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the calibration year.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The calibration year.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id9">
+<span class="sig-name descname"><span class="pre">get_target_year</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/resource_manager/goblin_data_manager.html#GoblinDataManager.get_target_year"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id9" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the target year.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The target year.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id10">
+<span class="sig-name descname"><span class="pre">get_configuration_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/resource_manager/goblin_data_manager.html#GoblinDataManager.get_configuration_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id10" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the configuration path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The configuration path.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id11">
+<span class="sig-name descname"><span class="pre">get_cbm_configuration_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/resource_manager/goblin_data_manager.html#GoblinDataManager.get_cbm_configuration_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id11" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the CBM configuration path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The CBM configuration path.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id12">
+<span class="sig-name descname"><span class="pre">get_database_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/resource_manager/goblin_data_manager.html#GoblinDataManager.get_database_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id12" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the database path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The database path.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id13">
+<span class="sig-name descname"><span class="pre">get_ef_country</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/resource_manager/goblin_data_manager.html#GoblinDataManager.get_ef_country"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id13" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the EF country.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The EF country.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
 </dd>
 </dl>
 </dd></dl>

@@ -25,11 +25,17 @@ Classes
 
 
 
-.. py:class:: LivestockLCAGenerator(ef_country, calibration_year, target_year, baseline_animal_data, scenario_animal_data, farm_inputs_baseline, farm_inputs_scenario, landuse_data, transition_matrix, crop_data, DATABASE_PATH, AR_VALUE)
+.. py:class:: LivestockLCAGenerator(goblin_data_manager, baseline_animal_data, scenario_animal_data, farm_inputs_baseline, farm_inputs_scenario, landuse_data, transition_matrix, crop_data)
 
 
    Manages the calculation of environmental footprints (climate change, eutrophication, air quality) associated with livestock production.
    Employs ClimateChangeLivestock, EutrophicationLivestock, and AirQualityLivestock classes.
+
+   .. attribute:: goblin_data_manager
+
+      An instance of the DataManager class for database interactions.
+
+      :type: DataManager
 
    .. attribute:: data_manager_class
 

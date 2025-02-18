@@ -2,7 +2,7 @@
 Impact Category Air Quality Module
 ==================================
 
-The Impact Categories Air Quality  module is designed to calculate and analyze various environmental impacts in the context of land use change, livestock and crop production. 
+The Impact Categories Air Quality module is designed to calculate and analyze various environmental impacts in the context of land use change, livestock and crop production. 
 The module integrates data from various sources like cattle and sheep lifecycle assessments, crop production data, 
 and land use changes, providing a comprehensive view of environmental impacts.
 
@@ -13,6 +13,13 @@ Environmental Impact Analysis: Calculates emissions contributing to climate chan
 air quality.
 
 Flexible Data Handling: Works with different types of data inputs, including livestock and crop production data, land use transition data, and more.
+
+Classes
+-------
+AirQualityLivestock: A class for assessing the impact of livestock on air quality.
+AirQualityCrop: A class for assessing the impact of crops on air quality.
+AirQualityTotal: A class for assessing the total impact of livestock and crops on air quality.
+
 """
 
 from cattle_lca.resource_manager.models import load_livestock_data, load_farm_data
@@ -29,9 +36,11 @@ class AirQualityLivestock:
     from cattle and sheep for both past and future scenarios, considering various emission categories.
 
     Attributes:
-        ef_country (str): emission factor country.
-        cattle_air_quality_class, sheep_air_quality_class: Classes for calculating emissions for each category.
+        goblin_data_manager_class: A class for managing goblin data.
+        ef_country (str): Emission factor country.
         common_class (CommonParams): A class for managing various data and constants.
+        cattle_air_quality_class: A class for calculating cattle emissions.
+        sheep_air_quality_class: A class for calculating sheep emissions.
 
     Methods:
         air_quality_livestock_past(baseline_animals, baseline_farms):
@@ -42,10 +51,12 @@ class AirQualityLivestock:
             Provides detailed emissions data combining past and future scenarios.
 
     """
-    def __init__(self, ef_country):
+    def __init__(self, goblin_data_manager):
+        self.goblin_data_manager_class = goblin_data_manager
+        self.ef_country = self.goblin_data_manager_class.get_ef_country()
         self.common_class = CommonParams()
-        self.cattle_air_quality_class = CattleAirQualityTotals(ef_country)
-        self.sheep_air_quality_class = SheepAirQualityTotals(ef_country)
+        self.cattle_air_quality_class = CattleAirQualityTotals(self.ef_country)
+        self.sheep_air_quality_class = SheepAirQualityTotals(self.ef_country)
 
 
     def air_quality_livestock_past(self, baseline_animals, baseline_farms):
@@ -225,14 +236,15 @@ class AirQualityCrop:
             Provides detailed emissions data combining past and future scenarios.
 
     """
-    def __init__(self, ef_country, default_urea=None, default_urea_abated=None):
+    def __init__(self, goblin_data_manager, urea, urea_abated):
+        self.goblin_data_manager_class = goblin_data_manager
         self.common_class = CommonParams()
-        self.ef_country = ef_country
+        self.ef_country = self.goblin_data_manager_class.get_ef_country()
 
-        self.crop_air_quality_class = CropAirQualityTotals(ef_country)
+        self.crop_air_quality_class = CropAirQualityTotals(self.ef_country)
 
-        self.default_urea_proportion = default_urea
-        self.default_urea_abated_porpotion = default_urea_abated
+        self.default_urea_proportion = urea if urea is not None else self.goblin_data_manager_class.get_default_urea()
+        self.default_urea_abated_porpotion = urea_abated if urea_abated is not None else self.goblin_data_manager_class.get_default_urea_abated()
 
     def air_quality_crops_past(self, crop_dataframe):
         """

@@ -25,11 +25,17 @@ Classes
 
 
 
-.. py:class:: ForestCarbonGenerator(calibration_year, cbm_config_path, scenario_dataframe, afforestation_dataframe, sit_path=None)
+.. py:class:: ForestCarbonGenerator(goblin_data_manager, scenario_dataframe, afforestation_dataframe)
 
 
    Manages the process of generating forest carbon data, leveraging the CBM
    Runner class (from the cbm_runner module) to perform the core carbon calculations.
+
+   .. attribute:: goblin_data_manager_class
+
+      An instance of the data manager class used to retrieve configuration and database paths.
+
+      :type: object
 
    .. attribute:: calibration_year
 
@@ -43,23 +49,23 @@ Classes
 
       :type: str
 
-   .. attribute:: scenario_dataframe
+   .. attribute:: DATABASE_PATH
 
-      Dataframe containing forest management scenario descriptions.
+      The path to the database used by the CBM.
 
-      :type: pandas.DataFrame
-
-   .. attribute:: afforestation_dataframe
-
-      Dataframe containing information about afforestation activities.
-
-      :type: pandas.DataFrame
+      :type: str
 
    .. attribute:: sit_path
 
       The path to the SIT directory.
 
       :type: str, optional
+
+   .. attribute:: cbm_runner_data_manager
+
+      An instance of the DataManager class used to manage CBM runner data.
+
+      :type: DataManager
 
    .. method:: generate_forest_carbon()
 
@@ -70,7 +76,7 @@ Classes
 
       Generates forest carbon data using the provided input data.
 
-      :returns: A dictionary containing forest carbon data with keys 'forest_flux' and 'forest_aggregate'.
+      :returns: A dictionary containing forest carbon data with keys 'forest_flux', 'forest_aggregate', and 'afforestation_area'.
       :rtype: dict
 
 

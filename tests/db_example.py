@@ -1,4 +1,5 @@
 from goblin_lite.goblin import ScenarioRunner
+from goblin_lite.resource_manager.goblin_data_manager import GoblinDataManager
 from goblin_lite.scenario_analysis.data_grapher import DataGrapher
 import shutil
 import os
@@ -7,6 +8,7 @@ import os
 def main():
     # configuration
     db_path = "./data/DATABASE/instance_1.db"
+    cbm_path = "./data/DATABASE/CBM/"
     goblin_config = "./data/config.json"
     cbm_config = "./data/cbm_factory.yaml"
     ef_country = "ireland"
@@ -17,14 +19,27 @@ def main():
     # remove graph dir
     shutil.rmtree(data_path)
 
+    if os.path.exists(cbm_path):
+        shutil.rmtree(cbm_path)
+
     # output dir
     os.mkdir(data_path)
 
-
-    # class instances
-    runner_class = ScenarioRunner(
-        ef_country, baseline_year, target_year, goblin_config, cbm_config, db_path
+        # Run the scenarios
+    goblin_data_manger = GoblinDataManager(
+        ef_country = ef_country,
+        calibration_year=baseline_year,
+        target_year= target_year,
+        configuration_path= goblin_config,
+        cbm_configuration_path=cbm_config,
+        DATABASE_PATH=db_path,
     )
+
+    # Run the scenarios
+    runner_class = ScenarioRunner(
+        goblin_data_manger
+    )
+
     graph_class = DataGrapher(db_path)
 
     # run scenarios

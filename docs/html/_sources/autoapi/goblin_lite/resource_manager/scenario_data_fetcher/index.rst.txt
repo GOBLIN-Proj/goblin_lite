@@ -62,6 +62,12 @@ Classes
       Retrieves a list of all scenarios present in the scenario data.
       
 
+   .. method:: get_total_scenarios()
+
+      
+      Retrieves the total number of scenarios present in the scenario data.
+      
+
    .. method:: get_afforest_scenario_index()
 
       

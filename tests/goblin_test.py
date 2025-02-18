@@ -2,6 +2,7 @@ import unittest
 import os
 import shutil
 from goblin_lite.goblin import ScenarioRunner
+from goblin_lite.resource_manager.goblin_data_manager import GoblinDataManager
 from goblin_lite.scenario_analysis.data_grapher import DataGrapher
 
 
@@ -19,13 +20,19 @@ class TestGoblin(unittest.TestCase):
             os.makedirs(self.data_path)
 
         # Run the scenarios
-        runner_class = ScenarioRunner(
-            self.ef_country,
-            self.baseline_year,
-            self.target_year,
-            self.goblin_config,
-            self.cbm_config,
+        goblin_data_manger = GoblinDataManager(
+            ef_country = self.ef_country,
+            calibration_year= self.baseline_year,
+            target_year= self.target_year,
+            configuration_path= self.goblin_config,
+            cbm_configuration_path= self.cbm_config,
         )
+
+            # Run the scenarios
+        runner_class = ScenarioRunner(
+            goblin_data_manger
+        )
+
         runner_class.run_scenarios()
 
         # Initialize the graph class

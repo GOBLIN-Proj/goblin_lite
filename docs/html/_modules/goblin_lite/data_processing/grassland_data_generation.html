@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_lite.data_processing.grassland_data_generation &mdash; GOBLIN lite 0.4.1 documentation</title>
+  <title>goblin_lite.data_processing.grassland_data_generation &mdash; GOBLIN lite 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -16,7 +16,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=c87aa342"></script>
+        <script src="../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -92,6 +92,8 @@
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
+<span class="sd">    goblin_data_manager_class : object</span>
+<span class="sd">        Instance of the GoblinDataManager class.</span>
 <span class="sd">    ef_country : str</span>
 <span class="sd">        Country code for emission factors.</span>
 <span class="sd">    calibration_year : int</span>
@@ -111,12 +113,16 @@
 <span class="sd">        Generates farm input data (from the GrasslandOutput class) for both baseline and scenario conditions.</span>
 
 <span class="sd">    generate_grassland_areas()</span>
-<span class="sd">        Calculates total spared grassland, total grassland area, spared area per soil type, and grassland stocking rate.</span>
+<span class="sd">        Calculates total spared grassland, total grassland area, spared area per soil type, grassland stocking rate, and grass yield per hectare.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ef_country</span><span class="p">,</span> <span class="n">calibration_year</span><span class="p">,</span> <span class="n">target_year</span><span class="p">,</span> <span class="n">scenario_dataframe</span><span class="p">,</span><span class="n">scenario_animal_data</span><span class="p">,</span><span class="n">baseline_animal_data</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span> <span class="o">=</span> <span class="n">ef_country</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span> <span class="o">=</span> <span class="n">calibration_year</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span> <span class="o">=</span> <span class="n">target_year</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">goblin_data_manager</span><span class="p">,</span> 
+                 <span class="n">scenario_dataframe</span><span class="p">,</span>
+                 <span class="n">scenario_animal_data</span><span class="p">,</span><span class="n">baseline_animal_data</span><span class="p">):</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span> <span class="o">=</span> <span class="n">goblin_data_manager</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="o">.</span><span class="n">get_ef_country</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="o">.</span><span class="n">get_calibration_year</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="o">.</span><span class="n">get_target_year</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scenario_dataframe</span> <span class="o">=</span> <span class="n">scenario_dataframe</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scenario_animal_data</span> <span class="o">=</span> <span class="n">scenario_animal_data</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">baseline_animal_data</span> <span class="o">=</span> <span class="n">baseline_animal_data</span>
@@ -147,14 +153,14 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the total spared and total grassland areas for each scenario.</span>
 
-<span class="sd">        This method calculates and returns the total spared, total grassland areas, spared area by soil group and stocking rate for each scenario based on the provided</span>
+<span class="sd">        This method calculates and returns the total spared, total grassland areas, spared area by soil group, stocking rate, and grass yield per hectare for each scenario based on the provided</span>
 <span class="sd">        scenario_dataframe, scenario_animal_data, and baseline_animal_data attributes. The GrasslandOutput class is utilized to perform</span>
 <span class="sd">        the necessary calculations for each scenario.</span>
 
 <span class="sd">        The total spared area represents the area of grassland that will be converted (destocked) to other land uses (e.g., wetland,</span>
 <span class="sd">        forests) in the target year compared to the baseline year. The total grassland area represents</span>
 <span class="sd">        the remaining grassland area. Spared area by soil group represents the spared area by soil group (e.g., class 1, 2 and 3). </span>
-<span class="sd">        The stocking rate represents the stocking rate per hectare of grassland.</span>
+<span class="sd">        The stocking rate represents the stocking rate per hectare of grassland. The grass yield per hectare represents the yield of grass per hectare of grassland.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -170,7 +176,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        tuple</span>
-<span class="sd">            A tuple containing four pandas DataFrame: (total_spared_area, total_grassland_area, total_spared_area_by_soil_group, per_hectare_stocking_rate).</span>
+<span class="sd">            A tuple containing five pandas DataFrame: (total_spared_area, total_grassland_area, total_spared_area_by_soil_group, per_hectare_stocking_rate, per_hectare_grass_yield).</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">grassland_class</span> <span class="o">=</span> <span class="n">GrasslandOutput</span><span class="p">(</span>
@@ -188,7 +194,9 @@
         <span class="n">total_spared_area_by_soil_group</span> <span class="o">=</span> <span class="n">grassland_class</span><span class="o">.</span><span class="n">total_spared_area_breakdown</span><span class="p">()</span>
         <span class="n">per_hectare_stocking_rate</span> <span class="o">=</span> <span class="n">grassland_class</span><span class="o">.</span><span class="n">grassland_stocking_rate</span><span class="p">()</span>
 
-        <span class="k">return</span> <span class="n">spared_area</span><span class="p">,</span> <span class="n">total_grassland</span><span class="p">,</span> <span class="n">total_spared_area_by_soil_group</span><span class="p">,</span> <span class="n">per_hectare_stocking_rate</span></div>
+        <span class="n">per_hectare_grass_yield</span> <span class="o">=</span> <span class="n">grassland_class</span><span class="o">.</span><span class="n">grass_yield_per_hectare</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">spared_area</span><span class="p">,</span> <span class="n">total_grassland</span><span class="p">,</span> <span class="n">total_spared_area_by_soil_group</span><span class="p">,</span> <span class="n">per_hectare_stocking_rate</span><span class="p">,</span> <span class="n">per_hectare_grass_yield</span></div>
 </div>
 
 </pre></div>

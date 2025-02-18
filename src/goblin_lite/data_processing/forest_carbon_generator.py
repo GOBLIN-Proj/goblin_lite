@@ -5,6 +5,7 @@ This module contains the ForestCarbonGenerator class, which is responsible for g
 The class leverages the Runner class to calculate forest carbon data based on scenario-specific and baseline forest data.
 """
 from goblin_cbm_runner.default_runner.runner import Runner
+from goblin_cbm_runner.resource_manager.cbm_runner_data_manager import DataManager
 import os 
 
 class ForestCarbonGenerator:
@@ -14,47 +15,56 @@ class ForestCarbonGenerator:
 
     Attributes
     ----------
-        calibration_year: int 
-            The base year used for calibrating the carbon model.
+    goblin_data_manager_class : object
+        An instance of the data manager class used to retrieve configuration and database paths.
 
-        cbm_config_path: str
-            The path to the configuration file for the CBM.
+    calibration_year : int
+        The base year used for calibrating the carbon model.
 
-        scenario_dataframe: pandas.DataFrame
-            Dataframe containing forest management scenario descriptions.
+    cbm_config_path : str
+        The path to the configuration file for the CBM.
 
-        afforestation_dataframe: pandas.DataFrame
-            Dataframe containing information about afforestation activities.
+    DATABASE_PATH : str
+        The path to the database used by the CBM.
 
-        sit_path: str, optional
-            The path to the SIT directory.
-    
+    sit_path : str, optional
+        The path to the SIT directory.
+
+    cbm_runner_data_manager : DataManager
+        An instance of the DataManager class used to manage CBM runner data.
+
     Methods
     -------
     generate_forest_carbon()
         Generates forest carbon data using the provided input data.
     """
-    def __init__(self, calibration_year, cbm_config_path, scenario_dataframe, afforestation_dataframe, sit_path=None):
-        self.calibration_year = calibration_year
-        self.cbm_configuration = cbm_config_path
-        self.scenario_dataframe = scenario_dataframe
-        self.afforestation_dataframe = afforestation_dataframe
-        self.sit_path = os.path.dirname(sit_path) if sit_path else None
+    def __init__(self, 
+                 goblin_data_manager, 
+                 scenario_dataframe, 
+                 afforestation_dataframe):
+        
+        self.goblin_data_manager_class = goblin_data_manager
+        self.calibration_year = self.goblin_data_manager_class.get_calibration_year()
+        self.cbm_config_path = self.goblin_data_manager_class.get_cbm_configuration_path()
+        self.DATABASE_PATH = self.goblin_data_manager_class.get_database_path()
+
+        self.sit_path = os.path.dirname(self.DATABASE_PATH) if self.DATABASE_PATH else None
+        self.cbm_runner_data_manager = DataManager(calibration_year = self.calibration_year,
+                            config_file_path=self.cbm_config_path,
+                            scenario_data=scenario_dataframe,
+                            afforest_data=afforestation_dataframe,
+                            sit_path=self.sit_path)
 
     def generate_forest_carbon(self):
         """
         Generates forest carbon data using the provided input data.
 
-        Returns:
-            dict: A dictionary containing forest carbon data with keys 'forest_flux' and 'forest_aggregate'.
+        Returns
+        -------
+        dict
+            A dictionary containing forest carbon data with keys 'forest_flux', 'forest_aggregate', and 'afforestation_area'.
         """
-        cbm_runner = Runner(
-            self.cbm_configuration,
-            self.calibration_year,
-            self.afforestation_dataframe,
-            self.scenario_dataframe,
-            sit_path=self.sit_path
-        )
+        cbm_runner = Runner(self.cbm_runner_data_manager)
 
         # generation of aggregated results
         forest_aggregate = cbm_runner.run_aggregate_scenarios()
@@ -76,6 +86,10 @@ class ForestCarbonGenerator:
                 forest_aggregate[col] = forest_aggregate[col] * -1
 
 
-        forest_data = {"forest_flux": forest_flux, "forest_aggregate": forest_aggregate}
+        afforestation_area_df = cbm_runner.get_afforestation_dataframe()
+
+        forest_data = {"forest_flux": forest_flux, 
+                       "forest_aggregate": forest_aggregate, 
+                       "afforestation_area": afforestation_area_df}
 
         return forest_data

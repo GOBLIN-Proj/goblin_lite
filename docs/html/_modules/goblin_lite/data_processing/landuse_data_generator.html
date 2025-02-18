@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_lite.data_processing.landuse_data_generator &mdash; GOBLIN lite 0.4.1 documentation</title>
+  <title>goblin_lite.data_processing.landuse_data_generator &mdash; GOBLIN lite 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -16,7 +16,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=c87aa342"></script>
+        <script src="../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -80,6 +80,26 @@
 <span class="sd">======================</span>
 <span class="sd">This module contains the LandUseDataGenerator class, which is responsible for generating landuse data and landcover outputs.</span>
 <span class="sd">The class leverages the TransitionMatrix, LandCover and Afforestation classes to calculate landuse data and landcover outputs based on scenario-specific and baseline landuse data.</span>
+
+<span class="sd">Classes</span>
+<span class="sd">-------</span>
+<span class="sd">LandUseDataGenerator</span>
+<span class="sd">    Manages the generation of land use and land cover data. Leverages TransitionMatrix, </span>
+<span class="sd">    LandCover, and Afforestation classes for core calculations.</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    generate_transition_matrix()</span>
+<span class="sd">        Creates a land use transition matrix using the TransitionMatrix class.</span>
+
+<span class="sd">    generate_landuse_data()</span>
+<span class="sd">       Calculates the base and future land use areas using the LandCover class.</span>
+
+<span class="sd">    generate_spared_area_category_totals()</span>
+<span class="sd">        Generates the total spared area by category using the LandCover class.</span>
+
+<span class="sd">    generate_afforestation_data()</span>
+<span class="sd">        Generates afforestation data for the CBM, using the Afforestation class. </span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">landcover_assignment.transition_matrix</span> <span class="kn">import</span> <span class="n">TransitionMatrix</span>
 <span class="kn">from</span> <span class="nn">landcover_assignment.landcover</span> <span class="kn">import</span> <span class="n">LandCover</span>
@@ -95,6 +115,8 @@
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
+<span class="sd">    goblin_data_manager_class : object</span>
+<span class="sd">        Instance of the GoblinDataManager class.</span>
 <span class="sd">    calibration_year : int</span>
 <span class="sd">        Base year for model calibration.</span>
 <span class="sd">    target_year : int</span>
@@ -116,12 +138,22 @@
 <span class="sd">    generate_landuse_data()</span>
 <span class="sd">       Calculates the base and future land use areas using the LandCover class.</span>
 
+<span class="sd">    generate_spared_area_category_totals()</span>
+<span class="sd">        Generates the total spared area by category using the LandCover class.</span>
+
 <span class="sd">    generate_afforestation_data()</span>
 <span class="sd">        Generates afforestation data for the CBM, using the Afforestation class. </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calibration_year</span><span class="p">,</span> <span class="n">target_year</span><span class="p">,</span> <span class="n">scenario_dataframe</span><span class="p">,</span> <span class="n">grassland_area</span><span class="p">,</span> <span class="n">spared_area</span><span class="p">,</span> <span class="n">spared_area_breakdown</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span> <span class="o">=</span> <span class="n">calibration_year</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span> <span class="o">=</span> <span class="n">target_year</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+                 <span class="n">goblin_data_manager</span><span class="p">,</span> 
+                 <span class="n">scenario_dataframe</span><span class="p">,</span> 
+                 <span class="n">grassland_area</span><span class="p">,</span> 
+                 <span class="n">spared_area</span><span class="p">,</span> 
+                 <span class="n">spared_area_breakdown</span><span class="p">):</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span> <span class="o">=</span> <span class="n">goblin_data_manager</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="o">.</span><span class="n">get_calibration_year</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="o">.</span><span class="n">get_target_year</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scenario_dataframe</span> <span class="o">=</span> <span class="n">scenario_dataframe</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">grassland_area</span> <span class="o">=</span> <span class="n">grassland_area</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">spared_area</span> <span class="o">=</span> <span class="n">spared_area</span>
@@ -142,6 +174,7 @@
         <span class="k">return</span> <span class="n">transition_matrix</span></div>
 
     
+    
 <div class="viewcode-block" id="LandUseDataGenerator.generate_landuse_data">
 <a class="viewcode-back" href="../../../autoapi/goblin_lite/data_processing/landuse_data_generator/index.html#goblin_lite.data_processing.landuse_data_generator.LandUseDataGenerator.generate_landuse_data">[docs]</a>
     <span class="k">def</span> <span class="nf">generate_landuse_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -156,6 +189,21 @@
         <span class="k">return</span> <span class="n">landuse_data</span></div>
 
     
+
+<div class="viewcode-block" id="LandUseDataGenerator.generate_spared_area_category_totals">
+<a class="viewcode-back" href="../../../autoapi/goblin_lite/data_processing/landuse_data_generator/index.html#goblin_lite.data_processing.landuse_data_generator.LandUseDataGenerator.generate_spared_area_category_totals">[docs]</a>
+    <span class="k">def</span> <span class="nf">generate_spared_area_category_totals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">land</span> <span class="o">=</span> <span class="n">LandCover</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenario_dataframe</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">grassland_area</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">spared_area</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">spared_area_breakdown</span>
+        <span class="p">)</span>
+
+        <span class="n">spared_area_category_totals</span> <span class="o">=</span> <span class="n">land</span><span class="o">.</span><span class="n">get_spared_area_log</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">spared_area_category_totals</span></div>
+
+    
+
 <div class="viewcode-block" id="LandUseDataGenerator.generate_afforestation_data">
 <a class="viewcode-back" href="../../../autoapi/goblin_lite/data_processing/landuse_data_generator/index.html#goblin_lite.data_processing.landuse_data_generator.LandUseDataGenerator.generate_afforestation_data">[docs]</a>
     <span class="k">def</span> <span class="nf">generate_afforestation_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

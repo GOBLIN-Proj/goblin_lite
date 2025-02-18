@@ -24,11 +24,17 @@ Classes
 
 
 
-.. py:class:: LandUseLCAGenerator(ef_country, calibration_year, target_year, landuse_data, transition_matrix, forest_data, DATABASE_PATH, AR_VALUE)
+.. py:class:: LandUseLCAGenerator(goblin_data_manager, landuse_data, transition_matrix, forest_data)
 
 
    Manages the calculation of climate change footprints associated with various land use types.
    Employs the ClimateChangeLandUse class for specific calculations.
+
+   .. attribute:: goblin_data_manager
+
+      An instance of the GoblinDataManager class for managing goblin-specific data.
+
+      :type: GoblinDataManager
 
    .. attribute:: data_manager_class
 

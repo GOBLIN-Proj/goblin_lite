@@ -101,11 +101,7 @@ class Directories:
 
         Args:
         -----
-        scenarios: int
-            The number of scenarios to create directories for.
+        None
         """
         self.create_database_directory()
         self.create_cbm_directory()
-
-        #goblin_cbm_runner creates these directories
-        #self.cbm_generated_input_directories(scenarios)

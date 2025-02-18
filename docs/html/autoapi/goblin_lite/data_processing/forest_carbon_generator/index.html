@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_lite.data_processing.forest_carbon_generator &mdash; GOBLIN lite 0.4.1 documentation</title>
+  <title>goblin_lite.data_processing.forest_carbon_generator &mdash; GOBLIN lite 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=c87aa342"></script>
+        <script src="../../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -114,9 +114,20 @@ The class leverages the Runner class to calculate forest carbon data based on sc
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="goblin_lite.data_processing.forest_carbon_generator.ForestCarbonGenerator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_lite.data_processing.forest_carbon_generator.</span></span><span class="sig-name descname"><span class="pre">ForestCarbonGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">calibration_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cbm_config_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">afforestation_dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sit_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/data_processing/forest_carbon_generator.html#ForestCarbonGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.data_processing.forest_carbon_generator.ForestCarbonGenerator" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_lite.data_processing.forest_carbon_generator.</span></span><span class="sig-name descname"><span class="pre">ForestCarbonGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">goblin_data_manager</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">afforestation_dataframe</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/data_processing/forest_carbon_generator.html#ForestCarbonGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.data_processing.forest_carbon_generator.ForestCarbonGenerator" title="Link to this definition"></a></dt>
 <dd><p>Manages the process of generating forest carbon data, leveraging the CBM
 Runner class (from the cbm_runner module) to perform the core carbon calculations.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_lite.data_processing.forest_carbon_generator.ForestCarbonGenerator.goblin_data_manager_class">
+<span class="sig-name descname"><span class="pre">goblin_data_manager_class</span></span><a class="headerlink" href="#goblin_lite.data_processing.forest_carbon_generator.ForestCarbonGenerator.goblin_data_manager_class" title="Link to this definition"></a></dt>
+<dd><p>An instance of the data manager class used to retrieve configuration and database paths.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="goblin_lite.data_processing.forest_carbon_generator.ForestCarbonGenerator.calibration_year">
 <span class="sig-name descname"><span class="pre">calibration_year</span></span><a class="headerlink" href="#goblin_lite.data_processing.forest_carbon_generator.ForestCarbonGenerator.calibration_year" title="Link to this definition"></a></dt>
@@ -140,23 +151,12 @@ Runner class (from the cbm_runner module) to perform the core carbon calculation
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="goblin_lite.data_processing.forest_carbon_generator.ForestCarbonGenerator.scenario_dataframe">
-<span class="sig-name descname"><span class="pre">scenario_dataframe</span></span><a class="headerlink" href="#goblin_lite.data_processing.forest_carbon_generator.ForestCarbonGenerator.scenario_dataframe" title="Link to this definition"></a></dt>
-<dd><p>Dataframe containing forest management scenario descriptions.</p>
+<dt class="sig sig-object py" id="goblin_lite.data_processing.forest_carbon_generator.ForestCarbonGenerator.DATABASE_PATH">
+<span class="sig-name descname"><span class="pre">DATABASE_PATH</span></span><a class="headerlink" href="#goblin_lite.data_processing.forest_carbon_generator.ForestCarbonGenerator.DATABASE_PATH" title="Link to this definition"></a></dt>
+<dd><p>The path to the database used by the CBM.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pandas.DataFrame</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="goblin_lite.data_processing.forest_carbon_generator.ForestCarbonGenerator.afforestation_dataframe">
-<span class="sig-name descname"><span class="pre">afforestation_dataframe</span></span><a class="headerlink" href="#goblin_lite.data_processing.forest_carbon_generator.ForestCarbonGenerator.afforestation_dataframe" title="Link to this definition"></a></dt>
-<dd><p>Dataframe containing information about afforestation activities.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pandas.DataFrame</p>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -168,6 +168,17 @@ Runner class (from the cbm_runner module) to perform the core carbon calculation
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_lite.data_processing.forest_carbon_generator.ForestCarbonGenerator.cbm_runner_data_manager">
+<span class="sig-name descname"><span class="pre">cbm_runner_data_manager</span></span><a class="headerlink" href="#goblin_lite.data_processing.forest_carbon_generator.ForestCarbonGenerator.cbm_runner_data_manager" title="Link to this definition"></a></dt>
+<dd><p>An instance of the DataManager class used to manage CBM runner data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../../resource_manager/database_manager/index.html#goblin_lite.resource_manager.database_manager.DataManager" title="goblin_lite.resource_manager.database_manager.DataManager">DataManager</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -184,7 +195,7 @@ Runner class (from the cbm_runner module) to perform the core carbon calculation
 <dd><p>Generates forest carbon data using the provided input data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A dictionary containing forest carbon data with keys ‘forest_flux’ and ‘forest_aggregate’.</p>
+<dd class="field-odd"><p>A dictionary containing forest carbon data with keys ‘forest_flux’, ‘forest_aggregate’, and ‘afforestation_area’.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>dict</p>

@@ -68,15 +68,49 @@ class GoblinDataManager:
 
     get_default_urea_abated()
         Retrieves the default urea abated value.
+
+    get_calibration_year()
+        Retrieves the calibration year.
+
+    get_target_year()
+        Retrieves the target year.
+
+    get_configuration_path()
+        Retrieves the configuration path.
+
+    get_cbm_configuration_path()
+        Retrieves the CBM configuration path.
+
+    get_database_path()
+        Retrieves the database path.
+
+    get_ef_country()
+        Retrieves the EF country.
     """
-    def __init__(self, AR_VALUE="AR5"):
+    def __init__(self, 
+                 ef_country, 
+                 calibration_year, 
+                 target_year, 
+                 configuration_path, 
+                 cbm_configuration_path, 
+                 DATABASE_PATH=None, 
+                 AR_VALUE="AR5"):
+
+        self.AR_VALUE = AR_VALUE
+        self.ef_country = ef_country
+        self.calibration_year = calibration_year
+        self.target_year = target_year
+        self.config_path = configuration_path
+        self.cbm_config_path = cbm_configuration_path # generate scenario_data
+        self.database_path = DATABASE_PATH
+    
         self.AR4_values = {"CH4": 25, "N2O": 298, "CO2e": 3.67}
 
         self.AR5_values = {"CH4": 28, "N2O": 265, "CO2e": 3.67}
 
-        if AR_VALUE.upper() == "AR4":
+        if self.AR_VALUE.upper() == "AR4":
             self.AR_values = self.AR4_values
-        elif AR_VALUE.upper() == "AR5":
+        elif self.AR_VALUE.upper() == "AR5":
             self.AR_values = self.AR5_values
         else:
             raise ValueError(
@@ -185,3 +219,57 @@ class GoblinDataManager:
             float: The default urea abated value.
         """
         return self.default_urea_abated
+
+    def get_calibration_year(self):
+        """
+        Retrieves the calibration year.
+
+        Returns:
+            int: The calibration year.
+        """
+        return self.calibration_year
+    
+    def get_target_year(self):
+        """
+        Retrieves the target year.
+
+        Returns:
+            int: The target year.
+        """
+        return self.target_year
+    
+    def get_configuration_path(self):
+        """
+        Retrieves the configuration path.
+
+        Returns:
+            str: The configuration path.
+        """
+        return self.config_path
+    
+    def get_cbm_configuration_path(self):
+        """
+        Retrieves the CBM configuration path.
+
+        Returns:
+            str: The CBM configuration path.
+        """
+        return self.cbm_config_path
+    
+    def get_database_path(self):
+        """
+        Retrieves the database path.
+
+        Returns:
+            str: The database path.
+        """
+        return self.database_path
+    
+    def get_ef_country(self):
+        """
+        Retrieves the EF country.
+
+        Returns:
+            str: The EF country.
+        """
+        return self.ef_country
