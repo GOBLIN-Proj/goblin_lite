@@ -5,6 +5,7 @@ from goblin_lite.resource_manager.goblin_data_manager import GoblinDataManager
 from goblin_lite.resource_manager.data_fetcher import DataFetcher
 import pandas as pd
 import numpy as np
+import math
 
 class TestOutput(unittest.TestCase):
     def setUp(self):
@@ -44,16 +45,10 @@ class TestOutput(unittest.TestCase):
             for i in self.generated_data.index:
                 generated_val = self.generated_data.loc[i, col]
                 test_val = self.test_data.loc[i, col]
-                # Calculate the absolute percentage difference
-                percentage_diff = np.abs((generated_val - test_val) / test_val) * 100
-                
-                print(f"Generated value for {col} at index {i}: {generated_val}")
-                print(f"Test value for {col} at index {i}: {test_val}")
-                print(f"Percentage difference for {col} at index {i}: {percentage_diff}")
-                print("\n")
 
-                # Assert that the difference is within 5%
-                self.assertTrue(percentage_diff <= 5, f"{col} values for index {i} are not within 5% of the test data")
+
+                self.assertTrue(math.isclose(generated_val, test_val, rel_tol=0.05), 
+                                f"{col} values for index {i} are not within 5% of the test data")
 
                 
 if __name__ == "__main__":
