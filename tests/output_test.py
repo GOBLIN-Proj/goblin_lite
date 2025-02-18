@@ -46,6 +46,9 @@ class TestOutput(unittest.TestCase):
                 generated_val = self.generated_data.loc[i, col]
                 test_val = self.test_data.loc[i, col]
 
+                percentage_diff = ((generated_val - test_val) / test_val) * 100
+                print(f"Col {col}, Index {i} - Generated: {generated_val}, Expected: {test_val}, Diff: {percentage_diff:.2f}%")
+
 
                 self.assertTrue(math.isclose(generated_val, test_val, rel_tol=0.05), 
                                 f"{col} values for index {i} are not within 5% of the test data")
