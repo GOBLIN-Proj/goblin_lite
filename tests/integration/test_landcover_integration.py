@@ -43,7 +43,7 @@ def main():
 
     transition_matrix = landuse_data_generator.generate_transition_matrix()
 
-    landuse_data = landuse_data_generator.generate_landuse_data()
+    landuse_data = landuse_data_generator.generate_landuse_data()["landuse_data"]
 
     cbm_afforestation_data = landuse_data_generator.generate_afforestation_data()
 

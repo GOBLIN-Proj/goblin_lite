@@ -38,7 +38,7 @@ def test_landcover_balance():
                                                   total_spared_area_by_soil_group)
 
     transition_matrix = landuse_data_generator.generate_transition_matrix()
-    landuse_data = landuse_data_generator.generate_landuse_data()
+    landuse_data = landuse_data_generator.generate_landuse_data()["landuse_data"]
 
     rows = []
 
