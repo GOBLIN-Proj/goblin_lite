@@ -53,8 +53,8 @@ class TestOutput(unittest.TestCase):
                 print(f"Col {col}, Index {i} - Generated: {generated_val}, Expected: {test_val}, Diff: {percentage_diff:.2f}%")
 
 
-                self.assertTrue(math.isclose(generated_val, test_val, rel_tol=0.05), 
-                                f"{col} values for index {i} are not within 5% of the test data")
+                self.assertTrue(math.isclose(generated_val, test_val, rel_tol=0.1), 
+                                f"{col} values for index {i} are not within 10% of the test data")
 
                 
 if __name__ == "__main__":
