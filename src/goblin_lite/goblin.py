@@ -190,7 +190,8 @@ class ScenarioRunner:
                                                                 ("crop_input_data",crop_input_data),
                                                                 ("crop_farm_data",crop_farm_data),
                                                                 ("transition_matrix",transition_matrix),
-                                                                ("landuse_data",landuse_data),
+                                                                ("landuse_data",landuse_data["landuse_data"]),
+                                                                ("spared_area_log",landuse_data["spared_area_log"]),
                                                                 ("spared_area_category_totals",spared_area_category_totals),
                                                                 ("cbm_afforestation_data_derived_input",cbm_afforestation_data_derived_input),
                                                                 ("forest_carbon_flux",forest_carbon_flux),
@@ -209,7 +210,7 @@ class ScenarioRunner:
 
         # Land use LCA
         landuse_data_generator = LandUseLCAGenerator(self.goblin_data_manager_class,
-                                                    landuse_data, 
+                                                    landuse_data["landuse_data"], 
                                                     transition_matrix, 
                                                     forest_data["forest_flux"])
 
@@ -221,7 +222,7 @@ class ScenarioRunner:
                                                         scenario_animal_data,
                                                         grassland_farm_inputs_baseline,
                                                         grassland_farm_inputs_scenario,
-                                                        landuse_data, 
+                                                        landuse_data["landuse_data"], 
                                                         transition_matrix,
                                                         crop_input_data)
         

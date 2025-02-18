@@ -95,15 +95,16 @@ class LandUseDataGenerator:
     
     def generate_landuse_data(self):
 
-
         land = LandCover(
             self.calibration_year, self.target_year, self.scenario_dataframe, self.grassland_area, self.spared_area, self.spared_area_breakdown
         )
 
         landuse_data = land.combined_future_land_use_area()
 
-        return landuse_data
-    
+        spared_area_log = land.get_spared_area_log()
+
+        return {"landuse_data": landuse_data, "spared_area_log": spared_area_log}
+
 
     def generate_spared_area_category_totals(self):
 

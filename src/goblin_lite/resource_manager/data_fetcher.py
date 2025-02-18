@@ -1054,6 +1054,15 @@ class DataFetcher:
         return landuse_areas
 
 
+    def get_spared_area_log(self):
+        """
+        Get the spared area log for each scenario.
+        """
+        spared_area_log = self.data_manager_class.get_goblin_results_output_datatable(
+            "spared_area_log", index_col="index"
+        )
+        return spared_area_log
+    
 
     def dump_tables(self, data_path):
         """
