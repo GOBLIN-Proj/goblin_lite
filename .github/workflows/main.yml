@@ -17,6 +17,9 @@ jobs:
 
     - name: Check-out repository
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Ensures a full clone with history
+  
 
     - name: Set up Git authentication
       run: git config --global url."https://${{ secrets.PAT_TOKEN }}@github.com/".insteadOf "https://github.com/"
