@@ -13,6 +13,8 @@ Environmental Impact Analysis: Calculates emissions contributing to climate chan
 air quality.
 
 Flexible Data Handling: Works with different types of data inputs, including livestock and crop production data, land use transition data, and more.
+
+Goblin Data Manager: Manages various data and constants required for calculations, including emission factors and assessment report values.
 """
 
 from cattle_lca.resource_manager.models import load_livestock_data, load_farm_data
@@ -39,6 +41,7 @@ class ClimateChangeLandUse:
         forest_data (DataFrame): Data related to forest areas.
         ef_country (str): emission factor country.
         AR_VALUE (str): The assessment report value (default 'AR5').
+        goblin_data_manager_class (GoblinDataManager): A class for managing various data and constants.
 
     Methods:
         climate_change_landuse_past(): Calculates past emissions for different land uses.
@@ -48,28 +51,25 @@ class ClimateChangeLandUse:
     """
     def __init__(
         self,
-        calibration_year,
-        target_year,
+        goblin_data_manager,
         transition_data,
         landuse_data,
         forest_data,
-        ef_country,
-        AR_VALUE="AR5",
     ):
         self.common_class = CommonParams()
-        self.baseline = calibration_year
-        self.target_year = target_year
-        self.ef_country = ef_country
-        self.goblin_data_manager_class = GoblinDataManager(AR_VALUE=AR_VALUE)
+        self.goblin_data_manager_class = goblin_data_manager
+        self.calibration_year = self.goblin_data_manager_class.get_calibration_year()
+        self.target_year = self.goblin_data_manager_class.get_target_year()
+        self.ef_country = self.goblin_data_manager_class.get_ef_country()
 
         self.forest_data = forest_data
 
         self.transition_matrix = landuse_models.load_transition_matrix(
-            transition_data, ef_country, calibration_year, target_year
+            transition_data, self.ef_country, self.calibration_year, self.target_year
         )
 
         self.land_use_data = landuse_models.load_land_use_data(
-            landuse_data, calibration_year
+            landuse_data, self.calibration_year
         )
 
     def climate_change_landuse_past(self):
@@ -81,8 +81,8 @@ class ClimateChangeLandUse:
 
         """
         baseline_index = self.common_class.baseline_index
-        base = -self.baseline
-        baseline = self.baseline
+        base = -self.calibration_year
+        baseline = self.calibration_year
         ef_country = self.ef_country
         land_use_data = self.land_use_data
         transition_matrix = self.transition_matrix
@@ -366,8 +366,8 @@ class ClimateChangeLandUse:
             DataFrame: A dataframe with projected emissions data for different land use types and gases.
 
         """
-        base = -self.baseline
-        baseline = self.baseline
+        base = -self.calibration_year
+        baseline = self.calibration_year
         target_year = self.target_year
         ef_country = self.ef_country
         land_use_data = self.land_use_data
@@ -690,21 +690,22 @@ class ClimateChangeLivestock:
             Converts emissions data into CO2 equivalents for various categories.
 
     """
-    def __init__(self, ef_country,calibration_year, target_year, transition_data, landuse_data, crop_data, AR_VALUE="AR5"):
+    def __init__(self, goblin_data_manager, transition_data, landuse_data, crop_data):
+        self.goblin_data_manager_class = goblin_data_manager
+        self.ef_country = self.goblin_data_manager_class.get_ef_country()
         self.common_class = CommonParams()
-        self.cattle_climate_change_class = CattleClimateChangeTotals(ef_country)
-        self.sheep_climate_change_class = SheepClimateChangeTotals(ef_country)
-        self.crop_climate_change_class = CropClimateChangeTotals(ef_country)
-        self.goblin_data_manager_class = GoblinDataManager(AR_VALUE=AR_VALUE)
-        self.ef_country = ef_country
-        self.baseline = calibration_year
+        self.cattle_climate_change_class = CattleClimateChangeTotals(self.ef_country)
+        self.sheep_climate_change_class = SheepClimateChangeTotals(self.ef_country)
+        self.crop_climate_change_class = CropClimateChangeTotals(self.ef_country)
+        self.calibration_year = self.goblin_data_manager_class.get_calibration_year()
+        self.target_year = self.goblin_data_manager_class.get_target_year()
 
         self.transition_matrix = landuse_models.load_transition_matrix(
-            transition_data, ef_country, calibration_year, target_year
+            transition_data, self.ef_country, self.calibration_year, self.target_year
         )
 
         self.land_use_data = landuse_models.load_land_use_data(
-            landuse_data, calibration_year
+            landuse_data, self.calibration_year
         )
 
         self.crop_data =  load_crop_farm_data(crop_data)
@@ -721,7 +722,7 @@ class ClimateChangeLivestock:
             dict: A dictionary of emissions data categorized by emission type.
 
         """
-        base = -self.baseline
+        base = -self.calibration_year
         baseline_index = self.common_class.baseline_index
         kg_to_kt = self.common_class.kg_to_kt
         ef_country = self.ef_country
@@ -901,7 +902,7 @@ class ClimateChangeLivestock:
             dict: A dictionary of emissions data categorized by emission type.
 
         """
-        base = -self.baseline
+        base = -self.calibration_year
         scenario_animals_dataframe = scenario_animals
         ef_country = self.ef_country
         land_use_data = self.land_use_data
@@ -1214,6 +1215,7 @@ class ClimateChangeCrop:
         common_class (CommonParams): A class for managing various data and constants.
         default_urea_proportion (float): The proportion of fertiliser inputs that is urea.
         default_urea_abated_porpotion (float): The proportion of urea that is abated urea.
+        goblin_data_manager_class (GoblinDataManager): A class for managing various data and constants.
 
     Methods:
         climate_change_crop_past(crop_dataframe):
@@ -1228,16 +1230,20 @@ class ClimateChangeCrop:
     """
 
     def __init__(
-        self, ef_country, default_urea=None, default_urea_abated=None, AR_VALUE="AR5"
-    ):
+        self, 
+        goblin_data_manager,
+        urea,
+        urea_abated):
+
         self.common_class = CommonParams()
-        self.goblin_data_manager_class = GoblinDataManager(AR_VALUE=AR_VALUE)
-        self.ef_country = ef_country
+        self.goblin_data_manager_class = goblin_data_manager
+        self.ef_country = self.goblin_data_manager_class.get_ef_country()
 
-        self.crop_climate_change_class = CropClimateChangeTotals(ef_country)
+        self.crop_climate_change_class = CropClimateChangeTotals(self.ef_country)
 
-        self.default_urea_proportion = default_urea
-        self.default_urea_abated_porpotion = default_urea_abated
+        self.default_urea_proportion = urea if urea is not None else self.goblin_data_manager_class.get_default_urea()
+
+        self.default_urea_abated_porpotion = urea_abated if urea_abated is not None else self.goblin_data_manager_class.get_default_urea_abated()
 
     def climate_change_crop_past(self, crop_dataframe):
         """

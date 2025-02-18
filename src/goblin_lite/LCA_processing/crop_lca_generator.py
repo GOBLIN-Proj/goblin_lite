@@ -27,8 +27,6 @@ class CropLCAGenerator:
         Dataframe containing scenario-specific parameters.
     DATABASE_PATH : str, optional
         Path to the external database, if None, default internal database used.
-    AR_VALUE : str 
-        IPCC Assessment Report version (e.g., 'AR4', 'AR5') for impact calculations.
     ef_country : str
         Country code for emission factors.
     default_urea : float
@@ -38,19 +36,19 @@ class CropLCAGenerator:
 
     Methods
     -------
-    generate_crop_footprint()
+    generate_crop_footprint(urea=None, urea_abated=None)
         Calculates footprints for climate change, eutrophication, and air quality.
 
-    generate_aggregated_crop_footprint()
+    generate_aggregated_crop_footprint(urea=None, urea_abated=None)
         Calculates aggregated climate change footprints for crops.  
     """
-    def __init__(self, ef_country, crop_dataframe, scenario_dataframe, DATABASE_PATH, AR_VALUE):
-        self.data_manager_class = DataManager(DATABASE_PATH)
-        self.goblin_data_manager = GoblinDataManager(AR_VALUE=AR_VALUE)
+    def __init__(self, goblin_data_manager, crop_dataframe, scenario_dataframe):
+        self.goblin_data_manager = goblin_data_manager
+        self.DATABASE_PATH = self.goblin_data_manager.get_database_path()
+        self.data_manager_class = DataManager(self.DATABASE_PATH)
         self.crop_dataframe = crop_dataframe
         self.scenario_dataframe = scenario_dataframe
-        self.AR_VALUE = AR_VALUE
-        self.ef_country = ef_country
+        self.ef_country = self.goblin_data_manager.get_ef_country()
         self.default_urea = self.goblin_data_manager.get_default_urea()
         self.default_urea_abated = self.goblin_data_manager.get_default_urea_abated()
 
@@ -62,7 +60,7 @@ class CropLCAGenerator:
 
         This method calculates and generates crop footprints for climate change, eutrophication, and air quality for each
         scenario based on the crop_dataframe and scenario_dataframe class attributes. The footprints are computed using default urea 
-        and urea abated values (these can be overridden ) for the baseline, while urea values are derived from the scenario_dataframe for each scenario.
+        and urea abated values (these can be overridden) for the baseline, while urea values are derived from the scenario_dataframe for each scenario.
         The AR Value (AR4, AR5) is derived from the class attributes, which defaults to AR5.
 
         Data is saved to the database using the `save_goblin_results_to_database` method from the DataManager class.
@@ -88,14 +86,9 @@ class CropLCAGenerator:
         -------
         None
         """
-        AR_VALUE = self.AR_VALUE
-        ef_country = self.ef_country
-
-        urea = self.default_urea if urea is None else urea
-        urea_abated = self.default_urea_abated if urea_abated is None else urea_abated
 
         climate_change_crop_class = ClimateChangeCrop(
-            ef_country, urea, urea_abated, AR_VALUE
+            self.goblin_data_manager, urea, urea_abated
         )
 
         climate_change_crops_disaggregated = climate_change_crop_class.climate_change_crops_dissagregated(
@@ -103,7 +96,7 @@ class CropLCAGenerator:
         )
 
         eutrophication_crop_class = EurtrophicationCrop(
-            ef_country, urea, urea_abated
+            self.goblin_data_manager, urea, urea_abated
         )
 
         eutrophication_crops_disaggregated = eutrophication_crop_class.eutrophication_crops_dissagregated(
@@ -111,7 +104,7 @@ class CropLCAGenerator:
         )
 
         air_quality_crop_class = AirQualityCrop(
-            ef_country, urea, urea_abated
+            self.goblin_data_manager, urea, urea_abated
         )
 
         air_quality_crops_disaggregated = air_quality_crop_class.air_quality_crops_dissagregated(
@@ -147,19 +140,12 @@ class CropLCAGenerator:
         urea_abated : float, optional 
             Urea abated application rate. Defaults to class-level default.
 
-
         Returns
         -------
         None
         """
-        AR_VALUE = self.AR_VALUE
-        ef_country = self.ef_country
-
-        urea = self.default_urea if urea is None else urea
-        urea_abated = self.default_urea_abated if urea_abated is None else urea_abated
-
         climate_change_crop_class = ClimateChangeCrop(
-            ef_country, urea, urea_abated, AR_VALUE
+            self.goblin_data_manager, urea, urea_abated
         )
 
         climate_change_categories_as_co2e = (

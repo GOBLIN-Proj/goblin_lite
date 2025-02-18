@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Example Usage &mdash; GOBLIN lite 0.4.1 documentation</title>
+  <title>Example Usage &mdash; GOBLIN lite 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -17,7 +17,7 @@
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=c87aa342"></script>
+        <script src="_static/documentation_options.js?v=1dd76d02"></script>
         <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -98,6 +98,7 @@
 <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span>
 
 <span class="kn">from</span> <span class="nn">goblin_lite.goblin</span> <span class="kn">import</span> <span class="n">ScenarioRunner</span>
+<span class="kn">from</span> <span class="nn">goblin_lite.resource_manager.goblin_data_manager</span> <span class="kn">import</span> <span class="n">GoblinDataManager</span>
 <span class="kn">from</span> <span class="nn">goblin_lite.scenario_analysis.data_grapher</span> <span class="kn">import</span> <span class="n">DataGrapher</span>
 <span class="kn">from</span> <span class="nn">goblin_lite.resource_manager.data_fetcher</span> <span class="kn">import</span> <span class="n">DataFetcher</span>
 <span class="kn">import</span> <span class="nn">shutil</span>
@@ -146,8 +147,17 @@
 <h3>Define classes and Run Scenarios<a class="headerlink" href="#define-classes-and-run-scenarios" title="Link to this heading"></a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#class instances</span>
-<span class="n">runner_class</span> <span class="o">=</span> <span class="n">ScenarioRunner</span><span class="p">(</span><span class="n">ef_country</span><span class="p">,</span> <span class="n">baseline_year</span><span class="p">,</span><span class="n">target_year</span><span class="p">,</span> <span class="n">goblin_config</span><span class="p">,</span> <span class="n">cbm_config</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># create goblin data manager</span>
+<span class="n">goblin_data_manger</span> <span class="o">=</span> <span class="n">GoblinDataManager</span><span class="p">(</span>
+    <span class="n">ef_country</span> <span class="o">=</span> <span class="n">ef_country</span><span class="p">,</span> 
+    <span class="n">calibration_year</span><span class="o">=</span> <span class="n">baseline_year</span><span class="p">,</span>
+    <span class="n">target_year</span><span class="o">=</span> <span class="n">target_year</span><span class="p">,</span>
+    <span class="n">configuration_path</span><span class="o">=</span> <span class="n">goblin_config</span><span class="p">,</span>
+    <span class="n">cbm_configuration_path</span><span class="o">=</span> <span class="n">cbm_config</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># class instances</span>
+<span class="n">runner_class</span> <span class="o">=</span> <span class="n">ScenarioRunner</span><span class="p">(</span><span class="n">goblin_data_manger</span><span class="p">)</span>
 <span class="n">graph_class</span> <span class="o">=</span> <span class="n">DataGrapher</span><span class="p">()</span>
 <span class="n">fetcher_class</span> <span class="o">=</span> <span class="n">DataFetcher</span><span class="p">()</span>
 </pre></div>
@@ -163,35 +173,307 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Existing tables have been deleted.
-JSON file detected
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>... calibration year not present, 2015 default year used for Spread Manure Dictionary...
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>JSON file detected
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>... calibration year not present, 2015 default year used for Spread Manure Dictionary...
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Land use Assignment Solution is optimal!
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>... calibration year not present, 2015 default year used for Spread Manure Dictionary...
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Land use Assignment Solution is optimal!
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>... calibration year not present, 2015 default year used for Spread Manure Dictionary...
-... calibration year not present, 2015 default year used for Spread Manure Dictionary...
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Land use Assignment Solution is optimal!
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>... calibration year not present, 2015 default year used for Spread Manure Dictionary...
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Land use Assignment Solution is optimal!
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>... calibration year not present, 2015 default year used for Spread Manure Dictionary...
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Land use Assignment Solution is optimal!
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>... calibration year not present, 2015 default year used for Spread Manure Dictionary...
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Land use Assignment Solution is optimal!
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>... calibration year not present, 2015 default year used for Spread Manure Dictionary...
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Land use Assignment Solution is optimal!
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>... calibration year not present, 2015 default year used for Spread Manure Dictionary...
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Land use Assignment Solution is optimal!
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Land use Assignment Solution is optimal!
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Land use Assignment Solution is optimal!
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Land use Assignment Solution is optimal!
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Land use Assignment Solution is optimal!
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>🚀 Starting FM Simulation...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ FM Simulation Complete.
+Cleaning scenario SIT data directories
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID2 in Year 1
+No eligible stands found for DISTID1 in Year 1
+No eligible stands found for DISTID2 in Year 2
+No eligible stands found for DISTID1 in Year 2
+No eligible stands found for DISTID2 in Year 3
+No eligible stands found for DISTID1 in Year 3
+No eligible stands found for DISTID2 in Year 4
+No eligible stands found for DISTID1 in Year 4
+No eligible stands found for DISTID2 in Year 5
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 5
+No eligible stands found for DISTID2 in Year 6
+No eligible stands found for DISTID1 in Year 6
+No eligible stands found for DISTID2 in Year 7
+No eligible stands found for DISTID1 in Year 7
+No eligible stands found for DISTID2 in Year 8
+No eligible stands found for DISTID1 in Year 8
+No eligible stands found for DISTID2 in Year 9
+No eligible stands found for DISTID1 in Year 9
+No eligible stands found for DISTID1 in Year 10
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 11
+No eligible stands found for DISTID1 in Year 12
+No eligible stands found for DISTID1 in Year 13
+No eligible stands found for DISTID1 in Year 14
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 15
+No eligible stands found for DISTID1 in Year 16
+No eligible stands found for DISTID1 in Year 17
+No eligible stands found for DISTID1 in Year 18
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 19
+No eligible stands found for DISTID1 in Year 20
+No eligible stands found for DISTID1 in Year 21
+No eligible stands found for DISTID1 in Year 22
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 23
+No eligible stands found for DISTID1 in Year 24
+No eligible stands found for DISTID1 in Year 25
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 26
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID2 in Year 1
+No eligible stands found for DISTID1 in Year 1
+No eligible stands found for DISTID2 in Year 2
+No eligible stands found for DISTID1 in Year 2
+No eligible stands found for DISTID2 in Year 3
+No eligible stands found for DISTID1 in Year 3
+No eligible stands found for DISTID2 in Year 4
+No eligible stands found for DISTID1 in Year 4
+No eligible stands found for DISTID2 in Year 5
+No eligible stands found for DISTID1 in Year 5
+No eligible stands found for DISTID2 in Year 6
+No eligible stands found for DISTID1 in Year 6
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID2 in Year 7
+No eligible stands found for DISTID1 in Year 7
+No eligible stands found for DISTID2 in Year 8
+No eligible stands found for DISTID1 in Year 8
+No eligible stands found for DISTID2 in Year 9
+No eligible stands found for DISTID1 in Year 9
+No eligible stands found for DISTID1 in Year 10
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 11
+No eligible stands found for DISTID1 in Year 12
+No eligible stands found for DISTID1 in Year 13
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 14
+No eligible stands found for DISTID1 in Year 15
+No eligible stands found for DISTID1 in Year 16
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 17
+No eligible stands found for DISTID1 in Year 18
+No eligible stands found for DISTID1 in Year 19
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 20
+No eligible stands found for DISTID1 in Year 21
+No eligible stands found for DISTID1 in Year 22
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 23
+No eligible stands found for DISTID1 in Year 24
+No eligible stands found for DISTID1 in Year 25
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 26
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID2 in Year 1
+No eligible stands found for DISTID1 in Year 1
+No eligible stands found for DISTID2 in Year 2
+No eligible stands found for DISTID1 in Year 2
+No eligible stands found for DISTID2 in Year 3
+No eligible stands found for DISTID1 in Year 3
+No eligible stands found for DISTID2 in Year 4
+No eligible stands found for DISTID1 in Year 4
+No eligible stands found for DISTID2 in Year 5
+No eligible stands found for DISTID1 in Year 5
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID2 in Year 6
+No eligible stands found for DISTID1 in Year 6
+No eligible stands found for DISTID2 in Year 7
+No eligible stands found for DISTID1 in Year 7
+No eligible stands found for DISTID2 in Year 8
+No eligible stands found for DISTID1 in Year 8
+No eligible stands found for DISTID2 in Year 9
+No eligible stands found for DISTID1 in Year 9
+No eligible stands found for DISTID1 in Year 10
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 11
+No eligible stands found for DISTID1 in Year 12
+No eligible stands found for DISTID1 in Year 13
+No eligible stands found for DISTID1 in Year 14
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 15
+No eligible stands found for DISTID1 in Year 16
+No eligible stands found for DISTID1 in Year 17
+No eligible stands found for DISTID1 in Year 18
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 19
+No eligible stands found for DISTID1 in Year 20
+No eligible stands found for DISTID1 in Year 21
+No eligible stands found for DISTID1 in Year 22
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 23
+No eligible stands found for DISTID1 in Year 24
+No eligible stands found for DISTID1 in Year 25
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 26
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/colmduff/Dropbox/projects/FORESIGHT/packages/goblin_lite/.venv/lib/python3.10/site-packages/goblin_cbm_runner/cbm/data_processing/default_processing/SC_disturbances.py:145: UserWarning: Adjusted area for species &#39;Sitka&#39; and yield class &#39;YC17_20&#39; is 0 after adjustment.
+  warnings.warn(f&quot;Adjusted area for species &#39;{species}&#39; and yield class &#39;{yield_class}&#39; is 0 after adjustment.&quot;)
+/home/colmduff/Dropbox/projects/FORESIGHT/packages/goblin_lite/.venv/lib/python3.10/site-packages/goblin_cbm_runner/cbm/data_processing/default_processing/SC_disturbances.py:145: UserWarning: Adjusted area for species &#39;Sitka&#39; and yield class &#39;YC20_24&#39; is 0 after adjustment.
+  warnings.warn(f&quot;Adjusted area for species &#39;{species}&#39; and yield class &#39;{yield_class}&#39; is 0 after adjustment.&quot;)
+/home/colmduff/Dropbox/projects/FORESIGHT/packages/goblin_lite/.venv/lib/python3.10/site-packages/goblin_cbm_runner/cbm/data_processing/default_processing/SC_disturbances.py:145: UserWarning: Adjusted area for species &#39;Sitka&#39; and yield class &#39;YC24_30&#39; is 0 after adjustment.
+  warnings.warn(f&quot;Adjusted area for species &#39;{species}&#39; and yield class &#39;{yield_class}&#39; is 0 after adjustment.&quot;)
+/home/colmduff/Dropbox/projects/FORESIGHT/packages/goblin_lite/.venv/lib/python3.10/site-packages/goblin_cbm_runner/cbm/data_processing/default_processing/SC_disturbances.py:145: UserWarning: Adjusted area for species &#39;SGB&#39; and yield class &#39;YC6&#39; is 0 after adjustment.
+  warnings.warn(f&quot;Adjusted area for species &#39;{species}&#39; and yield class &#39;{yield_class}&#39; is 0 after adjustment.&quot;)
+/home/colmduff/Dropbox/projects/FORESIGHT/packages/goblin_lite/.venv/lib/python3.10/site-packages/goblin_cbm_runner/cbm/data_processing/default_processing/SC_disturbances.py:154: UserWarning: FOR SCENARIO 3: Total adjustment applied 0.0 does not match the intended area adjustment 6000.
+  warnings.warn(f&quot;FOR SCENARIO {scenario}: Total adjustment applied {total_adjustment_applied} does not match the intended area adjustment {area_adjustment}.&quot;)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID2 in Year 1
+No eligible stands found for DISTID1 in Year 1
+No eligible stands found for DISTID2 in Year 2
+No eligible stands found for DISTID1 in Year 2
+No eligible stands found for DISTID2 in Year 3
+No eligible stands found for DISTID1 in Year 3
+No eligible stands found for DISTID2 in Year 4
+No eligible stands found for DISTID1 in Year 4
+No eligible stands found for DISTID2 in Year 5
+No eligible stands found for DISTID1 in Year 5
+No eligible stands found for DISTID2 in Year 6
+No eligible stands found for DISTID1 in Year 6
+No eligible stands found for DISTID2 in Year 7
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 7
+No eligible stands found for DISTID2 in Year 8
+No eligible stands found for DISTID1 in Year 8
+No eligible stands found for DISTID2 in Year 9
+No eligible stands found for DISTID1 in Year 9
+No eligible stands found for DISTID1 in Year 10
+No eligible stands found for DISTID1 in Year 11
+No eligible stands found for DISTID1 in Year 12
+No eligible stands found for DISTID1 in Year 13
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 14
+No eligible stands found for DISTID1 in Year 15
+No eligible stands found for DISTID1 in Year 16
+No eligible stands found for DISTID1 in Year 17
+No eligible stands found for DISTID1 in Year 18
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 19
+No eligible stands found for DISTID1 in Year 20
+No eligible stands found for DISTID1 in Year 21
+No eligible stands found for DISTID1 in Year 22
+No eligible stands found for DISTID1 in Year 23
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID1 in Year 24
+No eligible stands found for DISTID1 in Year 25
+No eligible stands found for DISTID1 in Year 26
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No eligible stands found for DISTID2 in Year 33
+No eligible stands found for DISTID2 in Year 34
+No eligible stands found for DISTID2 in Year 35
+No eligible stands found for DISTID2 in Year 36
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>🚀 Starting AF Simulation...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ AF Simulation Complete.
+🚀 Starting Scenario 0 Simulation...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ Scenario 0 Simulation Complete.
+🚀 Starting Scenario 1 Simulation...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ Scenario 1 Simulation Complete.
+🚀 Starting Scenario 2 Simulation...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ Scenario 2 Simulation Complete.
+🚀 Starting Scenario 3 Simulation...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ Scenario 3 Simulation Complete.
+Running Forest Flux scenario -1
+Running Forest Flux scenario 0
+🚀 Starting Scenario 0 Simulation...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ Scenario 0 Simulation Complete.
+Running Forest Flux scenario 1
+🚀 Starting Scenario 1 Simulation...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ Scenario 1 Simulation Complete.
+Running Forest Flux scenario 2
+🚀 Starting Scenario 2 Simulation...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ Scenario 2 Simulation Complete.
+Running Forest Flux scenario 3
+🚀 Starting Scenario 3 Simulation...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ Scenario 3 Simulation Complete.
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Scenario Generation Complete ... 
@@ -235,6 +517,8 @@ Scenarios
 -1          8.251443e+09   6.528033e+08
  0          5.339220e+09   2.596987e+08
  1          5.339220e+09   2.596987e+08
+ 2          5.339220e+08   2.867735e+07
+ 3          5.339220e+08   2.867735e+07
 </pre></div>
 </div>
 </div>
@@ -254,9 +538,11 @@ Scenarios
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              CH4        N2O           CO2          CO2e
 index                                                   
--1     634.471263  23.086912    914.344304  24797.571275
- 0     345.156833  11.919926 -52312.890656 -39489.718905
- 1     345.254615  11.902066 -48716.729109 -35895.552370
+-1     634.471263  23.086912   1597.660312  25480.887284
+ 0     345.156857  11.978671 -42419.597283 -29580.857430
+ 1     345.254639  11.960627 -42555.037282 -29718.341292
+ 2     150.043936   6.082288 -59365.973151 -53552.936750
+ 3     163.716836   4.877576   5099.580183  10976.209297
 </pre></div>
 </div>
 </div>
@@ -279,36 +565,48 @@ index
 -1      465.584094               3.075505              42.622576   
  0      201.478299               1.314963              17.416696   
  1      201.562043               1.315096              17.430742   
+ 2       21.863310               0.142774               1.919709   
+ 3       21.863310               0.142774               1.919709   
 
        manure_applied_N  N_direct_PRP  N_indirect_PRP  N_direct_fertiliser  \
 index                                                                        
 -1             0.920240      4.628077        0.765050             7.109264   
- 0             0.396043      2.014180        0.334145             2.119746   
- 1             0.396043      2.015091        0.334278             2.103677   
+ 0             0.396043      2.014180        0.334145             2.169335   
+ 1             0.396043      2.015091        0.334278             2.153109   
+ 2             0.042917      0.218468        0.036202             0.246916   
+ 3             0.042917      0.218468        0.036202             0.246916   
 
        N_indirect_fertiliser   soils_CO2  soil_organic_N_direct  \
 index                                                             
 -1                  1.239013  508.885373               5.548316   
- 0                  0.391338  436.243167               2.410223   
- 1                  0.388371  435.964488               2.411134   
+ 0                  0.400493  437.103111               2.410223   
+ 1                  0.397497  436.821734               2.411134   
+ 2                  0.045585  403.764999               0.261384   
+ 3                  0.045585  403.764999               0.261384   
 
        soil_organic_N_indirect  soil_inorganic_N_direct  \
 index                                                     
 -1                    0.765050                 7.109264   
- 0                    0.334145                 2.119746   
- 1                    0.334278                 2.103677   
+ 0                    0.334145                 2.169335   
+ 1                    0.334278                 2.153109   
+ 2                    0.036202                 0.246916   
+ 3                    0.036202                 0.246916   
 
        soil_inorganic_N_indirect  soil_histosol_N_direct  crop_residue_direct  \
 index                                                                           
 -1                      1.239013                1.203983             3.529468   
- 0                      0.391338                1.203983             3.529468   
- 1                      0.388371                1.203983             3.529468   
+ 0                      0.400493                1.203983             3.529468   
+ 1                      0.397497                1.203983             3.529468   
+ 2                      0.045585                1.203983             3.529468   
+ 3                      0.045585                0.000000             3.529468   
 
        soil_N_direct  soil_N_indirect  soils_N2O  
 index                                             
 -1         17.391033         2.004063  19.395095  
- 0          9.263421         0.725483   9.988904  
- 1          9.248262         0.722649   9.970911  
+ 0          9.313009         0.734637  10.047647  
+ 1          9.297695         0.731775  10.029470  
+ 2          5.241752         0.081786   5.323538  
+ 3          4.037769         0.081786   4.119555  
 </pre></div>
 </div>
 </div>
@@ -330,19 +628,29 @@ index
 scenario                                                                   
 -1         cropland  2020      0.000000    0.000154  0.000004      0.005380
 -1        grassland  2020   1061.271545   42.841175  0.001507   2261.223915
--1           forest  2020  -1509.617775    1.926434  0.512809  -1319.783364
+-1           forest  2020   -826.301767    1.926434  0.512809   -636.467356
 -1          wetland  2020    853.805160   81.496830  0.101991   3162.744029
--1            total  2020    405.458930  126.264594  0.616311   4104.189960
+-1            total  2020   1088.774939  126.264594  0.616311   4787.505968
  0         cropland  2050      0.000000    0.000154  0.000004      0.005380
- 0        grassland  2050   2114.310751   42.838420  0.001256   3314.119304
- 0           forest  2050 -55717.249734    1.926434  0.512809 -55527.415323
+ 0        grassland  2050   2104.978992   42.838444  0.001258   3304.788820
+ 0           forest  2050 -45815.484546    1.926434  0.512809 -45625.650135
  0          wetland  2050    853.805160   81.496830  0.101991   3162.744029
- 0            total  2050 -52749.133823  126.261838  0.616059 -49050.546611
+ 0            total  2050 -42856.700393  126.261863  0.616062 -39158.111906
  1         cropland  2050      0.000000    0.000154  0.000004      0.005380
- 1        grassland  2050   2117.334858   42.838412  0.001255   3317.142998
- 1           forest  2050 -52123.833616    1.926434  0.512809 -51933.999205
+ 1        grassland  2050   2108.032382   42.838436  0.001257   3307.841793
+ 1           forest  2050 -45953.696558    1.926434  0.512809 -45763.862147
  1          wetland  2050    853.805160   81.496830  0.101991   3162.744029
- 1            total  2050 -49152.693598  126.261830  0.616059 -45454.106798
+ 1            total  2050 -42991.859016  126.261855  0.616061 -39293.270946
+ 2         cropland  2050      0.000000    0.000154  0.000004      0.005380
+ 2        grassland  2050   2466.750641   42.837497  0.001172   3666.511060
+ 2           forest  2050 -63090.293951    1.926434  0.512809 -62900.459540
+ 2          wetland  2050    853.805160   81.496830  0.101991   3162.744029
+ 2            total  2050 -59769.738150  126.260916  0.615975 -56071.199071
+ 3         cropland  2050      0.000000    0.000154  0.000004      0.005380
+ 3        grassland  2050   1100.700955   56.510398  0.000444   2683.109690
+ 3           forest  2050   2741.309068    1.926434  0.512809   2931.143479
+ 3          wetland  2050    853.805160   81.496830  0.101991   3162.744029
+ 3            total  2050   4695.815184  139.933817  0.615247   8777.002577
 </pre></div>
 </div>
 </div>
@@ -365,12 +673,16 @@ index
 -1                3.529468             0.491902               0.090813   
  0                3.529468             0.491902               0.090813   
  1                3.529468             0.491902               0.090813   
+ 2                3.529468             0.491902               0.090813   
+ 3                3.529468             0.491902               0.090813   
 
        soils_CO2  soils_N2O  
 index                        
 -1      6.166289   4.112183  
  0      6.166289   4.112183  
  1      6.166289   4.112183  
+ 2      6.166289   4.112183  
+ 3      6.166289   4.112183  
 </pre></div>
 </div>
 </div>
@@ -388,35 +700,35 @@ index
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>       Year           AGB           BGB       Deadwood        Litter  \
-index                                                                  
-0      2016 -1.266127e+06 -2.618384e+05    5102.027979 -1.184498e+05   
-1      2017 -7.805690e+05 -1.542363e+05  -61197.065313 -2.938623e+05   
-2      2018 -7.505445e+05 -1.593684e+05  -56187.842107 -2.723639e+05   
-3      2019 -5.924877e+05 -1.144305e+05  -86351.247069 -2.558944e+05   
-4      2020 -6.084902e+05 -1.147854e+05  -97224.693899 -1.998624e+05   
-...     ...           ...           ...            ...           ...   
-100    2046 -1.002326e+07 -2.256911e+06 -491980.251238 -1.000019e+06   
-101    2047 -1.024281e+07 -2.293113e+06 -590479.773195 -1.160341e+06   
-102    2048 -9.884681e+06 -2.207148e+06 -751864.227561 -1.435174e+06   
-103    2049 -9.831562e+06 -2.188388e+06 -845030.698928 -1.520163e+06   
-104    2050 -9.708535e+06 -2.157711e+06 -941986.878994 -1.607536e+06   
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>       Year  Scenario           AGB            BGB       Deadwood  \
+index                                                               
+0      2016        -1 -1.483167e+06 -292623.377894  450706.684939   
+1      2017        -1 -1.329146e+06 -259552.888450  390128.918183   
+2      2018        -1 -1.165888e+06 -231130.326643  340176.462016   
+3      2019        -1 -1.023885e+06 -193607.219187  284864.486511   
+4      2020        -1 -6.726993e+05 -119159.178839  224499.288330   
+...     ...       ...           ...            ...            ...   
+399    2095         3  4.901180e+05   89949.303922   85245.890580   
+400    2096         3  7.148366e+05  139877.639149   55759.615771   
+401    2097         3  5.702518e+05  108988.138568   80799.793765   
+402    2098         3  3.918862e+05   77297.387112   98189.199641   
+403    2099         3  9.966661e+04    2682.274740  147647.468417   
 
-                Soil       Harvest  Total Ecosystem  Scenario  
-index                                                          
-0      -20067.805281 -6.382280e+05    -1.661381e+06        -1  
-1      -26011.569723 -9.102110e+05    -1.315876e+06        -1  
-2      -26367.823978 -9.165912e+05    -1.264832e+06        -1  
-3      -27775.638553 -1.027711e+06    -1.076939e+06        -1  
-4      -27576.477034 -1.009912e+06    -1.047939e+06        -1  
-...              ...           ...              ...       ...  
-100   -203185.136292 -9.064669e+05    -1.397536e+07         1  
-101   -212966.329239 -1.025050e+06    -1.449971e+07         1  
-102   -224841.380814 -1.443944e+06    -1.450371e+07         1  
-103   -232678.633331 -1.636748e+06    -1.461782e+07         1  
-104   -241785.071075 -1.866628e+06    -1.465755e+07         1  
+              Litter          Soil       Harvest  Total Ecosystem  
+index                                                              
+0      360862.688404 -19354.592411 -6.111390e+05    -9.835760e+05  
+1      207662.538899 -22846.299798 -7.172140e+05    -1.013754e+06  
+2       60605.361161 -25956.277505 -8.012059e+05    -1.022192e+06  
+3        7386.388437 -26552.562870 -9.276150e+05    -9.517938e+05  
+4     -124837.441652 -28757.059873 -1.159521e+06    -7.209537e+05  
+...              ...           ...           ...              ...  
+399     19322.923837  -4450.889527 -1.294814e+06     6.801852e+05  
+400    -14785.382408  -3440.998235 -1.444073e+06     8.922475e+05  
+401     63632.838246  -1023.372511 -1.346598e+06     8.226492e+05  
+402    100723.434618    189.564358 -1.224614e+06     6.682858e+05  
+403    174258.884484   1010.008227 -1.043631e+06     4.252652e+05  
 
-[105 rows x 9 columns]
+[404 rows x 9 columns]
 </pre></div>
 </div>
 </div>
@@ -440,7 +752,7 @@ index
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/deeb25e7e9df32e0d2eaff72e5d5656f7f9cdd1cb952ddbdde48c9cfb38d7f7b.png" src="_images/deeb25e7e9df32e0d2eaff72e5d5656f7f9cdd1cb952ddbdde48c9cfb38d7f7b.png" />
+<img alt="_images/91a0214ce2cec32752cb1105db340478106fb26630c69d254650359bc329716e.png" src="_images/91a0214ce2cec32752cb1105db340478106fb26630c69d254650359bc329716e.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -458,7 +770,7 @@ index
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/41b994942fc677dde58af16b0e0fc8759916239e4e5c3b2f8b2f6e20a7e118ad.png" src="_images/41b994942fc677dde58af16b0e0fc8759916239e4e5c3b2f8b2f6e20a7e118ad.png" />
+<img alt="_images/7d324f55ae19c7c4f2b2a6cd51f9e6d781e031d406b5a7f173c6aae99ae4c3fc.png" src="_images/7d324f55ae19c7c4f2b2a6cd51f9e6d781e031d406b5a7f173c6aae99ae4c3fc.png" />
 </div>
 </div>
 <div class="cell docutils container">

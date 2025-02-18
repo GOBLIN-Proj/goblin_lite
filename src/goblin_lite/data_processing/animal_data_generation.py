@@ -17,6 +17,9 @@ class AnimalDataGenerator:
 
     Attributes
     ----------
+    goblin_data_manager_class : class
+        The data manager class used to retrieve country, calibration year, and target year information.
+
     ef_country : str
         The country for which the livestock data is being generated.
 
@@ -34,14 +37,14 @@ class AnimalDataGenerator:
     generate_animal_data()
         Generates animal data for a specified scenario.
 
-    generate_livestock_ouputs()
+    generate_livestock_outputs()
         Generates and returns a DataFrame of livestock outputs for the given scenario.
-    
     """
-    def __init__(self, ef_country, calibration_year, target_year, scenario_input_dataframe):
-        self.ef_country = ef_country
-        self.calibration_year = calibration_year
-        self.target_year = target_year
+    def __init__(self, goblin_data_manager_class, scenario_input_dataframe):
+        self.goblin_data_manager_class = goblin_data_manager_class
+        self.ef_country = self.goblin_data_manager_class.get_ef_country()
+        self.calibration_year = self.goblin_data_manager_class.get_calibration_year()
+        self.target_year = self.goblin_data_manager_class.get_target_year()
         self.scenario_input_dataframe = scenario_input_dataframe
 
 
@@ -65,7 +68,7 @@ class AnimalDataGenerator:
 
         return baseline_animal_data, scenario_animal_data
     
-    def generate_livestock_ouputs(self):
+    def generate_livestock_outputs(self):
         """
         Generates and returns a DataFrame of livestock outputs for the given scenario.
 
@@ -83,7 +86,7 @@ class AnimalDataGenerator:
         The method performs the following steps:
         1. Initializes an instance of the Exports class with country-specific parameters, calibration year, target year, 
         and scenario inputs.
-        2. Computes protein production data using `compute_system_protien_exports` of the Exports class, which includes 
+        2. Computes protein production data using `compute_system_protein_exports` of the Exports class, which includes 
         carcass weight information.
         3. Computes milk production data using `compute_system_milk_exports` of the Exports class.
         4. Creates the protein_and_milk_summary DataFrame by copying milk production data and appending the beef carcass 

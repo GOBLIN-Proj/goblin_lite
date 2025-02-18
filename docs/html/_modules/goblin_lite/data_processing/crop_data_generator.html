@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_lite.data_processing.crop_data_generator &mdash; GOBLIN lite 0.4.1 documentation</title>
+  <title>goblin_lite.data_processing.crop_data_generator &mdash; GOBLIN lite 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -16,7 +16,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=c87aa342"></script>
+        <script src="../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -102,31 +102,39 @@
 <span class="sd">    target_year : int</span>
 <span class="sd">        The target year for the scenario.</span>
 
-<span class="sd">    scenario_dataframe : pandas.DataFrame</span>
-<span class="sd">        A DataFrame containing scenario-specific input data required for crop output calculations.</span>
+<span class="sd">    default_urea : float</span>
+<span class="sd">        The default amount of urea used for crop production.</span>
+
+<span class="sd">    default_urea_abated : float</span>
+<span class="sd">        The default amount of urea abated.</span>
+
+<span class="sd">    sc_fetcher : ScenarioDataFetcher</span>
+<span class="sd">        An instance of ScenarioDataFetcher to fetch scenario-specific data.</span>
+
+<span class="sd">    goblin_data_manager_class : GoblinDataManager</span>
+<span class="sd">        An instance of GoblinDataManager to manage goblin data.</span>
 
 <span class="sd">    Methods</span>
 <span class="sd">    -------</span>
 <span class="sd">    generate_crop_data()</span>
-<span class="sd">        Generates and returns a Dataframe based on national level crop data.</span>
+<span class="sd">        Generates and returns a DataFrame based on national level crop data.</span>
 <span class="sd">    </span>
-<span class="sd">    generate_crop_farm_data()</span>
+<span class="sd">    generate_crop_farm_data(urea=None, urea_abated=None)</span>
 <span class="sd">        Generates and returns a DataFrame of farm outputs.</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calibration_year</span><span class="p">,</span> <span class="n">target_year</span><span class="p">,</span> <span class="n">scenario_dataframe</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">goblin_data_manager</span><span class="p">,</span> <span class="n">scenario_dataframe</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sc_fetcher</span> <span class="o">=</span> <span class="n">ScenarioDataFetcher</span><span class="p">(</span><span class="n">scenario_dataframe</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data_manager</span> <span class="o">=</span> <span class="n">GoblinDataManager</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span> <span class="o">=</span> <span class="n">calibration_year</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span> <span class="o">=</span> <span class="n">target_year</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">default_urea</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager</span><span class="o">.</span><span class="n">get_default_urea</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">default_urea_abated</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_manager</span><span class="o">.</span><span class="n">get_default_urea_abated</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span> <span class="o">=</span> <span class="n">goblin_data_manager</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="o">.</span><span class="n">get_calibration_year</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="o">.</span><span class="n">get_target_year</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">default_urea</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="o">.</span><span class="n">get_default_urea</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">default_urea_abated</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="o">.</span><span class="n">get_default_urea_abated</span><span class="p">()</span>
 
 <div class="viewcode-block" id="CropDataGenerator.generate_crop_data">
 <a class="viewcode-back" href="../../../autoapi/goblin_lite/data_processing/crop_data_generator/index.html#goblin_lite.data_processing.crop_data_generator.CropDataGenerator.generate_crop_data">[docs]</a>
     <span class="k">def</span> <span class="nf">generate_crop_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Generates and returns a Dataframe based on national level crop data.</span>
+<span class="sd">        Generates and returns a DataFrame based on national level crop data.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -159,10 +167,10 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        urea : float</span>
+<span class="sd">        urea : float, optional</span>
 <span class="sd">            The amount of urea used for crop production. If not provided, the default value is used.</span>
 
-<span class="sd">        urea_abated : float</span>
+<span class="sd">        urea_abated : float, optional</span>
 <span class="sd">            The amount of urea abated. If not provided, the default value is used.</span>
 
 <span class="sd">        Returns</span>

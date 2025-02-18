@@ -14,6 +14,8 @@ class LandUseLCAGenerator:
 
     Attributes
     ----------
+    goblin_data_manager : GoblinDataManager
+        An instance of the GoblinDataManager class for managing goblin-specific data.
     data_manager_class : DataManager
         An instance of the DataManager class for database interactions.
     ef_country : str
@@ -42,15 +44,28 @@ class LandUseLCAGenerator:
     -----
     The wetlands category includes emissions from extraction and use of horticultural peat.
     """
-    def __init__(self, ef_country, calibration_year, target_year, landuse_data, transition_matrix, forest_data, DATABASE_PATH, AR_VALUE):
-        self.data_manager_class = DataManager(DATABASE_PATH)
-        self.ef_country = ef_country
-        self.calibration_year = calibration_year
-        self.target_year = target_year
+    def __init__(self, goblin_data_manager, landuse_data, transition_matrix, forest_data):
+        """
+        Parameters
+        ----------
+        goblin_data_manager : GoblinDataManager
+            An instance of the GoblinDataManager class for managing goblin-specific data.
+        landuse_data : pandas.DataFrame
+            Dataframe containing land use information.
+        transition_matrix : pandas.DataFrame
+            Dataframe representing transitions between land use types.
+        forest_data : pandas.DataFrame
+            Dataframe containing forest-related data.
+        """
+        self.goblin_data_manager = goblin_data_manager
+        self.DATABASE_PATH = self.goblin_data_manager.get_database_path()
+        self.data_manager_class = DataManager(self.DATABASE_PATH)
+        self.ef_country = self.goblin_data_manager.get_ef_country()
+        self.calibration_year = self.goblin_data_manager.get_calibration_year()
+        self.target_year = self.goblin_data_manager.get_target_year()
         self.landuse_data = landuse_data
         self.transition_matrix = transition_matrix
         self.forest_data = forest_data
-        self.AR_VALUE = AR_VALUE
 
 
     def generate_landuse_footprint(self):
@@ -67,19 +82,12 @@ class LandUseLCAGenerator:
         -------
         None
         """   
-        AR_VALUE = self.AR_VALUE
-        ef_country = self.ef_country
-        calibration_year = self.calibration_year
-        target_year = self.target_year
 
         climate_change_landuse_class = ClimateChangeLandUse(
-            calibration_year,
-            target_year,
+            self.goblin_data_manager,
             self.transition_matrix,
             self.landuse_data,
-            self.forest_data,
-            ef_country,
-            AR_VALUE,
+            self.forest_data
         )
 
         climate_change_landuse = climate_change_landuse_class.climate_change_landuse()

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_lite.data_processing.forest_carbon_generator &mdash; GOBLIN lite 0.4.1 documentation</title>
+  <title>goblin_lite.data_processing.forest_carbon_generator &mdash; GOBLIN lite 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -16,7 +16,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=c87aa342"></script>
+        <script src="../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -82,6 +82,7 @@
 <span class="sd">The class leverages the Runner class to calculate forest carbon data based on scenario-specific and baseline forest data.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">goblin_cbm_runner.default_runner.runner</span> <span class="kn">import</span> <span class="n">Runner</span>
+<span class="kn">from</span> <span class="nn">goblin_cbm_runner.resource_manager.cbm_runner_data_manager</span> <span class="kn">import</span> <span class="n">DataManager</span>
 <span class="kn">import</span> <span class="nn">os</span> 
 
 <div class="viewcode-block" id="ForestCarbonGenerator">
@@ -93,32 +94,45 @@
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
-<span class="sd">        calibration_year: int </span>
-<span class="sd">            The base year used for calibrating the carbon model.</span>
+<span class="sd">    goblin_data_manager_class : object</span>
+<span class="sd">        An instance of the data manager class used to retrieve configuration and database paths.</span>
 
-<span class="sd">        cbm_config_path: str</span>
-<span class="sd">            The path to the configuration file for the CBM.</span>
+<span class="sd">    calibration_year : int</span>
+<span class="sd">        The base year used for calibrating the carbon model.</span>
 
-<span class="sd">        scenario_dataframe: pandas.DataFrame</span>
-<span class="sd">            Dataframe containing forest management scenario descriptions.</span>
+<span class="sd">    cbm_config_path : str</span>
+<span class="sd">        The path to the configuration file for the CBM.</span>
 
-<span class="sd">        afforestation_dataframe: pandas.DataFrame</span>
-<span class="sd">            Dataframe containing information about afforestation activities.</span>
+<span class="sd">    DATABASE_PATH : str</span>
+<span class="sd">        The path to the database used by the CBM.</span>
 
-<span class="sd">        sit_path: str, optional</span>
-<span class="sd">            The path to the SIT directory.</span>
-<span class="sd">    </span>
+<span class="sd">    sit_path : str, optional</span>
+<span class="sd">        The path to the SIT directory.</span>
+
+<span class="sd">    cbm_runner_data_manager : DataManager</span>
+<span class="sd">        An instance of the DataManager class used to manage CBM runner data.</span>
+
 <span class="sd">    Methods</span>
 <span class="sd">    -------</span>
 <span class="sd">    generate_forest_carbon()</span>
 <span class="sd">        Generates forest carbon data using the provided input data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calibration_year</span><span class="p">,</span> <span class="n">cbm_config_path</span><span class="p">,</span> <span class="n">scenario_dataframe</span><span class="p">,</span> <span class="n">afforestation_dataframe</span><span class="p">,</span> <span class="n">sit_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span> <span class="o">=</span> <span class="n">calibration_year</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cbm_configuration</span> <span class="o">=</span> <span class="n">cbm_config_path</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">scenario_dataframe</span> <span class="o">=</span> <span class="n">scenario_dataframe</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">afforestation_dataframe</span> <span class="o">=</span> <span class="n">afforestation_dataframe</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sit_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">sit_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">sit_path</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+                 <span class="n">goblin_data_manager</span><span class="p">,</span> 
+                 <span class="n">scenario_dataframe</span><span class="p">,</span> 
+                 <span class="n">afforestation_dataframe</span><span class="p">):</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span> <span class="o">=</span> <span class="n">goblin_data_manager</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="o">.</span><span class="n">get_calibration_year</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cbm_config_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="o">.</span><span class="n">get_cbm_configuration_path</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DATABASE_PATH</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="o">.</span><span class="n">get_database_path</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sit_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">DATABASE_PATH</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">DATABASE_PATH</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cbm_runner_data_manager</span> <span class="o">=</span> <span class="n">DataManager</span><span class="p">(</span><span class="n">calibration_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span><span class="p">,</span>
+                            <span class="n">config_file_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cbm_config_path</span><span class="p">,</span>
+                            <span class="n">scenario_data</span><span class="o">=</span><span class="n">scenario_dataframe</span><span class="p">,</span>
+                            <span class="n">afforest_data</span><span class="o">=</span><span class="n">afforestation_dataframe</span><span class="p">,</span>
+                            <span class="n">sit_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sit_path</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ForestCarbonGenerator.generate_forest_carbon">
 <a class="viewcode-back" href="../../../autoapi/goblin_lite/data_processing/forest_carbon_generator/index.html#goblin_lite.data_processing.forest_carbon_generator.ForestCarbonGenerator.generate_forest_carbon">[docs]</a>
@@ -126,18 +140,12 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generates forest carbon data using the provided input data.</span>
 
-<span class="sd">        Returns:</span>
-<span class="sd">            dict: A dictionary containing forest carbon data with keys &#39;forest_flux&#39; and &#39;forest_aggregate&#39;.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            A dictionary containing forest carbon data with keys &#39;forest_flux&#39;, &#39;forest_aggregate&#39;, and &#39;afforestation_area&#39;.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">cbm_runner</span> <span class="o">=</span> <span class="n">Runner</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">cbm_configuration</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">afforestation_dataframe</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">scenario_dataframe</span><span class="p">,</span>
-            <span class="n">sit_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sit_path</span>
-        <span class="p">)</span>
-
-        <span class="n">cbm_runner</span><span class="o">.</span><span class="n">generate_input_data</span><span class="p">()</span>
+        <span class="n">cbm_runner</span> <span class="o">=</span> <span class="n">Runner</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cbm_runner_data_manager</span><span class="p">)</span>
 
         <span class="c1"># generation of aggregated results</span>
         <span class="n">forest_aggregate</span> <span class="o">=</span> <span class="n">cbm_runner</span><span class="o">.</span><span class="n">run_aggregate_scenarios</span><span class="p">()</span>
@@ -159,7 +167,11 @@
                 <span class="n">forest_aggregate</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">forest_aggregate</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">*</span> <span class="o">-</span><span class="mi">1</span>
 
 
-        <span class="n">forest_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;forest_flux&quot;</span><span class="p">:</span> <span class="n">forest_flux</span><span class="p">,</span> <span class="s2">&quot;forest_aggregate&quot;</span><span class="p">:</span> <span class="n">forest_aggregate</span><span class="p">}</span>
+        <span class="n">afforestation_area_df</span> <span class="o">=</span> <span class="n">cbm_runner</span><span class="o">.</span><span class="n">get_afforestation_dataframe</span><span class="p">()</span>
+
+        <span class="n">forest_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;forest_flux&quot;</span><span class="p">:</span> <span class="n">forest_flux</span><span class="p">,</span> 
+                       <span class="s2">&quot;forest_aggregate&quot;</span><span class="p">:</span> <span class="n">forest_aggregate</span><span class="p">,</span> 
+                       <span class="s2">&quot;afforestation_area&quot;</span><span class="p">:</span> <span class="n">afforestation_area_df</span><span class="p">}</span>
 
         <span class="k">return</span> <span class="n">forest_data</span></div>
 </div>

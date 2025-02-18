@@ -14,14 +14,14 @@ The software requires the following:
 - cattle_lca 0.3.1
 - sheep_lca 0.3.1
 - crop_lca 0.2.1
-- grassland_production 0.3.3
+- grassland_production 0.3.6 or higher
 - livestock_generation 0.2.1
 - static_scenario_generator 1.1.1
-- landcover_assignment 0.2.1
-- landcover_lca 0.1.2
-- goblin_cbm_runner 0.3.4
+- landcover_assignment 0.4.0 or higher
+- landcover_lca 0.2.0 or higher
+- goblin_cbm_runner 0.5.0 or higher
 - scenario_assessment 0.1.3
-- seaborn = 0.13.1 or higher
+- seaborn 0.13.1 or higher
 - matplotlib latest
 
 Install with pip

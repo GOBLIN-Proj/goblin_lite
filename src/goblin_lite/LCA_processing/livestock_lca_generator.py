@@ -16,6 +16,8 @@ class LivestockLCAGenerator:
 
     Attributes
     ----------
+    goblin_data_manager : DataManager
+        An instance of the DataManager class for database interactions.
     data_manager_class : DataManager
         An instance of the DataManager class for database interactions.
     ef_country : str
@@ -50,23 +52,42 @@ class LivestockLCAGenerator:
     generate_aggregated_livestock_footprint()
         Calculates aggregated climate change footprints at the national level.
     """
-    def __init__(self, ef_country, 
-                calibration_year, 
-                target_year, 
+    def __init__(self, goblin_data_manager,
                 baseline_animal_data,
                 scenario_animal_data,
                 farm_inputs_baseline,
                 farm_inputs_scenario,
                 landuse_data, 
                 transition_matrix,
-                crop_data,
-                DATABASE_PATH,
-                AR_VALUE):
+                crop_data):
+        """
+        Initializes the LivestockLCAGenerator with the provided data.
+
+        Parameters
+        ----------
+        goblin_data_manager : DataManager
+            An instance of the DataManager class for database interactions.
+        baseline_animal_data : pandas.DataFrame
+            Baseline animal production data.
+        scenario_animal_data : pandas.DataFrame
+            Scenario-specific animal production data.
+        farm_inputs_baseline : pandas.DataFrame
+            Farm inputs (e.g., fertilizer) for the baseline.
+        farm_inputs_scenario : pandas.DataFrame
+            Farm inputs (e.g., fertilizer) for the scenario. 
+        landuse_data : pandas.DataFrame
+            Land use data.
+        transition_matrix : pandas.DataFrame
+            Data representing transitions between land use types.
+        crop_data : pandas.DataFrame
+            Crop-related data.
+        """
+        self.goblin_data_manager_class = goblin_data_manager
+
+        self.DATABASE_PATH = self.goblin_data_manager_class.get_database_path()
         
-        self.data_manager_class = DataManager(DATABASE_PATH)
-        self.ef_country = ef_country
-        self.calibration_year = calibration_year
-        self.target_year = target_year
+        self.data_manager_class = DataManager(self.DATABASE_PATH)
+        
         self.baseline_animal_data = baseline_animal_data
         self.scenario_animal_data = scenario_animal_data
         self.farm_inputs_baseline = farm_inputs_baseline
@@ -74,7 +95,6 @@ class LivestockLCAGenerator:
         self.landuse_data = landuse_data
         self.transition_matrix = transition_matrix
         self.crop_data = crop_data
-        self.AR_VALUE = AR_VALUE
     
 
     def generate_livestock_footprint(self):
@@ -91,19 +111,12 @@ class LivestockLCAGenerator:
         -------
         None
         """  
-        AR_VALUE = self.AR_VALUE
-        ef_country = self.ef_country
-        calibration_year = self.calibration_year
-        target_year = self.target_year
 
-
-        climate_change_livestock_class = ClimateChangeLivestock(ef_country,
-                                                                calibration_year, 
-                                                                target_year, 
+        climate_change_livestock_class = ClimateChangeLivestock(self.goblin_data_manager_class,
                                                                 self.transition_matrix, 
                                                                 self.landuse_data, 
-                                                                self.crop_data, 
-                                                                AR_VALUE)
+                                                                self.crop_data)
+                                                            
 
 
         climate_change_livestock_disaggregated = (
@@ -115,7 +128,7 @@ class LivestockLCAGenerator:
             )
         )
 
-        eutrophication_livestock_class = EutrophicationLivestock(ef_country)
+        eutrophication_livestock_class = EutrophicationLivestock(self.goblin_data_manager_class)
 
         eutrophication_livestock_disaggregated = (
             eutrophication_livestock_class.eutrophication_livestock_dissagregated(
@@ -126,7 +139,7 @@ class LivestockLCAGenerator:
             )
         )
 
-        air_quality_livestock_class = AirQualityLivestock(ef_country)
+        air_quality_livestock_class = AirQualityLivestock(self.goblin_data_manager_class)
 
         air_quality_livestock_disaggregated = air_quality_livestock_class.air_quality_livestock_dissagregated(
             self.baseline_animal_data,
@@ -154,19 +167,11 @@ class LivestockLCAGenerator:
         -------
         None
         """  
-        AR_VALUE = self.AR_VALUE
-        ef_country = self.ef_country
-        calibration_year = self.calibration_year
-        target_year = self.target_year
 
-
-        climate_change_livestock_class = ClimateChangeLivestock(ef_country,
-                                                                calibration_year, 
-                                                                target_year, 
+        climate_change_livestock_class = ClimateChangeLivestock(self.goblin_data_manager_class,
                                                                 self.transition_matrix, 
                                                                 self.landuse_data, 
-                                                                self.crop_data, 
-                                                                AR_VALUE)
+                                                                self.crop_data)
 
         climate_change_livestock_aggregated = (
             climate_change_livestock_class.climate_change_livestock_aggregated(
@@ -187,4 +192,3 @@ class LivestockLCAGenerator:
 
         self.data_manager_class.save_goblin_results_to_database(("climate_change_livestock_aggregated", climate_change_livestock_aggregated),
                                                                 ("climate_change_livestock_categories_as_co2e", climate_change_livestock_categories_as_co2e))
-        

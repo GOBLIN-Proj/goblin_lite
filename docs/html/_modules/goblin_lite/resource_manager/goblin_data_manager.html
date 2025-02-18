@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_lite.resource_manager.goblin_data_manager &mdash; GOBLIN lite 0.4.1 documentation</title>
+  <title>goblin_lite.resource_manager.goblin_data_manager &mdash; GOBLIN lite 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -16,7 +16,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=c87aa342"></script>
+        <script src="../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -147,15 +147,49 @@
 
 <span class="sd">    get_default_urea_abated()</span>
 <span class="sd">        Retrieves the default urea abated value.</span>
+
+<span class="sd">    get_calibration_year()</span>
+<span class="sd">        Retrieves the calibration year.</span>
+
+<span class="sd">    get_target_year()</span>
+<span class="sd">        Retrieves the target year.</span>
+
+<span class="sd">    get_configuration_path()</span>
+<span class="sd">        Retrieves the configuration path.</span>
+
+<span class="sd">    get_cbm_configuration_path()</span>
+<span class="sd">        Retrieves the CBM configuration path.</span>
+
+<span class="sd">    get_database_path()</span>
+<span class="sd">        Retrieves the database path.</span>
+
+<span class="sd">    get_ef_country()</span>
+<span class="sd">        Retrieves the EF country.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">AR_VALUE</span><span class="o">=</span><span class="s2">&quot;AR5&quot;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+                 <span class="n">ef_country</span><span class="p">,</span> 
+                 <span class="n">calibration_year</span><span class="p">,</span> 
+                 <span class="n">target_year</span><span class="p">,</span> 
+                 <span class="n">configuration_path</span><span class="p">,</span> 
+                 <span class="n">cbm_configuration_path</span><span class="p">,</span> 
+                 <span class="n">DATABASE_PATH</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                 <span class="n">AR_VALUE</span><span class="o">=</span><span class="s2">&quot;AR5&quot;</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">AR_VALUE</span> <span class="o">=</span> <span class="n">AR_VALUE</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span> <span class="o">=</span> <span class="n">ef_country</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span> <span class="o">=</span> <span class="n">calibration_year</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span> <span class="o">=</span> <span class="n">target_year</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config_path</span> <span class="o">=</span> <span class="n">configuration_path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cbm_config_path</span> <span class="o">=</span> <span class="n">cbm_configuration_path</span> <span class="c1"># generate scenario_data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">database_path</span> <span class="o">=</span> <span class="n">DATABASE_PATH</span>
+    
         <span class="bp">self</span><span class="o">.</span><span class="n">AR4_values</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;CH4&quot;</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span> <span class="s2">&quot;N2O&quot;</span><span class="p">:</span> <span class="mi">298</span><span class="p">,</span> <span class="s2">&quot;CO2e&quot;</span><span class="p">:</span> <span class="mf">3.67</span><span class="p">}</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">AR5_values</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;CH4&quot;</span><span class="p">:</span> <span class="mi">28</span><span class="p">,</span> <span class="s2">&quot;N2O&quot;</span><span class="p">:</span> <span class="mi">265</span><span class="p">,</span> <span class="s2">&quot;CO2e&quot;</span><span class="p">:</span> <span class="mf">3.67</span><span class="p">}</span>
 
-        <span class="k">if</span> <span class="n">AR_VALUE</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;AR4&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">AR_VALUE</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;AR4&quot;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">AR_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AR4_values</span>
-        <span class="k">elif</span> <span class="n">AR_VALUE</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;AR5&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">AR_VALUE</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;AR5&quot;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">AR_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AR5_values</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
@@ -287,6 +321,78 @@
 <span class="sd">            float: The default urea abated value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_urea_abated</span></div>
+
+
+<div class="viewcode-block" id="GoblinDataManager.get_calibration_year">
+<a class="viewcode-back" href="../../../autoapi/goblin_lite/resource_manager/goblin_data_manager/index.html#goblin_lite.resource_manager.goblin_data_manager.GoblinDataManager.get_calibration_year">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_calibration_year</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the calibration year.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int: The calibration year.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span></div>
+
+    
+<div class="viewcode-block" id="GoblinDataManager.get_target_year">
+<a class="viewcode-back" href="../../../autoapi/goblin_lite/resource_manager/goblin_data_manager/index.html#goblin_lite.resource_manager.goblin_data_manager.GoblinDataManager.get_target_year">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_target_year</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the target year.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int: The target year.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span></div>
+
+    
+<div class="viewcode-block" id="GoblinDataManager.get_configuration_path">
+<a class="viewcode-back" href="../../../autoapi/goblin_lite/resource_manager/goblin_data_manager/index.html#goblin_lite.resource_manager.goblin_data_manager.GoblinDataManager.get_configuration_path">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_configuration_path</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the configuration path.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The configuration path.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_path</span></div>
+
+    
+<div class="viewcode-block" id="GoblinDataManager.get_cbm_configuration_path">
+<a class="viewcode-back" href="../../../autoapi/goblin_lite/resource_manager/goblin_data_manager/index.html#goblin_lite.resource_manager.goblin_data_manager.GoblinDataManager.get_cbm_configuration_path">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_cbm_configuration_path</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the CBM configuration path.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The CBM configuration path.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbm_config_path</span></div>
+
+    
+<div class="viewcode-block" id="GoblinDataManager.get_database_path">
+<a class="viewcode-back" href="../../../autoapi/goblin_lite/resource_manager/goblin_data_manager/index.html#goblin_lite.resource_manager.goblin_data_manager.GoblinDataManager.get_database_path">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_database_path</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the database path.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The database path.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">database_path</span></div>
+
+    
+<div class="viewcode-block" id="GoblinDataManager.get_ef_country">
+<a class="viewcode-back" href="../../../autoapi/goblin_lite/resource_manager/goblin_data_manager/index.html#goblin_lite.resource_manager.goblin_data_manager.GoblinDataManager.get_ef_country">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_ef_country</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the EF country.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The EF country.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span></div>
 </div>
 
 </pre></div>

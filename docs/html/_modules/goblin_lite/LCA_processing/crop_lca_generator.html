@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_lite.LCA_processing.crop_lca_generator &mdash; GOBLIN lite 0.4.1 documentation</title>
+  <title>goblin_lite.LCA_processing.crop_lca_generator &mdash; GOBLIN lite 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -16,7 +16,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=c87aa342"></script>
+        <script src="../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -106,8 +106,6 @@
 <span class="sd">        Dataframe containing scenario-specific parameters.</span>
 <span class="sd">    DATABASE_PATH : str, optional</span>
 <span class="sd">        Path to the external database, if None, default internal database used.</span>
-<span class="sd">    AR_VALUE : str </span>
-<span class="sd">        IPCC Assessment Report version (e.g., &#39;AR4&#39;, &#39;AR5&#39;) for impact calculations.</span>
 <span class="sd">    ef_country : str</span>
 <span class="sd">        Country code for emission factors.</span>
 <span class="sd">    default_urea : float</span>
@@ -117,19 +115,19 @@
 
 <span class="sd">    Methods</span>
 <span class="sd">    -------</span>
-<span class="sd">    generate_crop_footprint()</span>
+<span class="sd">    generate_crop_footprint(urea=None, urea_abated=None)</span>
 <span class="sd">        Calculates footprints for climate change, eutrophication, and air quality.</span>
 
-<span class="sd">    generate_aggregated_crop_footprint()</span>
+<span class="sd">    generate_aggregated_crop_footprint(urea=None, urea_abated=None)</span>
 <span class="sd">        Calculates aggregated climate change footprints for crops.  </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ef_country</span><span class="p">,</span> <span class="n">crop_dataframe</span><span class="p">,</span> <span class="n">scenario_dataframe</span><span class="p">,</span> <span class="n">DATABASE_PATH</span><span class="p">,</span> <span class="n">AR_VALUE</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span> <span class="o">=</span> <span class="n">DataManager</span><span class="p">(</span><span class="n">DATABASE_PATH</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager</span> <span class="o">=</span> <span class="n">GoblinDataManager</span><span class="p">(</span><span class="n">AR_VALUE</span><span class="o">=</span><span class="n">AR_VALUE</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">goblin_data_manager</span><span class="p">,</span> <span class="n">crop_dataframe</span><span class="p">,</span> <span class="n">scenario_dataframe</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager</span> <span class="o">=</span> <span class="n">goblin_data_manager</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DATABASE_PATH</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager</span><span class="o">.</span><span class="n">get_database_path</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span> <span class="o">=</span> <span class="n">DataManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">DATABASE_PATH</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">crop_dataframe</span> <span class="o">=</span> <span class="n">crop_dataframe</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scenario_dataframe</span> <span class="o">=</span> <span class="n">scenario_dataframe</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">AR_VALUE</span> <span class="o">=</span> <span class="n">AR_VALUE</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span> <span class="o">=</span> <span class="n">ef_country</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager</span><span class="o">.</span><span class="n">get_ef_country</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">default_urea</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager</span><span class="o">.</span><span class="n">get_default_urea</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">default_urea_abated</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager</span><span class="o">.</span><span class="n">get_default_urea_abated</span><span class="p">()</span>
 
@@ -143,7 +141,7 @@
 
 <span class="sd">        This method calculates and generates crop footprints for climate change, eutrophication, and air quality for each</span>
 <span class="sd">        scenario based on the crop_dataframe and scenario_dataframe class attributes. The footprints are computed using default urea </span>
-<span class="sd">        and urea abated values (these can be overridden ) for the baseline, while urea values are derived from the scenario_dataframe for each scenario.</span>
+<span class="sd">        and urea abated values (these can be overridden) for the baseline, while urea values are derived from the scenario_dataframe for each scenario.</span>
 <span class="sd">        The AR Value (AR4, AR5) is derived from the class attributes, which defaults to AR5.</span>
 
 <span class="sd">        Data is saved to the database using the `save_goblin_results_to_database` method from the DataManager class.</span>
@@ -169,14 +167,9 @@
 <span class="sd">        -------</span>
 <span class="sd">        None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">AR_VALUE</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AR_VALUE</span>
-        <span class="n">ef_country</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span>
-
-        <span class="n">urea</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_urea</span> <span class="k">if</span> <span class="n">urea</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">urea</span>
-        <span class="n">urea_abated</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_urea_abated</span> <span class="k">if</span> <span class="n">urea_abated</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">urea_abated</span>
 
         <span class="n">climate_change_crop_class</span> <span class="o">=</span> <span class="n">ClimateChangeCrop</span><span class="p">(</span>
-            <span class="n">ef_country</span><span class="p">,</span> <span class="n">urea</span><span class="p">,</span> <span class="n">urea_abated</span><span class="p">,</span> <span class="n">AR_VALUE</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager</span><span class="p">,</span> <span class="n">urea</span><span class="p">,</span> <span class="n">urea_abated</span>
         <span class="p">)</span>
 
         <span class="n">climate_change_crops_disaggregated</span> <span class="o">=</span> <span class="n">climate_change_crop_class</span><span class="o">.</span><span class="n">climate_change_crops_dissagregated</span><span class="p">(</span>
@@ -184,7 +177,7 @@
         <span class="p">)</span>
 
         <span class="n">eutrophication_crop_class</span> <span class="o">=</span> <span class="n">EurtrophicationCrop</span><span class="p">(</span>
-            <span class="n">ef_country</span><span class="p">,</span> <span class="n">urea</span><span class="p">,</span> <span class="n">urea_abated</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager</span><span class="p">,</span> <span class="n">urea</span><span class="p">,</span> <span class="n">urea_abated</span>
         <span class="p">)</span>
 
         <span class="n">eutrophication_crops_disaggregated</span> <span class="o">=</span> <span class="n">eutrophication_crop_class</span><span class="o">.</span><span class="n">eutrophication_crops_dissagregated</span><span class="p">(</span>
@@ -192,7 +185,7 @@
         <span class="p">)</span>
 
         <span class="n">air_quality_crop_class</span> <span class="o">=</span> <span class="n">AirQualityCrop</span><span class="p">(</span>
-            <span class="n">ef_country</span><span class="p">,</span> <span class="n">urea</span><span class="p">,</span> <span class="n">urea_abated</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager</span><span class="p">,</span> <span class="n">urea</span><span class="p">,</span> <span class="n">urea_abated</span>
         <span class="p">)</span>
 
         <span class="n">air_quality_crops_disaggregated</span> <span class="o">=</span> <span class="n">air_quality_crop_class</span><span class="o">.</span><span class="n">air_quality_crops_dissagregated</span><span class="p">(</span>
@@ -231,19 +224,12 @@
 <span class="sd">        urea_abated : float, optional </span>
 <span class="sd">            Urea abated application rate. Defaults to class-level default.</span>
 
-
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">AR_VALUE</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AR_VALUE</span>
-        <span class="n">ef_country</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span>
-
-        <span class="n">urea</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_urea</span> <span class="k">if</span> <span class="n">urea</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">urea</span>
-        <span class="n">urea_abated</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_urea_abated</span> <span class="k">if</span> <span class="n">urea_abated</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">urea_abated</span>
-
         <span class="n">climate_change_crop_class</span> <span class="o">=</span> <span class="n">ClimateChangeCrop</span><span class="p">(</span>
-            <span class="n">ef_country</span><span class="p">,</span> <span class="n">urea</span><span class="p">,</span> <span class="n">urea_abated</span><span class="p">,</span> <span class="n">AR_VALUE</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager</span><span class="p">,</span> <span class="n">urea</span><span class="p">,</span> <span class="n">urea_abated</span>
         <span class="p">)</span>
 
         <span class="n">climate_change_categories_as_co2e</span> <span class="o">=</span> <span class="p">(</span>

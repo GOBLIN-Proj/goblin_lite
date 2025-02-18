@@ -20,6 +20,8 @@
 
    Flexible Data Handling: Works with different types of data inputs, including livestock and crop production data, land use transition data, and more.
 
+   Goblin Data Manager: Manages various data and constants required for calculations, including emission factors and assessment report values.
+
 
 
 Module Contents
@@ -38,7 +40,7 @@ Classes
 
 
 
-.. py:class:: ClimateChangeLandUse(calibration_year, target_year, transition_data, landuse_data, forest_data, ef_country, AR_VALUE='AR5')
+.. py:class:: ClimateChangeLandUse(goblin_data_manager, transition_data, landuse_data, forest_data)
 
 
    A class for calculating the impact of land use changes on climate change across various land types.
@@ -85,6 +87,12 @@ Classes
 
       :type: str
 
+   .. attribute:: goblin_data_manager_class
+
+      A class for managing various data and constants.
+
+      :type: GoblinDataManager
+
    .. method:: climate_change_landuse_past()
 
       Calculates past emissions for different land uses.
@@ -124,7 +132,7 @@ Classes
 
 
 
-.. py:class:: ClimateChangeLivestock(ef_country, calibration_year, target_year, transition_data, landuse_data, crop_data, AR_VALUE='AR5')
+.. py:class:: ClimateChangeLivestock(goblin_data_manager, transition_data, landuse_data, crop_data)
 
 
    A class for assessing the impact of livestock on climate change. It calculates emissions
@@ -277,7 +285,7 @@ Classes
 
 
 
-.. py:class:: ClimateChangeCrop(ef_country, default_urea=None, default_urea_abated=None, AR_VALUE='AR5')
+.. py:class:: ClimateChangeCrop(goblin_data_manager, urea, urea_abated)
 
 
    A class for assessing the impact of crops on climate change. It calculates emissions
@@ -310,6 +318,12 @@ Classes
       The proportion of urea that is abated urea.
 
       :type: float
+
+   .. attribute:: goblin_data_manager_class
+
+      A class for managing various data and constants.
+
+      :type: GoblinDataManager
 
    .. method:: climate_change_crop_past(crop_dataframe)
 

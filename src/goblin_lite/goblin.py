@@ -81,22 +81,12 @@ class ScenarioRunner:
 
     def __init__(
         self,
-        ef_country,
-        calibration_year,
-        target_year,
-        config_path,
-        cbm_config_path,
-        DATABASE_PATH=None,
-        AR_VALUE="AR5",
+        goblin_data_manager,
     ):
-        self.AR_VALUE = AR_VALUE
-        self.ef_country = ef_country
-        self.calibration_year = calibration_year
-        self.target_year = target_year
-        self.config_path = config_path
-        self.cbm_config_path = cbm_config_path # generate scenario_data
-        self.data_manager_class = DataManager(DATABASE_PATH)
-        self.database_path = DATABASE_PATH
+        self.goblin_data_manager_class = goblin_data_manager
+        self.config_path = self.goblin_data_manager_class.get_configuration_path()
+        self.DATABASE_PATH = self.goblin_data_manager_class.get_database_path()
+        self.data_manager_class = DataManager(self.DATABASE_PATH)
             
 
     def run_scenarios(self):
@@ -108,11 +98,6 @@ class ScenarioRunner:
         encapsulated in 31 distinct data tables. These tables are saved as pandas dataframes and are intended for subsequent
         analysis and visualization.
         """
-        ef_country = self.ef_country
-        baseline_year = self.calibration_year
-        target_year = self.target_year
-        AR_VALUE = self.AR_VALUE
-        DATABASE_PATH = self.database_path
 
         self.data_manager_class.create_or_clear_database()
         
@@ -120,30 +105,27 @@ class ScenarioRunner:
         scenario_data_generator = ScenarioGeneration()
         scenario_input_dataframe = scenario_data_generator.generate_scenario_dataframe(self.config_path)
 
-        if DATABASE_PATH is not None:
+        if self.DATABASE_PATH is not None:
             
             sc_ferch_class = ScenarioDataFetcher(scenario_input_dataframe)
 
             #create directories
-            dir_class = Directories(DATABASE_PATH)
+            dir_class = Directories(self.DATABASE_PATH)
             dir_class.create_goblin_directory_structure()
 
         
 
         # animal data
-        animal_data_generator = AnimalDataGenerator(
-            ef_country, baseline_year, target_year, scenario_input_dataframe
+        animal_data_generator = AnimalDataGenerator(self.goblin_data_manager_class, scenario_input_dataframe
         )
 
         baseline_animal_data, scenario_animal_data = animal_data_generator.generate_animal_data()
 
         #Animal Exports 
-        protein_and_milk_summary = animal_data_generator.generate_livestock_ouputs()
+        protein_and_milk_summary = animal_data_generator.generate_livestock_outputs()
 
         # Grassland data
-        grassland_data_generator = GrasslandDataGenerator(ef_country, 
-                                                          baseline_year, 
-                                                          target_year, 
+        grassland_data_generator = GrasslandDataGenerator(self.goblin_data_manager_class,
                                                           scenario_input_dataframe,
                                                           scenario_animal_data,
                                                           baseline_animal_data)
@@ -153,10 +135,14 @@ class ScenarioRunner:
 
 
         # Grassland data
-        total_spared_area, total_grassland_area, total_spared_area_by_soil_group, per_hectare_stocking_rate= grassland_data_generator.generate_grassland_areas()
+        (total_spared_area, 
+        total_grassland_area, 
+        total_spared_area_by_soil_group, 
+        per_hectare_stocking_rate,
+        per_hectare_grass_yield)= grassland_data_generator.generate_grassland_areas()
 
         # Crop data
-        crop_data_generator = CropDataGenerator(baseline_year, target_year, scenario_input_dataframe)
+        crop_data_generator = CropDataGenerator(self.goblin_data_manager_class, scenario_input_dataframe)
 
         crop_input_data = crop_data_generator.generate_crop_data()
 
@@ -164,21 +150,30 @@ class ScenarioRunner:
         crop_farm_data = crop_data_generator.generate_crop_farm_data()
 
         # Land use data
-        landuse_data_generator = LandUseDataGenerator(baseline_year, target_year, scenario_input_dataframe, total_grassland_area, total_spared_area, total_spared_area_by_soil_group)
+        landuse_data_generator = LandUseDataGenerator(self.goblin_data_manager_class,
+                                                      scenario_input_dataframe, 
+                                                      total_grassland_area, 
+                                                      total_spared_area, 
+                                                      total_spared_area_by_soil_group)
 
         transition_matrix = landuse_data_generator.generate_transition_matrix()
 
         landuse_data = landuse_data_generator.generate_landuse_data()
 
-        cbm_afforestation_data = landuse_data_generator.generate_afforestation_data()
+        spared_area_category_totals = landuse_data_generator.generate_spared_area_category_totals()
+
+        cbm_afforestation_data_derived_input = landuse_data_generator.generate_afforestation_data()
 
         # Forest carbon data
-        forest_data_generator = ForestCarbonGenerator(baseline_year, self.cbm_config_path, scenario_input_dataframe, cbm_afforestation_data, sit_path=DATABASE_PATH)
+        forest_data_generator = ForestCarbonGenerator(self.goblin_data_manager_class, 
+                                                      scenario_input_dataframe, 
+                                                      cbm_afforestation_data_derived_input)
 
         forest_data = forest_data_generator.generate_forest_carbon()
 
         forest_carbon_flux = forest_data["forest_flux"]
         forest_carbon_aggregate = forest_data["forest_aggregate"]
+        cbm_spared_area_afforestation_time_series_output = forest_data["afforestation_area"]
 
 
         #SAVE DATA
@@ -191,47 +186,51 @@ class ScenarioRunner:
                                                                 ("total_grassland_area",total_grassland_area),
                                                                 ("total_spared_area_by_soil_group",total_spared_area_by_soil_group),
                                                                 ("per_hectare_stocking_rate",per_hectare_stocking_rate),
+                                                                ("per_hectare_grass_yield",per_hectare_grass_yield),
                                                                 ("crop_input_data",crop_input_data),
                                                                 ("crop_farm_data",crop_farm_data),
                                                                 ("transition_matrix",transition_matrix),
                                                                 ("landuse_data",landuse_data),
-                                                                ("cbm_afforestation_data",cbm_afforestation_data),
+                                                                ("spared_area_category_totals",spared_area_category_totals),
+                                                                ("cbm_afforestation_data_derived_input",cbm_afforestation_data_derived_input),
                                                                 ("forest_carbon_flux",forest_carbon_flux),
                                                                 ("forest_carbon_aggregate",forest_carbon_aggregate),
+                                                                ("cbm_spared_area_afforestation_time_series_output",cbm_spared_area_afforestation_time_series_output),
                                                                 ("protein_and_milk_summary",protein_and_milk_summary))
 
         # Crop LCA
-        crop_data_generator = CropLCAGenerator(ef_country, crop_input_data, scenario_input_dataframe, DATABASE_PATH, AR_VALUE)
+        crop_data_generator = CropLCAGenerator(self.goblin_data_manager_class, 
+                                               crop_input_data, 
+                                               scenario_input_dataframe)
 
         crop_data_generator.generate_crop_footprint()
 
         crop_data_generator.generate_aggregated_crop_footprint()
 
         # Land use LCA
-        landuse_data_generator = LandUseLCAGenerator(ef_country, baseline_year, target_year, landuse_data, transition_matrix, forest_data["forest_flux"], DATABASE_PATH, AR_VALUE)
+        landuse_data_generator = LandUseLCAGenerator(self.goblin_data_manager_class,
+                                                    landuse_data, 
+                                                    transition_matrix, 
+                                                    forest_data["forest_flux"])
 
         landuse_data_generator.generate_landuse_footprint()
 
         # Livestock LCA
-        livestock_data_generator = LivestockLCAGenerator(ef_country, 
-                                                        baseline_year, 
-                                                        target_year, 
+        livestock_data_generator = LivestockLCAGenerator(self.goblin_data_manager_class,
                                                         baseline_animal_data,
                                                         scenario_animal_data,
                                                         grassland_farm_inputs_baseline,
                                                         grassland_farm_inputs_scenario,
                                                         landuse_data, 
                                                         transition_matrix,
-                                                        crop_input_data,
-                                                        DATABASE_PATH,
-                                                        AR_VALUE)
+                                                        crop_input_data)
         
         livestock_data_generator.generate_livestock_footprint()
         livestock_data_generator.generate_aggregated_livestock_footprint()
 
         # Climate change totals
         climate_change_totals = LCATotalGenerator(
-            baseline_year, target_year, scenario_input_dataframe, DATABASE_PATH
+            self.goblin_data_manager_class, scenario_input_dataframe
         )
         climate_change_totals.generate_climate_change_totals()
 

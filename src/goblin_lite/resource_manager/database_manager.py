@@ -88,7 +88,7 @@ class DataManager:
         """
         Creates or clears the database.
 
-        This method creates or clears the database. If the database already exists, it is cleared.
+        This method creates or clears the database. If the database already exists, it is cleared using the declarative approach.
 
         Returns
         -------

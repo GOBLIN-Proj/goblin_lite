@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_lite.goblin &mdash; GOBLIN lite 0.4.1 documentation</title>
+  <title>goblin_lite.goblin &mdash; GOBLIN lite 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -16,7 +16,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=c87aa342"></script>
+        <script src="../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../_static/doctools.js?v=888ff710"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -160,22 +160,12 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">ef_country</span><span class="p">,</span>
-        <span class="n">calibration_year</span><span class="p">,</span>
-        <span class="n">target_year</span><span class="p">,</span>
-        <span class="n">config_path</span><span class="p">,</span>
-        <span class="n">cbm_config_path</span><span class="p">,</span>
-        <span class="n">DATABASE_PATH</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">AR_VALUE</span><span class="o">=</span><span class="s2">&quot;AR5&quot;</span><span class="p">,</span>
+        <span class="n">goblin_data_manager</span><span class="p">,</span>
     <span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">AR_VALUE</span> <span class="o">=</span> <span class="n">AR_VALUE</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span> <span class="o">=</span> <span class="n">ef_country</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span> <span class="o">=</span> <span class="n">calibration_year</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span> <span class="o">=</span> <span class="n">target_year</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">config_path</span> <span class="o">=</span> <span class="n">config_path</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cbm_config_path</span> <span class="o">=</span> <span class="n">cbm_config_path</span> <span class="c1"># generate scenario_data</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span> <span class="o">=</span> <span class="n">DataManager</span><span class="p">(</span><span class="n">DATABASE_PATH</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">database_path</span> <span class="o">=</span> <span class="n">DATABASE_PATH</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span> <span class="o">=</span> <span class="n">goblin_data_manager</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="o">.</span><span class="n">get_configuration_path</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DATABASE_PATH</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="o">.</span><span class="n">get_database_path</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span> <span class="o">=</span> <span class="n">DataManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">DATABASE_PATH</span><span class="p">)</span>
             
 
 <div class="viewcode-block" id="ScenarioRunner.run_scenarios">
@@ -189,11 +179,6 @@
 <span class="sd">        encapsulated in 31 distinct data tables. These tables are saved as pandas dataframes and are intended for subsequent</span>
 <span class="sd">        analysis and visualization.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">ef_country</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span>
-        <span class="n">baseline_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span>
-        <span class="n">target_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span>
-        <span class="n">AR_VALUE</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AR_VALUE</span>
-        <span class="n">DATABASE_PATH</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">database_path</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">data_manager_class</span><span class="o">.</span><span class="n">create_or_clear_database</span><span class="p">()</span>
         
@@ -201,30 +186,27 @@
         <span class="n">scenario_data_generator</span> <span class="o">=</span> <span class="n">ScenarioGeneration</span><span class="p">()</span>
         <span class="n">scenario_input_dataframe</span> <span class="o">=</span> <span class="n">scenario_data_generator</span><span class="o">.</span><span class="n">generate_scenario_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config_path</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">DATABASE_PATH</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">DATABASE_PATH</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             
             <span class="n">sc_ferch_class</span> <span class="o">=</span> <span class="n">ScenarioDataFetcher</span><span class="p">(</span><span class="n">scenario_input_dataframe</span><span class="p">)</span>
 
             <span class="c1">#create directories</span>
-            <span class="n">dir_class</span> <span class="o">=</span> <span class="n">Directories</span><span class="p">(</span><span class="n">DATABASE_PATH</span><span class="p">)</span>
+            <span class="n">dir_class</span> <span class="o">=</span> <span class="n">Directories</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">DATABASE_PATH</span><span class="p">)</span>
             <span class="n">dir_class</span><span class="o">.</span><span class="n">create_goblin_directory_structure</span><span class="p">()</span>
 
         
 
         <span class="c1"># animal data</span>
-        <span class="n">animal_data_generator</span> <span class="o">=</span> <span class="n">AnimalDataGenerator</span><span class="p">(</span>
-            <span class="n">ef_country</span><span class="p">,</span> <span class="n">baseline_year</span><span class="p">,</span> <span class="n">target_year</span><span class="p">,</span> <span class="n">scenario_input_dataframe</span>
+        <span class="n">animal_data_generator</span> <span class="o">=</span> <span class="n">AnimalDataGenerator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="p">,</span> <span class="n">scenario_input_dataframe</span>
         <span class="p">)</span>
 
         <span class="n">baseline_animal_data</span><span class="p">,</span> <span class="n">scenario_animal_data</span> <span class="o">=</span> <span class="n">animal_data_generator</span><span class="o">.</span><span class="n">generate_animal_data</span><span class="p">()</span>
 
         <span class="c1">#Animal Exports </span>
-        <span class="n">protein_and_milk_summary</span> <span class="o">=</span> <span class="n">animal_data_generator</span><span class="o">.</span><span class="n">generate_livestock_ouputs</span><span class="p">()</span>
+        <span class="n">protein_and_milk_summary</span> <span class="o">=</span> <span class="n">animal_data_generator</span><span class="o">.</span><span class="n">generate_livestock_outputs</span><span class="p">()</span>
 
         <span class="c1"># Grassland data</span>
-        <span class="n">grassland_data_generator</span> <span class="o">=</span> <span class="n">GrasslandDataGenerator</span><span class="p">(</span><span class="n">ef_country</span><span class="p">,</span> 
-                                                          <span class="n">baseline_year</span><span class="p">,</span> 
-                                                          <span class="n">target_year</span><span class="p">,</span> 
+        <span class="n">grassland_data_generator</span> <span class="o">=</span> <span class="n">GrasslandDataGenerator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="p">,</span>
                                                           <span class="n">scenario_input_dataframe</span><span class="p">,</span>
                                                           <span class="n">scenario_animal_data</span><span class="p">,</span>
                                                           <span class="n">baseline_animal_data</span><span class="p">)</span>
@@ -234,10 +216,14 @@
 
 
         <span class="c1"># Grassland data</span>
-        <span class="n">total_spared_area</span><span class="p">,</span> <span class="n">total_grassland_area</span><span class="p">,</span> <span class="n">total_spared_area_by_soil_group</span><span class="p">,</span> <span class="n">per_hectare_stocking_rate</span><span class="o">=</span> <span class="n">grassland_data_generator</span><span class="o">.</span><span class="n">generate_grassland_areas</span><span class="p">()</span>
+        <span class="p">(</span><span class="n">total_spared_area</span><span class="p">,</span> 
+        <span class="n">total_grassland_area</span><span class="p">,</span> 
+        <span class="n">total_spared_area_by_soil_group</span><span class="p">,</span> 
+        <span class="n">per_hectare_stocking_rate</span><span class="p">,</span>
+        <span class="n">per_hectare_grass_yield</span><span class="p">)</span><span class="o">=</span> <span class="n">grassland_data_generator</span><span class="o">.</span><span class="n">generate_grassland_areas</span><span class="p">()</span>
 
         <span class="c1"># Crop data</span>
-        <span class="n">crop_data_generator</span> <span class="o">=</span> <span class="n">CropDataGenerator</span><span class="p">(</span><span class="n">baseline_year</span><span class="p">,</span> <span class="n">target_year</span><span class="p">,</span> <span class="n">scenario_input_dataframe</span><span class="p">)</span>
+        <span class="n">crop_data_generator</span> <span class="o">=</span> <span class="n">CropDataGenerator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="p">,</span> <span class="n">scenario_input_dataframe</span><span class="p">)</span>
 
         <span class="n">crop_input_data</span> <span class="o">=</span> <span class="n">crop_data_generator</span><span class="o">.</span><span class="n">generate_crop_data</span><span class="p">()</span>
 
@@ -245,21 +231,30 @@
         <span class="n">crop_farm_data</span> <span class="o">=</span> <span class="n">crop_data_generator</span><span class="o">.</span><span class="n">generate_crop_farm_data</span><span class="p">()</span>
 
         <span class="c1"># Land use data</span>
-        <span class="n">landuse_data_generator</span> <span class="o">=</span> <span class="n">LandUseDataGenerator</span><span class="p">(</span><span class="n">baseline_year</span><span class="p">,</span> <span class="n">target_year</span><span class="p">,</span> <span class="n">scenario_input_dataframe</span><span class="p">,</span> <span class="n">total_grassland_area</span><span class="p">,</span> <span class="n">total_spared_area</span><span class="p">,</span> <span class="n">total_spared_area_by_soil_group</span><span class="p">)</span>
+        <span class="n">landuse_data_generator</span> <span class="o">=</span> <span class="n">LandUseDataGenerator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="p">,</span>
+                                                      <span class="n">scenario_input_dataframe</span><span class="p">,</span> 
+                                                      <span class="n">total_grassland_area</span><span class="p">,</span> 
+                                                      <span class="n">total_spared_area</span><span class="p">,</span> 
+                                                      <span class="n">total_spared_area_by_soil_group</span><span class="p">)</span>
 
         <span class="n">transition_matrix</span> <span class="o">=</span> <span class="n">landuse_data_generator</span><span class="o">.</span><span class="n">generate_transition_matrix</span><span class="p">()</span>
 
         <span class="n">landuse_data</span> <span class="o">=</span> <span class="n">landuse_data_generator</span><span class="o">.</span><span class="n">generate_landuse_data</span><span class="p">()</span>
 
-        <span class="n">cbm_afforestation_data</span> <span class="o">=</span> <span class="n">landuse_data_generator</span><span class="o">.</span><span class="n">generate_afforestation_data</span><span class="p">()</span>
+        <span class="n">spared_area_category_totals</span> <span class="o">=</span> <span class="n">landuse_data_generator</span><span class="o">.</span><span class="n">generate_spared_area_category_totals</span><span class="p">()</span>
+
+        <span class="n">cbm_afforestation_data_derived_input</span> <span class="o">=</span> <span class="n">landuse_data_generator</span><span class="o">.</span><span class="n">generate_afforestation_data</span><span class="p">()</span>
 
         <span class="c1"># Forest carbon data</span>
-        <span class="n">forest_data_generator</span> <span class="o">=</span> <span class="n">ForestCarbonGenerator</span><span class="p">(</span><span class="n">baseline_year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbm_config_path</span><span class="p">,</span> <span class="n">scenario_input_dataframe</span><span class="p">,</span> <span class="n">cbm_afforestation_data</span><span class="p">,</span> <span class="n">sit_path</span><span class="o">=</span><span class="n">DATABASE_PATH</span><span class="p">)</span>
+        <span class="n">forest_data_generator</span> <span class="o">=</span> <span class="n">ForestCarbonGenerator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="p">,</span> 
+                                                      <span class="n">scenario_input_dataframe</span><span class="p">,</span> 
+                                                      <span class="n">cbm_afforestation_data_derived_input</span><span class="p">)</span>
 
         <span class="n">forest_data</span> <span class="o">=</span> <span class="n">forest_data_generator</span><span class="o">.</span><span class="n">generate_forest_carbon</span><span class="p">()</span>
 
         <span class="n">forest_carbon_flux</span> <span class="o">=</span> <span class="n">forest_data</span><span class="p">[</span><span class="s2">&quot;forest_flux&quot;</span><span class="p">]</span>
         <span class="n">forest_carbon_aggregate</span> <span class="o">=</span> <span class="n">forest_data</span><span class="p">[</span><span class="s2">&quot;forest_aggregate&quot;</span><span class="p">]</span>
+        <span class="n">cbm_spared_area_afforestation_time_series_output</span> <span class="o">=</span> <span class="n">forest_data</span><span class="p">[</span><span class="s2">&quot;afforestation_area&quot;</span><span class="p">]</span>
 
 
         <span class="c1">#SAVE DATA</span>
@@ -272,47 +267,51 @@
                                                                 <span class="p">(</span><span class="s2">&quot;total_grassland_area&quot;</span><span class="p">,</span><span class="n">total_grassland_area</span><span class="p">),</span>
                                                                 <span class="p">(</span><span class="s2">&quot;total_spared_area_by_soil_group&quot;</span><span class="p">,</span><span class="n">total_spared_area_by_soil_group</span><span class="p">),</span>
                                                                 <span class="p">(</span><span class="s2">&quot;per_hectare_stocking_rate&quot;</span><span class="p">,</span><span class="n">per_hectare_stocking_rate</span><span class="p">),</span>
+                                                                <span class="p">(</span><span class="s2">&quot;per_hectare_grass_yield&quot;</span><span class="p">,</span><span class="n">per_hectare_grass_yield</span><span class="p">),</span>
                                                                 <span class="p">(</span><span class="s2">&quot;crop_input_data&quot;</span><span class="p">,</span><span class="n">crop_input_data</span><span class="p">),</span>
                                                                 <span class="p">(</span><span class="s2">&quot;crop_farm_data&quot;</span><span class="p">,</span><span class="n">crop_farm_data</span><span class="p">),</span>
                                                                 <span class="p">(</span><span class="s2">&quot;transition_matrix&quot;</span><span class="p">,</span><span class="n">transition_matrix</span><span class="p">),</span>
                                                                 <span class="p">(</span><span class="s2">&quot;landuse_data&quot;</span><span class="p">,</span><span class="n">landuse_data</span><span class="p">),</span>
-                                                                <span class="p">(</span><span class="s2">&quot;cbm_afforestation_data&quot;</span><span class="p">,</span><span class="n">cbm_afforestation_data</span><span class="p">),</span>
+                                                                <span class="p">(</span><span class="s2">&quot;spared_area_category_totals&quot;</span><span class="p">,</span><span class="n">spared_area_category_totals</span><span class="p">),</span>
+                                                                <span class="p">(</span><span class="s2">&quot;cbm_afforestation_data_derived_input&quot;</span><span class="p">,</span><span class="n">cbm_afforestation_data_derived_input</span><span class="p">),</span>
                                                                 <span class="p">(</span><span class="s2">&quot;forest_carbon_flux&quot;</span><span class="p">,</span><span class="n">forest_carbon_flux</span><span class="p">),</span>
                                                                 <span class="p">(</span><span class="s2">&quot;forest_carbon_aggregate&quot;</span><span class="p">,</span><span class="n">forest_carbon_aggregate</span><span class="p">),</span>
+                                                                <span class="p">(</span><span class="s2">&quot;cbm_spared_area_afforestation_time_series_output&quot;</span><span class="p">,</span><span class="n">cbm_spared_area_afforestation_time_series_output</span><span class="p">),</span>
                                                                 <span class="p">(</span><span class="s2">&quot;protein_and_milk_summary&quot;</span><span class="p">,</span><span class="n">protein_and_milk_summary</span><span class="p">))</span>
 
         <span class="c1"># Crop LCA</span>
-        <span class="n">crop_data_generator</span> <span class="o">=</span> <span class="n">CropLCAGenerator</span><span class="p">(</span><span class="n">ef_country</span><span class="p">,</span> <span class="n">crop_input_data</span><span class="p">,</span> <span class="n">scenario_input_dataframe</span><span class="p">,</span> <span class="n">DATABASE_PATH</span><span class="p">,</span> <span class="n">AR_VALUE</span><span class="p">)</span>
+        <span class="n">crop_data_generator</span> <span class="o">=</span> <span class="n">CropLCAGenerator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="p">,</span> 
+                                               <span class="n">crop_input_data</span><span class="p">,</span> 
+                                               <span class="n">scenario_input_dataframe</span><span class="p">)</span>
 
         <span class="n">crop_data_generator</span><span class="o">.</span><span class="n">generate_crop_footprint</span><span class="p">()</span>
 
         <span class="n">crop_data_generator</span><span class="o">.</span><span class="n">generate_aggregated_crop_footprint</span><span class="p">()</span>
 
         <span class="c1"># Land use LCA</span>
-        <span class="n">landuse_data_generator</span> <span class="o">=</span> <span class="n">LandUseLCAGenerator</span><span class="p">(</span><span class="n">ef_country</span><span class="p">,</span> <span class="n">baseline_year</span><span class="p">,</span> <span class="n">target_year</span><span class="p">,</span> <span class="n">landuse_data</span><span class="p">,</span> <span class="n">transition_matrix</span><span class="p">,</span> <span class="n">forest_data</span><span class="p">[</span><span class="s2">&quot;forest_flux&quot;</span><span class="p">],</span> <span class="n">DATABASE_PATH</span><span class="p">,</span> <span class="n">AR_VALUE</span><span class="p">)</span>
+        <span class="n">landuse_data_generator</span> <span class="o">=</span> <span class="n">LandUseLCAGenerator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="p">,</span>
+                                                    <span class="n">landuse_data</span><span class="p">,</span> 
+                                                    <span class="n">transition_matrix</span><span class="p">,</span> 
+                                                    <span class="n">forest_data</span><span class="p">[</span><span class="s2">&quot;forest_flux&quot;</span><span class="p">])</span>
 
         <span class="n">landuse_data_generator</span><span class="o">.</span><span class="n">generate_landuse_footprint</span><span class="p">()</span>
 
         <span class="c1"># Livestock LCA</span>
-        <span class="n">livestock_data_generator</span> <span class="o">=</span> <span class="n">LivestockLCAGenerator</span><span class="p">(</span><span class="n">ef_country</span><span class="p">,</span> 
-                                                        <span class="n">baseline_year</span><span class="p">,</span> 
-                                                        <span class="n">target_year</span><span class="p">,</span> 
+        <span class="n">livestock_data_generator</span> <span class="o">=</span> <span class="n">LivestockLCAGenerator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="p">,</span>
                                                         <span class="n">baseline_animal_data</span><span class="p">,</span>
                                                         <span class="n">scenario_animal_data</span><span class="p">,</span>
                                                         <span class="n">grassland_farm_inputs_baseline</span><span class="p">,</span>
                                                         <span class="n">grassland_farm_inputs_scenario</span><span class="p">,</span>
                                                         <span class="n">landuse_data</span><span class="p">,</span> 
                                                         <span class="n">transition_matrix</span><span class="p">,</span>
-                                                        <span class="n">crop_input_data</span><span class="p">,</span>
-                                                        <span class="n">DATABASE_PATH</span><span class="p">,</span>
-                                                        <span class="n">AR_VALUE</span><span class="p">)</span>
+                                                        <span class="n">crop_input_data</span><span class="p">)</span>
         
         <span class="n">livestock_data_generator</span><span class="o">.</span><span class="n">generate_livestock_footprint</span><span class="p">()</span>
         <span class="n">livestock_data_generator</span><span class="o">.</span><span class="n">generate_aggregated_livestock_footprint</span><span class="p">()</span>
 
         <span class="c1"># Climate change totals</span>
         <span class="n">climate_change_totals</span> <span class="o">=</span> <span class="n">LCATotalGenerator</span><span class="p">(</span>
-            <span class="n">baseline_year</span><span class="p">,</span> <span class="n">target_year</span><span class="p">,</span> <span class="n">scenario_input_dataframe</span><span class="p">,</span> <span class="n">DATABASE_PATH</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="p">,</span> <span class="n">scenario_input_dataframe</span>
         <span class="p">)</span>
         <span class="n">climate_change_totals</span><span class="o">.</span><span class="n">generate_climate_change_totals</span><span class="p">()</span>
 

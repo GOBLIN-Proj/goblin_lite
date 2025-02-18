@@ -109,6 +109,16 @@ In addition, a csv file can now be used instead. Simply add the keys as columns 
 The model also requires a yaml file to set specific parameters for the CBM CFS3 model 
 
 ```yaml
+Dynamic_Afforestation:
+  afforest_delay: 5 #delays scenario afforestation by x years
+  annual_afforestation_rate_pre_delay: 1200 #the default annual afforestation rate before during the delay period
+  species_distribution: #the distribution of species in the landscape during delay period
+    - Sitka: 0.7
+    - SGB: 0.3
+
+Forest_management:
+  intensity: high
+
 Classifiers:
   baseline:
     harvest:
@@ -147,6 +157,7 @@ Below is an example of the model, which generates scenarios, and the uses the re
 
 ```python
 from goblin_lite.goblin import ScenarioRunner
+from goblin_lite.resource_manager.goblin_data_manager import GoblinDataManager
 from goblin_lite.scenario_analysis.data_grapher import DataGrapher
 import shutil
 import os
@@ -168,10 +179,19 @@ def main():
     os.mkdir(data_path)
 
 
-    # class instances
-    runner_class = ScenarioRunner(
-        ef_country, baseline_year, target_year, goblin_config, cbm_config
+    # create goblin data manager
+    goblin_data_manger = GoblinDataManager(
+        ef_country = ef_country, 
+        calibration_year= baseline_year,
+        target_year= target_year,
+        configuration_path= goblin_config,
+        cbm_configuration_path= cbm_config,
     )
+
+    # class instances
+    runner_class = ScenarioRunner(goblin_data_manger)
+
+    
     graph_class = DataGrapher()
 
     # run scenarios

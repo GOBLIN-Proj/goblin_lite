@@ -19,6 +19,7 @@
    air quality.
 
    Flexible Data Handling: Works with different types of data inputs, including livestock and crop production data, land use transition data, and more.
+   Integration with Goblin Data Manager: Utilizes `goblin_data_manager` for managing data and constants.
 
 
 
@@ -37,15 +38,19 @@ Classes
 
 
 
-.. py:class:: EutrophicationLivestock(ef_country)
+.. py:class:: EutrophicationLivestock(goblin_data_manager)
 
 
    A class for assessing the impact of livestock on eutrophication. It calculates emissions
    from cattle and sheep for both past and future scenarios, considering various emission categories.
 
+   .. attribute:: goblin_data_manager_class
+
+      An instance of the Goblin Data Manager class.
+
    .. attribute:: ef_country
 
-      emission factor country..
+      Emission factor country.
 
       :type: str
 
@@ -120,15 +125,19 @@ Classes
 
 
 
-.. py:class:: EurtrophicationCrop(ef_country, default_urea=None, default_urea_abated=None)
+.. py:class:: EurtrophicationCrop(goblin_data_manager, urea, urea_abated)
 
 
    A class for assessing the impact of crops on eutrophication. It calculates emissions
    from crops for both past and future scenarios, considering various emission categories.
 
+   .. attribute:: goblin_data_manager_class
+
+      An instance of the Goblin Data Manager class.
+
    .. attribute:: ef_country
 
-      emission factor country.
+      Emission factor country.
 
       :type: str
 

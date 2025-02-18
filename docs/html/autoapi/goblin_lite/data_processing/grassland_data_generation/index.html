@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_lite.data_processing.grassland_data_generation &mdash; GOBLIN lite 0.4.1 documentation</title>
+  <title>goblin_lite.data_processing.grassland_data_generation &mdash; GOBLIN lite 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=c87aa342"></script>
+        <script src="../../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -114,9 +114,20 @@ The class leverages the GrasslandOutput class to calculate grassland data and fa
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="goblin_lite.data_processing.grassland_data_generation.GrasslandDataGenerator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_lite.data_processing.grassland_data_generation.</span></span><span class="sig-name descname"><span class="pre">GrasslandDataGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ef_country</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_animal_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baseline_animal_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/data_processing/grassland_data_generation.html#GrasslandDataGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.data_processing.grassland_data_generation.GrasslandDataGenerator" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_lite.data_processing.grassland_data_generation.</span></span><span class="sig-name descname"><span class="pre">GrasslandDataGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">goblin_data_manager</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_animal_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baseline_animal_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/data_processing/grassland_data_generation.html#GrasslandDataGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.data_processing.grassland_data_generation.GrasslandDataGenerator" title="Link to this definition"></a></dt>
 <dd><p>Manages the process of generating grassland data and related farm outputs. Leverages
 the GrasslandOutput class to perform core calculations.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_lite.data_processing.grassland_data_generation.GrasslandDataGenerator.goblin_data_manager_class">
+<span class="sig-name descname"><span class="pre">goblin_data_manager_class</span></span><a class="headerlink" href="#goblin_lite.data_processing.grassland_data_generation.GrasslandDataGenerator.goblin_data_manager_class" title="Link to this definition"></a></dt>
+<dd><p>Instance of the GoblinDataManager class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="goblin_lite.data_processing.grassland_data_generation.GrasslandDataGenerator.ef_country">
 <span class="sig-name descname"><span class="pre">ef_country</span></span><a class="headerlink" href="#goblin_lite.data_processing.grassland_data_generation.GrasslandDataGenerator.ef_country" title="Link to this definition"></a></dt>
@@ -192,7 +203,7 @@ the GrasslandOutput class to perform core calculations.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="goblin_lite.data_processing.grassland_data_generation.GrasslandDataGenerator.generate_grassland_areas">
 <span class="sig-name descname"><span class="pre">generate_grassland_areas</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/data_processing/grassland_data_generation.html#GrasslandDataGenerator.generate_grassland_areas"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.data_processing.grassland_data_generation.GrasslandDataGenerator.generate_grassland_areas" title="Link to this definition"></a></dt>
-<dd><p>Calculates total spared grassland, total grassland area, spared area per soil type, and grassland stocking rate.</p>
+<dd><p>Calculates total spared grassland, total grassland area, spared area per soil type, grassland stocking rate, and grass yield per hectare.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -204,13 +215,13 @@ the GrasslandOutput class to perform core calculations.</p>
 <dt class="sig sig-object py" id="id1">
 <span class="sig-name descname"><span class="pre">generate_grassland_areas</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/data_processing/grassland_data_generation.html#GrasslandDataGenerator.generate_grassland_areas"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
 <dd><p>Calculate the total spared and total grassland areas for each scenario.</p>
-<p>This method calculates and returns the total spared, total grassland areas, spared area by soil group and stocking rate for each scenario based on the provided
+<p>This method calculates and returns the total spared, total grassland areas, spared area by soil group, stocking rate, and grass yield per hectare for each scenario based on the provided
 scenario_dataframe, scenario_animal_data, and baseline_animal_data attributes. The GrasslandOutput class is utilized to perform
 the necessary calculations for each scenario.</p>
 <p>The total spared area represents the area of grassland that will be converted (destocked) to other land uses (e.g., wetland,
 forests) in the target year compared to the baseline year. The total grassland area represents
 the remaining grassland area. Spared area by soil group represents the spared area by soil group (e.g., class 1, 2 and 3).
-The stocking rate represents the stocking rate per hectare of grassland.</p>
+The stocking rate represents the stocking rate per hectare of grassland. The grass yield per hectare represents the yield of grass per hectare of grassland.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -220,7 +231,7 @@ The stocking rate represents the stocking rate per hectare of grassland.</p>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A tuple containing four pandas DataFrame: (total_spared_area, total_grassland_area, total_spared_area_by_soil_group, per_hectare_stocking_rate).</p>
+<dd class="field-even"><p>A tuple containing five pandas DataFrame: (total_spared_area, total_grassland_area, total_spared_area_by_soil_group, per_hectare_stocking_rate, per_hectare_grass_yield).</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>tuple</p>

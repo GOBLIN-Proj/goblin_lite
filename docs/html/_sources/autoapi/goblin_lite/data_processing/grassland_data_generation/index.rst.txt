@@ -25,11 +25,17 @@ Classes
 
 
 
-.. py:class:: GrasslandDataGenerator(ef_country, calibration_year, target_year, scenario_dataframe, scenario_animal_data, baseline_animal_data)
+.. py:class:: GrasslandDataGenerator(goblin_data_manager, scenario_dataframe, scenario_animal_data, baseline_animal_data)
 
 
    Manages the process of generating grassland data and related farm outputs. Leverages
    the GrasslandOutput class to perform core calculations.
+
+   .. attribute:: goblin_data_manager_class
+
+      Instance of the GoblinDataManager class.
+
+      :type: object
 
    .. attribute:: ef_country
 
@@ -74,7 +80,7 @@ Classes
 
    .. method:: generate_grassland_areas()
 
-      Calculates total spared grassland, total grassland area, spared area per soil type, and grassland stocking rate.
+      Calculates total spared grassland, total grassland area, spared area per soil type, grassland stocking rate, and grass yield per hectare.
 
 
    .. py:method:: generate_farm_inputs()
@@ -84,14 +90,14 @@ Classes
 
       Calculate the total spared and total grassland areas for each scenario.
 
-      This method calculates and returns the total spared, total grassland areas, spared area by soil group and stocking rate for each scenario based on the provided
+      This method calculates and returns the total spared, total grassland areas, spared area by soil group, stocking rate, and grass yield per hectare for each scenario based on the provided
       scenario_dataframe, scenario_animal_data, and baseline_animal_data attributes. The GrasslandOutput class is utilized to perform
       the necessary calculations for each scenario.
 
       The total spared area represents the area of grassland that will be converted (destocked) to other land uses (e.g., wetland,
       forests) in the target year compared to the baseline year. The total grassland area represents
       the remaining grassland area. Spared area by soil group represents the spared area by soil group (e.g., class 1, 2 and 3).
-      The stocking rate represents the stocking rate per hectare of grassland.
+      The stocking rate represents the stocking rate per hectare of grassland. The grass yield per hectare represents the yield of grass per hectare of grassland.
 
       :param scenario_dataframe: A pandas DataFrame containing scenario parameters.
       :type scenario_dataframe: pandas.DataFrame
@@ -100,7 +106,7 @@ Classes
       :param baseline_animal_data: A pandas DataFrame containing baseline animal data.
       :type baseline_animal_data: pandas.DataFrame
 
-      :returns: A tuple containing four pandas DataFrame: (total_spared_area, total_grassland_area, total_spared_area_by_soil_group, per_hectare_stocking_rate).
+      :returns: A tuple containing five pandas DataFrame: (total_spared_area, total_grassland_area, total_spared_area_by_soil_group, per_hectare_stocking_rate, per_hectare_grass_yield).
       :rtype: tuple
 
 

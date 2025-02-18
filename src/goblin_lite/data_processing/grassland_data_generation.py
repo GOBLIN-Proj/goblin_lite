@@ -13,6 +13,8 @@ class GrasslandDataGenerator:
 
     Attributes
     ----------
+    goblin_data_manager_class : object
+        Instance of the GoblinDataManager class.
     ef_country : str
         Country code for emission factors.
     calibration_year : int
@@ -32,12 +34,16 @@ class GrasslandDataGenerator:
         Generates farm input data (from the GrasslandOutput class) for both baseline and scenario conditions.
 
     generate_grassland_areas()
-        Calculates total spared grassland, total grassland area, spared area per soil type, and grassland stocking rate.
+        Calculates total spared grassland, total grassland area, spared area per soil type, grassland stocking rate, and grass yield per hectare.
     """
-    def __init__(self,ef_country, calibration_year, target_year, scenario_dataframe,scenario_animal_data,baseline_animal_data):
-        self.ef_country = ef_country
-        self.calibration_year = calibration_year
-        self.target_year = target_year
+    def __init__(self,goblin_data_manager, 
+                 scenario_dataframe,
+                 scenario_animal_data,baseline_animal_data):
+        
+        self.goblin_data_manager_class = goblin_data_manager
+        self.ef_country = self.goblin_data_manager_class.get_ef_country()
+        self.calibration_year = self.goblin_data_manager_class.get_calibration_year()
+        self.target_year = self.goblin_data_manager_class.get_target_year()
         self.scenario_dataframe = scenario_dataframe
         self.scenario_animal_data = scenario_animal_data
         self.baseline_animal_data = baseline_animal_data
@@ -63,14 +69,14 @@ class GrasslandDataGenerator:
         """
         Calculate the total spared and total grassland areas for each scenario.
 
-        This method calculates and returns the total spared, total grassland areas, spared area by soil group and stocking rate for each scenario based on the provided
+        This method calculates and returns the total spared, total grassland areas, spared area by soil group, stocking rate, and grass yield per hectare for each scenario based on the provided
         scenario_dataframe, scenario_animal_data, and baseline_animal_data attributes. The GrasslandOutput class is utilized to perform
         the necessary calculations for each scenario.
 
         The total spared area represents the area of grassland that will be converted (destocked) to other land uses (e.g., wetland,
         forests) in the target year compared to the baseline year. The total grassland area represents
         the remaining grassland area. Spared area by soil group represents the spared area by soil group (e.g., class 1, 2 and 3). 
-        The stocking rate represents the stocking rate per hectare of grassland.
+        The stocking rate represents the stocking rate per hectare of grassland. The grass yield per hectare represents the yield of grass per hectare of grassland.
 
         Parameters
         ----------
@@ -86,7 +92,7 @@ class GrasslandDataGenerator:
         Returns
         -------
         tuple
-            A tuple containing four pandas DataFrame: (total_spared_area, total_grassland_area, total_spared_area_by_soil_group, per_hectare_stocking_rate).
+            A tuple containing five pandas DataFrame: (total_spared_area, total_grassland_area, total_spared_area_by_soil_group, per_hectare_stocking_rate, per_hectare_grass_yield).
 
         """
         grassland_class = GrasslandOutput(
@@ -104,4 +110,6 @@ class GrasslandDataGenerator:
         total_spared_area_by_soil_group = grassland_class.total_spared_area_breakdown()
         per_hectare_stocking_rate = grassland_class.grassland_stocking_rate()
 
-        return spared_area, total_grassland, total_spared_area_by_soil_group, per_hectare_stocking_rate
+        per_hectare_grass_yield = grassland_class.grass_yield_per_hectare()
+
+        return spared_area, total_grassland, total_spared_area_by_soil_group, per_hectare_stocking_rate, per_hectare_grass_yield

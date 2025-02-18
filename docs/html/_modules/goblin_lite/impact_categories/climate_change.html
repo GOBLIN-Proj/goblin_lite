@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_lite.impact_categories.climate_change &mdash; GOBLIN lite 0.4.1 documentation</title>
+  <title>goblin_lite.impact_categories.climate_change &mdash; GOBLIN lite 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -16,7 +16,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../_static/documentation_options.js?v=c87aa342"></script>
+        <script src="../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -90,6 +90,8 @@
 <span class="sd">air quality.</span>
 
 <span class="sd">Flexible Data Handling: Works with different types of data inputs, including livestock and crop production data, land use transition data, and more.</span>
+
+<span class="sd">Goblin Data Manager: Manages various data and constants required for calculations, including emission factors and assessment report values.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">cattle_lca.resource_manager.models</span> <span class="kn">import</span> <span class="n">load_livestock_data</span><span class="p">,</span> <span class="n">load_farm_data</span>
@@ -118,6 +120,7 @@
 <span class="sd">        forest_data (DataFrame): Data related to forest areas.</span>
 <span class="sd">        ef_country (str): emission factor country.</span>
 <span class="sd">        AR_VALUE (str): The assessment report value (default &#39;AR5&#39;).</span>
+<span class="sd">        goblin_data_manager_class (GoblinDataManager): A class for managing various data and constants.</span>
 
 <span class="sd">    Methods:</span>
 <span class="sd">        climate_change_landuse_past(): Calculates past emissions for different land uses.</span>
@@ -127,28 +130,25 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">calibration_year</span><span class="p">,</span>
-        <span class="n">target_year</span><span class="p">,</span>
+        <span class="n">goblin_data_manager</span><span class="p">,</span>
         <span class="n">transition_data</span><span class="p">,</span>
         <span class="n">landuse_data</span><span class="p">,</span>
         <span class="n">forest_data</span><span class="p">,</span>
-        <span class="n">ef_country</span><span class="p">,</span>
-        <span class="n">AR_VALUE</span><span class="o">=</span><span class="s2">&quot;AR5&quot;</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">common_class</span> <span class="o">=</span> <span class="n">CommonParams</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">baseline</span> <span class="o">=</span> <span class="n">calibration_year</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span> <span class="o">=</span> <span class="n">target_year</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span> <span class="o">=</span> <span class="n">ef_country</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span> <span class="o">=</span> <span class="n">GoblinDataManager</span><span class="p">(</span><span class="n">AR_VALUE</span><span class="o">=</span><span class="n">AR_VALUE</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span> <span class="o">=</span> <span class="n">goblin_data_manager</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="o">.</span><span class="n">get_calibration_year</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="o">.</span><span class="n">get_target_year</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="o">.</span><span class="n">get_ef_country</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">forest_data</span> <span class="o">=</span> <span class="n">forest_data</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">transition_matrix</span> <span class="o">=</span> <span class="n">landuse_models</span><span class="o">.</span><span class="n">load_transition_matrix</span><span class="p">(</span>
-            <span class="n">transition_data</span><span class="p">,</span> <span class="n">ef_country</span><span class="p">,</span> <span class="n">calibration_year</span><span class="p">,</span> <span class="n">target_year</span>
+            <span class="n">transition_data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span>
         <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">land_use_data</span> <span class="o">=</span> <span class="n">landuse_models</span><span class="o">.</span><span class="n">load_land_use_data</span><span class="p">(</span>
-            <span class="n">landuse_data</span><span class="p">,</span> <span class="n">calibration_year</span>
+            <span class="n">landuse_data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span>
         <span class="p">)</span>
 
 <div class="viewcode-block" id="ClimateChangeLandUse.climate_change_landuse_past">
@@ -162,8 +162,8 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">baseline_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">common_class</span><span class="o">.</span><span class="n">baseline_index</span>
-        <span class="n">base</span> <span class="o">=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">baseline</span>
-        <span class="n">baseline</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">baseline</span>
+        <span class="n">base</span> <span class="o">=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span>
+        <span class="n">baseline</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span>
         <span class="n">ef_country</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span>
         <span class="n">land_use_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">land_use_data</span>
         <span class="n">transition_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transition_matrix</span>
@@ -450,8 +450,8 @@
 <span class="sd">            DataFrame: A dataframe with projected emissions data for different land use types and gases.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">base</span> <span class="o">=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">baseline</span>
-        <span class="n">baseline</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">baseline</span>
+        <span class="n">base</span> <span class="o">=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span>
+        <span class="n">baseline</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span>
         <span class="n">target_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span>
         <span class="n">ef_country</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span>
         <span class="n">land_use_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">land_use_data</span>
@@ -781,21 +781,22 @@
 <span class="sd">            Converts emissions data into CO2 equivalents for various categories.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ef_country</span><span class="p">,</span><span class="n">calibration_year</span><span class="p">,</span> <span class="n">target_year</span><span class="p">,</span> <span class="n">transition_data</span><span class="p">,</span> <span class="n">landuse_data</span><span class="p">,</span> <span class="n">crop_data</span><span class="p">,</span> <span class="n">AR_VALUE</span><span class="o">=</span><span class="s2">&quot;AR5&quot;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">goblin_data_manager</span><span class="p">,</span> <span class="n">transition_data</span><span class="p">,</span> <span class="n">landuse_data</span><span class="p">,</span> <span class="n">crop_data</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span> <span class="o">=</span> <span class="n">goblin_data_manager</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="o">.</span><span class="n">get_ef_country</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">common_class</span> <span class="o">=</span> <span class="n">CommonParams</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cattle_climate_change_class</span> <span class="o">=</span> <span class="n">CattleClimateChangeTotals</span><span class="p">(</span><span class="n">ef_country</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sheep_climate_change_class</span> <span class="o">=</span> <span class="n">SheepClimateChangeTotals</span><span class="p">(</span><span class="n">ef_country</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">crop_climate_change_class</span> <span class="o">=</span> <span class="n">CropClimateChangeTotals</span><span class="p">(</span><span class="n">ef_country</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span> <span class="o">=</span> <span class="n">GoblinDataManager</span><span class="p">(</span><span class="n">AR_VALUE</span><span class="o">=</span><span class="n">AR_VALUE</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span> <span class="o">=</span> <span class="n">ef_country</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">baseline</span> <span class="o">=</span> <span class="n">calibration_year</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cattle_climate_change_class</span> <span class="o">=</span> <span class="n">CattleClimateChangeTotals</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sheep_climate_change_class</span> <span class="o">=</span> <span class="n">SheepClimateChangeTotals</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">crop_climate_change_class</span> <span class="o">=</span> <span class="n">CropClimateChangeTotals</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="o">.</span><span class="n">get_calibration_year</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="o">.</span><span class="n">get_target_year</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">transition_matrix</span> <span class="o">=</span> <span class="n">landuse_models</span><span class="o">.</span><span class="n">load_transition_matrix</span><span class="p">(</span>
-            <span class="n">transition_data</span><span class="p">,</span> <span class="n">ef_country</span><span class="p">,</span> <span class="n">calibration_year</span><span class="p">,</span> <span class="n">target_year</span>
+            <span class="n">transition_data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_year</span>
         <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">land_use_data</span> <span class="o">=</span> <span class="n">landuse_models</span><span class="o">.</span><span class="n">load_land_use_data</span><span class="p">(</span>
-            <span class="n">landuse_data</span><span class="p">,</span> <span class="n">calibration_year</span>
+            <span class="n">landuse_data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span>
         <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">crop_data</span> <span class="o">=</span>  <span class="n">load_crop_farm_data</span><span class="p">(</span><span class="n">crop_data</span><span class="p">)</span>
@@ -814,7 +815,7 @@
 <span class="sd">            dict: A dictionary of emissions data categorized by emission type.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">base</span> <span class="o">=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">baseline</span>
+        <span class="n">base</span> <span class="o">=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span>
         <span class="n">baseline_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">common_class</span><span class="o">.</span><span class="n">baseline_index</span>
         <span class="n">kg_to_kt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">common_class</span><span class="o">.</span><span class="n">kg_to_kt</span>
         <span class="n">ef_country</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span>
@@ -997,7 +998,7 @@
 <span class="sd">            dict: A dictionary of emissions data categorized by emission type.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">base</span> <span class="o">=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">baseline</span>
+        <span class="n">base</span> <span class="o">=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">calibration_year</span>
         <span class="n">scenario_animals_dataframe</span> <span class="o">=</span> <span class="n">scenario_animals</span>
         <span class="n">ef_country</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span>
         <span class="n">land_use_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">land_use_data</span>
@@ -1323,6 +1324,7 @@
 <span class="sd">        common_class (CommonParams): A class for managing various data and constants.</span>
 <span class="sd">        default_urea_proportion (float): The proportion of fertiliser inputs that is urea.</span>
 <span class="sd">        default_urea_abated_porpotion (float): The proportion of urea that is abated urea.</span>
+<span class="sd">        goblin_data_manager_class (GoblinDataManager): A class for managing various data and constants.</span>
 
 <span class="sd">    Methods:</span>
 <span class="sd">        climate_change_crop_past(crop_dataframe):</span>
@@ -1337,16 +1339,20 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">ef_country</span><span class="p">,</span> <span class="n">default_urea</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">default_urea_abated</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">AR_VALUE</span><span class="o">=</span><span class="s2">&quot;AR5&quot;</span>
-    <span class="p">):</span>
+        <span class="bp">self</span><span class="p">,</span> 
+        <span class="n">goblin_data_manager</span><span class="p">,</span>
+        <span class="n">urea</span><span class="p">,</span>
+        <span class="n">urea_abated</span><span class="p">):</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">common_class</span> <span class="o">=</span> <span class="n">CommonParams</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span> <span class="o">=</span> <span class="n">GoblinDataManager</span><span class="p">(</span><span class="n">AR_VALUE</span><span class="o">=</span><span class="n">AR_VALUE</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span> <span class="o">=</span> <span class="n">ef_country</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span> <span class="o">=</span> <span class="n">goblin_data_manager</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="o">.</span><span class="n">get_ef_country</span><span class="p">()</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">crop_climate_change_class</span> <span class="o">=</span> <span class="n">CropClimateChangeTotals</span><span class="p">(</span><span class="n">ef_country</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">crop_climate_change_class</span> <span class="o">=</span> <span class="n">CropClimateChangeTotals</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ef_country</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">default_urea_proportion</span> <span class="o">=</span> <span class="n">default_urea</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">default_urea_abated_porpotion</span> <span class="o">=</span> <span class="n">default_urea_abated</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">default_urea_proportion</span> <span class="o">=</span> <span class="n">urea</span> <span class="k">if</span> <span class="n">urea</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="o">.</span><span class="n">get_default_urea</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">default_urea_abated_porpotion</span> <span class="o">=</span> <span class="n">urea_abated</span> <span class="k">if</span> <span class="n">urea_abated</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">goblin_data_manager_class</span><span class="o">.</span><span class="n">get_default_urea_abated</span><span class="p">()</span>
 
 <div class="viewcode-block" id="ClimateChangeCrop.climate_change_crop_past">
 <a class="viewcode-back" href="../../../autoapi/goblin_lite/impact_categories/climate_change/index.html#goblin_lite.impact_categories.climate_change.ClimateChangeCrop.climate_change_crop_past">[docs]</a>

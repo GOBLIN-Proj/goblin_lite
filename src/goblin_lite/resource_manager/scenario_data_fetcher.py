@@ -29,6 +29,9 @@ class ScenarioDataFetcher:
         get_scenario_list():
             Retrieves a list of all scenarios present in the scenario data.
             
+        get_total_scenarios():
+            Retrieves the total number of scenarios present in the scenario data.
+            
         get_afforest_scenario_index():
             Retrieves a list of afforestation scenario indices, with -1 indicating a special scenario, followed by the indices of all available scenarios.
 

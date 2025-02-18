@@ -25,7 +25,7 @@ Classes
 
 
 
-.. py:class:: CropDataGenerator(calibration_year, target_year, scenario_dataframe)
+.. py:class:: CropDataGenerator(goblin_data_manager, scenario_dataframe)
 
 
    A class to generate crop data and farm outputs for a specified scenario.
@@ -45,24 +45,43 @@ Classes
 
       :type: int
 
-   .. attribute:: scenario_dataframe
+   .. attribute:: default_urea
 
-      A DataFrame containing scenario-specific input data required for crop output calculations.
+      The default amount of urea used for crop production.
 
-      :type: pandas.DataFrame
+      :type: float
+
+   .. attribute:: default_urea_abated
+
+      The default amount of urea abated.
+
+      :type: float
+
+   .. attribute:: sc_fetcher
+
+      An instance of ScenarioDataFetcher to fetch scenario-specific data.
+
+      :type: ScenarioDataFetcher
+
+   .. attribute:: goblin_data_manager_class
+
+      An instance of GoblinDataManager to manage goblin data.
+
+      :type: GoblinDataManager
 
    .. method:: generate_crop_data()
 
-      Generates and returns a Dataframe based on national level crop data.
+      Generates and returns a DataFrame based on national level crop data.
 
 
-   .. method:: generate_crop_farm_data()
+   .. method:: generate_crop_farm_data(urea=None, urea_abated=None)
 
       Generates and returns a DataFrame of farm outputs.
 
+
    .. py:method:: generate_crop_data()
 
-      Generates and returns a Dataframe based on national level crop data.
+      Generates and returns a DataFrame based on national level crop data.
 
       :returns: A DataFrame containing national level crop data.
       :rtype: pandas.DataFrame
@@ -73,9 +92,9 @@ Classes
       Generates and returns a DataFrame of farm outputs.
 
       :param urea: The amount of urea used for crop production. If not provided, the default value is used.
-      :type urea: float
+      :type urea: float, optional
       :param urea_abated: The amount of urea abated. If not provided, the default value is used.
-      :type urea_abated: float
+      :type urea_abated: float, optional
 
       :returns: A DataFrame containing farm outputs.
       :rtype: pandas.DataFrame

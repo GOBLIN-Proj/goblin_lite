@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>goblin_lite.data_processing.animal_data_generation &mdash; GOBLIN lite 0.4.1 documentation</title>
+  <title>goblin_lite.data_processing.animal_data_generation &mdash; GOBLIN lite 0.5.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=c87aa342"></script>
+        <script src="../../../../_static/documentation_options.js?v=1dd76d02"></script>
         <script src="../../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -115,10 +115,21 @@ based on scenario-specific and baseline animal data.</p>
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="goblin_lite.data_processing.animal_data_generation.AnimalDataGenerator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_lite.data_processing.animal_data_generation.</span></span><span class="sig-name descname"><span class="pre">AnimalDataGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ef_country</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_input_dataframe</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/data_processing/animal_data_generation.html#AnimalDataGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.data_processing.animal_data_generation.AnimalDataGenerator" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goblin_lite.data_processing.animal_data_generation.</span></span><span class="sig-name descname"><span class="pre">AnimalDataGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">goblin_data_manager_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_input_dataframe</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/data_processing/animal_data_generation.html#AnimalDataGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.data_processing.animal_data_generation.AnimalDataGenerator" title="Link to this definition"></a></dt>
 <dd><p>A class to generate animal data and livestock outputs for a specified scenario.</p>
 <p>This class is responsible for generating animal data and livestock outputs for a specified scenario. It leverages the
 AnimalData and Exports classes to calculate animal data and livestock outputs based on scenario-specific and baseline animal data.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="goblin_lite.data_processing.animal_data_generation.AnimalDataGenerator.goblin_data_manager_class">
+<span class="sig-name descname"><span class="pre">goblin_data_manager_class</span></span><a class="headerlink" href="#goblin_lite.data_processing.animal_data_generation.AnimalDataGenerator.goblin_data_manager_class" title="Link to this definition"></a></dt>
+<dd><p>The data manager class used to retrieve country, calibration year, and target year information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>class</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="goblin_lite.data_processing.animal_data_generation.AnimalDataGenerator.ef_country">
 <span class="sig-name descname"><span class="pre">ef_country</span></span><a class="headerlink" href="#goblin_lite.data_processing.animal_data_generation.AnimalDataGenerator.ef_country" title="Link to this definition"></a></dt>
@@ -170,8 +181,8 @@ AnimalData and Exports classes to calculate animal data and livestock outputs ba
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="goblin_lite.data_processing.animal_data_generation.AnimalDataGenerator.generate_livestock_ouputs">
-<span class="sig-name descname"><span class="pre">generate_livestock_ouputs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/data_processing/animal_data_generation.html#AnimalDataGenerator.generate_livestock_ouputs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.data_processing.animal_data_generation.AnimalDataGenerator.generate_livestock_ouputs" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="goblin_lite.data_processing.animal_data_generation.AnimalDataGenerator.generate_livestock_outputs">
+<span class="sig-name descname"><span class="pre">generate_livestock_outputs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/data_processing/animal_data_generation.html#AnimalDataGenerator.generate_livestock_outputs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#goblin_lite.data_processing.animal_data_generation.AnimalDataGenerator.generate_livestock_outputs" title="Link to this definition"></a></dt>
 <dd><p>Generates and returns a DataFrame of livestock outputs for the given scenario.</p>
 </dd></dl>
 
@@ -191,7 +202,7 @@ AnimalData and Exports classes to calculate animal data and livestock outputs ba
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id1">
-<span class="sig-name descname"><span class="pre">generate_livestock_ouputs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/data_processing/animal_data_generation.html#AnimalDataGenerator.generate_livestock_ouputs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">generate_livestock_outputs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/goblin_lite/data_processing/animal_data_generation.html#AnimalDataGenerator.generate_livestock_outputs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
 <dd><p>Generates and returns a DataFrame of livestock outputs for the given scenario.</p>
 <p>This method leverages the Exports class to calculate protein and milk production based on scenario-specific and baseline
 animal data. It produces a summary DataFrame combining milk production data and beef (carcass) weight from protein production data.</p>
@@ -208,7 +219,7 @@ indexed by ‘Scenarios’.</p>
 <p>The method performs the following steps:
 1. Initializes an instance of the Exports class with country-specific parameters, calibration year, target year,
 and scenario inputs.
-2. Computes protein production data using <cite>compute_system_protien_exports</cite> of the Exports class, which includes
+2. Computes protein production data using <cite>compute_system_protein_exports</cite> of the Exports class, which includes
 carcass weight information.
 3. Computes milk production data using <cite>compute_system_milk_exports</cite> of the Exports class.
 4. Creates the protein_and_milk_summary DataFrame by copying milk production data and appending the beef carcass

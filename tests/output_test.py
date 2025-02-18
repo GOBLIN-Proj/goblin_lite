@@ -1,6 +1,7 @@
 import unittest
 import os
 from goblin_lite.goblin import ScenarioRunner
+from goblin_lite.resource_manager.goblin_data_manager import GoblinDataManager
 from goblin_lite.resource_manager.data_fetcher import DataFetcher
 import pandas as pd
 import numpy as np
@@ -16,14 +17,19 @@ class TestOutput(unittest.TestCase):
         self.test_data_path = "./data/output_test/"
 
         self.test_data = pd.read_csv(os.path.join(self.test_data_path, "climate_change_totals.csv"), index_col=0)
+        
+        # create goblin data manager
+        goblin_data_manger = GoblinDataManager(
+            ef_country = self.ef_country,
+            calibration_year= self.baseline_year,
+            target_year= self.target_year,
+            configuration_path= self.goblin_config,
+            cbm_configuration_path= self.cbm_config,
+        )
 
-        # Run the scenarios
+            # Run the scenarios
         runner_class = ScenarioRunner(
-            self.ef_country,
-            self.baseline_year,
-            self.target_year,
-            self.goblin_config,
-            self.cbm_config,
+            goblin_data_manger
         )
         runner_class.run_scenarios()
 
